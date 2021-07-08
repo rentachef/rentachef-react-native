@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "FoodDelivery_Pro.app"
-               BlueprintName = "FoodDelivery_Pro"
-               ReferencedContainer = "container:FoodDelivery_Pro.xcodeproj">
+               BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
+               BuildableName = "rentachef-tvOS.app"
+               BlueprintName = "rentachef-tvOS"
+               ReferencedContainer = "container:rentachef.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "FoodDelivery_ProTests.xctest"
-               BlueprintName = "FoodDelivery_ProTests"
-               ReferencedContainer = "container:FoodDelivery_Pro.xcodeproj">
+               BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
+               BuildableName = "rentachef-tvOSTests.xctest"
+               BlueprintName = "rentachef-tvOSTests"
+               ReferencedContainer = "container:rentachef.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -54,10 +54,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "FoodDelivery_Pro.app"
-            BlueprintName = "FoodDelivery_Pro"
-            ReferencedContainer = "container:FoodDelivery_Pro.xcodeproj">
+            BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
+            BuildableName = "rentachef-tvOS.app"
+            BlueprintName = "rentachef-tvOS"
+            ReferencedContainer = "container:rentachef.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -71,10 +71,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "FoodDelivery_Pro.app"
-            BlueprintName = "FoodDelivery_Pro"
-            ReferencedContainer = "container:FoodDelivery_Pro.xcodeproj">
+            BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
+            BuildableName = "rentachef-tvOS.app"
+            BlueprintName = "rentachef-tvOS"
+            ReferencedContainer = "container:rentachef.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

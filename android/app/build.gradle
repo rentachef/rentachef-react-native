@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.fooddelivery_pro"
+        applicationId "com.rentachef.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 200

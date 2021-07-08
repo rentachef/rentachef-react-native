@@ -21,8 +21,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'FoodDelivery_Pro' do
-  # Pods for FoodDelivery_Pro
+target 'rentachef' do
+  # Pods for rentachef
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -57,7 +57,7 @@ target 'FoodDelivery_Pro' do
 
   pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
 
-  target 'FoodDelivery_ProTests' do
+  target 'rentachefTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -74,10 +74,10 @@ target 'FoodDelivery_Pro' do
   end
 end
 
-target 'FoodDelivery_Pro-tvOS' do
-  # Pods for FoodDelivery_Pro-tvOS
+target 'rentachef-tvOS' do
+  # Pods for rentachef-tvOS
 
-  target 'FoodDelivery_Pro-tvOSTests' do
+  target 'rentachef-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

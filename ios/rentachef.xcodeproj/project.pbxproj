@@ -11,32 +11,32 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1B2C3E54879784546EC61B77 /* libPods-FoodDelivery_Pro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 930A1036039D2A78FFED6B28 /* libPods-FoodDelivery_Pro.a */; };
+		1B2C3E54879784546EC61B77 /* libPods-rentachef.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 930A1036039D2A78FFED6B28 /* libPods-rentachef.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* FoodDelivery_ProTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FoodDelivery_ProTests.m; sourceTree = "<group>"; };
-		04BD3332AE92DC8F26D63F59 /* Pods-FoodDelivery_Pro-FoodDelivery_ProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro-FoodDelivery_ProTests.debug.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro-FoodDelivery_ProTests/Pods-FoodDelivery_Pro-FoodDelivery_ProTests.debug.xcconfig"; sourceTree = "<group>"; };
-		0D9F5E355309329A68BAEE60 /* Pods-FoodDelivery_Pro-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro-tvOSTests/Pods-FoodDelivery_Pro-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* FoodDelivery_Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodDelivery_Pro.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = FoodDelivery_Pro/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = FoodDelivery_Pro/AppDelegate.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* rentachefTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rentachefTests.m; sourceTree = "<group>"; };
+		04BD3332AE92DC8F26D63F59 /* Pods-rentachef-rentachefTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-rentachefTests.debug.xcconfig"; path = "Target Support Files/Pods-rentachef-rentachefTests/Pods-rentachef-rentachefTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0D9F5E355309329A68BAEE60 /* Pods-rentachef-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOSTests/Pods-rentachef-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* rentachef.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rentachef.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rentachef/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = rentachef/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = FoodDelivery_Pro/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FoodDelivery_Pro/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FoodDelivery_Pro/main.m; sourceTree = "<group>"; };
-		65D264B9DE8FFEC4213C61DD /* Pods-FoodDelivery_Pro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro.release.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro/Pods-FoodDelivery_Pro.release.xcconfig"; sourceTree = "<group>"; };
-		666FA9F8AE296B66CEF31D56 /* Pods-FoodDelivery_Pro-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro-tvOS/Pods-FoodDelivery_Pro-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		708039BCD853C7124EFD3996 /* Pods-FoodDelivery_Pro-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro-tvOSTests/Pods-FoodDelivery_Pro-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		930A1036039D2A78FFED6B28 /* libPods-FoodDelivery_Pro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodDelivery_Pro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC7A5F2B3DBD9A766703D6C6 /* libPods-FoodDelivery_Pro-FoodDelivery_ProTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodDelivery_Pro-FoodDelivery_ProTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0D0AB4CE6E1E3F9FAB615C5 /* Pods-FoodDelivery_Pro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro.debug.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro/Pods-FoodDelivery_Pro.debug.xcconfig"; sourceTree = "<group>"; };
-		C38BA5F7F31AA780D2778A8F /* Pods-FoodDelivery_Pro-FoodDelivery_ProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro-FoodDelivery_ProTests.release.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro-FoodDelivery_ProTests/Pods-FoodDelivery_Pro-FoodDelivery_ProTests.release.xcconfig"; sourceTree = "<group>"; };
-		CFCE477C59C3C02063854D04 /* libPods-FoodDelivery_Pro-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodDelivery_Pro-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2CC21E62A8878EC573608DB /* libPods-FoodDelivery_Pro-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodDelivery_Pro-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC48957140D9293A51400CDF /* Pods-FoodDelivery_Pro-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodDelivery_Pro-tvOS.release.xcconfig"; path = "Target Support Files/Pods-FoodDelivery_Pro-tvOS/Pods-FoodDelivery_Pro-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = rentachef/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rentachef/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rentachef/main.m; sourceTree = "<group>"; };
+		65D264B9DE8FFEC4213C61DD /* Pods-rentachef.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.release.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.release.xcconfig"; sourceTree = "<group>"; };
+		666FA9F8AE296B66CEF31D56 /* Pods-rentachef-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOS/Pods-rentachef-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		708039BCD853C7124EFD3996 /* Pods-rentachef-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOSTests/Pods-rentachef-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		930A1036039D2A78FFED6B28 /* libPods-rentachef.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC7A5F2B3DBD9A766703D6C6 /* libPods-rentachef-rentachefTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef-rentachefTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0D0AB4CE6E1E3F9FAB615C5 /* Pods-rentachef.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.debug.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.debug.xcconfig"; sourceTree = "<group>"; };
+		C38BA5F7F31AA780D2778A8F /* Pods-rentachef-rentachefTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-rentachefTests.release.xcconfig"; path = "Target Support Files/Pods-rentachef-rentachefTests/Pods-rentachef-rentachefTests.release.xcconfig"; sourceTree = "<group>"; };
+		CFCE477C59C3C02063854D04 /* libPods-rentachef-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2CC21E62A8878EC573608DB /* libPods-rentachef-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC48957140D9293A51400CDF /* Pods-rentachef-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOS.release.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOS/Pods-rentachef-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -46,20 +46,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B2C3E54879784546EC61B77 /* libPods-FoodDelivery_Pro.a in Frameworks */,
+				1B2C3E54879784546EC61B77 /* libPods-rentachef.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* FoodDelivery_ProTests */ = {
+		00E356EF1AD99517003FC87E /* rentachefTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* FoodDelivery_ProTests.m */,
+				00E356F21AD99517003FC87E /* rentachefTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = FoodDelivery_ProTests;
+			path = rentachefTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -70,7 +70,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* FoodDelivery_Pro */ = {
+		13B07FAE1A68108700A75B9A /* rentachef */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -81,7 +81,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = FoodDelivery_Pro;
+			name = rentachef;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -89,10 +89,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				930A1036039D2A78FFED6B28 /* libPods-FoodDelivery_Pro.a */,
-				BC7A5F2B3DBD9A766703D6C6 /* libPods-FoodDelivery_Pro-FoodDelivery_ProTests.a */,
-				CFCE477C59C3C02063854D04 /* libPods-FoodDelivery_Pro-tvOS.a */,
-				D2CC21E62A8878EC573608DB /* libPods-FoodDelivery_Pro-tvOSTests.a */,
+				930A1036039D2A78FFED6B28 /* libPods-rentachef.a */,
+				BC7A5F2B3DBD9A766703D6C6 /* libPods-rentachef-rentachefTests.a */,
+				CFCE477C59C3C02063854D04 /* libPods-rentachef-tvOS.a */,
+				D2CC21E62A8878EC573608DB /* libPods-rentachef-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -107,9 +107,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* FoodDelivery_Pro */,
+				13B07FAE1A68108700A75B9A /* rentachef */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* FoodDelivery_ProTests */,
+				00E356EF1AD99517003FC87E /* rentachefTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				8D2B6FA88F0B739A31E8CC4D /* Pods */,
@@ -122,7 +122,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* FoodDelivery_Pro.app */,
+				13B07F961A680F5B00A75B9A /* rentachef.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,14 +130,14 @@
 		8D2B6FA88F0B739A31E8CC4D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C0D0AB4CE6E1E3F9FAB615C5 /* Pods-FoodDelivery_Pro.debug.xcconfig */,
-				65D264B9DE8FFEC4213C61DD /* Pods-FoodDelivery_Pro.release.xcconfig */,
-				04BD3332AE92DC8F26D63F59 /* Pods-FoodDelivery_Pro-FoodDelivery_ProTests.debug.xcconfig */,
-				C38BA5F7F31AA780D2778A8F /* Pods-FoodDelivery_Pro-FoodDelivery_ProTests.release.xcconfig */,
-				666FA9F8AE296B66CEF31D56 /* Pods-FoodDelivery_Pro-tvOS.debug.xcconfig */,
-				EC48957140D9293A51400CDF /* Pods-FoodDelivery_Pro-tvOS.release.xcconfig */,
-				708039BCD853C7124EFD3996 /* Pods-FoodDelivery_Pro-tvOSTests.debug.xcconfig */,
-				0D9F5E355309329A68BAEE60 /* Pods-FoodDelivery_Pro-tvOSTests.release.xcconfig */,
+				C0D0AB4CE6E1E3F9FAB615C5 /* Pods-rentachef.debug.xcconfig */,
+				65D264B9DE8FFEC4213C61DD /* Pods-rentachef.release.xcconfig */,
+				04BD3332AE92DC8F26D63F59 /* Pods-rentachef-rentachefTests.debug.xcconfig */,
+				C38BA5F7F31AA780D2778A8F /* Pods-rentachef-rentachefTests.release.xcconfig */,
+				666FA9F8AE296B66CEF31D56 /* Pods-rentachef-tvOS.debug.xcconfig */,
+				EC48957140D9293A51400CDF /* Pods-rentachef-tvOS.release.xcconfig */,
+				708039BCD853C7124EFD3996 /* Pods-rentachef-tvOSTests.debug.xcconfig */,
+				0D9F5E355309329A68BAEE60 /* Pods-rentachef-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -145,9 +145,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* FoodDelivery_Pro */ = {
+		13B07F861A680F5B00A75B9A /* rentachef */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FoodDelivery_Pro" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "rentachef" */;
 			buildPhases = (
 				9B66F4C626BA3260936F320A /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -161,9 +161,9 @@
 			);
 			dependencies = (
 			);
-			name = FoodDelivery_Pro;
-			productName = FoodDelivery_Pro;
-			productReference = 13B07F961A680F5B00A75B9A /* FoodDelivery_Pro.app */;
+			name = rentachef;
+			productName = rentachef;
+			productReference = 13B07F961A680F5B00A75B9A /* rentachef.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -180,7 +180,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "FoodDelivery_Pro" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "rentachef" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -193,7 +193,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* FoodDelivery_Pro */,
+				13B07F861A680F5B00A75B9A /* rentachef */,
 			);
 		};
 /* End PBXProject section */
@@ -231,7 +231,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FoodDelivery_Pro/Pods-FoodDelivery_Pro-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -270,7 +270,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FoodDelivery_Pro/Pods-FoodDelivery_Pro-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B66F4C626BA3260936F320A /* [CP] Check Pods Manifest.lock */ = {
@@ -288,7 +288,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FoodDelivery_Pro-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-rentachef-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -335,7 +335,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = FoodDelivery_Pro;
+			path = rentachef;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -343,7 +343,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0D0AB4CE6E1E3F9FAB615C5 /* Pods-FoodDelivery_Pro.debug.xcconfig */;
+			baseConfigurationReference = C0D0AB4CE6E1E3F9FAB615C5 /* Pods-rentachef.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -355,7 +355,7 @@
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
-				INFOPLIST_FILE = FoodDelivery_Pro/Info.plist;
+				INFOPLIST_FILE = rentachef/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -364,7 +364,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "foodapp-junaid-test";
-				PRODUCT_NAME = FoodDelivery_Pro;
+				PRODUCT_NAME = rentachef;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -374,14 +374,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 65D264B9DE8FFEC4213C61DD /* Pods-FoodDelivery_Pro.release.xcconfig */;
+			baseConfigurationReference = 65D264B9DE8FFEC4213C61DD /* Pods-rentachef.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = FoodDelivery_Pro/Info.plist;
+				INFOPLIST_FILE = rentachef/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -390,7 +390,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "foodapp-junaid-test";
-				PRODUCT_NAME = FoodDelivery_Pro;
+				PRODUCT_NAME = rentachef;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -513,7 +513,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FoodDelivery_Pro" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "rentachef" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -522,7 +522,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "FoodDelivery_Pro" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "rentachef" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

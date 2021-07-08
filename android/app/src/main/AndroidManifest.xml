@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.fooddelivery_pro"
+  package="com.rentachef.app"
   android:versionCode="200"
   android:versionName="2.0.0">
 
