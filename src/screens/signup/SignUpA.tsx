@@ -31,6 +31,7 @@ import { Auth } from 'aws-amplify';
 import { observer, inject } from 'mobx-react';
 
 import {notifyMessage} from '../../utils/getImgSource';
+import Logo from "../components/logo";
 
 // SignUpA Config
 const PLACEHOLDER_TEXT_COLOR = 'rgba(0, 0, 0, 0.4)';
@@ -258,10 +259,10 @@ export default class SignUpA extends Component {
           contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.content}>
             <View />
-
+            <View style={{flex: .05, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}><Logo/></View>
             <View style={styles.form}>
               <UnderlineTextInput
-                onRef={r => {
+                onRef={(r: any) => {
                   this.email = r;
                 }}
                 onChangeText={this.emailChange}
@@ -271,12 +272,16 @@ export default class SignUpA extends Component {
                 returnKeyType="next"
                 blurOnSubmit={false}
                 keyboardType="email-address"
-                placeholder="E-mail"
+                placeholder="Email Address"
                 placeholderTextColor={PLACEHOLDER_TEXT_COLOR}
                 inputTextColor={INPUT_TEXT_COLOR}
                 borderColor={INPUT_BORDER_COLOR}
                 focusedBorderColor={INPUT_FOCUSED_BORDER_COLOR}
                 inputContainerStyle={styles.inputContainer}
+                icon
+                iconName={'email'}
+                iconColor={'#A7AFBF'}
+                iconSize={26}
               />
 
               <UnderlineTextInput
@@ -290,12 +295,16 @@ export default class SignUpA extends Component {
                 returnKeyType="next"
                 blurOnSubmit={false}
                 keyboardType="phone-pad"
-                placeholder="Phone number"
+                placeholder="Phone Number"
                 placeholderTextColor={PLACEHOLDER_TEXT_COLOR}
                 inputTextColor={INPUT_TEXT_COLOR}
                 borderColor={INPUT_BORDER_COLOR}
                 focusedBorderColor={INPUT_FOCUSED_BORDER_COLOR}
                 inputContainerStyle={styles.inputContainer}
+                icon
+                iconName={'phone'}
+                iconColor={'#A7AFBF'}
+                iconSize={26}
               />
 
               <UnderlinePasswordInput
@@ -312,19 +321,22 @@ export default class SignUpA extends Component {
                 secureTextEntry={secureTextEntry}
                 borderColor={INPUT_BORDER_COLOR}
                 focusedBorderColor={INPUT_FOCUSED_BORDER_COLOR}
-                toggleVisible={password.length > 0}
+                toggleVisible={true}
                 toggleText={secureTextEntry ? 'Show' : 'Hide'}
                 onTogglePress={this.onTogglePress}
+                iconName={'eyeSlash'}
+                iconColor={'#A7AFBF'}
+                iconSize={26}
               />
 
               <View style={styles.buttonContainer}>
                 <Button
                   onPress={this.createAccount}
-                  title={'Create Account'.toUpperCase()}
+                  title={'Create Account'}
                 />
               </View>
 
-              <View style={styles.separator}>
+              {/*<View style={styles.separator}>
                 <View style={styles.line} />
                 <Text style={styles.orText}>or</Text>
                 <View style={styles.line} />
@@ -348,7 +360,7 @@ export default class SignUpA extends Component {
                   iconColor={Colors.white}
                   title={'Sign up with Google'.toUpperCase()}
                 />
-              </View>
+              </View>*/}
             </View>
 
             <TouchableWithoutFeedback

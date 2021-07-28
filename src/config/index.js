@@ -1,8 +1,8 @@
 const config = {
   /*
-    theme: 'jade' | 'redOrange' | 'blueberry'
+    theme: 'jade' | 'redOrange' | 'blueberry' | 'rentAChef'
    */
-  theme: 'jade',
+  theme: 'rentAChef',
 };
 
 export default config;

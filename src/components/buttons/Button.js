@@ -18,7 +18,7 @@ import Colors from '../../theme/colors';
 import Layout from '../../theme/layout';
 
 // Button Config
-const BUTTON_BORDER_RADIUS = 4;
+const BUTTON_BORDER_RADIUS = 6;
 const BUTTON_HEIGHT = 48;
 const BUTTON_WIDTH = '100%';
 const BUTTON_HEIGHT_SM = 40;
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: BUTTON_HEIGHT / 2,
   },
   title: {
-    color: Colors.onPrimaryColor,
+    color: Colors.primaryText,
   },
   outlinedTitle: {
     color: Colors.primaryColor,
@@ -74,42 +74,42 @@ type Props = {
   /**
    * Handler to be called when the user taps the button
    */
-  onPress: () => void,
+  onPress: () => void;
 
   /**
    * If true, disable all interactions for this component.
    */
-  disabled: boolean,
+  disabled: boolean;
 
   /**
    * Determines what the opacity of the wrapped view should be when touch is active.
    * The value should be between 0 and 1
    */
-  activeOpacity: number,
-  height: number,
-  buttonStyle: ViewStyle,
-  borderRadius: number,
-  borderColor: string,
+  activeOpacity: number;
+  height: number;
+  buttonStyle: ViewStyle;
+  borderRadius: number;
+  borderColor: string;
 
   /**
    * Button background color
    */
-  color: string,
-  iconColor: string,
-  socialIconName: string, // Social FontAwesome Icon Name
-  small: boolean,
+  color: string;
+  iconColor: string;
+  socialIconName: string; // Social FontAwesome Icon Name
+  small: boolean;
 
   /**
    * Text to display inside the button
    */
-  title: string,
+  title: string;
 
   /**
    * Button title color
    */
-  titleColor: string,
-  rounded: boolean,
-  outlined: boolean,
+  titleColor: string;
+  rounded: boolean;
+  outlined: boolean;
 };
 
 // Button

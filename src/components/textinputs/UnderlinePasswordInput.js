@@ -18,6 +18,7 @@ import {
 
 // import colors
 import Colors from '../../theme/colors';
+import Icon from "../icon/Icon"
 
 // UnderlinePasswordInput Config
 const isRTL = I18nManager.isRTL;
@@ -32,9 +33,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 8,
     paddingVertical: 4,
-    paddingHorizontal: 4,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.2)',
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: Colors.borderColor,
+    borderRadius: 8,
     width: INPUT_WIDTH,
   },
   textInput: {
@@ -73,6 +75,9 @@ type Props = {
   toggleVisible: boolean,
   toggleText: string,
   onTogglePress: () => {},
+  iconName?: string;
+  iconSize?: number;
+  iconColor?: string;
 };
 
 // UnderlinePasswordInput
@@ -92,6 +97,9 @@ const UnderlinePasswordInput = ({
   toggleVisible,
   toggleText,
   onTogglePress,
+  iconName,
+  iconSize,
+  iconColor
 }: Props) => (
   <View
     style={[
@@ -113,15 +121,7 @@ const UnderlinePasswordInput = ({
     />
     <View style={styles.toggleContainer}>
       {toggleVisible && (
-        <TouchableOpacity activeOpacity={0.9} onPress={onTogglePress}>
-          <Text
-            style={[
-              styles.toggleText,
-              inputTextColor && {color: inputTextColor},
-            ]}>
-            {toggleText}
-          </Text>
-        </TouchableOpacity>
+        <Icon color={iconColor} name={iconName} size={iconSize}/>
       )}
     </View>
   </View>
