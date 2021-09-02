@@ -1,11 +1,12 @@
-import authStore from './AuthStore'
-
-import { observable } from 'mobx'
+import AuthStore from "./AuthStore";
 
 class RootStore {
-  @observable authStore = authStore
+  private authStore: AuthStore;
+  constructor() {
+    this.authStore = new AuthStore(this)
+  }
 }
 
-const rootStore = new RootStore
+const rootStore = new RootStore()
 export default rootStore
 

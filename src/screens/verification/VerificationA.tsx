@@ -157,7 +157,7 @@ export default class VerificationA extends Component {
     );
 
     try {
-      const confirmSignup = await Auth.confirmSignUp(this.props.store.authStore.authInfo.username, this.state.pin);
+      const confirmSignup = await Auth.confirmSignUp(this.props.stores.authStore.authInfo.username, this.state.pin);
       if(confirmSignup === 'SUCCESS') {
         this.closeModal();
         this.navigateTo('HomeNavigator');
@@ -189,7 +189,7 @@ export default class VerificationA extends Component {
 
   render() {
     const {modalVisible, pin} = this.state;
-    console.log('this.props.store.authStore.username', this.props.store.authStore.authInfo.username)
+    console.log('this.props.stores.authStore.username', this.props.stores.authStore.authInfo.username)
     return (
       <SafeAreaView forceInset={{top: 'never'}} style={styles.screenContainer}>
         <StatusBar
@@ -201,7 +201,7 @@ export default class VerificationA extends Component {
           <View style={styles.instructionContainer}>
             <Heading5>Verification Code</Heading5>
             <Paragraph style={styles.instruction}>
-              Please, enter the verification code sent to <Text>{this.props.store.authStore.authInfo.username}</Text>
+              Please, enter the verification code sent to <Text>{this.props.stores.authStore.authInfo.username}</Text>
             </Paragraph>
 
             <View style={styles.codeContainer}>

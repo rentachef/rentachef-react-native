@@ -25,9 +25,10 @@ import Divider from '../../components/divider/Divider';
 import Icon from '../../components/icon/Icon';
 import {Heading6, Subtitle1, Subtitle2} from '../../components/text/CustomText';
 import TouchableItem from '../../components/TouchableItem';
-
+import { Auth } from 'aws-amplify'
 // import colors
 import Colors from '../../theme/colors';
+import {inject, observer} from 'mobx-react'
 
 // SettingsA Config
 const isRTL = I18nManager.isRTL;
@@ -150,6 +151,8 @@ const Setting = ({icon, title, onPress, extraData}: Props) => (
 );
 
 // SetingsA
+@inject('stores')
+@observer
 export default class SettingsA extends Component {
   constructor(props) {
     super(props);
@@ -175,10 +178,18 @@ export default class SettingsA extends Component {
       'Are you sure you want to logout?',
       [
         {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-        {text: 'OK', onPress: () => {}},
+        {text: 'OK', onPress: async () => {
+          try {
+            await Auth.signOut();
+            this.props.stores.authStore.setUserAuthInfo({}, {})
+          } catch (error) {
+            console.log('error signing out: ', error);
+          }
+        }},
       ],
       {cancelable: false},
     );
+    
   };
 
   render() {

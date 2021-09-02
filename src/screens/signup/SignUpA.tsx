@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 });
 
 // SignUpA
-@inject('store')
+@inject('stores')
 @observer
 export default class SignUpA extends Component {
   constructor(props: {} | Readonly<{}>) {
@@ -174,7 +174,7 @@ export default class SignUpA extends Component {
 
   createAccount = async () => {
     // const { email, phone, password } = this.state;
-    this.props.store.authStore.setUserAuthInfo(this.props.store.authStore.authInfo, {username: this.state.email});
+    this.props.stores.authStore.setUserAuthInfo(this.props.stores.authStore.authInfo, {username: this.state.email});
 
 
     try {
@@ -247,7 +247,7 @@ export default class SignUpA extends Component {
       passwordFocused,
       secureTextEntry,
     } = this.state;
-    console.log('this.props.store', this.props.store)
+    console.log('this.props.stores', this.props.stores)
     return (
       <SafeAreaView style={styles.screenContainer}>
         <StatusBar

@@ -37,7 +37,7 @@ type Props = {
 const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE}: Props) => {
   const iconSize = Platform.OS === 'ios' ? size + 2 : size;
 
-  switch (name) {
+  /*switch (name) {
     case 'email':
       return (<Unicons.UilEnvelope color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
     case 'eyeSlash':
@@ -57,21 +57,9 @@ const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE}: Props) => {
           styles.icon,
         ]}
       />)
-  }
+  }*/
 
-  /*return (
-    <Unicons.UilReact
-      name={name}
-      color={color}
-      size={iconSize}
-      style={[
-        {
-          height: iconSize,
-          width: iconSize,
-        },
-        styles.icon,
-      ]}
-    />
+  return (
     <Ionicon
       name={name}
       color={color}
@@ -84,7 +72,7 @@ const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE}: Props) => {
         styles.icon,
       ]}
     />
-  );*/
+  );
 };
 
 export default Icon;

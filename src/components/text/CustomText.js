@@ -18,44 +18,54 @@ const platform = Platform.OS;
 const fontConfig = {
   ios: {
     thin: {
-      fontFamily: 'System',
+      fontFamily: 'Karla-ExtraLight',
       fontWeight: '100',
     },
     light: {
-      fontFamily: 'System',
+      fontFamily: 'Karla-Light',
       fontWeight: '300',
     },
     regular: {
-      fontFamily: 'System',
+      fontFamily: 'Karla-Regular',
       fontWeight: '400',
     },
     medium: {
-      fontFamily: 'System',
+      fontFamily: 'Karla-Medium',
       fontWeight: '500',
     },
     bold: {
+      fontFamily: 'Karla-Bold',
       fontWeight: '700',
+    },
+    semiBold: {
+      fontFamily: 'Karla-SemiBold',
+      fontWeight: '300',
     },
   },
   android: {
     thin: {
-      fontFamily: 'sans-serif-thin',
+      fontFamily: 'Karla-ExtraLight',
       fontWeight: 'normal',
     },
     light: {
-      fontFamily: 'sans-serif-light',
+      fontFamily: 'Karla-Light',
       fontWeight: 'normal',
     },
     regular: {
-      fontFamily: 'sans-serif',
+      fontFamily: 'Karla-Regular',
       fontWeight: 'normal',
     },
     medium: {
-      fontFamily: 'sans-serif-medium',
+      fontFamily: 'Karla-Medium',
       fontWeight: 'normal',
     },
     bold: {
+      fontFamily: 'Karla-Bold',
       fontWeight: 'bold',
+    },
+    semiBold: {
+      fontFamily: 'Karla-SemiBold',
+      fontWeight: '300',
     },
   },
 };
@@ -63,6 +73,24 @@ const fonts = fontConfig[platform];
 
 // CustomText Styles
 const styles = StyleSheet.create({
+  hSemiBoldBig: {
+    ...fonts.semiBold,
+    fontSize: 60,
+    letterSpacing: -1.5,
+    color: Colors.primaryText,
+  },
+  hBold: {
+    ...fonts.bold,
+    fontSize: 36,
+    letterSpacing: -1.5,
+    color: Colors.primaryText,
+  },
+  hBoldBig: {
+    ...fonts.bold,
+    fontSize: 60,
+    letterSpacing: -1.5,
+    color: Colors.primaryText,
+  },
   h1: {
     // fontWeight: '300',
     ...fonts.light,
@@ -112,7 +140,7 @@ const styles = StyleSheet.create({
   },
   subtitle1: {
     // fontWeight: '400',
-    ...fonts.regular,
+    ...fonts.light,
     fontSize: 16,
     lineHeight: 20,
     letterSpacing: 0.15,
@@ -129,6 +157,10 @@ const styles = StyleSheet.create({
   text: {
     // fontWeight: '400'
     ...fonts.regular,
+  },
+  lightText: {
+    // fontWeight: '400'
+    ...fonts.light,
   },
   // body1
   paragraph: {
@@ -164,6 +196,17 @@ const styles = StyleSheet.create({
     color: Colors.secondaryText,
   },
 });
+
+export const SemiBoldHeading = ({style, ...props}: Object): ReactElement<RNText> => (
+  <RNText style={[styles.hSemiBoldBig, style]} {...props} />
+);
+export const BoldHeading = ({style, ...props}: Object): ReactElement<RNText> => (
+  <RNText style={[styles.hBold, style]} {...props} />
+);
+
+export const BigBoldHeading = ({style, ...props}: Object): ReactElement<RNText> => (
+  <RNText style={[styles.hBoldBig, style]} {...props} />
+);
 
 export const Heading1 = ({style, ...props}: Object): ReactElement<RNText> => (
   <RNText style={[styles.h1, style]} {...props} />
@@ -203,6 +246,10 @@ export const Subtitle2 = ({style, ...props}: Object): ReactElement<RNText> => (
 
 export const Text = ({style, ...props}: Object): ReactElement<RNText> => (
   <RNText style={[styles.text, style]} {...props} />
+);
+
+export const LightText = ({style, ...props}: Object): ReactElement<RNText> => (
+  <RNText style={[styles.lightText, style]} {...props} />
 );
 
 export const Paragraph = ({style, ...props}: Object): ReactElement<RNText> => (
