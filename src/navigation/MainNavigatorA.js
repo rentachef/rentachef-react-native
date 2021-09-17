@@ -89,6 +89,7 @@ const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 import Authenticator from 'aws-amplify-react-native';
 import ChefNavigator from "./ChefNavigator"
+import ChefSetupNavigator from "./ChefSetupNavigator"
 //import SignUp from 'aws-amplify-react-native';
 
 // MainNavigatorA
@@ -168,7 +169,7 @@ function MainNavigatorA(props) {
 
           <Stack.Screen
             name="Home"
-            component={ChefNavigator}
+            component={ChefSetupNavigator}
             options={{headerShown: false}}
             screenOptions={{headerShown: false}}
           />

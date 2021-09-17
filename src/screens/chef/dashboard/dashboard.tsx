@@ -13,7 +13,8 @@ import {
 import {BarChart} from 'react-native-chart-kit'
 import Avatar from "../../../components/avatar/Avatar";
 import Divider from "../../../components/divider/Divider";
-import Icon from "../../../components/icon/Icon";
+import Icon from "../../../components/icon/Icon"
+import {observer} from 'mobx-react'
 
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
@@ -35,6 +36,7 @@ const dashboardStyles = StyleSheet.create({
   }
 })
 
+@observer
 export default class ChefDashboard extends React.Component<any, any> {
     constructor(props: any) {
         super(props)

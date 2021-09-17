@@ -36,7 +36,9 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Used for Chef's profile setup</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Used for bookings</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>

@@ -26,11 +26,15 @@ import Favorites from '../screens/favorites/FavoritesA';
 import Cart from '../screens/cart/CartA';
 
 // import Settings screen
-import Settings from '../screens/settings/SettingsA';
+import Settings from '../screens/settings/SettingsA'
 
 // import colors
 import Colors from '../theme/colors';
-import ChefDashboard from "../screens/chef/dashboard/dashboard";
+import ChefDashboard from '../screens/chef/dashboard/dashboard'
+import ChefProfileSetup from '../screens/chef/profile-setup'
+import {createStackNavigator} from "@react-navigation/stack";
+import ChefWorkZoneSetup from "../screens/chef/profile-setup/work-zone-setup";
+import ChefProfileSetupStack from "./ChefSetupNavigator";
 
 // HomeNavigator Config
 
@@ -42,7 +46,6 @@ type Props = {
 
 // create bottom tab navigator
 const Tab = createBottomTabNavigator();
-
 // HomeNavigator
 function ChefNavigator() {
   return (
@@ -75,7 +78,7 @@ function ChefNavigator() {
         },
         headerShown: false
       })}>
-      <Tab.Screen name="ChefHome" component={ChefDashboard} />
+      <Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>
       <Tab.Screen name="ChefSchedule" component={Search} />
       <Tab.Screen
         name="ChefChat"
