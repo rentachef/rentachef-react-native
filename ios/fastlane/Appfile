@@ -1,0 +1,8 @@
+app_identifier("com.rentachef.qa") # The bundle identifier of your app
+apple_id("arun.tummala12@gmail.com") # Your Apple email address
+
+itc_team_id("123401644") # App Store Connect Team ID
+team_id("ZTMJ79HQ46") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
