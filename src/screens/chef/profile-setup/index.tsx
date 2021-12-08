@@ -97,11 +97,17 @@ export default class ChefProfileSetup extends React.Component<any, any> {
             <View style={profileSetupStyles.setupListText}><View style={profileSetupStyles.setupListNumbers}><Text>1</Text></View><Text>Set up work zone</Text></View>
             <View style={profileSetupStyles.setupListArrow}><Text> {'>'} </Text></View>
           </TouchableItem>
-          <TouchableItem style={profileSetupStyles.setupListContainer}>
+          <TouchableItem style={profileSetupStyles.setupListContainer} onPress={() => {
+            console.log("clicked on setup Availability Setup")
+            this.props.navigation.navigate('ChefAvailabilitySetup')
+          }}>
             <View style={profileSetupStyles.setupListText}><View style={profileSetupStyles.setupListNumbers}><Text>2</Text></View><Text>Set up availability</Text></View>
             <View style={profileSetupStyles.setupListArrow}><Text> {'>'} </Text></View>
           </TouchableItem>
-          <TouchableItem style={profileSetupStyles.setupListContainer}>
+          <TouchableItem style={profileSetupStyles.setupListContainer} onPress={() => {
+            console.log("clicked on setup payment")
+            this.props.navigation.navigate('ChefPaymentSetup')
+          }}>
             <View style={profileSetupStyles.setupListText}><View style={profileSetupStyles.setupListNumbers}><Text>3</Text></View><Text>Link a bank account</Text></View>
             <View style={profileSetupStyles.setupListArrow}><Text> {'>'} </Text></View>
           </TouchableItem>
