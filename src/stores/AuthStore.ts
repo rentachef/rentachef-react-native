@@ -4,6 +4,8 @@ export interface AuthProps {
   username: string;
   password: string;
   userDataKey: string;
+  stripeClientToken: any;
+  ephemeralKey: string;
 }
 
 class AuthStore {
@@ -88,10 +90,12 @@ class AuthStore {
   @observable authInfo: AuthProps = {
     username: '',
     password: '',
-    userDataKey: ''
+    userDataKey: '',
+    stripeClientToken: {},
+    ephemeralKey: '',
   };
 
-  @action setUserAuthInfo = (data: AuthProps, authObj: AuthProps) => {
+  @action setUserAuthInfo = (data: AuthProps, authObj: any) => {
     this.authInfo = Object.assign({}, data, authObj)
   }
 }

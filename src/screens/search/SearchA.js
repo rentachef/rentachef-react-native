@@ -8,8 +8,9 @@
 // import dependencies
 import React, {Component} from 'react';
 import {
+  Button,
   FlatList,
-  I18nManager,
+  I18nManager, Image,
   ImageBackground,
   Keyboard,
   SafeAreaView,
@@ -27,10 +28,15 @@ import getImgSource from '../../utils/getImgSource';
 
 // import components
 import TouchableItem from '../../components/TouchableItem';
-import {Heading6} from '../../components/text/CustomText';
+import {BoldHeading, Heading5, Heading6, LightText, SmallText} from '../../components/text/CustomText';
 
 // import colors
 import Colors from '../../theme/colors';
+import {inject, observer} from "mobx-react"
+import CardContainer from "../../components/cards/CardContainer"
+import Avatar from "../../components/avatar/Avatar"
+import {Card} from "react-native-elements"
+import _ from "lodash"
 
 // SearchA Config
 const isRTL = I18nManager.isRTL;
@@ -89,7 +95,7 @@ const styles = StyleSheet.create({
   },
   cardImg: {borderRadius: 4},
   card: {
-    marginVertical: 6,
+    marginVertical: 2,
     marginHorizontal: 16,
     height: 100,
     resizeMode: 'cover',
@@ -117,6 +123,8 @@ const styles = StyleSheet.create({
 });
 
 // SearchA
+@inject('searchStore')
+@observer
 export default class SearchA extends Component {
   constructor(props) {
     super(props);
@@ -153,7 +161,37 @@ export default class SearchA extends Component {
           name: 'Dessert',
         },
       ],
+      cooks: [],
+      searchText: ''
     };
+
+    this.getCuisinesList = this.getCuisinesList.bind(this)
+    this.getCooksList = this.getCooksList.bind(this)
+  }
+
+  async componentDidMount() {
+    await this.getCooksList()
+  }
+
+  async getCooksList() {
+    //http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&cuisines=INDO_PAK&cuisines=VIETNAMESE&startIndex=1&endIndex=5
+    let url = this.state.searchText ? `http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&startIndex=1&endIndex=5&search=${this.state.searchText}` : 'http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&cuisines=INDO_PAK&cuisines=VIETNAMESE&startIndex=1&endIndex=5'
+    let data = await fetch(url).then((res) => {
+      console.log("res", res)
+      return res.json()
+    }).catch((err) => {
+      console.log("err", err)
+    })
+    console.log("data", data)
+    this.setState({
+      cooks: data
+    })
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      cooks: []
+    })
   }
 
   navigateTo = screen => () => {
@@ -185,6 +223,43 @@ export default class SearchA extends Component {
     </ImageBackground>
   );
 
+  getCuisinesList(item) {
+    if(item && item.cuisineList.length) {
+      console.log("item.cuisineList", item.cuisineList)
+      return (
+        <View>
+          {_.map(item.cuisineList, (value) => {
+            return (<SmallText>{value.type} </SmallText>)
+          })}
+        </View>
+      )
+    }
+  }
+
+  renderCooks = ({item, index}) => (
+    <View style={{marginVertical: 1, marginBottom: 0, flex: .3 }}>
+      <Card style={styles.card}>
+        <View style={{padding: 5, flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: .15, justifyContent: 'center'}}>
+            <Avatar
+              imageUri={require('../../assets/img/profile_1.jpeg')}
+              rounded
+              size={50}
+            />
+          </View>
+          <View style={{flex: .85 }}>
+            <Heading5 style={{marginBottom: 3}}>{item.firstName} {item.lastName}</Heading5>
+            <View style={{flexDirection: 'row'}}>
+              <Icon color={'#FBB12B'} name={'star'} size={20}/>
+              <LightText style={{alignItems: 'baseline'}}>{item.totalrating}</LightText>
+            </View>
+            {this.getCuisinesList(item)}
+          </View>
+        </View>
+      </Card>
+    </View>
+  )
+
   render() {
     const {categories} = this.state;
 
@@ -200,16 +275,15 @@ export default class SearchA extends Component {
         </View>
 
         <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Food name or description..."
-            returnKeyType="search"
-            maxLength={50}
-            style={styles.textInput}
-          />
           <View style={styles.searchButtonContainer}>
-            <TouchableItem
-              onPress={this.navigateTo('SearchResults')}
-              // borderless
+            <Button
+              //onPress={this.navigateTo('SearchResults')}
+              onPress={() => {
+                this.getCooksList().then((resp) => {
+                  console.log("resp", resp)
+                })
+              }}
+              title={'O'}
             >
               <View style={styles.searchButton}>
                 <Icon
@@ -218,17 +292,29 @@ export default class SearchA extends Component {
                   color={Colors.onPrimaryColor}
                 />
               </View>
-            </TouchableItem>
+            </Button>
           </View>
+          <TextInput
+            placeholder="Search cuisines or dishes"
+            returnKeyType="search"
+            maxLength={50}
+            style={styles.textInput}
+            onChangeText={(value) => {
+              console.log("value", value)
+              this.setState({searchText: value})
+            }}
+            onKeyPress={this.getCooksList}
+          />
+
         </View>
 
         <View style={styles.container}>
           <FlatList
-            data={categories}
+            data={this.state.cooks}
             showsHorizontalScrollIndicator={false}
             alwaysBounceHorizontal={false}
             keyExtractor={this.keyExtractor}
-            renderItem={this.renderCategoryItem}
+            renderItem={this.renderCooks}
             contentContainerStyle={styles.categoriesList}
           />
         </View>

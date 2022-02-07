@@ -29,6 +29,7 @@ import Colors from '../../theme/colors';
 import Layout from '../../theme/layout';
 import {makeObservable, observable} from "mobx";
 import {inject, observer} from "mobx-react";
+import Logo from "../components/logo";
 
 // SignInA Config
 const PLACEHOLDER_TEXT_COLOR = 'rgba(0, 0, 0, 0.4)';
@@ -207,7 +208,7 @@ export default class SignInA extends Component {
           contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.content}>
             <View />
-
+            <View style={{flex: .05, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}><Logo/></View>
             <View style={styles.form}>
               <UnderlineTextInput
                 onRef={r => {

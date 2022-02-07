@@ -90,6 +90,7 @@ const AuthStack = createStackNavigator();
 import Authenticator from 'aws-amplify-react-native';
 import ChefNavigator from "./ChefNavigator"
 import ChefSetupNavigator from "./ChefSetupNavigator"
+import PreSignUp from "../screens/signup/pre-sign-up"
 //import SignUp from 'aws-amplify-react-native';
 
 // MainNavigatorA
@@ -101,11 +102,11 @@ function MainNavigatorA(props) {
         {/*{props.authState === 'initializing' ? <ActivityIndicator size={'medium'}/> : null}*/}
         {props.userDataKey === '' || props.userDataKey === undefined ? <AuthStack.Navigator screenOptions={{headerShown: true}}>
           <Stack.Screen
-            name="SignIn"
-            override={'SignUp'} //Overriding AWS default components with custom components
-            component={SignIn}
+            name="PreSignUp"
+            override={'PreSignUp'}
+            component={PreSignUp}
             options={{
-              title: 'Sign In',
+              title: 'Get Started',
               headerStyle: {
                 elevation: 0,
                 shadowOpacity: 0,
@@ -118,6 +119,18 @@ function MainNavigatorA(props) {
             component={SignUp}
             options={{
               title: 'Create Account',
+              headerStyle: {
+                elevation: 0,
+                shadowOpacity: 0,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="SignIn"
+            override={'SignIn'} //Overriding AWS default components with custom components
+            component={SignIn}
+            options={{
+              title: 'Sign In',
               headerStyle: {
                 elevation: 0,
                 shadowOpacity: 0,
@@ -169,7 +182,7 @@ function MainNavigatorA(props) {
 
           <Stack.Screen
             name="Home"
-            component={ChefSetupNavigator}
+            component={HomeNavigator}
             options={{headerShown: false}}
             screenOptions={{headerShown: false}}
           />

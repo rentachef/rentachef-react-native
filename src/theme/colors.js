@@ -192,7 +192,10 @@ const themes = {
     white: '#fff',
 
     //border color
-    borderColor: '#DDE2ED'
+    borderColor: '#DDE2ED',
+
+    //disabled color
+    disabled: '#C3C3C3'
   }
 };
 

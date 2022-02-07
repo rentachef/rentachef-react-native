@@ -307,6 +307,7 @@ import theme from "./src/theme/colors"
 import SignInA from "./src/screens/signin/SignInA"
 import SignUpA from "./src/screens/signup/SignUpA"
 import {computed, makeAutoObservable, makeObservable, observable} from "mobx"
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 
 const MySignInComponent = inject("stores")(observer(props => props.children(props)))
@@ -373,16 +374,24 @@ class App extends React.Component {
 
   render() {
     console.log("rootStore.authStore", rootStore.authStore)
+    console.log("rootStore.searchStore", rootStore.searchStore)
     const { userDataKey } = rootStore.authStore.authInfo
     return (
-      <SafeAreaProvider>
-        <Provider
-          stores={rootStore}
-          authStore={rootStore.authStore}
-        >
-          <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey}/>
-        </Provider>
-      </SafeAreaProvider>
+      <StripeProvider
+        publishableKey="pk_test_51Jjp7mGMAuLelpA3aMsrxw0Rcmrg9SeijC14l6WkM0b5XNB8XxTPjKGyOCz4yCU5QHYbOWO286mDwjKWhFdEnu5300ar0uvxT5"
+        urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+        merchantIdentifier="merchant.com.rentachef" // required for Apple Pay
+      >
+        <SafeAreaProvider>
+          <Provider
+            stores={rootStore}
+            authStore={rootStore.authStore}
+            searchStore={rootStore.searchStore}
+          >
+            <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey}/>
+          </Provider>
+        </SafeAreaProvider>
+      </StripeProvider>
     );
   }
 }

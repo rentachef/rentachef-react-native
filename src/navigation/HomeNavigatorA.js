@@ -75,7 +75,7 @@ function HomeNavigator() {
         },
       }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="Find Cooks" component={Search} />
       <Tab.Screen
         name="Cart"
         component={Cart}

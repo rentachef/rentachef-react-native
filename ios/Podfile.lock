@@ -1,27 +1,5 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - Braintree (4.38.0):
-    - Braintree/Card (= 4.38.0)
-    - Braintree/Core (= 4.38.0)
-    - Braintree/PayPal (= 4.38.0)
-    - Braintree/UI (= 4.38.0)
-  - Braintree/Card (4.38.0):
-    - Braintree/Core
-  - Braintree/Core (4.38.0)
-  - Braintree/PayPal (4.38.0):
-    - Braintree/Core
-    - Braintree/PayPalOneTouch
-  - Braintree/PayPalDataCollector (4.38.0):
-    - Braintree/Core
-    - Braintree/PayPalUtils
-  - Braintree/PayPalOneTouch (4.38.0):
-    - Braintree/Core
-    - Braintree/PayPalDataCollector
-    - Braintree/PayPalUtils
-  - Braintree/PayPalUtils (4.38.0)
-  - Braintree/UI (4.38.0):
-    - Braintree/Card
-    - Braintree/Core
   - BVLinearGradient (2.5.6):
     - React-Core
   - CocoaAsyncSocket (7.6.5)
@@ -323,10 +301,6 @@ PODS:
     - React-Core
   - react-native-netinfo (6.0.0):
     - React-Core
-  - react-native-payments (0.8.4):
-    - Braintree (~> 4)
-    - React
-    - Stripe (~> 19)
   - react-native-safe-area-context (3.3.0):
     - React-Core
   - react-native-splash-screen (3.2.0):
@@ -441,7 +415,19 @@ PODS:
     - React
   - RNVectorIcons (8.1.0):
     - React-Core
-  - Stripe (19.4.1)
+  - Stripe (21.9.1):
+    - Stripe/Stripe3DS2 (= 21.9.1)
+    - StripeCore (= 21.9.1)
+    - StripeUICore (= 21.9.1)
+  - stripe-react-native (0.2.3):
+    - React-Core
+    - Stripe (~> 21.9.0)
+  - Stripe/Stripe3DS2 (21.9.1):
+    - StripeCore (= 21.9.1)
+    - StripeUICore (= 21.9.1)
+  - StripeCore (21.9.1)
+  - StripeUICore (21.9.1):
+    - StripeCore (= 21.9.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -493,7 +479,6 @@ DEPENDENCIES:
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
-  - react-native-payments (from `../node_modules/react-native-payments`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - "react-native-unicons (from `../node_modules/@iconscout/react-native-unicons`)"
@@ -517,12 +502,12 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - boost-for-react-native
-    - Braintree
     - CocoaAsyncSocket
     - Flipper
     - Flipper-DoubleConversion
@@ -537,6 +522,8 @@ SPEC REPOS:
     - libevent
     - OpenSSL-Universal
     - Stripe
+    - StripeCore
+    - StripeUICore
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -580,8 +567,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
-  react-native-payments:
-    :path: "../node_modules/react-native-payments"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -628,12 +613,13 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  stripe-react-native:
+    :path: "../node_modules/@stripe/stripe-react-native"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  Braintree: 78a33deb6f6ec617c2c4891fbe352854358b3a8d
   BVLinearGradient: 48f1964a78bddfae412d1aac5f386c2949fe0306
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
@@ -667,7 +653,6 @@ SPEC CHECKSUMS:
   react-native-google-maps: d6a30377b40a338bd09d6ad36ce48dc5d12b5792
   react-native-maps: 41d01d8e0afcebe32bec9eea3bd945adc1b18f7a
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
-  react-native-payments: 0cb00209f3b25a72d5b614554abf688e2cc53002
   react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-unicons: 3f98688cbfc9f47e3ae45dd1560b7a2ab65075f4
@@ -691,10 +676,13 @@ SPEC CHECKSUMS:
   RNScreens: 01ab149b5dd5c27f5ff26741b1d2bdf2cee1af35
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
-  Stripe: 5914399ac5878056b985d56b409cb4bb1e7fc7e8
+  Stripe: 22c1b8da5ee20a1aaf40fd198160efa72e71644a
+  stripe-react-native: 980f3d19f52a7dc4b373c6c20d30ebd760bc39e5
+  StripeCore: 91ea038ac0abbb72f11014044dfd1e5d39089714
+  StripeUICore: 7edf64b24c9c178bfd97e988f2cffdbb7a7628b0
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 9b78f316872e7d3584f1b90c6a4c7cc61eb68a8f
+PODFILE CHECKSUM: 7732daf8681f3766d79c8dceb6fa9ef6bcce78cf
 
 COCOAPODS: 1.11.0

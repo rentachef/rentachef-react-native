@@ -53,23 +53,23 @@ export function WeekDayRow({day, time, availability, showTimeModal}: any) {
 
   return (
     <View style={{flex: 1, flexWrap: 'nowrap'}}>
-      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline', alignSelf: 'center'}}>
 
         <View style={{flexDirection: 'row', flex: .25}}>
           <SwitchComponent style={{flex: .5}} checked={false}/>
-          <View style={{flex: .5, justifyContent: 'center', alignItems: 'center'}}><Text style={{flex: .5, alignSelf: 'center'}}>{day}</Text></View>
+          <View style={{flex: .5, justifyContent: 'flex-end', alignSelf: 'flex-end'}}><Text style={{flex: .5, alignSelf: 'flex-end'}}>{day}</Text></View>
         </View>
-        <ScrollView style={{flexDirection: 'row', flex: 1, height: 100}}>
+        <View style={{flexDirection: 'row', flex: .5}}>
           {
             availability ?
 
               <View style={{flexDirection: 'column'}}>{getTimeRanges(currentTimeSelected)}</View> :
               <Button onPress={() => {showTimeModal()}} disabled={true} activeOpacity={1} height={50} buttonStyle={{flex: .7}} borderRadius={5} title={'Unavailable'}/>
           }
-        </ScrollView>
+        </View>
         <TouchableOpacity onPress={() => {
           addNewTimeRange()
-        }} style={{flexDirection: 'row', flex: .1, justifyContent: 'center', alignItems: 'center'}}><Text style={{flex: .5, alignSelf: 'center', fontSize: 20, justifyContent: 'center', alignItems: 'center'}}>+</Text></TouchableOpacity>
+        }} style={{flexDirection: 'row', flex: .2, justifyContent: 'center', alignItems: 'center'}}><Text style={{flex: .5, alignSelf: 'center', fontSize: 20, justifyContent: 'center', alignItems: 'center'}}>+</Text></TouchableOpacity>
       </View>
     </View>
   )

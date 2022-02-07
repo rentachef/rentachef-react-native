@@ -1,9 +1,10 @@
-import React from 'react'
-import {Text, View} from 'react-native'
+import React, {useRef} from 'react'
+import {Text, TouchableOpacity, View} from 'react-native'
 import {ButtonGroup} from "react-native-elements";
 import {WeekDayRow} from "./availability-weekday-row";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import Colors from '../../../theme/colors';
+import Button from "../../../components/buttons/Button";
 
 export default class ChefAvailability extends React.Component<any, any> {
   constructor (props: any) {
