@@ -375,6 +375,7 @@ class App extends React.Component {
   render() {
     console.log("rootStore.authStore", rootStore.authStore)
     console.log("rootStore.searchStore", rootStore.searchStore)
+    console.log("rootStore.chefReviewsStore", rootStore.chefReviewsStore)
     const { userDataKey } = rootStore.authStore.authInfo
     return (
       <StripeProvider
@@ -387,6 +388,7 @@ class App extends React.Component {
             stores={rootStore}
             authStore={rootStore.authStore}
             searchStore={rootStore.searchStore}
+            chefReviewsStore={rootStore.chefReviewsStore}
           >
             <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey}/>
           </Provider>

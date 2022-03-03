@@ -182,7 +182,7 @@ function MainNavigatorA(props) {
 
           <Stack.Screen
             name="Home"
-            component={HomeNavigator}
+            component={ChefNavigator}
             options={{headerShown: false}}
             screenOptions={{headerShown: false}}
           />

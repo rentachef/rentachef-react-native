@@ -187,6 +187,14 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: Colors.secondaryText,
   },
+  smallBoldText: {
+    // fontWeight: '400',
+    ...fonts.bold,
+    fontSize: 14,
+    lineHeight: 18,
+    letterSpacing: 0.25,
+    color: Colors.secondaryText,
+  },
   buttonText: {
     // fontWeight: '500',
     ...fonts.medium,
@@ -270,6 +278,10 @@ export const Paragraph = ({style, ...props}: any): ReactElement<RNText> => (
 
 export const SmallText = ({style, ...props}: any): ReactElement<RNText> => (
   <RNText style={[styles.smallText, style]} {...props} />
+);
+
+export const SmallBoldText = ({style, ...props}: any): ReactElement<RNText> => (
+  <RNText style={[styles.smallBoldText, style]} {...props} />
 );
 
 export const ButtonText = ({style, ...props}: any): ReactElement<RNText> => (

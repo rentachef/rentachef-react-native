@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, Dimensions} from 'react-native'
+import {View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
 import CardContainer from "../../../components/cards/CardContainer";
 import {
   Text,
@@ -14,6 +14,7 @@ import {BarChart} from 'react-native-chart-kit'
 import Avatar from "../../../components/avatar/Avatar";
 import Divider from "../../../components/divider/Divider";
 import Icon from "../../../components/icon/Icon"
+import Colors from '../../../theme/colors';
 import {observer} from 'mobx-react'
 
 const dashboardStyles = StyleSheet.create({
@@ -40,7 +41,13 @@ const dashboardStyles = StyleSheet.create({
 export default class ChefDashboard extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
+      this.navigateTo = this.navigateTo.bind(this)
     }
+
+    navigateTo = screen => () => {
+      const {navigation} = this.props;
+      navigation.navigate(screen);
+    };
 
     render() {
       const data = {
@@ -128,7 +135,15 @@ export default class ChefDashboard extends React.Component<any, any> {
                   </View>
                 </CardContainer>*/}
                 <View style={{flex: 1.5}}>
-                  <View style={{alignItems: 'center'}}><Text>Total Earned</Text></View>
+                  <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                    <View style={{alignItems: 'flex-start', flex: .5}}><Text style={{justifyContent:'flex-start', alignSelf: 'flex-start'}}>Total Earned</Text></View>
+                    <TouchableOpacity
+                      onPress={this.navigateTo("ChefEarnings")}
+                      style={{alignSelf: 'flex-end' , flex: .5}}
+                    >
+                      <Text style={{justifyContent:'flex-end', alignSelf: 'flex-end', color: Colors.primaryColor}}>View All</Text>
+                    </TouchableOpacity>
+                  </View>
                   <BarChart
                     style={{borderRadius: 16}}
                     data={data}
@@ -149,7 +164,10 @@ export default class ChefDashboard extends React.Component<any, any> {
 
               <Divider type={'middle'}/>
 
-              <View style={{marginVertical: 5, marginTop: 10, flex: .25 }}>
+              <TouchableOpacity
+                style={{marginVertical: 5, marginTop: 10, flex: .25 }}
+                onPress={this.navigateTo('ChefReviews')}
+              >
                 <CardContainer
                   title={'Ratings and Reviews'}
                   style={[dashboardStyles.cardContainer, {flex: 1}]}
@@ -165,7 +183,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                     </View>
                   </View>
                 </CardContainer>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
 

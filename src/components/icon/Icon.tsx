@@ -31,10 +31,11 @@ type Props = {
   color: string;
   name: string;
   size: number;
+  style?: any;
 };
 
 // Icon
-const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE}: Props) => {
+const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE, style}: Props) => {
   const iconSize = Platform.OS === 'ios' ? size + 2 : size;
 
   switch (name) {
@@ -55,6 +56,7 @@ const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE}: Props) => {
             width: iconSize,
           },
           styles.icon,
+          style
         ]}
       />)
   }

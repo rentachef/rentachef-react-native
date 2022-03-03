@@ -1,8 +1,8 @@
 import React, {useCallback, useMemo, useRef} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {
+import {View, StyleSheet, Text} from 'react-native';
+import BottomSheet, {
   BottomSheetModal,
-  BottomSheetModalProvider,
+  BottomSheetModalProvider, BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import Button from "../../components/buttons/Button";
 
@@ -26,25 +26,31 @@ export function RACBottomSheet(props: {
   children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | (() => React.ReactNode) | React.ReactNode[] | null | undefined;
   onSheetChanges(index: any): void;
 }) {
-  // ref
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+// hooks
+  const sheetRef = useRef<BottomSheet>(null);
 
   // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
 
   // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+  const handleSheetChange = useCallback((index) => {
+    console.log("handleSheetChange", index);
   }, []);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-    props.onSheetChanges(index)
+  const handleSnapPress = useCallback((index) => {
+    sheetRef.current?.snapToIndex(index);
   }, []);
-  //console.log("props.index", props.index, "bottomSheetModalRef.current", bottomSheetModalRef.current)
-  bottomSheetModalRef.current?.present();
+  const handleClosePress = useCallback(() => {
+    sheetRef.current?.close();
+  }, []);
+  // @ts-ignore
   return (
-    <BottomSheetModalProvider>
+    <BottomSheet
+      ref={sheetRef}
+      index={props.index}
+      snapPoints={snapPoints}
+      onChange={handleSheetChange}
+      children={props.children}
+    >
       {/*<View style={styles.container}>
         <Button
           onPress={handlePresentModalPress}
@@ -53,15 +59,7 @@ export function RACBottomSheet(props: {
         />
 
       </View>*/}
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={props.index}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        enableDismissOnClose={true}
-      >
-        {props.children}
-      </BottomSheetModal>
-    </BottomSheetModalProvider>
+
+    </BottomSheet>
   )
 }

@@ -35,6 +35,9 @@ import ChefProfileSetup from '../screens/chef/profile-setup'
 import {createStackNavigator} from "@react-navigation/stack";
 import ChefWorkZoneSetup from "../screens/chef/profile-setup/work-zone-setup";
 import ChefProfileSetupStack from "./ChefSetupNavigator";
+import {createNativeStackNavigator} from "react-native-screens/native-stack";
+import Earnings from "../screens/chef/dashboard/earnings";
+import Reviews from "../screens/chef/dashboard/reviews";
 
 // HomeNavigator Config
 
@@ -46,6 +49,18 @@ type Props = {
 
 // create bottom tab navigator
 const Tab = createBottomTabNavigator();
+
+const ChefDashboardStack = createStackNavigator()
+
+function ChefDashboardStackScreen() {
+  return (
+    <ChefDashboardStack.Navigator>
+      <ChefDashboardStack.Screen name="ChefDashboard" component={ChefDashboard} options={{headerShown: false}}/>
+      <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: 'Back'}} />
+      <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: 'Back'}} />
+    </ChefDashboardStack.Navigator>
+  );
+}
 // HomeNavigator
 function ChefNavigator() {
   return (
@@ -57,7 +72,7 @@ function ChefNavigator() {
         tabBarIcon: ({color, focused, size}: Props) => {
           let iconName;
 
-          if (route.name === 'ChefHome') {
+          if (route.name === 'ChefDashboardStack') {
             iconName = `home${focused ? '' : '-outline'}`;
           } else if (route.name === 'ChefSchedule') {
             iconName = 'calendar';
@@ -78,7 +93,8 @@ function ChefNavigator() {
         },
         headerShown: false
       })}>
-      <Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>
+      <Tab.Screen name="ChefDashboardStack" component={ChefDashboardStackScreen} options={{headerShown: false}}/>
+      {/*<Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>*/}
       <Tab.Screen name="ChefSchedule" component={Search}/>
       <Tab.Screen
         name="ChefChat"
