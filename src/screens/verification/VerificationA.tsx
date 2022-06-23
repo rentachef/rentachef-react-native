@@ -82,10 +82,10 @@ const styles = StyleSheet.create({
 });
 
 // VerificationA
-@inject('store')
+@inject('stores')
 @observer
 export default class VerificationA extends Component {
-  constructor(props) {
+  constructor(props: {} | Readonly<{}>) {
     super(props);
 
     this.state = {
@@ -160,7 +160,8 @@ export default class VerificationA extends Component {
       const confirmSignup = await Auth.confirmSignUp(this.props.stores.authStore.authInfo.username, this.state.pin);
       if(confirmSignup === 'SUCCESS') {
         this.closeModal();
-        this.navigateTo('HomeNavigator');
+        //Based on the condition you get back from login, navigate the user to either ChefNavigator or HomeNavigator
+        true ? this.navigateTo('Home') : this.navigateTo('ChefNavigator')
       } else {
         console.log("sing up failed")
       }

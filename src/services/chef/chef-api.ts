@@ -88,7 +88,25 @@ export default class ChefApi {
 
   async getChefReviews() {
     //const url = CHEF_REVIEWS.url
-    const url = 'http://renta-loadb-1nm9ghuov34vb-81868913c5443b9a.elb.us-east-1.amazonaws.com:8080/findCooks?latitude=1&longitude=1&searchradius=5&cuisines=INDO_PAK&cuisines=VIETNAMESE&startIndex=1&endIndex=5'
+    const url = 'http://renta-loadb-1nm9ghuov34vb-81868913c5443b9a.elb.us-east-1.amazonaws.com:8080/retrieveBookings?userId=1'
+    const response = await this.apisauce.get(url)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204){
+      return
+    }
+
+    return response
+  }
+
+  async getChefBookings() {
+    //const url = CHEF_REVIEWS.url
+    const url = 'http://renta-loadb-1nm9ghuov34vb-81868913c5443b9a.elb.us-east-1.amazonaws.com:8080/retrieveBookings?userId=1'
     const response = await this.apisauce.get(url)
 
     if (!response.ok) {

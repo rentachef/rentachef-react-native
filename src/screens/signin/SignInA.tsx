@@ -30,6 +30,7 @@ import Layout from '../../theme/layout';
 import {makeObservable, observable} from "mobx";
 import {inject, observer} from "mobx-react";
 import Logo from "../components/logo";
+import {notifyError} from "../../components/toast/toast";
 
 // SignInA Config
 const PLACEHOLDER_TEXT_COLOR = 'rgba(0, 0, 0, 0.4)';
@@ -180,10 +181,12 @@ export default class SignInA extends Component {
     try {
       const user = await Auth.signIn(email, password);
       console.log("user", user)
-      this.props.stores.authStore.setUserAuthInfo({}, user)
-      this.props.navigation.navigate('Home', {screen: 'Home'})
+      this.props?.stores?.authStore?.setUserAuthInfo({}, user)
+      this.props?.navigation?.navigate('Home', {screen: 'Home'})
     } catch (error) {
       console.log('error signing in', error);
+      let errorMessage = error?.message ? error.message : 'Error while signing in'
+      notifyError(errorMessage)
     }
   };
 

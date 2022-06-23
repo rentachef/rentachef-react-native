@@ -1,5 +1,5 @@
-import {action, makeAutoObservable, observable} from 'mobx';
 import ChefApi from "../../services/chef/chef-api";
+import {makeAutoObservable} from "mobx";
 
 const chefAPI = new ChefApi()
 export interface ChefReviewProps {
@@ -10,27 +10,27 @@ export interface ChefReviewProps {
   ephemeralKey: string;
 }
 
-class ChefReviewsStore {
+class ChefBookingsStore {
   rootStore: any;
   chefApi: any;
-  _chefReviews: any;
+  _chefBookings: any;
   constructor(/*rootStore: any*/) {
     makeAutoObservable(this)
     this.chefApi = new ChefApi()
     chefAPI.setup()
   }
 
-  getChefReviews = () => {
-    chefAPI.getChefReviews().then((r: any) => {
+  getChefBookings = () => {
+    chefAPI.getChefBookings().then((r: any) => {
       console.log("r", r)
-      this.setChefReviews(r?.data)
+      this.setChefBookings(r?.data)
       return r
     })
   }
 
-  setChefReviews = (data: any) => {
-    this._chefReviews = data
+  setChefBookings = (data: any) => {
+    this._chefBookings = data
   }
 }
 
-export default ChefReviewsStore
+export default ChefBookingsStore
