@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Switch } from 'react-native-elements';
-import {View, Text, StyleSheet, ViewStyle} from 'react-native';
+import {View, Text, StyleSheet, ViewStyle, Platform} from 'react-native';
 import Colors from '../../theme/colors';
 
 type SwitchComponentProps = {
@@ -8,8 +8,8 @@ type SwitchComponentProps = {
   checked: boolean;
 };
 
-const SwitchComponent: React.FunctionComponent<SwitchComponentProps> = ({style}) => {
-  const [checked, setChecked] = useState(false);
+const SwitchComponent: React.FunctionComponent<SwitchComponentProps> = ({checked, style}) => {
+  const [flag, setChecked] = useState(checked);
 
   const toggleSwitch = () => {
     setChecked(!checked);
@@ -18,8 +18,10 @@ const SwitchComponent: React.FunctionComponent<SwitchComponentProps> = ({style})
   return (
     <View style={[styles.view, style]}>
       <Switch
-        trackColor={{true: Colors.primaryColor,}}
-        value={checked}
+        trackColor={{true: Colors.primaryColor, false: '#F3F6FB'}}
+        thumbColor={flag ? Colors.thumbColorOn : Colors.thumbColorOff}
+        style={{alignSelf: 'center'}}
+        value={flag}
         onValueChange={(value) => setChecked(value)}
       />
     </View>

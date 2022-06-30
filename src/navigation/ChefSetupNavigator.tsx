@@ -10,10 +10,10 @@ const ProfileSetupStack = createStackNavigator()
 function ChefProfileSetupStack() {
   return (
     <ProfileSetupStack.Navigator>
-      <ProfileSetupStack.Screen name='ChefProfileSetup' component={ChefProfileSetup} />
-      <ProfileSetupStack.Screen name='ChefWorkZoneSetup' component={ChefWorkZoneSetup} />
-      <ProfileSetupStack.Screen name='ChefAvailabilitySetup' component={ChefAvailabilitySetup} />
-      <ProfileSetupStack.Screen name='ChefPaymentSetup' component={ChefPaymentSetup} />
+      {/*<ProfileSetupStack.Screen name='ChefProfileSetup' component={ChefProfileSetup} />*/}
+      {/*<ProfileSetupStack.Screen name='ChefWorkZoneSetup' component={ChefWorkZoneSetup} />*/}
+      <ProfileSetupStack.Screen name='Set up availability' component={ChefAvailabilitySetup} />
+      {/*<ProfileSetupStack.Screen name='ChefPaymentSetup' component={ChefPaymentSetup} />*/}
     </ProfileSetupStack.Navigator>
   )
 }

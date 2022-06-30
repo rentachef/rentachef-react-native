@@ -290,11 +290,14 @@ const MyTheme = Object.assign({}, AmplifyTheme, {
 Amplify.configure(config);
 enableScreens();
 
+global.__reanimatedWorkletInit = () => {};
+
 // TODO: Remove when fixed
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested',
   'Warning: componentWillReceiveProps has been renamed, and is not recommended',
   'Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`',
+  'Reanimated 2'
 ]);
 
 // import MainNavigatorA or MainNavigatorB to preview design differnces

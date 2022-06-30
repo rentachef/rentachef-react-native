@@ -1,5 +1,5 @@
-import React, {useCallback, useMemo, useRef} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import {View, StyleSheet, Text, BackHandler} from 'react-native';
 import BottomSheet, {
   BottomSheetModal,
   BottomSheetModalProvider, BottomSheetView,
@@ -25,12 +25,28 @@ export function RACBottomSheet(props: {
   index: any;
   children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | (() => React.ReactNode) | React.ReactNode[] | null | undefined;
   onSheetChanges(index: any): void;
+  onClose(): void;
 }) {
-// hooks
+  // hooks
   const sheetRef = useRef<BottomSheet>(null);
 
+  useEffect(() => {
+    const backAction = () => {
+      sheetRef.current?.close();
+      props.onClose();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   // variables
-  const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+  const snapPoints = useMemo(() => ["60%", "60%"], []);
 
   // callbacks
   const handleSheetChange = useCallback((index) => {
@@ -49,17 +65,8 @@ export function RACBottomSheet(props: {
       index={props.index}
       snapPoints={snapPoints}
       onChange={handleSheetChange}
-      children={props.children}
     >
-      {/*<View style={styles.container}>
-        <Button
-          onPress={handlePresentModalPress}
-          title="Present Modal"
-          color="black"
-        />
-
-      </View>*/}
-
+      {props.children}
     </BottomSheet>
   )
 }

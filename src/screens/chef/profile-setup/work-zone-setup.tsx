@@ -135,25 +135,27 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   getUpdatedCircle(latitude: any, longitude: any) {
     console.log("this.radius", this.radius)
     return (
-      /*<MapView
-        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-        style={workZoneSetupStyles.map}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        zoomEnabled={true}
-        region={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
-      >
-        <Circle center={{latitude:latitude, longitude:longitude}} radius={this.radius} strokeColor={'#fcb900'} strokeWidth={5}/>
-        {/!*<Circle center={{latitude:37.78825, longitude:-122.4324}} radius={300} fillColor={'rgb(248, 236, 206, 0.5)'} strokeColor={'#f8ecce'} strokeWidth={5}/>*!/}
-      </MapView>*/
-      <View style={{flex: 1}}>
-        <ChefMapView latitude={latitude} longitude={longitude} radius={this.radius}/>
-      </View>
+      <>
+        <MapView
+          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          style={workZoneSetupStyles.map}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          zoomEnabled={true}
+          region={{
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+        >
+          <Circle center={{latitude:latitude, longitude:longitude}} radius={this.radius} strokeColor={'#fcb900'} strokeWidth={5}/>
+          <Circle center={{latitude:37.78825, longitude:-122.4324}} radius={300} fillColor={'rgb(248, 236, 206, 0.5)'} strokeColor={'#f8ecce'} strokeWidth={5}/>
+        </MapView>
+        <View style={{flex: 1}}>
+          <ChefMapView latitude={latitude} longitude={longitude} radius={this.radius}/>
+        </View>
+      </>
     )
   }
 
