@@ -7,7 +7,7 @@
 
 // import dependencies
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 
 // import components
@@ -88,6 +88,8 @@ type Props = {
   activeOpacity?: number;
   height?: number;
   buttonStyle?: ViewStyle;
+  iconStyle?: ViewStyle;
+  titleStyle?: ViewStyle;
   borderRadius?: number;
   borderColor?: string;
 
@@ -119,6 +121,7 @@ const Button = ({
   activeOpacity = 0.85,
   height,
   buttonStyle,
+  iconStyle,
   borderRadius,
   borderColor,
   color,
@@ -126,6 +129,7 @@ const Button = ({
   socialIconName,
   small,
   title,
+  titleStyle,
   titleColor,
   rounded,
   outlined,
@@ -150,7 +154,7 @@ const Button = ({
     ]}>
     {socialIconName && (
       <View style={styles.socialIconContainer}>
-        <FAIcon name={socialIconName} size={20} color={iconColor} />
+        <FAIcon name={socialIconName} size={20} color={iconColor} style={iconStyle} />
       </View>
     )}
     <ButtonText
@@ -159,7 +163,7 @@ const Button = ({
         outlined && styles.outlinedTitle,
         titleColor && {color: titleColor},
       ]}>
-      {title || 'Button'}
+      <Text style={titleStyle}>{title || 'Button'}</Text>
     </ButtonText>
   </TouchableOpacity>
 );

@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet} from 'react-native';
 import SwitchComponent from '../../components/switch-component';
-import Button from '../../../components/buttons/Button';
-import _ from 'lodash'
 
 const styles = StyleSheet.create({
   textInputDisabled: {
