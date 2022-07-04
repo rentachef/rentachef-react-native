@@ -4,36 +4,16 @@ import {BoldHeading, LightText, SemiBoldHeading, SmallBoldHeading, Text} from ".
 import MapView, {Circle, PROVIDER_GOOGLE} from 'react-native-maps';
 import {observer, PropTypes} from "mobx-react";
 import {computed, observable, reaction} from "mobx";
-import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import CustomLabel from "./slider-custom-label";
+import {Slider} from '@miblanchard/react-native-slider';
 import isEqual from 'lodash/isEqual'
 import Geolocation from 'react-native-geolocation-service'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {ChefMapView} from "./map-view";
 import Geocoder from 'react-native-geocoding';
+import Colors from "../../../theme/colors";
+import Button from "../../../components/buttons/Button";
 
-const workZoneSetupStyles = StyleSheet.create({
-  container: {
-    //position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    //flex: 1
-  },
-  map: {
-    position: 'absolute',
-    top: 30,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    width: '100%',
-    minHeight: 300,
-    flex: 1
-  },
-});
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
   timeout: 20000,
@@ -61,10 +41,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   @observable _mounted: boolean = false;
   @observable _watchID: any = null;
   @observable _radius: any = 0;
-  @computed get radius() {
-    // @ts-ignore
-    return radiusMap[this._radius]
-  }
+
   constructor(props: any) {
     super(props)
     this.state = {
@@ -77,16 +54,20 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         longitude: 0,
         speed: 0
       },
-      radiusState: 0,
+      radiusState: 300,
+      radius: 0,
       zipCitySearch: "",
-
+      focus: 0
     }
-    this.getUpdatedCircle = this.getUpdatedCircle.bind(this)
     reaction(
       () => this._location, (newLocation) => {
         console.log("newLocation", newLocation)
-
       })
+  }
+
+  setRadius = (value: number) => {
+    // @ts-ignore
+    this.setState({ radius: value, radiusState: radiusMap[value] })
   }
 
   componentDidMount() {
@@ -97,7 +78,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
     }
 
     if (Platform.OS === 'android') {
-      PermissionsAndroid.requestPermission(
+      PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       ).then(granted => {
         if (granted && this._mounted) {
@@ -132,33 +113,6 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
     }
   }
 
-  getUpdatedCircle(latitude: any, longitude: any) {
-    console.log("this.radius", this.radius)
-    return (
-      <>
-        <MapView
-          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-          style={workZoneSetupStyles.map}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          zoomEnabled={true}
-          region={{
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
-        >
-          <Circle center={{latitude:latitude, longitude:longitude}} radius={this.radius} strokeColor={'#fcb900'} strokeWidth={5}/>
-          <Circle center={{latitude:37.78825, longitude:-122.4324}} radius={300} fillColor={'rgb(248, 236, 206, 0.5)'} strokeColor={'#f8ecce'} strokeWidth={5}/>
-        </MapView>
-        <View style={{flex: 1}}>
-          <ChefMapView latitude={latitude} longitude={longitude} radius={this.radius}/>
-        </View>
-      </>
-    )
-  }
-
   geoCodeAddress(search: string) {
     Geocoder.from(search)
       .then(json => {
@@ -178,12 +132,12 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   }
 
   render() {
-    console.log("this.state.myPosition", this.state.myPosition, "this._radius", this._radius, this.radius)
+    const { radius, radiusState, focus } = this.state;
     const { accuracy, altitude, altitudeAccuracy, heading, latitude, longitude, speed } = this.state.myPosition
     return (
-      <KeyboardAwareScrollView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-        <View style={{margin: 10, flex: 0.2}}>
-          <TextInput
+      <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: '#FFFFFF'}}>
+        <View style={{ margin: 10 }}>
+          {/*<TextInput
             style={{backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CCCCCC', minHeight: 30, justifyContent: 'center', alignItems: 'center', width: '90%', borderRadius: 5, marginHorizontal: 10, padding: 5,marginBottom: 5}}
             placeholder={'enter your city or postal code'}
             placeholderTextColor={'#A7AFBF'}
@@ -197,51 +151,106 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
               })
               this.geoCodeAddress(e.nativeEvent.text)
             }}
+          />*/}
+          <TextInput
+            autoCapitalize="none"
+            placeholder="enter your city or postal code"
+            keyboardType={"default"}
+            onFocus={() => this.setState({ focus: 1 })}
+            onBlur={() => this.setState({ focus: 0 })}
+            style={[workZoneSetupStyles.inputGroupItem, focus === 1 && workZoneSetupStyles.inputGroupItemFocused]}
+            onSubmitEditing={(e) => {
+              this._location = e.nativeEvent.text
+              this.setState({
+                zipCitySearch: e.nativeEvent.text
+              })
+              this.geoCodeAddress(e.nativeEvent.text)
+            }}
           />
         </View>
-        <View style={{flex: 0.5}}>
-          {this.getUpdatedCircle(latitude, longitude)}
+        <View style={workZoneSetupStyles.mapContainer}>
+            <ChefMapView latitude={latitude} longitude={longitude} radius={radiusState} />
         </View>
-        <View style={{position: 'relative', top: 450, left: 50, right: 50}}>
-          <View style={{}}><SmallBoldHeading>Distance in miles</SmallBoldHeading></View>
+        <View style={workZoneSetupStyles.distanceSlider}>
+          <View><SmallBoldHeading>Distance (mi)</SmallBoldHeading></View>
           <View><Text>Receive all bookings within the selected radius</Text></View>
-          <MultiSlider
-            values={[0]}
-            optionsArray={[0,10,20,30,40,50]}
-            //showSteps={true}
-            //showStepLabels={true}
-            //stepsAs={[{index: 0, stepLabel: 10}]}
-            //customLabel={CustomLabel}
-            sliderLength={300}
-            onValuesChange={(value) => {
-              console.log('value', value, value[0])
-              this._radius = value[0]
-              this.setState({radiusState: value[0]})
-              //console.log("this._radius", this._radius, this.radius)
-            }}
-            enableLabel={true}
-            min={0}
-            max={10}
-            step={1}
-            allowOverlap
-            snapped
-            trackStyle={{
-              height: 10,
-              backgroundColor: '#FFC534',
-            }}
-            selectedStyle={{
-              backgroundColor: '#FBB12B',
-            }}
-            unselectedStyle={{
-              backgroundColor: '#FBB12B',
+          <Slider
+            trackMarks={Object.keys(radiusMap).map(item => Number(item))}
+            minimumTrackTintColor='#FFC534'
+            maximumTrackTintColor='#F3F6FB'
+            thumbTintColor='#FFC534'
+            animateTransitions
+            value={radius}
+            step={10}
+            minimumValue={0}
+            maximumValue={50}
+            onValueChange={value => {
+              this.setRadius(value)
             }}
           />
         </View>
-
-
-      </KeyboardAwareScrollView>
+        <View style={workZoneSetupStyles.distanceTrackMarks}>
+          {Object.keys(radiusMap).map(item => (
+            <Text key={Number(item)} style={workZoneSetupStyles.distanceTrackMarksLabel}>{Number(item)}</Text>
+          ))}
+        </View>
+        <View style={workZoneSetupStyles.buttonContainer}>
+          <Button
+            onPress={() => {}}
+            title='Save'
+          />
+        </View>
+      </ScrollView>
     )
   }
   //https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#support-for-defaultprops-in-jsx
   static defaultProps = defaultProps
 }
+
+const workZoneSetupStyles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  mapContainer: {
+    flex: 1,
+    minHeight: 250
+  },
+  map: {
+    flex: 1
+  },
+  distanceSlider: {
+    flex: .08,
+    marginHorizontal: 20,
+    color: '#d3d3d3'
+  },
+  distanceTrackMarks: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    height: '100%',
+    width: '90%',
+    justifyContent: 'space-between'
+  },
+  distanceTrackMarksLabel: {
+    marginLeft: 10
+  },
+  inputGroupItem: {
+    flex: .08,
+    paddingHorizontal: 20,
+    borderColor: Colors.backgroundDark,
+    borderWidth: 2,
+    borderRadius: 12,
+    margin: 5,
+    color: 'black',
+  },
+  inputGroupItemFocused: {
+    borderColor: Colors.primaryColor,
+  },
+  buttonContainer: {
+    width: '100%',
+    paddingHorizontal: 24,
+    marginVertical: 20,
+    backgroundColor: Colors.background,
+    alignItems: 'flex-end'
+  },
+});

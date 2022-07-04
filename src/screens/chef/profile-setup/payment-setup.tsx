@@ -1,11 +1,12 @@
 import React from 'react'
-import {StyleSheet, TextInput, Text, View} from 'react-native'
+import {StyleSheet, TextInput, Text, View, Image} from 'react-native'
 import {CardField} from "@stripe/stripe-react-native";
 import {inject, observer} from "mobx-react";
 import {Subtitle2} from "../../../components/text/CustomText";
 import Colors from "../../../theme/colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from "../../../components/buttons/Button";
+import paymentSetupImage from '../../../assets/chef-profile-sign-up/check-graphic.png';
 
 @inject("stores")
 @observer
@@ -71,6 +72,9 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
         <View style={styles.wrapper}>
           <Icon style={styles.icon} name='bank' size={25} />
           <Subtitle2>Connect your checkings account to receive deposits directly in your account</Subtitle2>
+        </View>
+        <View style={styles.wrapper}>
+          <Image source={paymentSetupImage} style={styles.setupImage} />
         </View>
         <View style={styles.inputGroup}>
           <Text style={styles.inputGroupItemLabel}>Bank Name</Text>
@@ -143,7 +147,8 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   inputGroup: {
-    flex: 1
+    flex: 1,
+    marginTop: '40%'
   },
   inputGroupItem: {
     flex: .08,
@@ -166,18 +171,24 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    marginBottom: 20,
     color: Colors.secondaryText
   },
   wrapper: {
     flex: .1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 10
   },
   buttonContainer: {
     width: '100%',
     paddingHorizontal: 24,
     backgroundColor: Colors.background,
     alignSelf: 'flex-end'
-  }
+  },
+  setupImage: {
+    backgroundColor: '#F7F3EF',
+    width: 400,
+    height: 180,
+    flex: 1
+  },
 })
