@@ -187,8 +187,7 @@ const styles = StyleSheet.create({
   },
   setupImage: {
     backgroundColor: '#F7F3EF',
-    width: 400,
-    height: 180,
+    marginVertical: 20,
     flex: 1
   },
 })

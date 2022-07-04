@@ -24,9 +24,9 @@ const ChefBackgroundCheckSetup = () => {
         />
         <Text style={styles.inputGroupItemLabel}>SSN / SIN</Text>
         <TextInput
-          autoCapitalize="none"
-          placeholder="XXX-XX-XXXX"
-          keyboardType={"default"}
+          autoCapitalize='none'
+          placeholder='XXX-XX-XXXX'
+          keyboardType={"number-pad"}
           onFocus={() => setFocus(1) }
           onBlur={() => setFocus(undefined)}
           style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
@@ -78,10 +78,11 @@ const styles = StyleSheet.create({
     letterSpacing: .6
   },
   buttonsContainer: {
+    margin: 5,
     flex: 1,
+    flexWrap: 'nowrap',
     flexDirection: 'row',
-    alignContent: 'center',
-    margin: 'auto'
+    justifyContent: 'space-between'
   },
 })
 

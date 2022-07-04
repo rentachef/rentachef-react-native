@@ -5,25 +5,24 @@ import Button from "./Button";
 
 const CameraButton = ({text}) => {
   return (
-    <View style={{ flex: 1 }}>
-      <Button
-        buttonStyle={styles.cameraButton}
-        title={text}
-        titleStyle={{ paddingLeft: 10, color: Colors.black, alignSelf: 'center' }}
-        socialIconName='camera'
-        iconStyle={{ marginLeft: 20 }}
-      />
-    </View>
+    <Button
+      buttonStyle={styles.cameraButton}
+      title={text}
+      titleStyle={{ paddingLeft: 10, color: Colors.black, alignSelf: 'center' }}
+      socialIconName='camera'
+      iconStyle={{ marginLeft: 20 }}
+    />
   )
 }
 
 const styles = StyleSheet.create({
   cameraButton: {
+    textAlign: 'center',
+    width: 150,
     height: 80,
     backgroundColor: Colors.background,
     borderWidth: 2,
-    borderColor: Colors.disabled,
-    width: '80%'
+    borderColor: Colors.disabled
   }
 })
 
