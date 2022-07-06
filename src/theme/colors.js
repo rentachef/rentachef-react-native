@@ -195,7 +195,11 @@ const themes = {
     borderColor: '#DDE2ED',
 
     //disabled color
-    disabled: '#C3C3C3'
+    disabled: '#F3F6FB',
+
+    //switch colors
+    thumbColorOn: '#fff',
+    thumbColorOff: '#fafafa'
   }
 };
 

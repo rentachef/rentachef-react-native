@@ -80,7 +80,8 @@ function ChefNavigator() {
             iconName = `forum${focused ? '' : '-outline'}`;
           } else if (route.name === 'Settings') {
             iconName = `account-settings${focused ? '' : '-outline'}`;
-          }
+          } else if (route.name === 'ChefProfileSetupStack')
+            iconName = `clipboard-list${focused ? '' : '-outline'}`;
 
           // You can return any component that you like here!
           return <Icon name={iconName} size={size} color={color} />;
@@ -94,7 +95,7 @@ function ChefNavigator() {
         headerShown: false
       })}>
       <Tab.Screen name="ChefDashboardStack" component={ChefDashboardStackScreen} options={{headerShown: false}}/>
-      {/*<Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>*/}
+      <Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>
       <Tab.Screen name="ChefSchedule" component={Search}/>
       <Tab.Screen
         name="ChefChat"

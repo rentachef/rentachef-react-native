@@ -75,8 +75,9 @@ const fonts = fontConfig[platform];
 const styles = StyleSheet.create({
   hSemiBoldBig: {
     ...fonts.semiBold,
-    fontSize: 60,
-    letterSpacing: -1.5,
+    fontSize: 38,
+    fontWeight: 'bold',
+    letterSpacing: .8,
     color: Colors.primaryText,
   },
   hhBoldSmall: {
