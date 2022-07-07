@@ -211,7 +211,7 @@ export default class SignInA extends Component {
           contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.content}>
             <View />
-            <View style={{flex: .05, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}><Logo/></View>
+            <View style={{flex: .5, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}><Logo/></View>
             <View style={styles.form}>
               <UnderlineTextInput
                 onRef={r => {

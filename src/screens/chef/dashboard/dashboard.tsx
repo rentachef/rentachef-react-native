@@ -8,7 +8,7 @@ import {
   LightText,
   Subtitle1,
   BoldHeading,
-  SemiBoldHeading
+  SemiBoldHeading, SmallBoldHeading, Subtitle2
 } from '../../../components/text/CustomText'
 import {BarChart} from 'react-native-chart-kit'
 import Avatar from "../../../components/avatar/Avatar";
@@ -27,11 +27,12 @@ const dashboardStyles = StyleSheet.create({
     paddingHorizontal: 20
   },
   dashboardContainer: {
-    flex: .8,
+    flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center'
   },
   cardContainer: {
+    flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center'
   }
@@ -65,8 +66,7 @@ export default class ChefDashboard extends React.Component<any, any> {
           color: (opacity = 1) => `rgb(251, 177, 43, ${opacity})`,
           labelColor: (opacity = 1) => `rgb(74, 81, 95, ${opacity})`,
           style: {
-            borderRadius: 100,
-
+            borderRadius: 100
           },
           strokeWidth: 1, // optional, default 3
           barPercentage: .75,
@@ -106,9 +106,8 @@ export default class ChefDashboard extends React.Component<any, any> {
                     </View>
                   </View>
                 </CardContainer>
+                <Divider type='middle' dividerStyle={{ marginVertical: 10 }} />
               </View>
-
-              <Divider type={'middle'}/>
 
               <View style={{marginVertical: 15, marginTop: 10, flex: .5 }}>
                 {/*<CardContainer
@@ -134,15 +133,19 @@ export default class ChefDashboard extends React.Component<any, any> {
                     />
                   </View>
                 </CardContainer>*/}
-                <View style={{flex: 1.5}}>
+                <View style={{flex: 1, minHeight: 320 }}>
                   <View style={{alignItems: 'center', flexDirection: 'row'}}>
-                    <View style={{alignItems: 'flex-start', flex: .5}}><Text style={{justifyContent:'flex-start', alignSelf: 'flex-start'}}>Total Earned</Text></View>
+                    <View style={{alignItems: 'flex-start', flex: 1}}><Text style={{justifyContent:'flex-start', alignSelf: 'flex-start'}}>Your Earnings</Text></View>
                     <TouchableOpacity
                       onPress={this.navigateTo("ChefEarnings")}
-                      style={{alignSelf: 'flex-end' , flex: .5}}
+                      style={{alignSelf: 'flex-end' , flex: 1}}
                     >
                       <Text style={{justifyContent:'flex-end', alignSelf: 'flex-end', color: Colors.primaryColor}}>View All</Text>
                     </TouchableOpacity>
+                  </View>
+                  <View style={{alignItems: 'center', flex: 1}}>
+                    <SmallBoldHeading style={{justifyContent:'center', alignSelf: 'center'}}>$ 455.60</SmallBoldHeading>
+                    <Subtitle2>Total Earned</Subtitle2>
                   </View>
                   <BarChart
                     style={{borderRadius: 16}}
@@ -150,7 +153,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                     showValuesOnTopOfBars={false}
                     showBarTops={false}
                     fromZero={true}
-                    width={Dimensions.get("window").width - 60}
+                    width={Dimensions.get("window").width - 50}
                     height={250}
                     //yAxisLabel="$"
                     chartConfig={chartConfig}
@@ -170,15 +173,14 @@ export default class ChefDashboard extends React.Component<any, any> {
               >
                 <CardContainer
                   title={'Ratings and Reviews'}
-                  style={[dashboardStyles.cardContainer, {flex: 1}]}
+                  style={dashboardStyles.cardContainer}
                 >
-                  <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-
-                    <View style={{flex: 1.5, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
-                      <Icon color={'#FBB12B'} name={'star'} size={30}/>
-                      <BoldHeading>4.8</BoldHeading>
+                  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                      <Icon color={'#FBB12B'} name={'star'} size={25}/>
+                      <SmallBoldHeading>4.8</SmallBoldHeading>
                     </View>
-                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
                       <LightText>14 Reviews</LightText>
                     </View>
                   </View>

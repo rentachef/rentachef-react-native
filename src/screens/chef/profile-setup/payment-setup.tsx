@@ -85,6 +85,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
             onFocus={() => this.setState({ focus: 0 })}
             onBlur={() => this.setState({ focus: undefined })}
             style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
+            placeholderTextColor={Colors.placeholderColor}
           />
           <Text style={styles.inputGroupItemLabel}>Account Number</Text>
           <TextInput
@@ -94,6 +95,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
             onFocus={() => this.setState({ focus: 1 })}
             onBlur={() => this.setState({ focus: undefined })}
             style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
+            placeholderTextColor={Colors.placeholderColor}
           />
           <Text style={styles.inputGroupItemLabel}>Routing Number</Text>
           <TextInput
@@ -104,6 +106,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
             onBlur={() => this.setState({ focus: undefined })}
             maxLength={9}
             style={[styles.inputGroupItem, focus === 2 && styles.inputGroupItemFocused]}
+            placeholderTextColor={Colors.placeholderColor}
           />
         </View>
         {/*The following is for credit cards*/}
@@ -151,7 +154,8 @@ const styles = StyleSheet.create({
     marginTop: '40%'
   },
   inputGroupItem: {
-    flex: .08,
+    flex: .15,
+    height: 40,
     paddingHorizontal: 20,
     borderColor: Colors.backgroundDark,
     borderWidth: 2,

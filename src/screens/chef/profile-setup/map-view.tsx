@@ -4,7 +4,9 @@ import {Dimensions, StyleSheet, View} from "react-native";
 
 export function ChefMapView({latitude, longitude, radius}: any) {
   useEffect(() => {
-    console.log('radius changed to', radius);
+    console.log('props changed -> radius: ', radius);
+    console.log('props changed -> lat: ', latitude);
+    console.log('props changed -> lon: ', longitude);
   }, []);
 
   return (
