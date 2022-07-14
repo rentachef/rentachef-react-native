@@ -7,7 +7,7 @@
 
 // import dependencies
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 
 // Divider Styles
 const styles = StyleSheet.create({
@@ -24,15 +24,17 @@ const styles = StyleSheet.create({
 type Props = {
   marginLeft?: number,
   type: 'full-bleed' | 'inset' | 'middle',
+  dividerStyle?: ViewStyle
 };
 
 // Divider
-const Divider = ({marginLeft, type}: Props) => (
+const Divider = ({marginLeft, type, dividerStyle}: Props) => (
   <View
     style={[
       styles.container,
       type === 'inset' && {marginLeft},
       type === 'middle' && styles.mh16,
+      dividerStyle && {...dividerStyle}
     ]}
   />
 );

@@ -20,12 +20,12 @@ export default class ChefEarnings extends React.Component<any, any> {
 
 
 import * as React from 'react';
-import {Button, Text, TouchableOpacity, View} from 'react-native';
+import {Button, SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import {Heading5, LightText, Heading6} from "../../../components/text/CustomText";
+import {Heading5, LightText, Heading6, SmallBoldHeading, SemiBoldHeading} from "../../../components/text/CustomText";
 import Avatar from "../../../components/avatar/Avatar";
 import Colors from "../../../theme/colors";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
@@ -40,72 +40,87 @@ function Day() {
   });
 
   return (
-    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 5 }}>
-      <TouchableOpacity onPress={() => {
-        console.log("onPress setSortModal")
-        //setSortModal(false)
-        /*setTimeout(() => {
-          setSortModal(false)
-        },10)*/
-        setTimeout(() => {
-          setSortModal(true)
-        },10)
-      }} style={{ alignSelf: 'flex-end', marginRight: 10}}><Heading6 style={{color: Colors.primaryColor}}>Sort By</Heading6></TouchableOpacity>
-      <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
-        <View style={{flex: .15, justifyContent: 'center'}}>
-          <Avatar
-            imageUri={require('../../../assets/img/profile_1.jpeg')}
-            rounded
-            size={50}
-          />
-        </View>
-        <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
-          <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center'  }}>
-            <LightText style={{marginBottom: 3}}>June 18, 2021</LightText>
-            <Heading5 style={{marginBottom: 3}}>John Doe</Heading5>
+    <View style={{ flex: 1}}>
+      <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 5, backgroundColor: '#ffffff', opacity: showSortModal ? 0.5: 1 }}>
+        <TouchableOpacity onPress={() => {
+          console.log("onPress setSortModal")
+          //setSortModal(false)
+          /*setTimeout(() => {
+            setSortModal(false)
+          },10)*/
+          setTimeout(() => {
+            setSortModal(true)
+          },10)
+        }} style={{ alignSelf: 'flex-end', marginRight: 10}}>
+          <Heading6 style={{color: Colors.primaryColor}}>Sort By</Heading6>
+        </TouchableOpacity>
+        <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
+          <View style={{flex: .15, justifyContent: 'center'}}>
+            <Avatar
+              imageUri={require('../../../assets/img/profile_1.jpeg')}
+              rounded
+              size={50}
+            />
           </View>
-          <View style={{flex: .25, alignItems: 'flex-end', justifyContent: 'center'  }}>
-            <Heading5 style={{marginBottom: 3}}>$162.50</Heading5>
+          <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
+            <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center'  }}>
+              <LightText style={{marginBottom: 3}}>June 18, 2021</LightText>
+              <Heading5 style={{marginBottom: 3}}>John Doe</Heading5>
+            </View>
+            <View style={{flex: .5, alignItems: 'flex-end', justifyContent: 'center'  }}>
+              <Heading5 style={{marginBottom: 3}}>$162.50</Heading5>
+            </View>
           </View>
         </View>
+        <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
+          <View style={{flex: .15, justifyContent: 'center'}}>
+            <Avatar
+              imageUri={require('../../../assets/img/profile_1.jpeg')}
+              rounded
+              size={50}
+            />
+          </View>
+          <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
+            <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center' }}>
+              <LightText style={{marginBottom: 3}}>June 18, 2021</LightText>
+              <Heading5 style={{marginBottom: 3}}>John Doe</Heading5>
+            </View>
+            <View style={{flex: .5, alignItems: 'flex-end', justifyContent: 'center' }}>
+              <Heading5 style={{marginVertical: 3}}>$162.50</Heading5>
+            </View>
+          </View>
+
+        </View>
+
       </View>
-      <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
-        <View style={{flex: .15, justifyContent: 'center'}}>
-          <Avatar
-            imageUri={require('../../../assets/img/profile_1.jpeg')}
-            rounded
-            size={50}
-          />
-        </View>
-        <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
-
-          <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center'  }}>
-            <LightText style={{marginBottom: 3}}>June 18, 2021</LightText>
-            <Heading5 style={{marginBottom: 3}}>John Doe</Heading5>
-          </View>
-          <View style={{flex: .25, alignItems: 'flex-end', justifyContent: 'center'  }}>
-            <Heading5 style={{marginBottom: 3}}>$162.50</Heading5>
-          </View>
-        </View>
-
-      </View>
-      {showSortModal ?
-        <RACBottomSheet
-          index={1}
-          onSheetChanges={(ind)=> {
-            console.log("onSheetChange showSortModal index", showSortModal, ind)
-
-          }}>
-        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 5 }}>
-          <View style={{flex: .1}}><Text>Sort By</Text></View>
-          <View style={{padding: 5, flex: .8, flexDirection: 'column'}}>
-            <View style={{flex: .5}}><Text>Price (High To Low)</Text></View>
-            <View style={{flex: .5}}><Text>Price (Low To High)</Text></View>
-            <View style={{flex: .5}}><Text>Date (High To Low)</Text></View>
-            <View style={{flex: .5}}><Text>Date (Low To High)</Text></View>
-          </View>
-        </View>
-      </RACBottomSheet> : null }
+      {showSortModal &&
+        <SafeAreaView style={{flex: 1, position: 'absolute', width: '100%', height: '100%'}}>
+          <RACBottomSheet
+            index={1}
+            onSheetChanges={(ind)=> {
+              console.log("onSheetChange showSortModal index", showSortModal, ind)
+            }}
+            onClose={() => setSortModal(false)}
+          >
+            <View style={{flex: .3, alignSelf: 'center'}}><SemiBoldHeading style={{ fontSize: 20 }}>Sort By</SemiBoldHeading></View>
+              <View style={{ flex: 1, padding: 5 }}>
+                <View style={{flex: 1, flexDirection: 'column'}}>
+                  <View style={{flex: 1, borderBottomWidth: 1, borderBottomColor: Colors.backgroundMedium, marginHorizontal: 20 }}>
+                    <Text style={{paddingTop: 25}}>Price (High To Low)</Text>
+                  </View>
+                  <View style={{flex: 1, borderBottomWidth: 1, borderBottomColor: Colors.backgroundMedium, marginHorizontal: 20}}>
+                    <Text style={{paddingTop: 25}}>Price (Low To High)</Text>
+                  </View>
+                  <View style={{flex: 1, borderBottomWidth: 1, borderBottomColor: Colors.backgroundMedium, marginHorizontal: 20}}>
+                    <Text style={{paddingTop: 25}}>Date (High To Low)</Text>
+                  </View>
+                  <View style={{flex: 1, marginHorizontal: 20}}>
+                    <Text style={{paddingTop: 25}}>Date (Low To High)</Text>
+                  </View>
+                </View>
+              </View>
+            </RACBottomSheet>
+        </SafeAreaView>}
     </View>
   );
 }

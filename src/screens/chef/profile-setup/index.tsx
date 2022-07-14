@@ -31,7 +31,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefWorkZoneSetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                <Text style={profileSetupStyles.setupListNumbers}>1</Text>
+                {/*<Text style={profileSetupStyles.setupListNumbers}>1</Text> //commented for demo propouses only*/}
+                <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />
                 <Text style={profileSetupStyles.setupListText}>Set up work zone</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>
@@ -75,9 +76,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
 
 const profileSetupStyles = StyleSheet.create({
   dashboardHeaderContainer: {
-    marginTop: 50,
-    paddingBottom: 15,
-    flex: .2,
+    paddingVertical: 20,
+    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     paddingHorizontal: 20,
@@ -87,8 +87,7 @@ const profileSetupStyles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomColor: Colors.disabled,
     borderBottomWidth: 1,
-    alignSelf: 'center',
-    width: '90%'
+    alignSelf: 'center'
   },
   setupListItem: {
     flex: 1,
@@ -109,11 +108,8 @@ const profileSetupStyles = StyleSheet.create({
     borderRadius: 50,
     width: 25,
     height: 25,
-    justifyContent: 'space-around',
     textAlign: 'center',
     paddingTop: 2,
-    alignItems: 'center',
-    alignContent: 'center',
     marginLeft: 10,
     marginRight: 10
   },
@@ -147,11 +143,16 @@ const profileSetupStyles = StyleSheet.create({
   },
   setupParent: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.white,
     overflow: 'scroll'
   },
   icon: {
     color: Colors.primaryColor,
     marginRight: 20
+  },
+  stepDoneIcon: {
+    color: Colors.secondaryColor,
+    marginLeft: 10,
+    marginRight: 10
   }
 })

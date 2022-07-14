@@ -3,10 +3,11 @@ import {StyleSheet, Text, View} from "react-native";
 import Colors from '../../theme/colors';
 import Button from "./Button";
 
-const CameraButton = ({text}) => {
+const CameraButton = ({text, onPress}) => {
   return (
     <Button
       buttonStyle={styles.cameraButton}
+      onPress={onPress}
       title={text}
       titleStyle={{ paddingLeft: 10, color: Colors.black, alignSelf: 'center' }}
       socialIconName='camera'

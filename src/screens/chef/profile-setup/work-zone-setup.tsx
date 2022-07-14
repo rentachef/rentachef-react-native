@@ -40,7 +40,6 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   @observable _location: any;
   @observable _mounted: boolean = false;
   @observable _watchID: any = null;
-  @observable _radius: any = 0;
 
   constructor(props: any) {
     super(props)
@@ -91,6 +90,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
     Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
   }
   watchLocation() {
+    console.log('watchLocation')
     this._watchID = Geolocation.watchPosition(
       position => {
         const myLastPosition = this.state.myPosition;
@@ -132,7 +132,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   }
 
   render() {
-    const { radius, radiusState, focus } = this.state;
+    const { radius, radiusState, focus, myPosition } = this.state;
     const { accuracy, altitude, altitudeAccuracy, heading, latitude, longitude, speed } = this.state.myPosition
     return (
       <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: '#FFFFFF'}}>
@@ -159,6 +159,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
             onFocus={() => this.setState({ focus: 1 })}
             onBlur={() => this.setState({ focus: 0 })}
             style={[workZoneSetupStyles.inputGroupItem, focus === 1 && workZoneSetupStyles.inputGroupItemFocused]}
+            placeholderTextColor={Colors.placeholderColor}
             onSubmitEditing={(e) => {
               this._location = e.nativeEvent.text
               this.setState({
@@ -169,7 +170,8 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
           />
         </View>
         <View style={workZoneSetupStyles.mapContainer}>
-            <ChefMapView latitude={latitude} longitude={longitude} radius={radiusState} />
+            {/*key setted so when lat or lng change, child updates*/}
+            <ChefMapView key={myPosition.latitude} latitude={latitude} longitude={longitude} radius={radiusState} />
         </View>
         <View style={workZoneSetupStyles.distanceSlider}>
           <View><SmallBoldHeading>Distance (mi)</SmallBoldHeading></View>

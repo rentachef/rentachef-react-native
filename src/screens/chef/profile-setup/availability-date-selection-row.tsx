@@ -22,7 +22,7 @@ const DateSelection = ({showTimeModal}) => {
   return (
     <View style={{flex: 1, flexWrap: 'nowrap', justifyContent: 'space-between' }}>
       <View style={{flexDirection: 'row', height: 70, width: '90%', justifyContent: 'center', alignItems: 'baseline', alignSelf: 'center', borderBottomColor: '#e3e3e3', borderBottomWidth: 1 }}>
-        <Text style={{ flex: .6, lineHeight: 40 }}>July 15, 2021</Text>
+        <Text style={{ flex: 1, lineHeight: 40 }}>July 15, 2021</Text>
         <TouchableOpacity
           onPress={() => showTimeModal()}
         >
