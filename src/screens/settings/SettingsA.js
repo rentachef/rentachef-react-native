@@ -12,23 +12,23 @@ import {
   I18nManager,
   Platform,
   SafeAreaView,
-  ScrollView,
+  ScrollView, SectionList,
   StatusBar,
   StyleSheet,
-  Switch,
+  Switch, Text, TouchableOpacity,
   View,
 } from 'react-native';
 
 // import components
 import Avatar from '../../components/avatar/Avatar';
-import Divider from '../../components/divider/Divider';
-import Icon from '../../components/icon/Icon';
 import {Heading6, Subtitle1, Subtitle2} from '../../components/text/CustomText';
 import TouchableItem from '../../components/TouchableItem';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Auth } from 'aws-amplify'
 // import colors
 import Colors from '../../theme/colors';
 import {inject, observer} from 'mobx-react'
+import ContainedButton from "../../components/buttons/ContainedButton";
 
 // SettingsA Config
 const isRTL = I18nManager.isRTL;
@@ -53,8 +53,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+    padding: 10
   },
   contentContainerStyle: {
+    flexGrow: 1,
     paddingBottom: 16,
   },
   titleContainer: {
@@ -78,16 +80,18 @@ const styles = StyleSheet.create({
   leftSide: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   profileInfo: {
     paddingLeft: 16,
+    flex: 1
   },
   name: {
+    top: 15,
     fontWeight: '500',
-    textAlign: 'left',
   },
   email: {
+    top: 15,
     paddingVertical: 2,
   },
   mediumText: {
@@ -103,6 +107,12 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
+  iconRight: {
+    alignSelf: 'flex-end',
+    bottom: 20,
+    alignItems: 'center',
+    color: Colors.primaryColor
+  },
   extraDataContainer: {
     top: -8,
     marginLeft: DIVIDER_MARGIN_LEFT,
@@ -112,6 +122,24 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   logout: {color: Colors.secondaryColor},
+  item: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.backgroundMedium,
+    paddingVertical: 15
+  },
+  header: {
+    color: Colors.secondaryColor,
+    fontSize: 12,
+    alignItems: 'flex-start',
+    backgroundColor: "#fff"
+  },
+  title: {
+    paddingTop: 5,
+    fontSize: 14
+  }
 });
 
 // SettingsA Props
@@ -154,11 +182,14 @@ const Setting = ({icon, title, onPress, extraData}: Props) => (
 @inject('stores')
 @observer
 export default class SettingsA extends Component {
+  userEmail = '';
   constructor(props) {
     super(props);
     this.state = {
       notificationsOn: true,
     };
+
+    this.userEmail = props.stores.authStore.authInfo.attributes.email;
   }
 
   navigateTo = screen => () => {
@@ -193,7 +224,7 @@ export default class SettingsA extends Component {
   };
 
   render() {
-    const {notificationsOn} = this.state;
+    //{notificationsOn} = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
@@ -202,12 +233,12 @@ export default class SettingsA extends Component {
           barStyle="dark-content"
         />
 
-        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+        <SafeAreaView style={styles.contentContainerStyle}>
           <View style={styles.titleContainer}>
-            <Heading6 style={styles.titleText}>Settings</Heading6>
+            <Heading6 style={styles.titleText}>Account</Heading6>
           </View>
 
-          <TouchableItem useForeground onPress={this.navigateTo('EditProfile')}>
+          <TouchableItem useForeground onPress={() => this.props.navigation.navigate('EditProfile')}>
             <View style={[styles.row, styles.profileContainer]}>
               <View style={styles.leftSide}>
                 <Avatar
@@ -216,126 +247,69 @@ export default class SettingsA extends Component {
                   size={60}
                 />
                 <View style={styles.profileInfo}>
-                  <Subtitle1 style={styles.name}>Kristin Evans</Subtitle1>
-                  <Subtitle2 style={styles.email}>
-                    kristin.evans@gmail.com
-                  </Subtitle2>
+                  <View styles={styles.info}>
+                    <Subtitle1 style={styles.name}>Kristin Evans</Subtitle1>
+                    <Subtitle2 style={styles.email}>
+                      {this.userEmail}
+                    </Subtitle2>
+                  </View>
+                  <Icon name='chevron-right' size={30} style={styles.iconRight} />
                 </View>
               </View>
             </View>
           </TouchableItem>
 
-          <Divider />
+          <ContainedButton
+            onPress={() => alert('yay')}
+            title='Invite other chefs'
+            titleColor={Colors.black}
+            titleStyle={{
+              fontWeight: 'bold',
+              letterSpacing: 1
+            }}
+            buttonStyle={{
+              backgroundColor: Colors.primaryColor,
+              marginHorizontal: 20,
+              marginVertical: 10,
 
-          <Setting
-            onPress={this.navigateTo('DeliveryAddress')}
-            icon={ADDRESS_ICON}
-            title="Delivery Address"
-            extraData={
-              <View>
-                <Subtitle2 style={styles.extraData}>
-                  1600 Pennsylvania Avenue
-                </Subtitle2>
-                <Subtitle2 style={styles.extraData}>
-                  Washington DC, USA
-                </Subtitle2>
-              </View>
-            }
+            }}
+            socialIconName='gift'
+            color={Colors.white}
+            rounded
           />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
 
-          <Setting
-            onPress={this.navigateTo('PaymentMethod')}
-            icon={PAYMENT_ICON}
-            title="Payment Method"
-            extraData={
-              <View>
-                <Subtitle2 style={styles.extraData}>Visa MasterCard</Subtitle2>
-                <Subtitle2 style={styles.extraData}>
-                  xxxx xxxx xxxx 3456
-                </Subtitle2>
-              </View>
-            }
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
+          <SafeAreaView style={styles.container}>
+            <SectionList
+              nestedScrollEnabled
+              sections={[{ title: 'Account', data:['Bio', 'Wallet', 'Notifications']}]}
+              keyExtractor={(item, index) => item + index}
+              renderItem={({ item }) => (
+                <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
+                  <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                </TouchableOpacity>
+              )}
+              renderSectionHeader={({ section: { title } }) => (
+                <Text style={styles.header}>{title}</Text>
+              )}
+            />
+          </SafeAreaView>
 
-          <TouchableItem onPress={this.navigateTo('Notifications')}>
-            <View style={[styles.row, styles.setting]}>
-              <View style={styles.leftSide}>
-                <View style={styles.iconContainer}>
-                  {notificationsOn ? (
-                    <Icon
-                      name={NOTIFICATION_ICON}
-                      size={24}
-                      color={Colors.primaryColor}
-                    />
-                  ) : (
-                    <Icon
-                      name={NOTIFICATION_OFF_ICON}
-                      size={24}
-                      color={Colors.primaryColor}
-                    />
-                  )}
-                </View>
-                <Subtitle1 style={styles.mediumText}>Notifications</Subtitle1>
-              </View>
-
-              {/*
-                FIX: when android:supportsRtl="true" not added to AndroidManifest.xml
-                <View style={isRTL && {transform: [{scaleX: -1}]}}> 
-              */}
-              <View>
-                <Switch
-                  trackColor={{
-                    true: IOS && Colors.primaryColor,
-                  }}
-                  thumbColor={IOS ? Colors.onPrimaryColor : Colors.primaryColor}
-                  onValueChange={this.toggleNotifications}
-                  value={notificationsOn}
-                />
-              </View>
-            </View>
-          </TouchableItem>
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <Setting
-            onPress={this.navigateTo('Orders')}
-            icon={ORDERS_ICON}
-            title="My Orders"
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <Setting
-            onPress={this.navigateTo('TermsConditions')}
-            icon={TERMS_ICON}
-            title="Terms and Conditions"
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <Setting
-            onPress={this.navigateTo('AboutUs')}
-            icon={ABOUT_ICON}
-            title="About Us"
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <TouchableItem onPress={this.logout}>
-            <View style={[styles.row, styles.setting]}>
-              <View style={styles.leftSide}>
-                <View style={styles.iconContainer}>
-                  <Icon
-                    name={LOGOUT_ICON}
-                    size={24}
-                    color={Colors.secondaryColor}
-                  />
-                </View>
-                <Subtitle1 style={[styles.logout, styles.mediumText]}>
-                  Logout
-                </Subtitle1>
-              </View>
-            </View>
-          </TouchableItem>
-        </ScrollView>
+          <SafeAreaView style={{...styles.container, marginTop: 20 }}>
+            <SectionList
+              nestedScrollEnabled
+              sections={[{ title: 'Support', data:['Help', 'Log out']}]}
+              keyExtractor={(item, index) => item + index}
+              renderItem={({ item }) => (
+                <TouchableOpacity style={styles.item} onPress={item === 'Log out' && (() => this.logout()) || (() => {})}>
+                  <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                </TouchableOpacity>
+              )}
+              renderSectionHeader={({ section: { title } }) => (
+                <Text style={styles.header}>{title}</Text>
+              )}
+            />
+          </SafeAreaView>
+        </SafeAreaView>
       </SafeAreaView>
     );
   }

@@ -4,10 +4,13 @@ import Colors from "../../../theme/colors";
 import {Subtitle2} from "../../../components/text/CustomText";
 import CameraButton from "../../../components/buttons/CameraButton";
 import {launchCamera, launchImageLibrary, CameraOptions, ImagePickerResponse} from 'react-native-image-picker';
-import {notifyError, notifyWarn} from "../../../components/toast/toast";
+import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Button from "../../../components/buttons/Button";
+import {inject, observer} from "mobx-react";
+import {isEmpty} from "lodash";
+import _getBase64 from "../../../utils/imageConverter";
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -17,38 +20,56 @@ const cameraOptions: CameraOptions = {
   saveToPhotos: true
 }
 
-interface BackgroundCheckPhotos {
-  front: string,
-  back: string
-}
-
-const ChefBackgroundCheckSetup = () => {
+const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   const [focus, setFocus] = useState(undefined)
   const [showCamera, setShowCamera] = useState(false)
-  const [pictures, setPictures] = useState<BackgroundCheckPhotos>({} as BackgroundCheckPhotos)
   const [buttonChoice, setButtonChoice] = useState('')
+  const [backgroundCheck, setBackgroundCheck] = useState({
+    legalName: '',
+    socialNumber: '',
+    idFrontUri: '',
+    idBackUri: ''
+  })
 
   useEffect(() => {
-    console.log('pictures changed!', pictures)
-  }, [pictures]);
+    console.log(props.stores.chefProfileStore.chef)
+    let bgCheck = props.stores.chefProfileStore.retrieveChefBackgroundCheck();
+    if(!!bgCheck) {
+      setBackgroundCheck(bgCheck)
+      if(!bgCheck.approved)
+        props.navigation.navigate('ChefBackgroundPendingApproval')
+    }
+  }, []);
 
 
   const onButtonPressed = (choice: string) => {
     let func = choice === 'camera' ? launchCamera : launchImageLibrary
     func(cameraOptions)
       .then((data: ImagePickerResponse) => {
-        console.log('Photo taken!')
-        console.log(data)
         if(!data.didCancel) {
           setShowCamera(false)
           //@ts-ignore
-          setPictures({... pictures, [buttonChoice]: data.assets[0].uri})
+          setBackgroundCheck({...backgroundCheck, [buttonChoice]: data.assets[0].uri})
         }
       })
-      .catch(err => alert(err.message))
+      .catch(err => notifyError(err.message))
   }
 
-  const onPhotoDelete = (choice: string) => setPictures({... pictures, [choice]: undefined })
+  const onPhotoDelete = (choice: string) => setBackgroundCheck({...backgroundCheck, [choice]: '' })
+
+  const saveChanges = async () => {
+    const { legalName, socialNumber, idFrontUri, idBackUri } = backgroundCheck
+    props.stores.chefProfileStore.setChefBackgroundCheck({
+      legalName,
+      socialNumber: Number(socialNumber),
+      idFrontUri: await _getBase64(idFrontUri),
+      idBackUri: await _getBase64(idBackUri),
+      approved: false
+    })
+    notifySuccess('Background Check saved!')
+  }
+
+  const isValid = Object.values(backgroundCheck).every((v: any) => !isEmpty(v)) && backgroundCheck.socialNumber.length === 9
 
   return (
     <View style={styles.screenContainer}>
@@ -58,20 +79,25 @@ const ChefBackgroundCheckSetup = () => {
       <View style={styles.inputGroup}>
         <Text style={styles.inputGroupItemLabel}>Legal Name</Text>
         <TextInput
-          autoCapitalize="none"
+          autoCapitalize="words"
           placeholder="enter name matching your photo ID"
           placeholderTextColor={Colors.placeholderColor}
           keyboardType={"default"}
+          value={backgroundCheck.legalName}
+          onChangeText={(value: string) => setBackgroundCheck({...backgroundCheck, legalName: value})}
           onFocus={() => setFocus(0) }
           onBlur={() => setFocus(undefined)}
           style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
         />
         <Text style={styles.inputGroupItemLabel}>SSN / SIN</Text>
         <TextInput
-          autoCapitalize='none'
+          autoCapitalize='words'
           placeholder='XXX-XX-XXXX'
           placeholderTextColor={Colors.placeholderColor}
           keyboardType={"number-pad"}
+          value={backgroundCheck.socialNumber}
+          onChangeText={(value: string) => setBackgroundCheck({...backgroundCheck, socialNumber: value})}
+          maxLength={9}
           onFocus={() => setFocus(1) }
           onBlur={() => setFocus(undefined)}
           style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
@@ -79,23 +105,23 @@ const ChefBackgroundCheckSetup = () => {
         <Text style={styles.inputGroupItemLabel}>Driving License</Text>
         <Subtitle2 style={{ padding: 10 }}>Capture both front and back images of your driving license.  Ensure that the photos are clear.</Subtitle2>
         <View style={styles.buttonsContainer}>
-          {pictures && pictures.front ? (
-            <View style={{flex: 1}}>
-              <Image source={{ uri: pictures.front }} style={{ flex: 1, margin: 5 }}/>
-              <Icon name='close-circle' size={40} color='white' style={{ position: 'absolute', right: 5, top: 5 }} onPress={() => onPhotoDelete('front')}/>
+          {!!backgroundCheck.idFrontUri ? (
+            <View style={styles.pictureView}>
+              <Image source={{ uri: backgroundCheck.idFrontUri }} style={styles.picture}/>
+              <Icon name='close-circle' size={30} color={Colors.borderColor} style={styles.pictureIcon} onPress={() => onPhotoDelete('idFrontUri')}/>
             </View>) :
           <CameraButton onPress={() => {
             setShowCamera(true)
-            setButtonChoice('front')
+            setButtonChoice('idFrontUri')
           }} text='Front'/>}
-          {pictures && pictures.back ? (
-              <View style={{flex: 1}}>
-                <Image source={{ uri: pictures.back }} style={{ flex: 1, margin: 5 }}/>
-                <Icon name='close-circle' size={40} color='white' style={{ position: 'absolute', right: 5, top: 5 }} onPress={() => onPhotoDelete('back')}/>
+          {!!backgroundCheck.idBackUri ? (
+              <View style={styles.pictureView}>
+                <Image source={{ uri: backgroundCheck.idBackUri }} style={styles.picture}/>
+                <Icon name='close-circle' size={30} color={Colors.borderColor} style={styles.pictureIcon} onPress={() => onPhotoDelete('idBackUri')}/>
               </View>) :
             <CameraButton onPress={() => {
           setShowCamera(true)
-          setButtonChoice('back')
+          setButtonChoice('idBackUri')
         }} text='Back' />}
         </View>
         {showCamera && (
@@ -127,15 +153,14 @@ const ChefBackgroundCheckSetup = () => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          disabled={!(!!pictures.front && !!pictures.back)}
-          onPress={() => console.log('on submit!')}
+          disabled={!isValid}
+          onPress={() => saveChanges()}
           title='Submit'
-          buttonStyle={!(!!pictures.front && !!pictures.back) && { backgroundColor: Colors.disabled } || {}}
         />
       </View>
     </View>
   )
-}
+}))
 
 const styles = StyleSheet.create({
   screenContainer: {
@@ -162,6 +187,23 @@ const styles = StyleSheet.create({
     margin: 5,
     color: 'black',
   },
+  pictureView: {
+    flex: 1,
+    margin: 5,
+    alignContent: 'center'
+  },
+  picture: {
+    flex: 1,
+    margin: 5,
+    aspectRatio: 1,
+    alignSelf: 'center',
+    transform: [{ rotate: '90deg' }]
+  },
+  pictureIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 5
+  },
   inputGroupItemFocused: {
     borderColor: Colors.primaryColor,
   },
@@ -173,11 +215,12 @@ const styles = StyleSheet.create({
     letterSpacing: .6
   },
   buttonsContainer: {
-    margin: 5,
+    margin: 15,
     flex: 1,
-    flexWrap: 'nowrap',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    width: '90%',
+    flexDirection: 'column',
+    alignContent: 'center',
+    justifyContent: 'space-around'
   },
   launchItem: {
     display: 'flex',

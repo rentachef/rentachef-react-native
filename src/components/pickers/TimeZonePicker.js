@@ -8,19 +8,19 @@ const timezones = [{
   data: ['Eastern Standard Time (EST)', 'Central Standard Time (CST)', 'Mountain Standard Time (MST)', 'Pacific Standard Time (PST)']
 }];
 
-const Item = ({ title, withIcon }) => (
-  <TouchableOpacity style={styles.item}>
+const Item = ({ title, withIcon, onSelect }) => (
+  <TouchableOpacity style={styles.item} onPress={() => onSelect(title)}>
     <Text style={styles.title}>{title}</Text>{withIcon && <Icon style={styles.icon} name='check-bold' size={20} />}
   </TouchableOpacity>
 );
 
-const TimeZonePicker = ({ onCancel, selected }) => {
+const TimeZonePicker = ({ onChange, selected }) => {
   return (
     <SafeAreaView style={styles.container}>
       <SectionList
         sections={timezones}
         keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => <Item title={item} withIcon={selected === item} /> }
+        renderItem={({ item }) => <Item title={item} withIcon={selected === item} onSelect={onChange} /> }
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
         )}

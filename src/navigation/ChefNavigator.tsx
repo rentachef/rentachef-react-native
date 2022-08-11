@@ -38,6 +38,9 @@ import ChefProfileSetupStack from "./ChefSetupNavigator";
 import {createNativeStackNavigator} from "react-native-screens/native-stack";
 import Earnings from "../screens/chef/dashboard/earnings";
 import Reviews from "../screens/chef/dashboard/reviews";
+import ChefSettingsStack from "./ChefSettingsNavigator";
+import Bookings from "../screens/chef/bookings/bookings";
+import ChefBookingsStack from "./ChefBookingsNavigator";
 
 // HomeNavigator Config
 
@@ -96,7 +99,7 @@ function ChefNavigator() {
       })}>
       <Tab.Screen name="ChefDashboardStack" component={ChefDashboardStackScreen} options={{headerShown: false}}/>
       <Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>
-      <Tab.Screen name="ChefSchedule" component={Search}/>
+      <Tab.Screen name="ChefSchedule" component={ChefBookingsStack}/>
       <Tab.Screen
         name="ChefChat"
         component={Cart}
@@ -110,7 +113,7 @@ function ChefNavigator() {
           ),
         }}
       />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name="Settings" component={ChefSettingsStack} />
     </Tab.Navigator>
   );
 }

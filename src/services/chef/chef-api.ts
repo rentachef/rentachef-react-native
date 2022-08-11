@@ -122,4 +122,26 @@ export default class ChefApi {
     return response
   }
 
+  async getChefProfile() { //TODO
+    /*const url = 'asd'
+    const response = await this.apisauce.get(url)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204){
+      return
+    }
+
+    return response*/
+    return
+  }
+
+  async getChefSettings() { //TODO
+    return
+  }
+
 }

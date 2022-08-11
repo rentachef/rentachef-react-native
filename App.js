@@ -310,7 +310,7 @@ import theme from "./src/theme/colors"
 import SignInA from "./src/screens/signin/SignInA"
 import SignUpA from "./src/screens/signup/SignUpA"
 import {computed, makeAutoObservable, makeObservable, observable} from "mobx"
-import { StripeProvider } from '@stripe/stripe-react-native';
+import {initStripe, StripeProvider} from '@stripe/stripe-react-native';
 
 
 const MySignInComponent = inject("stores")(observer(props => props.children(props)))
@@ -379,6 +379,8 @@ class App extends React.Component {
     console.log("rootStore.authStore", rootStore.authStore)
     console.log("rootStore.searchStore", rootStore.searchStore)
     console.log("rootStore.chefReviewsStore", rootStore.chefReviewsStore)
+    //console.log("rootStore.chefProfileStore", JSON.stringify(rootStore.chefProfileStore))
+    console.log("rootStore.chefSettingsStore", JSON.stringify(rootStore.chefSettingsStore))
     const { userDataKey } = rootStore.authStore.authInfo
     return (
       <StripeProvider
@@ -392,6 +394,7 @@ class App extends React.Component {
             authStore={rootStore.authStore}
             searchStore={rootStore.searchStore}
             chefReviewsStore={rootStore.chefReviewsStore}
+            chefProfileStore={rootStore.chefProfileStore}
           >
             <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey}/>
           </Provider>

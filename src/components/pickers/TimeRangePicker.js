@@ -6,13 +6,11 @@ import TimePicker from "./TimePicker";
 import Button from "../buttons/Button";
 import LinkButton from "../buttons/LinkButton";
 
-const TimeRangePicker = ({ onCancel }) => {
+const TimeRangePicker = ({ selected, onCancel, onSelect }) => {
   const [index, setIndex] = useState(0);
+  const [timeFrom, setTimeFrom] = useState(selected?.timing.from || new Date());
+  const [timeTo, setTimeTo] = useState(selected?.timing.to || new Date());
   const buttons = ['Start Time', 'End Time'];
-
-  useEffect(() => {
-     console.log(index);
-  });
 
   return (
     <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
@@ -28,10 +26,10 @@ const TimeRangePicker = ({ onCancel }) => {
         selectedTextStyle={{color: Colors.primaryText}}
         textStyle={{color: Colors .secondaryText}}
       />
-      {index === 0 ? <TimePicker asd={new Date()} /> : <TimePicker asd={new Date()} />}
+      {index === 0 ? <TimePicker time={timeFrom} onChange={setTimeFrom}/> : <TimePicker time={timeTo} onChange={setTimeTo} />}
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => {}}
+          onPress={() => onSelect(timeFrom, timeTo)}
           title='Use these times'
         />
       </View>
