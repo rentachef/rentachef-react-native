@@ -1,6 +1,6 @@
 import React from 'react'
-import {StyleSheet, TextInput, Text, View, Image, NativeSyntheticEvent, TextInputChangeEventData} from 'react-native'
-import {CardField} from "@stripe/stripe-react-native";
+import {StyleSheet, TextInput, View, Image} from 'react-native'
+import {Text} from '../../../components/text/CustomText';
 import {inject, observer} from "mobx-react";
 import {Subtitle2} from "../../../components/text/CustomText";
 import Colors from "../../../theme/colors";
@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from "../../../components/buttons/Button";
 import paymentSetupImage from '../../../assets/chef-profile-sign-up/check-graphic.png';
 import { isEmpty } from 'lodash';
-import {notifySuccess, notifyWarn} from "../../../components/toast/toast";
+import {notifySuccess} from "../../../components/toast/toast";
 
 @inject("stores")
 @observer

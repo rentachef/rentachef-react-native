@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
 import {ButtonGroup, Card} from "react-native-elements";
@@ -17,6 +17,7 @@ import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import TimeRangePicker from "../../../components/pickers/TimeRangePicker";
 import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import ConfirmBooking from "./confirm-booking";
+import {Text} from '../../../components/text/CustomText';
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 

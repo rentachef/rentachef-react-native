@@ -1,12 +1,11 @@
 import React, {useState} from 'react'
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {Heading6, Subtitle2} from "../../../components/text/CustomText";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Button from "../../../components/buttons/Button";
 import Counter from 'react-native-counters';
 import Colors from "../../../theme/colors";
-
-
+import {Text} from '../../../components/text/CustomText';
 
 const ConfirmBooking = (props) => {
   const [estimate, setEstimate] = useState()

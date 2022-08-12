@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Button, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import Colors from "../../../theme/colors";
 import {ButtonGroup, Card} from "react-native-elements";
 import {useState} from "react";
@@ -7,6 +7,7 @@ import {inject} from "mobx-react";
 import Avatar from '../../../components/avatar/Avatar';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ChefBooking, {BookingStatus} from "../../../models/chef/ChefBooking";
+import {Text} from '../../../components/text/CustomText';
 
 const buttons = ['Upcoming', 'Past']
 
@@ -131,7 +132,8 @@ const styles = StyleSheet.create({
   },
   btnGroupText: {
     color: Colors.secondaryText,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 14
   },
   cardContainer: {
     borderRadius: 10,

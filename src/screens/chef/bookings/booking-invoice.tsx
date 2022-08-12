@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {Subtitle1, Subtitle2} from "../../../components/text/CustomText";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Counter from 'react-native-counters';
@@ -8,6 +8,7 @@ import {inject} from "mobx-react";
 import Button from "../../../components/buttons/Button";
 import Divider from "../../../components/divider/Divider";
 import {BookingStatus} from "../../../models/chef/ChefBooking";
+import {Text} from '../../../components/text/CustomText';
 
 const _getColorByStatus = (status: BookingStatus) => {
   switch(status) {

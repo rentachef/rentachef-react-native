@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {Text} from '../../components/text/CustomText';
 import Colors from "../../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {inject} from "mobx-react";
-import {Subtitle1, Subtitle2} from "../../components/text/CustomText";
+import {Subtitle2} from "../../components/text/CustomText";
 
 const styles = StyleSheet.create({
   screenContainer: {

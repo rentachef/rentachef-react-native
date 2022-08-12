@@ -15,10 +15,11 @@ import {
   ScrollView, SectionList,
   StatusBar,
   StyleSheet,
-  Switch, Text, TouchableOpacity,
+  Switch,
+  TouchableOpacity,
   View,
 } from 'react-native';
-
+import {Text} from '../../components/text/CustomText';
 // import components
 import Avatar from '../../components/avatar/Avatar';
 import {Heading6, Subtitle1, Subtitle2} from '../../components/text/CustomText';

@@ -1,5 +1,5 @@
 import React, {useRef} from 'react'
-import {View, SafeAreaView, Text, StyleSheet, ScrollView} from 'react-native'
+import {View, SafeAreaView, StyleSheet, ScrollView} from 'react-native'
 import {ButtonGroup} from "react-native-elements";
 import {WeekDayRow} from "./availability-weekday-row";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
@@ -15,10 +15,9 @@ import rootStore from "../../../stores";
 import {AvailabilitySetup, DayAndTime, WeekDayAndTime, Timing} from "../../../models/chef/ChefProfileSetup";
 import upsert from "../../../utils/upsert";
 import Button from "../../../components/buttons/Button";
-import Divider from "../../../components/divider/Divider";
 import { remove } from 'lodash';
 import {notifySuccess, notifyWarn} from "../../../components/toast/toast";
-import {inject} from "mobx-react";
+import {Text} from '../../../components/text/CustomText';
 
 const getMarkedDates = (dateOverrides: DayAndTime[]) => {
   let markedDates = {};

@@ -36,6 +36,7 @@
     "mobx-react": "^7.2.0",
     "mobx-sync": "^3.0.0",
     "mobx-utils": "^6.0.4",
+    "moment": "^2.29.4",
     "patch-package": "^6.4.7",
     "react": "17.0.1",
     "react-native": "0.64.2",

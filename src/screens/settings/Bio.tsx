@@ -4,11 +4,11 @@ import {
   SafeAreaView,
   ScrollView, StatusBar,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View
 } from "react-native";
+import {Text} from '../../components/text/CustomText';
 import {Subtitle1, Subtitle2} from "../../components/text/CustomText";
 import Colors from '../../theme/colors';
 import Divider from "../../components/divider/Divider";

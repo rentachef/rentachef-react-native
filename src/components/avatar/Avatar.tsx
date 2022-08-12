@@ -110,10 +110,10 @@ const getAvatarDimensions = (size, rounded) => {
 
 // Avatar Props
 type Props = {
-  borderRadius: number,
-  color: string,
+  borderRadius?: number,
+  color?: string,
   imageUri: string,
-  name: string,
+  name?: string,
   rounded: boolean,
   size: 'small' | 'large' | number,
 };

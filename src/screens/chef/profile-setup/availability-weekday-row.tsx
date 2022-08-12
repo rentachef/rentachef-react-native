@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, ScrollView, TextInput, StyleSheet} from 'react-native';
+import {Text} from '../../../components/text/CustomText';
 import SwitchComponent from '../../components/switch-component';
 
 const styles = StyleSheet.create({

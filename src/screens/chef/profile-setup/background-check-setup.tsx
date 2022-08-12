@@ -1,5 +1,5 @@
 import React, {useState, useRef, useCallback, useEffect} from 'react'
-import {SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image} from "react-native";
+import {SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View, Image} from "react-native";
 import Colors from "../../../theme/colors";
 import {Subtitle2} from "../../../components/text/CustomText";
 import CameraButton from "../../../components/buttons/CameraButton";
@@ -11,6 +11,7 @@ import Button from "../../../components/buttons/Button";
 import {inject, observer} from "mobx-react";
 import {isEmpty} from "lodash";
 import _getBase64 from "../../../utils/imageConverter";
+import {Text} from '../../../components/text/CustomText';
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
