@@ -2,7 +2,7 @@ import React from 'react'
 import {View, StyleSheet, Dimensions, Image, ScrollView, TextInput, Platform, PermissionsAndroid} from 'react-native'
 import {BoldHeading, LightText, SemiBoldHeading, SmallBoldHeading, Text} from "../../../components/text/CustomText";
 import MapView, {Circle, PROVIDER_GOOGLE} from 'react-native-maps';
-import {observer, PropTypes} from "mobx-react";
+import {inject, observer, PropTypes} from "mobx-react";
 import {computed, observable, reaction} from "mobx";
 import CustomLabel from "./slider-custom-label";
 import {Slider} from '@miblanchard/react-native-slider';
@@ -13,6 +13,9 @@ import {ChefMapView} from "./map-view";
 import Geocoder from 'react-native-geocoding';
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
+import rootStore from '../../../stores';
+import {WorkZoneSetup} from "../../../models/chef/ChefProfileSetup";
+import {notifySuccess} from "../../../components/toast/toast";
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -35,7 +38,7 @@ const radiusMap = {
 }
 
 
-@observer
+@inject('stores')
 export default class ChefWorkZoneSetup extends React.Component<any, any> {
   @observable _location: any;
   @observable _mounted: boolean = false;
@@ -43,21 +46,26 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
 
   constructor(props: any) {
     super(props)
+
+    const { workZone } = props.stores.chefProfileStore
+
     this.state = {
       myPosition: {
         accuracy: 0,
         altitude: 0,
         altitudeAccuracy: 0,
         heading: 0,
-        latitude: 0,
-        longitude: 0,
+        latitude: workZone?.latitude || 0,
+        longitude: workZone?.longitude || 0,
         speed: 0
       },
-      radiusState: 300,
-      radius: 0,
+      radiusState: workZone?.radius || 300,
+      radius: workZone ? Object.keys(radiusMap).find(key => radiusMap[key] === workZone.radius) : 0,
       zipCitySearch: "",
       focus: 0
     }
+
+    console.log('WorkZone from Store', props.stores)
     reaction(
       () => this._location, (newLocation) => {
         console.log("newLocation", newLocation)
@@ -131,6 +139,15 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       .catch(error => console.warn(error));
   }
 
+  saveData = () => {
+    this.props.stores.chefProfileStore.setChefWorkZone({
+      radius: this.state.radiusState,
+      latitude: this.state.myPosition.latitude,
+      longitude: this.state.myPosition.longitude
+    });
+    notifySuccess('Workzone saved!')
+  }
+
   render() {
     const { radius, radiusState, focus, myPosition } = this.state;
     const { accuracy, altitude, altitudeAccuracy, heading, latitude, longitude, speed } = this.state.myPosition
@@ -198,7 +215,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         </View>
         <View style={workZoneSetupStyles.buttonContainer}>
           <Button
-            onPress={() => {}}
+            onPress={() => this.saveData()}
             title='Save'
           />
         </View>

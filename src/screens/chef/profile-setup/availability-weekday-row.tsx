@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, ScrollView, TextInput, StyleSheet} from 'react-native';
+import {Text} from '../../../components/text/CustomText';
 import SwitchComponent from '../../components/switch-component';
 
 const styles = StyleSheet.create({
@@ -46,7 +47,7 @@ export function WeekDayRow({day, time, availability, showTimeModal}: any) {
       <TouchableOpacity
         disabled={!availability}
         onPress={() => {
-          showTimeModal()
+          showTimeModal(true)
         }}>
         <TextInput
           autoCapitalize="none"
@@ -63,7 +64,7 @@ export function WeekDayRow({day, time, availability, showTimeModal}: any) {
     <View style={{flex: 1, flexWrap: 'nowrap', justifyContent: 'space-between' }}>
       <View style={{flexDirection: 'row', height: 70, width: '90%', justifyContent: 'center', alignItems: 'baseline', alignSelf: 'center', borderBottomColor: '#e3e3e3', borderBottomWidth: 1 }}>
         <View style={{flexDirection: 'row', flex: .35}}>
-          <SwitchComponent style={{flex: .35}} checked={availability}/>
+          <SwitchComponent style={{flex: .35}} checked={availability} onSwitch={showTimeModal}/>
           <View style={{flex: .5, justifyContent: 'flex-end', alignSelf: 'flex-end'}}><Text style={{flex: .5, alignSelf: 'flex-end'}}>{day}</Text></View>
         </View>
         <View style={{flexDirection: 'row', flex: .5}}>

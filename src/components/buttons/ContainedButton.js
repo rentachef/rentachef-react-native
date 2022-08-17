@@ -8,7 +8,7 @@
 // import dependencies
 import React from 'react';
 import {StyleSheet, View, ViewStyle} from 'react-native';
-import Icon from 'react-native-vector-icons/dist/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FAIcon from 'react-native-vector-icons/dist/FontAwesome';
 
 // import components
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   containedButton: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     minWidth: 64,
     maxWidth: BUTTON_WIDTH,
@@ -75,6 +75,7 @@ type Props = {
   socialIconName: string,
   title: string,
   titleColor: string,
+  titleStyle: StyleSheet,
   rippleColor: string,
   rounded: boolean,
 };
@@ -92,6 +93,7 @@ const ContainedButton = ({
   socialIconName,
   title,
   titleColor,
+  titleStyle,
   rippleColor,
   rounded,
 }: Props) => (
@@ -123,9 +125,10 @@ const ContainedButton = ({
           style={[
             styles.title,
             titleColor && {color: titleColor},
+            titleStyle && titleStyle,
             iconName && styles.pl8,
           ]}>
-          {title !== undefined ? title.toUpperCase() : 'BUTTON'}
+          {title !== undefined ? title : 'BUTTON'}
         </ButtonText>
       </View>
     </TouchableItem>

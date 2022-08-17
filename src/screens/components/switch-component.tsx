@@ -6,13 +6,15 @@ import Colors from '../../theme/colors';
 type SwitchComponentProps = {
   style?: ViewStyle;
   checked: boolean;
+  onSwitch: any;
 };
 
-const SwitchComponent: React.FunctionComponent<SwitchComponentProps> = ({checked, style}) => {
+const SwitchComponent: React.FunctionComponent<SwitchComponentProps> = ({checked, style, onSwitch}) => {
   const [flag, setChecked] = useState(checked);
 
-  const toggleSwitch = () => {
-    setChecked(!checked);
+  const toggleSwitch = (value: boolean) => {
+    setChecked(value);
+    onSwitch(value);
   };
 
   return (
@@ -22,7 +24,7 @@ const SwitchComponent: React.FunctionComponent<SwitchComponentProps> = ({checked
         thumbColor={flag ? Colors.thumbColorOn : Colors.thumbColorOff}
         style={{alignSelf: 'center'}}
         value={flag}
-        onValueChange={(value) => setChecked(value)}
+        onValueChange={(value) => toggleSwitch(value)}
       />
     </View>
   );

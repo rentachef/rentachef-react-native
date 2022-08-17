@@ -21,8 +21,13 @@ const styles = StyleSheet.create({
   },
 });
 
+RACBottomSheet.defaultProps = {
+  size: '60%'
+};
+
 export function RACBottomSheet(props: {
   index: any;
+  size?: string,
   children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | (() => React.ReactNode) | React.ReactNode[] | null | undefined;
   onSheetChanges(index: any): void;
   onClose(): void;
@@ -46,7 +51,7 @@ export function RACBottomSheet(props: {
   }, []);
 
   // variables
-  const snapPoints = useMemo(() => ["60%", "60%"], []);
+  const snapPoints = useMemo(() => [props.size, props.size], []);
 
   // callbacks
   const handleSheetChange = useCallback((index) => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const styles = StyleSheet.create({
   textInputEnabled: {
@@ -18,22 +19,19 @@ const styles = StyleSheet.create({
   }
 });
 
-const DateSelection = ({showTimeModal}) => {
+const DateSelection = ({ date, onDelete, time }) => {
   return (
     <View style={{flex: 1, flexWrap: 'nowrap', justifyContent: 'space-between' }}>
       <View style={{flexDirection: 'row', height: 70, width: '90%', justifyContent: 'center', alignItems: 'baseline', alignSelf: 'center', borderBottomColor: '#e3e3e3', borderBottomWidth: 1 }}>
-        <Text style={{ flex: 1, lineHeight: 40 }}>July 15, 2021</Text>
-        <TouchableOpacity
-          onPress={() => showTimeModal()}
-        >
+        <Text style={{ flex: 1, lineHeight: 40 }}>{date.toDateString()}</Text>
           <TextInput
             autoCapitalize="none"
             editable={false}
-            defaultValue={'04:00pm - 11:00pm'}
+            defaultValue={time}
             keyboardType={"default"}
             style={styles.textInputEnabled}
           />
-        </TouchableOpacity>
+          <Icon name='delete' size={30} style={{ padding: 5 }} onPress={onDelete}/>
       </View>
     </View>
   )

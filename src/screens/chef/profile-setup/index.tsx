@@ -1,17 +1,24 @@
 import React from 'react'
-import {View, StyleSheet, Dimensions, Image, ScrollView} from 'react-native'
-import {LightText, SemiBoldHeading, Subtitle1, Text} from "../../../components/text/CustomText";
+import { View, StyleSheet, Dimensions, Image, ScrollView } from 'react-native'
+import { LightText, SemiBoldHeading, Subtitle1, Text } from "../../../components/text/CustomText";
 import profileBackgroundImage from '../../../assets/profile-setup-background-png.png'
 import TouchableItem from "../../../components/TouchableItem";
 import Colors from '../../../theme/colors';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {inject, observer} from "mobx-react";
 
+@inject('stores')
+@observer
 export default class ChefProfileSetup extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
+
+    console.log('STORES', props.stores.chefProfileStore)
   }
 
   render() {
+    const { chefProfileStore } = this.props.stores;
+
     return (
       <ScrollView style={profileSetupStyles.setupParent} contentContainerStyle={profileSetupStyles.setupParent}>
         <View>
@@ -31,8 +38,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefWorkZoneSetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                {/*<Text style={profileSetupStyles.setupListNumbers}>1</Text> //commented for demo propouses only*/}
-                <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />
+                {!chefProfileStore.workZone && <Text style={profileSetupStyles.setupListNumbers}>1</Text>}
+                {chefProfileStore.workZone && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Set up work zone</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>
@@ -42,7 +49,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefAvailabilitySetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                <Text style={profileSetupStyles.setupListNumbers}>2</Text>
+                {!chefProfileStore.availability && <Text style={profileSetupStyles.setupListNumbers}>2</Text>}
+                {chefProfileStore.availability && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Set up availability</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>
@@ -52,7 +60,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefPaymentSetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                <Text style={profileSetupStyles.setupListNumbers}>3</Text>
+                {!chefProfileStore.bankAccount && <Text style={profileSetupStyles.setupListNumbers}>3</Text>}
+                {chefProfileStore.bankAccount && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Link a bank account</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>
@@ -62,7 +71,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefBackgroundCheckSetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                <Text style={profileSetupStyles.setupListNumbers}>4</Text>
+                {!chefProfileStore.backgroundCheck && <Text style={profileSetupStyles.setupListNumbers}>4</Text>}
+                {chefProfileStore.backgroundCheck && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Background check</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>

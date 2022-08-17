@@ -30,6 +30,7 @@ import Settings from '../screens/settings/SettingsA';
 
 // import colors
 import Colors from '../theme/colors';
+import Bookings from "../screens/chef/bookings/bookings";
 
 // HomeNavigator Config
 
@@ -54,7 +55,7 @@ function HomeNavigator() {
 
           if (route.name === 'Home') {
             iconName = `home${focused ? '' : '-outline'}`;
-          } else if (route.name === 'Search') {
+          } else if (route.name === 'Bookings') {
             iconName = 'magnify';
           } else if (route.name === 'Favorites') {
             iconName = `star${focused ? '' : '-outline'}`;
@@ -75,7 +76,7 @@ function HomeNavigator() {
         },
       }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Bookings" component={Search} />
+      <Tab.Screen name="Bookings" component={Bookings} />
       <Tab.Screen
         name="Cart"
         component={Cart}

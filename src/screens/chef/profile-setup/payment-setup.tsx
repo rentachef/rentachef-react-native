@@ -1,12 +1,14 @@
 import React from 'react'
-import {StyleSheet, TextInput, Text, View, Image} from 'react-native'
-import {CardField} from "@stripe/stripe-react-native";
+import {StyleSheet, TextInput, View, Image} from 'react-native'
+import {Text} from '../../../components/text/CustomText';
 import {inject, observer} from "mobx-react";
 import {Subtitle2} from "../../../components/text/CustomText";
 import Colors from "../../../theme/colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from "../../../components/buttons/Button";
 import paymentSetupImage from '../../../assets/chef-profile-sign-up/check-graphic.png';
+import { isEmpty } from 'lodash';
+import {notifySuccess} from "../../../components/toast/toast";
 
 @inject("stores")
 @observer
@@ -14,13 +16,17 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      focus: undefined
+      focus: undefined,
+      bankAccount: {...props.stores.chefProfileStore.retreiveChefBankAccount() || {
+          bankName: '',
+          accountNumber: '',
+          routingNumber: '',
+          currency: ''
+      }}
     }
   }
 
   componentDidMount() {
-    console.log("this.props.stores", this.props.stores)
-
     if(this.props.stores && this.props.stores.authStore && this.props.stores.authStore.authInfo && this.props.stores.authStore.authInfo.stripeClientToken && !this.props.stores.authStore.authInfo.stripeClientToken.id) {
       this.getStripeClientToken()
     }
@@ -65,8 +71,28 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
     });
   }
 
+  handleChange = (value: string, key: string) => {
+    let { bankAccount } = this.state;
+    bankAccount[key] = value;
+    this.setState({ bankAccount });
+  }
+
+  isValid = () => Object.values(this.state.bankAccount).every((v: any) => !isEmpty(v))
+
+  saveChanges = () => {
+    const { bankName, accountNumber, routingNumber, currency } = this.state.bankAccount;
+    this.props.stores.chefProfileStore.setChefBankAccount({
+      bankName,
+      accountNumber: Number(accountNumber),
+      routingNumber: Number(routingNumber),
+      currency
+    })
+    notifySuccess('Bank Account linked!');
+  }
+
   render() {
-    const { focus } = this.state;
+    const { focus, bankAccount } = this.state;
+
     return (
       <View style={styles.screenContainer}>
         <View style={styles.wrapper}>
@@ -79,9 +105,11 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
         <View style={styles.inputGroup}>
           <Text style={styles.inputGroupItemLabel}>Bank Name</Text>
           <TextInput
-            autoCapitalize="none"
+            autoCapitalize="words"
             placeholder="enter bank name"
             keyboardType={"default"}
+            value={bankAccount.bankName}
+            onChangeText={value => this.handleChange(value, 'bankName')}
             onFocus={() => this.setState({ focus: 0 })}
             onBlur={() => this.setState({ focus: undefined })}
             style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
@@ -91,50 +119,47 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
           <TextInput
             autoCapitalize="none"
             placeholder="enter your account number"
-            keyboardType={"default"}
+            keyboardType={"numeric"}
+            value={bankAccount.accountNumber}
+            onChangeText={value => this.handleChange(value, 'accountNumber')}
             onFocus={() => this.setState({ focus: 1 })}
             onBlur={() => this.setState({ focus: undefined })}
+            maxLength={12}
             style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
             placeholderTextColor={Colors.placeholderColor}
           />
           <Text style={styles.inputGroupItemLabel}>Routing Number</Text>
           <TextInput
             autoCapitalize="none"
-            placeholder="9 characters"
+            placeholder="10 characters"
             keyboardType={"numeric"}
+            value={bankAccount.routingNumber}
+            onChangeText={value => this.handleChange(value, 'routingNumber')}
             onFocus={() => this.setState({ focus: 2 })}
             onBlur={() => this.setState({ focus: undefined })}
-            maxLength={9}
+            maxLength={10}
             style={[styles.inputGroupItem, focus === 2 && styles.inputGroupItemFocused]}
             placeholderTextColor={Colors.placeholderColor}
           />
+          <Text style={styles.inputGroupItemLabel}>Currency</Text>
+          <TextInput
+            autoCapitalize="characters"
+            placeholder="USD"
+            keyboardType={"default"}
+            value={bankAccount.currency}
+            onChangeText={value => this.handleChange(value, 'currency')}
+            onFocus={() => this.setState({ focus: 3 })}
+            onBlur={() => this.setState({ focus: undefined })}
+            maxLength={3}
+            style={[styles.inputGroupItem, focus === 3 && styles.inputGroupItemFocused]}
+            placeholderTextColor={Colors.placeholderColor}
+          />
         </View>
-        {/*The following is for credit cards*/}
-        {/*<CardField
-          postalCodeEnabled={true}
-          placeholder={{
-            number: '4242 4242 4242 4242',
-          }}
-          cardStyle={{
-            backgroundColor: Colors.thumbColorOff,
-            textColor: Colors.grey
-          }}
-          style={{
-            width: '100%',
-            height: 50,
-            marginVertical: 30,
-          }}
-          onCardChange={(cardDetails) => {
-            console.log('cardDetails', cardDetails);
-          }}
-          onFocus={(focusedField) => {
-            console.log('focusField', focusedField);
-          }}
-        />*/}
         <View style={styles.buttonContainer}>
           <Button
-            onPress={() => {}}
+            onPress={() => this.saveChanges()}
             title='Save'
+            disabled={!this.isValid()}
           />
         </View>
       </View>
