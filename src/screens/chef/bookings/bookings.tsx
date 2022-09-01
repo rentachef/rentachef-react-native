@@ -8,63 +8,144 @@ import Avatar from '../../../components/avatar/Avatar';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ChefBooking, {BookingStatus} from "../../../models/chef/ChefBooking";
 import {Text} from '../../../components/text/CustomText';
+import _getColorByStatus from "../../../utils/statusColors";
 
 const buttons = ['Upcoming', 'Past']
 
 const bookingsMock: ChefBooking[] = [
   {
     clientName: 'Kristin Watson',
+    photo: require('../../../assets/img/profile_2.jpeg'),
     address: '2972 Westheimer Rd',
     dateTime: new Date(),
-    status: 'Pending',
+    status: 'Completed',
     diners: 4,
-    cuisine: 'Italian'
+    cuisine: {
+      key: 'italian',
+      label: 'Italian'
+    },
+    paymentMethod: {
+      creditCards: [
+        {
+          cardNumber: 9867,
+          cardBrand: 'visa'
+        }
+      ]
+    },
+    notes: 'Chicken Carbonara\n' +
+      'Red Velvet Cake\n' +
+      'Ceaser Salad\n' +
+      '---\n' +
+      'We have induction stove and oven.',
+    chargeDetails: {
+      hoursWorked: 3,
+      chefHourlyRate: 50,
+      gst_hst: 4.99,
+      serviceFee: 2.99,
+      tip: 5.00,
+      total: 162.98
+    },
+    chef: {
+      name: 'Jenny Wilson',
+      hourlyRate: 50
+    }
   },
   {
     clientName: 'Saylor Frase',
+    photo: require('../../../assets/img/profile_1.jpeg'),
     address: '1047 Mount Pleasant  Rd',
     dateTime: new Date(),
     status: 'Pending',
-    diners: 8
+    diners: 8,
+    cuisine: {
+      key: 'italian',
+      label: 'Italian'
+    },
+    chef: {
+      name: 'Jenny Wilson',
+      hourlyRate: 50
+    }
   },
   {
     clientName: 'Kathryn Murphy',
+    photo: require('../../../assets/img/profile_2.jpeg'),
     address: '2972 Westheimer Rd',
     dateTime: new Date(),
-    status: 'Completed',
-    diners: 2
+    status: 'Confirmed',
+    diners: 2,
+    cuisine: {
+      key: 'italian',
+      label: 'Italian'
+    },
+    chef: {
+      name: 'Jenny Wilson',
+      hourlyRate: 50
+    }
   },
   {
     clientName: 'Davon Lane',
+    photo: require('../../../assets/img/profile_1.jpeg'),
     address: '2972 Westheimer Rd',
     dateTime: new Date(),
     status: 'Completed',
-    diners: 4
+    diners: 4,
+    cuisine: {
+      key: 'italian',
+      label: 'Italian'
+    },
+    paymentMethod: {
+      creditCards: [
+        {
+          cardNumber: 9867,
+          cardBrand: 'visa'
+        }
+      ]
+    },
+    notes: 'Chicken Carbonara\n' +
+      'Red Velvet Cake\n' +
+      'Ceaser Salad\n' +
+      '---\n' +
+      'We have induction stove and oven.',
+    chargeDetails: {
+      hoursWorked: 3,
+      chefHourlyRate: 50,
+      gst_hst: 4.99,
+      serviceFee: 2.99,
+      tip: 5.00,
+      total: 162.98
+    },
+    chef: {
+      name: 'Jenny Wilson',
+      hourlyRate: 50
+    }
   },
   {
     clientName: 'Eleanor Pena',
+    photo: require('../../../assets/img/profile_2.jpeg'),
     address: '2972 Westheimer Rd',
     dateTime: new Date(),
     status: 'Cancelled',
-    diners: 6
+    diners: 6,
+    cuisine: {
+      key: 'italian',
+      label: 'Italian'
+    },
+    chef: {
+      name: 'Jenny Wilson',
+      hourlyRate: 50
+    }
   },
 ]
 
-const _getColorByStatus = (status: BookingStatus) => {
-  switch(status) {
-    case 'Pending':
-      return Colors.warn
-    case 'Completed':
-    case 'Confirmed':
-      return Colors.success
-    case 'Cancelled':
-      return Colors.error
-  }
-}
-
 const Bookings = inject('stores')((props) => {
   const [index, setIndex] = useState(0)
-  const [bookings, setBookings] = useState(props.stores.chefBookingsStore.chefBookings || [])
+  const [bookings, setBookings] = useState(props.stores.chefBookingsStore.chefBookings || bookingsMock)
+
+  const navigateTo = (cb: ChefBooking) => {
+    props.stores.authStore.authInfo.role === 'chef' ?
+      props.navigation.navigate('BookingRequest', { booking: {...cb} }) :
+      props.navigation.navigate('CustomerBooking', { booking: {...cb} })
+  }
 
   return (
     <ScrollView style={styles.screenContainer}>
@@ -81,10 +162,10 @@ const Bookings = inject('stores')((props) => {
         textStyle={styles.btnGroupText}
       />
       <View style={{ flex: 1 }}>
-        {bookingsMock
-          .filter((b: ChefBooking) => index === 0 ? ['Pending', 'Confirmed'].includes(b.status) : b.status !== 'Pending')
+        {bookings
+          .filter((b: ChefBooking) => index === 0 ? ['Pending', 'Confirmed'].includes(b.status) : ['Completed', 'Cancelled'].includes(b.status))
           .map((cb: ChefBooking, i: number) => (
-            <TouchableOpacity key={i} onPress={() => props.navigation.navigate('BookingRequest', { booking: {...cb} })}>
+            <TouchableOpacity key={i} onPress={() => navigateTo(cb)}>
               <Card wrapperStyle={styles.cardWrapper} containerStyle={styles.cardContainer}>
                 <View style={styles.cardPhoto}>
                   <Avatar

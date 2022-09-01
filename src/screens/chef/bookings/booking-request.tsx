@@ -18,6 +18,7 @@ import TimeRangePicker from "../../../components/pickers/TimeRangePicker";
 import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import ConfirmBooking from "./confirm-booking";
 import {Text} from '../../../components/text/CustomText';
+import BookingNotes from "./booking-notes";
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -116,7 +117,7 @@ const BookingRequest = ({ navigation, route })  => {
           <Icon name='silverware-fork-knife' size={30} />
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
             <Text style={{ marginLeft: 20, marginVertical: 5 }}>Cuisine</Text>
-            <Text style={{ margin: 5 }}>{booking.cuisine}</Text>
+            <Text style={{ margin: 5 }}>{booking.cuisine.label}</Text>
           </View>
         </View>
         <TouchableOpacity onPress={() => setModalIndex(1)}>
@@ -204,7 +205,7 @@ const BookingRequest = ({ navigation, route })  => {
             size={'40%'}
             onClose={() => setModalIndex(-1)}
           >
-            {modalIndex === 0 ? <ConfirmBooking onConfirm={confirmBooking} /> : <View>{booking.notes}</View>}
+            {modalIndex === 0 ? <ConfirmBooking onConfirm={confirmBooking} /> : <BookingNotes value={booking.notes} />}
           </RACBottomSheet>
       </SafeAreaView>}
     </ScrollView>

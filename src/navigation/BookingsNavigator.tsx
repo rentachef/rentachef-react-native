@@ -10,6 +10,7 @@ import Bookings from "../screens/chef/bookings/bookings";
 import BookingRequest from "../screens/chef/bookings/booking-request";
 import BookingInvoice from "../screens/chef/bookings/booking-invoice";
 import BookingRateClient from "../screens/chef/bookings/booking-rate-client";
+import CustomerBooking from "../screens/customer/bookings/customer-booking";
 
 const BookingsStack = createStackNavigator()
 
@@ -18,6 +19,7 @@ function ChefBookingsStack() {
     <BookingsStack.Navigator>
       <BookingsStack.Screen name='Bookings' component={Bookings} options={{ title: 'Bookings' }} />
       <BookingsStack.Screen name='BookingRequest' component={BookingRequest} options={{ title: 'Booking Request' }} />
+      <BookingsStack.Screen name='CustomerBooking' component={CustomerBooking} options={{ title: 'Booking Request' }} />
       <BookingsStack.Screen name='BookingInvoice' component={BookingInvoice} options={{ title: 'Create Invoice' }} />
       <BookingsStack.Screen name='BookingInvoiceReceipt' component={BookingInvoice} options={{ title: 'Receipt' }} />
       <BookingsStack.Screen name='ChefClientRate' component={BookingRateClient} options={{ title: 'Rate the Client' }} />

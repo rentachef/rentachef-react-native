@@ -144,4 +144,8 @@ export default class ChefApi {
     return
   }
 
+  async getCustomerSettings() { //TODO
+    return
+  }
+
 }

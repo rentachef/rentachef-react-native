@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   hhBoldSmall: {
     ...fonts.bold,
     fontSize: 24,
-    letterSpacing: -1.5,
+    letterSpacing: .2,
     color: Colors.primaryText,
   },
 
@@ -163,12 +163,13 @@ const styles = StyleSheet.create({
     color: Colors.secondaryText,
   },
   text: {
-    // fontWeight: '400'
+    fontWeight: '400',
     ...fonts.regular,
   },
   lightText: {
     // fontWeight: '400'
     ...fonts.light,
+    color: Colors.secondaryText
   },
   // body1
   paragraph: {
@@ -196,6 +197,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: Colors.secondaryText,
   },
+  headingBold: {
+    ...fonts.bold,
+    fontSize: 18,
+    color: Colors.primaryText,
+    letterSpacing: 0.25
+  },
   buttonText: {
     // fontWeight: '500',
     ...fonts.medium,
@@ -212,6 +219,10 @@ const styles = StyleSheet.create({
     color: Colors.secondaryText,
   },
 });
+
+export const HeadlineBold = ({style, ...props}: any): ReactElement<RNText> => (
+  <RNText style={[styles.headingBold, style]} {...props} />
+)
 
 export const SemiBoldHeading = ({style, ...props}: any): ReactElement<RNText> => (
   <RNText style={[styles.hSemiBoldBig, style]} {...props} />
@@ -265,7 +276,7 @@ export const Subtitle2 = ({style, ...props}: any): ReactElement<RNText> => (
   <RNText style={[styles.subtitle2, style]} {...props} />
 );
 
-export const Text = ({style, ...props}: any): ReactElement<RNText> => (
+export const  Text = ({style, ...props}: any): ReactElement<RNText> => (
   <RNText style={[styles.text, style]} {...props} />
 );
 

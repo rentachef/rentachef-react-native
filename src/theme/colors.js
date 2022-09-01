@@ -199,7 +199,10 @@ const themes = {
 
     //switch colors
     thumbColorOn: '#fff',
-    thumbColorOff: '#fafafa'
+    thumbColorOff: '#fafafa',
+
+    //picker colors
+    pickerBackground: '#F7F7FA'
   }
 };
 

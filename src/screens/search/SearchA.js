@@ -17,7 +17,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TextInput,
+  TextInput, TouchableOpacity,
   View,
 } from 'react-native';
 import Color from 'color';
@@ -37,6 +37,8 @@ import CardContainer from "../../components/cards/CardContainer"
 import Avatar from "../../components/avatar/Avatar"
 import {Card} from "react-native-elements"
 import _ from "lodash"
+import Divider from "../../components/divider/Divider";
+import {Filters} from "../../models/user/filters";
 
 // SearchA Config
 const isRTL = I18nManager.isRTL;
@@ -66,29 +68,35 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   textInput: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.12)',
-    paddingLeft: 8,
-    paddingRight: 51,
-    height: 46,
-    fontSize: 16,
-    textAlignVertical: 'center',
-    textAlign: isRTL ? 'right' : 'left',
+    flex: 1,
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    backgroundColor: '#fff',
+    color: '#424242',
   },
   searchButtonContainer: {
-    position: 'absolute',
-    top: 4,
-    right: 4,
-    borderRadius: 4,
-    backgroundColor: Colors.primaryColor,
-    overflow: 'hidden',
+    flex: 1,
+    flexDirection: 'row'
   },
   searchButton: {
-    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    width: 38,
-    height: 38,
+    borderWidth: 1,
+    borderColor: Colors.backgroundDark,
+    borderRadius: 8
+  },
+  searchFilter: {
+    padding: 10,
+    paddingTop: 15,
+    marginLeft: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.backgroundDark,
+    borderRadius: 8
   },
   categoriesList: {
     paddingBottom: 10,
@@ -162,7 +170,7 @@ export default class SearchA extends Component {
         },
       ],
       cooks: [],
-      searchText: ''
+      searchText: props.searchText || ''
     };
 
     this.getCuisinesList = this.getCuisinesList.bind(this)
@@ -174,6 +182,7 @@ export default class SearchA extends Component {
   }
 
   async getCooksList() {
+    console.log('get cooks list')
     //http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&cuisines=INDO_PAK&cuisines=VIETNAMESE&startIndex=1&endIndex=5
     let url = this.state.searchText ? `http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&startIndex=1&endIndex=5&search=${this.state.searchText}` : 'http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&cuisines=INDO_PAK&cuisines=VIETNAMESE&startIndex=1&endIndex=5'
     let data = await fetch(url).then((res) => {
@@ -195,8 +204,9 @@ export default class SearchA extends Component {
   }
 
   navigateTo = screen => () => {
+    console.log('navigating to', screen)
     const {navigation} = this.props;
-
+    console.log(navigation)
     Keyboard.dismiss();
 
     navigation.navigate(screen);
@@ -213,7 +223,7 @@ export default class SearchA extends Component {
       style={styles.card}>
       <View style={styles.cardOverlay}>
         <TouchableItem
-          onPress={this.navigateTo('Category')}
+          onPress={() => this.navigateTo('Category')}
           style={styles.cardContainer}
           // borderless
         >
@@ -260,6 +270,10 @@ export default class SearchA extends Component {
     </View>
   )
 
+  applyFilters = filters => {
+    console.log('filters to apply', filters)
+  }
+
   render() {
     const {categories} = this.state;
 
@@ -269,46 +283,34 @@ export default class SearchA extends Component {
           backgroundColor={Colors.statusBarColor}
           barStyle="dark-content"
         />
-
-        <View style={styles.titleContainer}>
-          <Heading6 style={styles.titleText}>Search</Heading6>
-        </View>
-
-        <View style={styles.inputContainer}>
+        <View style={{ paddingVertical: 20 }}>
           <View style={styles.searchButtonContainer}>
-            <Button
-              //onPress={this.navigateTo('SearchResults')}
-              onPress={() => {
-                this.getCooksList().then((resp) => {
-                  console.log("resp", resp)
-                })
-              }}
-              title={'O'}
-            >
-              <View style={styles.searchButton}>
-                <Icon
-                  name={SEARCH_ICON}
-                  size={23}
-                  color={Colors.onPrimaryColor}
-                />
-              </View>
-            </Button>
+            <TouchableOpacity style={styles.searchButton} onPress={() => console.log('SearchCuisines')}>
+              <Icon
+                name='magnify'
+                style={{ padding: 10 }}
+                size={23}
+                color={Colors.secondaryColor}
+              />
+              <TextInput
+                placeholder="Search cuisines or dishes"
+                returnKeyType="search"
+                maxLength={50}
+                onTouchStart={() => this.props.navigation.navigate('SearchCuisines')}
+                pointerEvents='none'
+                onChangeText={(value) => {
+                  console.log("value", value)
+                  this.setState({searchText: value})
+                }}
+                value={this.state.searchText}
+                onKeyPress={this.getCooksList}
+              />
+            </TouchableOpacity>
+            <Icon name='filter-outline' size={23} style={styles.searchFilter} onPress={() => this.props.navigation.navigate('ChefFilters', { onSelect: this.applyFilters })} />
           </View>
-          <TextInput
-            placeholder="Search cuisines or dishes"
-            returnKeyType="search"
-            maxLength={50}
-            style={styles.textInput}
-            onChangeText={(value) => {
-              console.log("value", value)
-              this.setState({searchText: value})
-            }}
-            onKeyPress={this.getCooksList}
-          />
-
         </View>
-
-        <View style={styles.container}>
+        <Divider type='full-bleed' style={{ paddingVertical: 20 }} />
+        {/*<View style={styles.container}>
           <FlatList
             data={this.state.cooks}
             showsHorizontalScrollIndicator={false}
@@ -317,7 +319,8 @@ export default class SearchA extends Component {
             renderItem={this.renderCooks}
             contentContainerStyle={styles.categoriesList}
           />
-        </View>
+        </View>*/}
+
       </SafeAreaView>
     );
   }

@@ -6,6 +6,7 @@ export interface AuthProps {
   userDataKey: string;
   stripeClientToken: any;
   ephemeralKey: string;
+  role: 'customer' | 'chef' | '';
 }
 
 class AuthStore {
@@ -93,9 +94,16 @@ class AuthStore {
     userDataKey: '',
     stripeClientToken: {},
     ephemeralKey: '',
+    role: ''
   };
 
   @action setUserAuthInfo = (data: AuthProps, authObj: any) => {
+    console.log('setting Auth info...')
+    if(authObj.attributes.email === 'nicolasmp920@gmail.com') //TODO get role from API
+      authObj['role'] = 'customer'
+    else
+      authObj['role'] = 'chef'
+
     this.authInfo = Object.assign({}, data, authObj)
   }
 }

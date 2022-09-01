@@ -3,7 +3,8 @@ import { BankAccount } from "./ChefProfileSetup";
 export default interface ChefSettings {
   profile: Profile
   bio: Bio
-  wallet: BankAccount | Paypal //TODO for editing bank account number/details
+  preferences: Preferences
+  wallet: BankAccount | Paypal
 }
 
 // PROFILE
@@ -20,8 +21,8 @@ export interface Profile {
 // BIO
 export interface Bio {
   about: string
-  affiliations: string[]
-  specialties: string[]
+  affiliations: string
+  specialties: string
   photosUris: string[]
   cuisines: Cuisine[] //TODO add search filter in the component
   covid: Covid

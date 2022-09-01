@@ -51,7 +51,7 @@ export function RACBottomSheet(props: {
   }, []);
 
   // variables
-  const snapPoints = useMemo(() => [props.size, props.size], []);
+  const snapPoints = useMemo(() => [props.size, props.size, props.size, props.size], []);
 
   // callbacks
   const handleSheetChange = useCallback((index) => {

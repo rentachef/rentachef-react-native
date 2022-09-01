@@ -18,23 +18,28 @@ const styles = StyleSheet.create({
   mh16: {
     marginHorizontal: 16
   },
+  mv15: {
+    marginVertical: 15
+  }
 });
 
 // Divider Props
 type Props = {
   marginLeft?: number,
+  marginVertical?: boolean,
   type: 'full-bleed' | 'inset' | 'middle',
   dividerStyle?: ViewStyle
 };
 
 // Divider
-const Divider = ({marginLeft, type, dividerStyle}: Props) => (
+const Divider = ({marginLeft, marginVertical, type, dividerStyle}: Props) => (
   <View
     style={[
       styles.container,
       type === 'inset' && {marginLeft},
       type === 'middle' && styles.mh16,
-      dividerStyle && {...dividerStyle}
+      dividerStyle && {...dividerStyle},
+      marginVertical && styles.mv15
     ]}
   />
 );
