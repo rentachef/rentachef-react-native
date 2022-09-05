@@ -25,4 +25,5 @@ export interface CreditCard {
 export interface CustomerLocation {
   address: string
   city: string
+  postalCode: number
 }

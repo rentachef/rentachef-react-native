@@ -3,7 +3,7 @@ import { BankAccount } from "./ChefProfileSetup";
 export default interface ChefSettings {
   profile: Profile
   bio: Bio
-  preferences: Preferences
+  //preferences: Preferences
   wallet: BankAccount | Paypal
 }
 

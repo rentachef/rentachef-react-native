@@ -1,0 +1,38 @@
+{
+  "profile": {
+    "fullName": "Nico Mico",
+    "email": "nicolas.mico.91@gmail.com",
+    "phoneNumber": "1169417942",
+    "address": "Juana Azurduy 1553 6A",
+    "city": "Buenos Aires",
+    "postalCode": "1429",
+    "phoneCountry": "AR",
+    "notifications": true,
+    "preferences": {
+      "days": [
+        {
+          "key": "monday",
+          "value": "Monday"
+        },
+        {
+          "key":"friday",
+          "value":"Friday"
+        }
+      ],
+      "dayTime": {
+        "key": "evening",
+        "value": "Evening"
+      },
+      "cuisines": [
+        {
+          "key": "bbq",
+          "label": "BBQ"
+        },
+        {
+          "key": "mexican",
+          "label": "Mexican"
+        }
+      ]
+    }
+  }
+}

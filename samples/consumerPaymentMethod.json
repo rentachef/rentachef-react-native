@@ -1,0 +1,11 @@
+{
+  "creditCards": [
+    {
+      "id": 1,
+      "cardNumber": "1234",
+      "cardBrand": "visa"
+    }
+  ],
+  "payPal": null //TODO,
+  "applePay": null //TODO
+}
