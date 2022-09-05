@@ -189,7 +189,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 </View>
                 <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
-                    onPress={() => navigation.navigate('ChefClientRate', { total: booking.chargeDetails.total })}
+                    onPress={() => navigation.navigate('ChefClientRate', { total: booking.chargeDetails.total, chef: booking.chef })}
                     title='Rate your Order'
                     color={Colors.backgroundMedium}
                   />

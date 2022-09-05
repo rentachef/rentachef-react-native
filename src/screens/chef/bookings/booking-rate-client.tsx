@@ -17,6 +17,7 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
   const [total, setTotal] = useState(route?.params.total)
   const [modalIndex, setModalIndex] = useState(-1)
   const { role } = stores.authStore.authInfo
+  const { chef } = route?.params
 
   useEffect(() => {console.log(selectedTip)}, [selectedTip])
 
@@ -39,8 +40,16 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
             rounded
             size={80}
           />
-          <Heading6>Rate your experience</Heading6>
-          <Subtitle2>They'll not see your name, photo or comments.</Subtitle2>
+          {chef ? (
+            <>
+              <Heading6>How was {chef.name}'s service?</Heading6>
+              <Subtitle2>They'll get your feedback, along with your name and photo.</Subtitle2>
+            </>) : (
+              <>
+                <Heading6>Rate your experience</Heading6>
+                <Subtitle2>They'll not see your name, photo or comments.</Subtitle2>
+              </>
+            )}
           <Rating
             onFinishRating={() => {}}
             startingValue={0}
