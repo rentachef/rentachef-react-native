@@ -108,10 +108,15 @@ const specialtiesPhotoUris = [
 ]
 
 const cuisines: Cuisine[] = [
-  { key: 'Asian', label: 'Asian' },
-  { key: 'BBQ', label: 'BBQ' },
-  { key: 'Mexican', label: 'Mexican' },
-  { key: 'Italian', label: 'Italian' }
+  { key: 'asian', label: 'Asian' },
+  { key: 'bbq', label: 'BBQ' },
+  { key: 'mexican', label: 'Mexican' },
+  { key: 'italian', label: 'Italian' },
+  { key: 'american', label: 'American' },
+  { key: 'french', label: 'French' },
+  { key: 'spanish', label: 'Spanish' },
+  { key: 'dessert', label: 'Dessert' },
+  { key: 'greek', label: 'Greek' }
 ]
 
 const covid = true
@@ -131,12 +136,14 @@ const Bio = inject('stores')((props) => {
     //props.stores.chefSettingsStore.setChefBio({...props.stores.chefSettingsStore.bio, covid: { fullVaccines: false, testDate: undefined }, specialties: []})
     if(!!bio.cuisines)
       setSelectedChips(props.stores.chefSettingsStore.bio?.cuisines?.map((c: Cuisine) => c.key))
-    if(!!bio.specialties)
-      setSpecialtiesPhotos(bio.specialties.map((url: string, id: number) => {
+    if(!!bio.photosUris)
+      setSpecialtiesPhotos(bio.photosUris.map((url: string, id: number) => {
         return { id, url }
       }))
     if(!bio.covid)
       setBio({...bio, covid: { fullVaccines: false, testDate: undefined } }) //initialize covid
+
+    console.log(bio)
   }, []);
 
   const onSelectChip = (item: string) => {
@@ -180,17 +187,18 @@ const Bio = inject('stores')((props) => {
   }
 
   const saveChanges = async () => {
+    console.log('saving...')
     //getting base64 of photos
-    let specialties: string[] = [];
+    let photosUris: string[] = [];
     for(var sp of specialtiesPhotos) {
       let base64 = await _getBase64(sp.url)
-      specialties.push(base64)
+      photosUris.push(base64)
     }
 
     props.stores.chefSettingsStore.setChefBio({
       ...bio,
       cuisines: cuisines.filter((c: Cuisine) => selectedChips.includes(c.key)),
-      specialties
+      photosUris
     })
     notifySuccess('Bio data saved!')
   }
@@ -231,14 +239,14 @@ const Bio = inject('stores')((props) => {
         </View>
         <Divider type='full-bleed' />
         <View style={styles.item}>
-          <Subtitle1>Specialities</Subtitle1>
+          <Subtitle1>Specialties</Subtitle1>
           <TextInput
             placeholder='Add your specialties separated by commas.'
             placeholderTextColor={Colors.placeholderTextColor}
             multiline={true}
             numberOfLines={3}
-            value={bio.specialities}
-            onChangeText={v => setBio({...bio, specialities: v})}
+            value={bio.specialties}
+            onChangeText={v => setBio({...bio, specialties: v})}
             style={[styles.inputGroupItem, focus === 2 && styles.inputGroupItemFocused]}
             onFocus={() => setFocus(2)}
             onBlur={() => setFocus(undefined)}

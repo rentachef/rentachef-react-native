@@ -1,0 +1,26 @@
+{
+  "clientName": "Kristin Watson",
+  "photo": "http://myPhoto.png",
+  "address": "2972 Westheimer Rd",
+  "dateTime": "2022-08-05T16:00:00.000Z",
+  "status": "Pending",
+  "diners": 4,
+  "cuisine": {
+    "key": "italian",
+    "label": "Italian"
+  },
+  "paymentMethod": {
+    "creditCard": {
+      "cardNumber": 9867,
+      "cardBrand": "visa"
+    },
+    "payPal": null, //TODO
+    "applePay": null //TODO
+  },
+  "hourlyRate": 50,
+  "total": 150,
+  "dish": {
+    "key": "hamburger",
+    "label": "Hamburger"
+  }
+}

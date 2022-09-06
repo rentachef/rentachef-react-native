@@ -22,6 +22,7 @@ const AVATAR_ICON = Platform.OS === 'ios' ? 'ios-person' : 'md-person';
 const AVATAR_S = 40;
 const AVATAR_M = 56;
 const AVATAR_L = 80;
+const AVATAR_XL = 120;
 
 // Avatar Styles
 const styles = StyleSheet.create({
@@ -36,6 +37,10 @@ const styles = StyleSheet.create({
   largeAvatar: {
     width: AVATAR_L,
     height: AVATAR_L,
+  },
+  xlAvatar: {
+    width: AVATAR_XL,
+    height: AVATAR_XL
   },
   rounded: {
     borderRadius: AVATAR_M / 2,
@@ -90,7 +95,7 @@ const renderAvatar = (name, size) => {
           styles.initials,
           (size === 'small' || (size > 30 && size <= 50)) &&
             styles.smallInitials,
-          (size === 'large' || size > 80) && styles.largeInitials,
+          (size === 'large' || size > 80 || size === 'xl') && styles.largeInitials,
         ]}>
         {initials}
       </Text>
@@ -115,7 +120,7 @@ type Props = {
   imageUri: string,
   name?: string,
   rounded: boolean,
-  size: 'small' | 'large' | number,
+  size: 'small' | 'large' | 'xl' | number,
 };
 
 // Avatar
@@ -136,6 +141,7 @@ const Avatar = ({
           styles.mediumAvatar,
           size === 'small' && styles.smallAvatar,
           size === 'large' && styles.largeAvatar,
+          size === 'xl' && styles.xlAvatar,
           rounded && styles.rounded,
           rounded && size === 'small' && {borderRadius: AVATAR_S / 2},
           rounded && size === 'large' && {borderRadius: AVATAR_L / 2},
@@ -153,6 +159,7 @@ const Avatar = ({
         styles.mediumAvatar,
         size === 'small' && styles.smallAvatar,
         size === 'large' && styles.largeAvatar,
+        size === 'xl' && styles.xlAvatar,
         rounded && styles.rounded,
         rounded && size === 'small' && {borderRadius: AVATAR_S / 2},
         rounded && size === 'large' && {borderRadius: AVATAR_L / 2},

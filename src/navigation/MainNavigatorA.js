@@ -91,11 +91,13 @@ import Authenticator from 'aws-amplify-react-native';
 import ChefNavigator from "./ChefNavigator"
 import ChefSetupNavigator from "./ChefSetupNavigator"
 import PreSignUp from "../screens/signup/pre-sign-up"
+import CustomerNavigator from "./CustomerNavigator";
+import {inject} from "mobx-react";
 //import SignUp from 'aws-amplify-react-native';
 
 // MainNavigatorA
-function MainNavigatorA(props) {
-  console.log('props', props)
+const MainNavigatorA = inject('stores')((props) => {
+  console.log('props', props.stores.authStore)
   return (
     //<Authenticator>
       <NavigationContainer>
@@ -182,7 +184,8 @@ function MainNavigatorA(props) {
 
           <Stack.Screen
             name="Home"
-            component={ChefNavigator}
+            //component={ChefNavigator}
+            component={props.stores.authStore.authInfo.role === 'customer' ? CustomerNavigator : ChefNavigator}
             options={{headerShown: false}}
             screenOptions={{headerShown: false}}
           />
@@ -319,6 +322,6 @@ function MainNavigatorA(props) {
 
     </NavigationContainer>
   );
-}
+})
 
 export default MainNavigatorA;

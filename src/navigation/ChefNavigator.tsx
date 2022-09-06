@@ -38,9 +38,9 @@ import ChefProfileSetupStack from "./ChefSetupNavigator";
 import {createNativeStackNavigator} from "react-native-screens/native-stack";
 import Earnings from "../screens/chef/dashboard/earnings";
 import Reviews from "../screens/chef/dashboard/reviews";
-import ChefSettingsStack from "./ChefSettingsNavigator";
+import ChefSettingsStack from "./SettingsNavigator";
 import Bookings from "../screens/chef/bookings/bookings";
-import ChefBookingsStack from "./ChefBookingsNavigator";
+import ChefBookingsStack from "./BookingsNavigator";
 
 // HomeNavigator Config
 
@@ -59,8 +59,8 @@ function ChefDashboardStackScreen() {
   return (
     <ChefDashboardStack.Navigator>
       <ChefDashboardStack.Screen name="ChefDashboard" component={ChefDashboard} options={{headerShown: false}}/>
-      <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: 'Back'}} />
-      <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: 'Back'}} />
+      <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
+      <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
     </ChefDashboardStack.Navigator>
   );
 }

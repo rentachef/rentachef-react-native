@@ -28,7 +28,7 @@ const ConfirmBooking = (props) => {
           countTextStyle={{ color:  Colors.primaryText }}
         />
       </View>
-      <View style={{ ...styles.buttonContainer}}>
+      <View style={styles.buttonContainer}>
         <Button
           title='Confirm Booking'
           onPress={() =>props.onConfirm(estimate)}

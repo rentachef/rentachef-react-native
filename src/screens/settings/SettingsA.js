@@ -30,6 +30,7 @@ import { Auth } from 'aws-amplify'
 import Colors from '../../theme/colors';
 import {inject, observer} from 'mobx-react'
 import ContainedButton from "../../components/buttons/ContainedButton";
+import SwitchComponent from "../components/switch-component";
 
 // SettingsA Config
 const isRTL = I18nManager.isRTL;
@@ -138,6 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   title: {
+    alignSelf: 'center',
     paddingTop: 5,
     fontSize: 14
   }
@@ -184,12 +186,17 @@ const Setting = ({icon, title, onPress, extraData}: Props) => (
 @observer
 export default class SettingsA extends Component {
   userEmail = '';
+  menuItems = [];
+  role = '';
   constructor(props) {
     super(props);
     this.state = {
-      notificationsOn: true,
+      notificationsOn: true
     };
 
+    this.role = props.stores.authStore.authInfo.role;
+    this.menuItems = this.role === 'chef' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
+    console.log(this.menuItems)
     this.userEmail = props.stores.authStore.authInfo.attributes.email;
   }
 
@@ -225,7 +232,7 @@ export default class SettingsA extends Component {
   };
 
   render() {
-    //{notificationsOn} = this.state;
+    const {notificationsOn} = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
@@ -262,7 +269,7 @@ export default class SettingsA extends Component {
 
           <ContainedButton
             onPress={() => alert('yay')}
-            title='Invite other chefs'
+            title={this.role === 'chef' ? 'Invite other chefs' : 'Invite your firends, Get $15'}
             titleColor={Colors.black}
             titleStyle={{
               fontWeight: 'bold',
@@ -282,12 +289,19 @@ export default class SettingsA extends Component {
           <SafeAreaView style={styles.container}>
             <SectionList
               nestedScrollEnabled
-              sections={[{ title: 'Account', data:['Bio', 'Wallet', 'Notifications']}]}
+              sections={[{ title: 'Account', data: this.menuItems }]}
               keyExtractor={(item, index) => item + index}
               renderItem={({ item }) => (
-                <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
-                  <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
-                </TouchableOpacity>
+                item === 'Notifications' ? (
+                  <View style={styles.item}>
+                    <Text style={styles.title}>Notifications</Text>
+                    <SwitchComponent style={{ alignSelf: 'center' }} checked={notificationsOn} onSwitch={v => this.setState({ notificationsOn: v })}/>
+                  </View>
+                  ) : (
+                  <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
+                    <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                  </TouchableOpacity>
+                  )
               )}
               renderSectionHeader={({ section: { title } }) => (
                 <Text style={styles.header}>{title}</Text>
@@ -302,7 +316,7 @@ export default class SettingsA extends Component {
               keyExtractor={(item, index) => item + index}
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.item} onPress={item === 'Log out' && (() => this.logout()) || (() => {})}>
-                  <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                  <Text style={styles.title}>{item}</Text>{item !== 'Log out' && <Icon color={Colors.primaryColor} name='chevron-right' size={30} />}
                 </TouchableOpacity>
               )}
               renderSectionHeader={({ section: { title } }) => (

@@ -117,13 +117,16 @@ const styles = StyleSheet.create({
 // EditProfileA
 @inject('stores')
 export default class EditProfileA extends Component {
+  role = ''
   constructor(props) {
     super(props);
+
+    this.role = props.stores.authStore.authInfo.role
+
     this.state = {
-      profile: {...props.stores.chefSettingsStore.profile},
+      profile: this.role === 'chef' ? {...props.stores.chefSettingsStore.profile} : {...props.stores.customerSettingsStore.profile},
       focus: false
     };
-    console.log('SETTINGS STORE', props.stores.chefSettingsStore.profile);
   }
 
   goBack = () => {
@@ -136,7 +139,12 @@ export default class EditProfileA extends Component {
   }
 
   saveChanges = () => {
-    this.props.stores.chefSettingsStore.setChefProfile(this.state.profile);
+    const { profile } = this.state
+
+    if(this.role === 'chef')
+      this.props.stores.chefSettingsStore.setChefProfile(profile);
+    else
+      this.props.stores.customerSettingsStore.setCustomerProfile(profile);
     notifySuccess('Profile data saved!')
   }
 

@@ -13,11 +13,11 @@ function ChefProfileSetupStack() {
   return (
     <ProfileSetupStack.Navigator>
       <ProfileSetupStack.Screen name='ChefProfileSetup' component={ChefProfileSetup} options={{ headerShown: false }} />
-      <ProfileSetupStack.Screen name='ChefWorkZoneSetup' component={ChefWorkZoneSetup} options={{ title: 'Set up work zone' }} />
-      <ProfileSetupStack.Screen name='ChefAvailabilitySetup' component={ChefAvailabilitySetup} options={{ title: 'Set up availability' }} />
-      <ProfileSetupStack.Screen name='ChefPaymentSetup' component={ChefPaymentSetup} options={{ title: 'Link a bank account' }} />
-      <ProfileSetupStack.Screen name='ChefBackgroundCheckSetup' component={ChefBackgroundCheckSetup} options={{ title: 'Background Check' }} />
-      <ProfileSetupStack.Screen name='ChefBackgroundPendingApproval' component={ChefBackgroundPendingApproval} options={{ title: 'Pending Approval' }} />
+      <ProfileSetupStack.Screen name='ChefWorkZoneSetup' component={ChefWorkZoneSetup} options={{ title: 'Set up work zone', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefAvailabilitySetup' component={ChefAvailabilitySetup} options={{ title: 'Set up availability', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefPaymentSetup' component={ChefPaymentSetup} options={{ title: 'Link a bank account', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefBackgroundCheckSetup' component={ChefBackgroundCheckSetup} options={{ title: 'Background Check', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefBackgroundPendingApproval' component={ChefBackgroundPendingApproval} options={{ title: 'Pending Approval', headerTitleAlign: 'center' }} />
     </ProfileSetupStack.Navigator>
   )
 }

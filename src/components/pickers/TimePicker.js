@@ -5,7 +5,7 @@ import {View} from "react-native";
 const TimePicker = ({ time, onChange }) => {
   console.log(time);
   return (
-    <DatePicker mode='time' date={time} onDateChange={onChange} />
+    <DatePicker mode='time' date={time} minuteInterval={30} onDateChange={onChange} />
   );
 };
 

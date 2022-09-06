@@ -205,7 +205,7 @@ export default class ChefAvailability extends React.Component<any, any> {
           </View>
         </View>
         {modalIndex !== -1 &&
-          <SafeAreaView style={{flex: 2, position: 'absolute', width: '100%', height: '100%'}}>
+          <SafeAreaView style={{ flex: 2, position: 'absolute', width: '100%', height: '100%' }}>
             {
               <RACBottomSheet
                 onSheetChanges={(index: any) => {
@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     paddingHorizontal: 24,
+    marginBottom: 10,
     backgroundColor: Colors.background,
     alignSelf: 'flex-end'
   }

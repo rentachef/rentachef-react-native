@@ -2,7 +2,7 @@ import {action, makeAutoObservable, observable} from 'mobx';
 import ChefApi from "../../services/chef/chef-api";
 import ChefSettings, {
   Profile,
-  Bio
+  Bio, Preferences
 } from "../../models/chef/ChefSettings";
 import {BankAccount} from "../../models/chef/ChefProfileSetup";
 
@@ -33,12 +33,18 @@ class ChefSettingsStore {
 
   @observable bio?: Bio
 
-  @action setChefProfile = (data: any) => {
-    this.profile = data
+  @action setChefProfile = (data: any) => this.profile = data
+
+  @action setChefBio = (data: any) => this.bio = data
+
+  //TODO remove
+  @action getChefBio = () => {
+    return this.bio
   }
 
-  @action setChefBio = (data: any) => {
-    this.bio = data
+  //TODO remove
+  @action getChefProfile = () => {
+    return this.profile
   }
 }
 
