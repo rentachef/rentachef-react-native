@@ -66,7 +66,7 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
             textAlignVertical='top'
           />
         </View>
-        {role === 'customer' &&
+        {role === 'Consumer' &&
         <View>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <HeadlineBold>Add a Tip</HeadlineBold>

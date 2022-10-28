@@ -33,9 +33,8 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   })
 
   useEffect(() => {
-    console.log(props.stores.chefProfileStore.chef)
     let bgCheck = props.stores.chefProfileStore.retrieveChefBackgroundCheck();
-    if(!!bgCheck) {
+    if(!isEmpty(bgCheck)) {
       setBackgroundCheck(bgCheck)
       if(!bgCheck.approved)
         props.navigation.navigate('ChefBackgroundPendingApproval')
@@ -60,7 +59,7 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
 
   const saveChanges = async () => {
     const { legalName, socialNumber, idFrontUri, idBackUri } = backgroundCheck
-    props.stores.chefProfileStore.setChefBackgroundCheck({
+    await props.stores.chefProfileStore.saveChefBackgroundCheck({
       legalName,
       socialNumber: Number(socialNumber),
       idFrontUri: await _getBase64(idFrontUri),
@@ -70,7 +69,7 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
     notifySuccess('Background Check saved!')
   }
 
-  const isValid = Object.values(backgroundCheck).every((v: any) => !isEmpty(v)) && backgroundCheck.socialNumber.length === 9
+  const isValid = Object.values(backgroundCheck).every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
 
   return (
     <View style={styles.screenContainer}>

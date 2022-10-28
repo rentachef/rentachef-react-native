@@ -16,6 +16,7 @@ import Button from "../../../components/buttons/Button";
 import rootStore from '../../../stores';
 import {WorkZoneSetup} from "../../../models/chef/ChefProfileSetup";
 import {notifySuccess} from "../../../components/toast/toast";
+import {ProfileSetupType} from "../../../stores/chefStores/profile-setup";
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -140,7 +141,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   }
 
   saveData = () => {
-    this.props.stores.chefProfileStore.setChefWorkZone({
+    this.props.stores.chefProfileStore.saveChefWorkZone({
       radius: this.state.radiusState,
       latitude: this.state.myPosition.latitude,
       longitude: this.state.myPosition.longitude

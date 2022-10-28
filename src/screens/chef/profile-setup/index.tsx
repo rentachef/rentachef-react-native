@@ -6,18 +6,19 @@ import TouchableItem from "../../../components/TouchableItem";
 import Colors from '../../../theme/colors';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {inject, observer} from "mobx-react";
+import {isEmpty} from "lodash";
 
 @inject('stores')
 @observer
 export default class ChefProfileSetup extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
-
-    console.log('STORES', props.stores.chefProfileStore)
   }
 
   render() {
     const { chefProfileStore } = this.props.stores;
+
+    console.log('chefProfileStore', chefProfileStore.workZone)
 
     return (
       <ScrollView style={profileSetupStyles.setupParent} contentContainerStyle={profileSetupStyles.setupParent}>
@@ -38,8 +39,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefWorkZoneSetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                {!chefProfileStore.workZone && <Text style={profileSetupStyles.setupListNumbers}>1</Text>}
-                {chefProfileStore.workZone && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
+                {isEmpty(chefProfileStore.workZone) && <Text style={profileSetupStyles.setupListNumbers}>1</Text>}
+                {!isEmpty(chefProfileStore.workZone) && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Set up work zone</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>
@@ -49,8 +50,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefAvailabilitySetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                {!chefProfileStore.availability && <Text style={profileSetupStyles.setupListNumbers}>2</Text>}
-                {chefProfileStore.availability && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
+                {isEmpty(chefProfileStore.availability) && <Text style={profileSetupStyles.setupListNumbers}>2</Text>}
+                {!isEmpty(chefProfileStore.availability) && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Set up availability</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>
@@ -60,8 +61,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefPaymentSetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                {!chefProfileStore.bankAccount && <Text style={profileSetupStyles.setupListNumbers}>3</Text>}
-                {chefProfileStore.bankAccount && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
+                {isEmpty(chefProfileStore.bankAccount) && <Text style={profileSetupStyles.setupListNumbers}>3</Text>}
+                {!isEmpty(chefProfileStore.bankAccount) && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Link a bank account</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>
@@ -71,8 +72,8 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefBackgroundCheckSetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                {!chefProfileStore.backgroundCheck && <Text style={profileSetupStyles.setupListNumbers}>4</Text>}
-                {chefProfileStore.backgroundCheck && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
+                {isEmpty(chefProfileStore.backgroundCheck) && <Text style={profileSetupStyles.setupListNumbers}>4</Text>}
+                {!isEmpty(chefProfileStore.backgroundCheck) && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Background check</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>

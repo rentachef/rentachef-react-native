@@ -124,7 +124,7 @@ export default class EditProfileA extends Component {
     this.role = props.stores.authStore.authInfo.role
 
     this.state = {
-      profile: this.role === 'chef' ? {...props.stores.chefSettingsStore.profile} : {...props.stores.customerSettingsStore.profile},
+      profile: this.role === 'Cook' ? {...props.stores.chefSettingsStore.profile} : {...props.stores.customerSettingsStore.profile},
       focus: false
     };
   }
@@ -141,7 +141,7 @@ export default class EditProfileA extends Component {
   saveChanges = () => {
     const { profile } = this.state
 
-    if(this.role === 'chef')
+    if(this.role === 'Cook')
       this.props.stores.chefSettingsStore.setChefProfile(profile);
     else
       this.props.stores.customerSettingsStore.setCustomerProfile(profile);

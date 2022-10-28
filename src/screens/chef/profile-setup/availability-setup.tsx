@@ -16,7 +16,7 @@ import {AvailabilitySetup, DayAndTime, WeekDayAndTime, Timing} from "../../../mo
 import upsert from "../../../utils/upsert";
 import Button from "../../../components/buttons/Button";
 import { remove } from 'lodash';
-import {notifySuccess, notifyWarn} from "../../../components/toast/toast";
+import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
 import {Text} from '../../../components/text/CustomText';
 
 const getMarkedDates = (dateOverrides: DayAndTime[]) => {
@@ -41,16 +41,16 @@ export default class ChefAvailability extends React.Component<any, any> {
 
     const availability = rootStore.chefProfileStore.retrieveChefAvailability();
 
-    console.log('AVAILABILITY FROM STORE', JSON.stringify(availability));
+    console.log('chefProfileStore.availability', availability)
 
     this.state = {
       selectedIndex: 0,
       modalIndex: -1, //zero is to hide modal by default, changing to 1 when user selects time,
       modalView: '',
-      dateOverrides: availability ? [...availability.dateOverrides] : [],
-      calendarDates: availability ? getMarkedDates([...availability.dateOverrides]) : {},
-      weeklyHours: availability ? [...availability.weeklyHours] : [],
-      timeZone: availability ? availability.timeZone : 'Eastern Standard Time (EST)',
+      dateOverrides: availability?.dateOverrides ? [...availability.dateOverrides] : [],
+      calendarDates: availability?.dateOverrides ? getMarkedDates([...availability.dateOverrides]) : {},
+      weeklyHours: availability?.weeklyHours ? [...availability.weeklyHours] : [],
+      timeZone: availability?.timeZone ? availability.timeZone : 'Eastern Standard Time (EST)',
       timeForDay: '',
       selectedDate: undefined
     }
@@ -133,8 +133,9 @@ export default class ChefAvailability extends React.Component<any, any> {
       timeZone
     };
     console.log(JSON.stringify(availabilitySetup));
-    rootStore.chefProfileStore.setChefAvailability(availabilitySetup);
-    notifySuccess('Availability saved!');
+    rootStore.chefProfileStore.saveChefAvailability(availabilitySetup)
+      .then(_ => notifySuccess('Availability saved!'))
+      .catch(err => notifyError(`An error ocurred: ${err.message}`))
   }
 
   isValid = () => this.state.weeklyHours.length > 0 || this.state.dateOverrides.length > 0

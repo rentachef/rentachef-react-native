@@ -1,18 +1,28 @@
 import {action, makeAutoObservable, observable} from 'mobx';
+import ChefApi from "../services/chef/chef-api";
 
 export interface AuthProps {
+  userId: string;
   username: string;
   password: string;
   userDataKey: string;
   stripeClientToken: any;
   ephemeralKey: string;
-  role: 'customer' | 'chef' | '';
+  role: 'Consumer' | 'Cook' | '';
+}
+
+interface UserApiData {
+  role: '',
+  userId: '',
+  password: ''
 }
 
 class AuthStore {
   rootStore: any;
-  constructor(/*rootStore: any*/) {
+
+  constructor(rootStore: any) {
     makeAutoObservable(this)
+    this.rootStore = rootStore
   }
 
   /*
@@ -89,6 +99,7 @@ class AuthStore {
 }
   * */
   @observable authInfo: AuthProps = {
+    userId: '',
     username: '',
     password: '',
     userDataKey: '',
@@ -98,13 +109,46 @@ class AuthStore {
   };
 
   @action setUserAuthInfo = (data: AuthProps, authObj: any) => {
-    console.log('setting Auth info...')
-    if(authObj.attributes.email === 'nicolasmp920@gmail.com') //TODO get role from API
-      authObj['role'] = 'customer'
-    else
-      authObj['role'] = 'chef'
-
     this.authInfo = Object.assign({}, data, authObj)
+  }
+
+  @action setApiData = (data: UserApiData) => {
+    this.authInfo['role'] = data.role
+    this.authInfo['userId'] = data.userId
+    this.authInfo['password'] = data.password
+  }
+
+  @action login = async (email: string, password: string) => {
+    console.log('loggin in')
+    const apiUser = await this.rootStore.chefApi.loginToApi(email, password)
+    this.rootStore.chefApi.setToken(apiUser.tokenSession)
+    this.setApiData({
+      role: apiUser.data.userType,
+      userId: apiUser.data._id,
+      password: ''
+    })
+    console.log('authInfo after change', this.authInfo)
+    return 'SUCCESS'
+  }
+
+  @action register = async () => {
+    console.log('registering user', this.authInfo)
+    const registeredUser = await this.rootStore.chefApi.registerUser(this.authInfo.username, this.authInfo.password, this.authInfo.role, this.authInfo.userDataKey)
+    if(registeredUser.ok) {
+      try {
+        this.rootStore.chefApi.setBasic(this.authInfo.userDataKey)
+        await this.login(this.authInfo.username, this.authInfo.password)
+        return 'SUCCESS'
+      } catch(e) {
+        console.log('ERROR ON LOGIN', e)
+        return 'LOGIN_FAILED'
+      }
+    } else
+      return 'REGISTRATION_FAILED'
+  }
+
+  @action logout = () => {
+    this.rootStore.chefApi.logout()
   }
 }
 

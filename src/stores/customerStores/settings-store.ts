@@ -7,23 +7,21 @@ import ChefSettings, {
 import {BankAccount} from "../../models/chef/ChefProfileSetup";
 import {CustomerLocation, PaymentMethods} from "../../models/user/CustomerSettings";
 
-const chefAPI = new ChefApi()
-
 class CustomerSettingsStore {
   rootStore: any;
-  chefApi: any;
 
-  constructor(/*rootStore: any*/) {
+  constructor(rootStore: any) {
     makeAutoObservable(this)
-    this.chefApi = new ChefApi()
-    chefAPI.setup()
+    this.rootStore = rootStore
   }
 
   getCustomerSettings = () => {
-    chefAPI.getCustomerSettings().then((r: any) => {
+    this.rootStore.chefApi.getCustomerSettings().then((r: any) => {
       console.log("r", r)
       if(!!r) {
         this.setCustomerProfile(r?.data.profile)
+        this.setCustomerPreferences(r?.data.preferences)
+        this.setCustomerLocation(r?.data.location)
       }
       return r
     })
@@ -37,7 +35,7 @@ class CustomerSettingsStore {
 
   @observable defaultLocation?: CustomerLocation
 
-  @action setCustomerProfile = (data: any) => this.profile = data
+  @action setCustomerProfile = (data: Profile) => this.profile = data
 
   @action setCustomerPreferences = (data: Preferences) => this.preferences = data
 

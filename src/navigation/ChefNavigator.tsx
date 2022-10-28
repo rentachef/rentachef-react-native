@@ -6,7 +6,7 @@
  */
 
 // import dependencies
-import React from 'react';
+import React, { useEffect } from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
@@ -41,6 +41,8 @@ import Reviews from "../screens/chef/dashboard/reviews";
 import ChefSettingsStack from "./SettingsNavigator";
 import Bookings from "../screens/chef/bookings/bookings";
 import ChefBookingsStack from "./BookingsNavigator";
+import {inject, observer} from "mobx-react";
+import {reaction} from "mobx";
 
 // HomeNavigator Config
 
@@ -65,7 +67,13 @@ function ChefDashboardStackScreen() {
   );
 }
 // HomeNavigator
-function ChefNavigator() {
+const ChefNavigator = inject('stores')(observer((props: any) => {
+
+  useEffect(() => {
+    props.stores.chefProfileStore.getChefProfile()
+    props.stores.chefSettingsStore.getChefSettings()
+  }, []);
+
   return (
     <Tab.Navigator
       initialRouteName="ChefHome"
@@ -116,6 +124,6 @@ function ChefNavigator() {
       <Tab.Screen name="Settings" component={ChefSettingsStack} />
     </Tab.Navigator>
   );
-}
+}))
 
 export default ChefNavigator;

@@ -195,7 +195,7 @@ export default class SettingsA extends Component {
     };
 
     this.role = props.stores.authStore.authInfo.role;
-    this.menuItems = this.role === 'chef' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
+    this.menuItems = this.role === 'Cook' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
     console.log(this.menuItems)
     this.userEmail = props.stores.authStore.authInfo.attributes.email;
   }
@@ -221,6 +221,7 @@ export default class SettingsA extends Component {
           try {
             await Auth.signOut();
             this.props.stores.authStore.setUserAuthInfo({}, {})
+            this.props.stores.authStore.logout()
           } catch (error) {
             console.log('error signing out: ', error);
           }
@@ -256,7 +257,7 @@ export default class SettingsA extends Component {
                 />
                 <View style={styles.profileInfo}>
                   <View styles={styles.info}>
-                    <Subtitle1 style={styles.name}>Kristin Evans</Subtitle1>
+                    <Subtitle1 style={styles.name}>{this.props.stores.chefProfileStore.backgroundCheck?.legalName || 'Your Name'}</Subtitle1>
                     <Subtitle2 style={styles.email}>
                       {this.userEmail}
                     </Subtitle2>
@@ -269,7 +270,7 @@ export default class SettingsA extends Component {
 
           <ContainedButton
             onPress={() => alert('yay')}
-            title={this.role === 'chef' ? 'Invite other chefs' : 'Invite your firends, Get $15'}
+            title={this.role === 'Cook' ? 'Invite other chefs' : 'Invite your firends, Get $15'}
             titleColor={Colors.black}
             titleStyle={{
               fontWeight: 'bold',

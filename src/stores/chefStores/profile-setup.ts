@@ -1,29 +1,27 @@
-import ChefApi from "../../services/chef/chef-api";
 import {action, makeAutoObservable, observable} from "mobx";
-import {AuthProps} from "../AuthStore";
 import ChefProfileSetup, {
   AvailabilitySetup,
   WeekDayAndTime,
   DayAndTime,
   WorkZoneSetup, BankAccount, BackgroundCheck
 } from "../../models/chef/ChefProfileSetup";
-
-const chefAPI = new ChefApi()
+import AuthStore from "../AuthStore";
+import {isEmpty} from "lodash";
 
 class ChefProfileStore {
   rootStore: any;
-  chefApi: any;
+  authStore: any;
 
-  constructor(/*rootStore: any*/) {
+  constructor(rootStore: any, authStore: AuthStore) {
     makeAutoObservable(this)
-    this.chefApi = new ChefApi()
-    chefAPI.setup()
+    this.rootStore = rootStore
+    this.authStore = authStore
   }
 
   getChefProfile = () => {
     // @ts-ignore
-    chefAPI.getChefProfile().then((r: ChefProfileSetup) => {
-      console.log("r", r)
+    this.rootStore.chefApi.getChefProfile().then((r: any) => {
+      console.log("chefProfile from API", r.data)
       if(!!r) {
         this.setChefWorkZone(r.data.workZone)
         this.setChefAvailability(r.data.availability)
@@ -69,21 +67,46 @@ class ChefProfileStore {
   }
 
   @action retrieveChefBackgroundCheck = () => {
-    return !!this.backgroundCheck ? {...this.backgroundCheck, socialNumber: this.backgroundCheck.socialNumber?.toString() }
+    return !isEmpty(this.backgroundCheck) ? {...this.backgroundCheck, socialNumber: this.backgroundCheck?.socialNumber?.toString() }
       : this.backgroundCheck;
   }
 
   @action retreiveChefBankAccount = () => {
-    return !!this.bankAccount ? {...this.bankAccount, accountNumber: this.bankAccount.accountNumber?.toString(), routingNumber: this.bankAccount.routingNumber.toString() }
+    console.log('BANK ACCOUNT', this.bankAccount)
+    return !isEmpty(this.bankAccount) ? {...this.bankAccount, accountNumber: this.bankAccount?.accountNumber?.toString(), routingNumber: this.bankAccount?.routingNumber?.toString() }
       : this.bankAccount;
+  }
+
+  @action saveChefWorkZone = async (data: WorkZoneSetup) => {
+    const response = await this.rootStore.chefApi.setChefWorkZone(data)
+    if(response.ok)
+      this.workZone = Object.assign({}, data)
+  }
+
+  @action saveChefAvailability = async (data: AvailabilitySetup) => {
+    const response = await this.rootStore.chefApi.setChefAvailability(data)
+    if(response.ok)
+      this.availability = Object.assign({}, data)
+  }
+
+  @action saveChefBankAccount = async (data: BankAccount) => {
+    const response = await this.rootStore.chefApi.setChefBankAccount(data)
+    if(response.ok)
+      this.bankAccount = Object.assign({}, data)
+  }
+
+  @action saveChefBackgroundCheck = async (data: BackgroundCheck) => {
+    const response = await this.rootStore.chefApi.setChefBackgroundCheck(data)
+    if(response.ok)
+      this.backgroundCheck = Object.assign({}, data)
+  }
+
+  @action setChefAvailability = async (data: AvailabilitySetup) => {
+    this.availability = Object.assign({}, data)
   }
 
   @action setChefWorkZone = (data: WorkZoneSetup) => {
     this.workZone = Object.assign({}, data)
-  }
-
-  @action setChefAvailability = (data: AvailabilitySetup) => {
-    this.availability = Object.assign({}, data)
   }
 
   @action setChefBankAccount = (data: BankAccount) => {

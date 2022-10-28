@@ -30,6 +30,7 @@ import Colors from '../../theme/colors'
 import {observer, inject} from 'mobx-react'
 import PropTypes from 'prop-types'
 import {notifyMessage} from "../../utils/getImgSource";
+import {notifyError} from "../../components/toast/toast";
 
 // VerificationA Config
 const isRTL = I18nManager.isRTL;
@@ -158,12 +159,15 @@ export default class VerificationA extends Component {
 
     try {
       const confirmSignup = await Auth.confirmSignUp(this.props.stores.authStore.authInfo.username, this.state.pin);
-      if(confirmSignup === 'SUCCESS') {
+      const confirmRegistration = await this.props.stores.authStore.register()
+      if(confirmSignup === 'SUCCESS' && confirmRegistration === 'SUCCESS') {
         this.closeModal();
-        //Based on the condition you get back from login, navigate the user to either ChefNavigator or HomeNavigator
-        true ? this.navigateTo('Home') : this.navigateTo('ChefNavigator')
+        this.props.stores.authStore.authInfo.role === 'Cook' ?
+          this.navigateTo('ChefNavigator') :
+          this.navigateTo('CustomerNavigator')
       } else {
         console.log("sing up failed")
+        notifyError('Error signing up user')
       }
     } catch (error) {
       //failure is caught in the catch method and showing the alert
@@ -190,7 +194,7 @@ export default class VerificationA extends Component {
 
   render() {
     const {modalVisible, pin} = this.state;
-    console.log('this.props.stores.authStore.username', this.props.stores.authStore.authInfo.username)
+
     return (
       <SafeAreaView forceInset={{top: 'never'}} style={styles.screenContainer}>
         <StatusBar

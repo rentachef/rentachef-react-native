@@ -46,7 +46,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
     if(booking.status === 'Confirmed')
       return booking.chef.hourlyRate.toFixed(2)
     if(booking.status === 'Completed')
-      return booking.chargeDetails.total.toFixed(2)
+      return booking.amount.total.toFixed(2)
   }
 
   return (
@@ -69,7 +69,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 rounded
                 size={40}
               />
-              <Subtitle2 style={{ color: Colors.primaryText, marginTop: 5 }}>{formatName(role === 'chef' ? booking.clientName : booking.chef.name)}</Subtitle2>
+              <Subtitle2 style={{ color: Colors.primaryText, marginTop: 5 }}>{formatName(role === 'Cook' ? booking.clientName : booking.chef.name)}</Subtitle2>
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 50, marginTop: -10 }}>
@@ -157,7 +157,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
                     onPress={() => {}}
-                    title={`Message ${formatName(role === 'chef' ? booking.clientName : booking.chef.name)}`}
+                    title={`Message ${formatName(role === 'Cook' ? booking.clientName : booking.chef.name)}`}
                     color={Colors.backgroundMedium}
                   />
                 </View>

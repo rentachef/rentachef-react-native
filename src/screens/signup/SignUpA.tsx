@@ -173,21 +173,19 @@ export default class SignUpA extends Component {
   };
 
   createAccount = async () => {
-    // const { email, phone, password } = this.state;
-    this.props.stores.authStore.setUserAuthInfo(this.props.stores.authStore.authInfo, {username: this.state.email});
-
+    const { email, phone, password } = this.state;
 
     try {
       const { user } = await Auth.signUp({
-        username: this.state.email,
-        password: this.state.password,
+        username: email,
+        password: password,
         attributes: {
-          email: this.state.email,          // optional
-          phone_number: this.state.phone,   // optional - E.164 number convention
+          email: email,          // optional
+          phone_number: phone,   // optional - E.164 number convention
           // other custom attributes
         }
       });
-      console.log(user);
+      this.props.stores.authStore.setUserAuthInfo({ username: this.state.email, password: this.state.password, role: this.props.route.params.role, userDataKey: user.userDataKey });
       //Success user JSON after signup
       // {
       //   "username": "arun.tummala12@gmail.com",
@@ -247,7 +245,7 @@ export default class SignUpA extends Component {
       passwordFocused,
       secureTextEntry,
     } = this.state;
-    console.log('this.props.stores', this.props.stores)
+
     return (
       <SafeAreaView style={styles.screenContainer}>
         <StatusBar
@@ -283,6 +281,8 @@ export default class SignUpA extends Component {
                 iconColor={'#A7AFBF'}
                 iconSize={26}
               />
+
+              {/*TODO ADD NAME*/}
 
               <UnderlineTextInput
                 onRef={r => {

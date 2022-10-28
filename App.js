@@ -309,7 +309,7 @@ import {buttonColor} from "aws-amplify-react-native/src/AmplifyTheme"
 import theme from "./src/theme/colors"
 import SignInA from "./src/screens/signin/SignInA"
 import SignUpA from "./src/screens/signup/SignUpA"
-import {computed, makeAutoObservable, makeObservable, observable} from "mobx"
+import {action, computed, makeAutoObservable, makeObservable, observable} from "mobx"
 import {initStripe, StripeProvider} from '@stripe/stripe-react-native';
 
 
@@ -337,7 +337,7 @@ class App extends React.Component {
      //_checkAuthState: computed
     })
     this._isUserLoggedIn = false
-    this._authState = 'initializing'
+    this._authState = 'initialazing'
   }
 
   async componentDidMount() {
@@ -356,8 +356,9 @@ class App extends React.Component {
 
   async _checkAuthState() {
     try {
-      await Auth.currentAuthenticatedUser();
+      let user = await Auth.currentAuthenticatedUser();
       console.log(' User is signed in in APP');
+      console.log('The user is', user);
       this._authState = 'loggedIn'
     } catch (err) {
       console.log(' User is not signed in');
@@ -374,14 +375,13 @@ class App extends React.Component {
     console.log('app state changed')
   }
 
-
   render() {
-    console.log("rootStore.authStore", rootStore.authStore)
-    console.log("rootStore.searchStore", rootStore.searchStore)
-    console.log("rootStore.chefReviewsStore", rootStore.chefReviewsStore)
+    //console.log("rootStore.authStore", rootStore.authStore)
+    //console.log("rootStore.searchStore", rootStore.searchStore)
+    //console.log("rootStore.chefReviewsStore", rootStore.chefReviewsStore)
     //console.log("rootStore.chefProfileStore", JSON.stringify(rootStore.chefProfileStore))
-    console.log("rootStore.chefSettingsStore", JSON.stringify(rootStore.chefSettingsStore))
-    const { userDataKey } = rootStore.authStore.authInfo
+    //console.log("rootStore.chefSettingsStore", JSON.stringify(rootStore.chefSettingsStore))
+    const { userDataKey, userId } = rootStore.authStore.authInfo
     return (
       <StripeProvider
         publishableKey="pk_test_51Jjp7mGMAuLelpA3aMsrxw0Rcmrg9SeijC14l6WkM0b5XNB8XxTPjKGyOCz4yCU5QHYbOWO286mDwjKWhFdEnu5300ar0uvxT5"
@@ -395,8 +395,10 @@ class App extends React.Component {
             searchStore={rootStore.searchStore}
             chefReviewsStore={rootStore.chefReviewsStore}
             chefProfileStore={rootStore.chefProfileStore}
+            chefSettingsStore={rootStore.chefSettingsStore}
+            customerSettingsStore={rootStore.customerSettingsStore}
           >
-            <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey}/>
+            <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey} userId={userId}/>
           </Provider>
         </SafeAreaProvider>
       </StripeProvider>

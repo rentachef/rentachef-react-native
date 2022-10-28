@@ -5,7 +5,7 @@ class SearchStore {
   rootStore: any;
   @observable list = [];
 
-  constructor(/*rootStore: any*/) {
+  constructor(rootStore: any) {
     makeAutoObservable(this)
   }
 

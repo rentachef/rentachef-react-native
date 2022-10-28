@@ -40,9 +40,9 @@ export default class PreSignUp extends Component {
     }
   }
 
-  navigateTo = (screen: any) => () => {
+  navigateTo = (screen: any, role: string) => () => {
     const {navigation} = this.props;
-    navigation.navigate(screen);
+    navigation.navigate(screen, { role });
   };
 
   _renderItem({item,index}){
@@ -76,7 +76,6 @@ export default class PreSignUp extends Component {
           <SmallText>Hire a chef for your next gathering and experience premium cooking at home.</SmallText>
           </View>
         )
-      break
       case (1):
         return (
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -84,7 +83,6 @@ export default class PreSignUp extends Component {
             <SmallText>Try cuisines around the world cooked healthily matching your preferences.</SmallText>
           </View>
         )
-        break
       case (2):
         return (
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -92,7 +90,6 @@ export default class PreSignUp extends Component {
             <SmallText>Take time to do things that you love without worrying about cooking.</SmallText>
           </View>
         )
-        break
     }
   }
 
@@ -133,14 +130,12 @@ export default class PreSignUp extends Component {
               inactiveDotScale={0.6}
             />
           </View>
-
-
       </View>
         <View style={{flex: .3, flexDirection: 'column', padding: 5}}>
           <View style={{flex: .33}}>{this.returnContentForSlide()}</View>
           <View style={{flex: .33, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <Button onPress={this.navigateTo('SignUp')} buttonStyle={{flex: .4, backgroundColor: Colors.secondaryColor, marginRight: 20}} title={'Join as a chef'} titleColor={'white'}/>
-            <Button onPress={this.navigateTo('SignUp')} buttonStyle={{flex: .4}}  title={'Plan a meal'}/>
+            <Button onPress={this.navigateTo('SignUp', 'Cook')} buttonStyle={{flex: .4, backgroundColor: Colors.secondaryColor, marginRight: 20}} title={'Join as a chef'} titleColor={'white'}/>
+            <Button onPress={this.navigateTo('SignUp', 'Consumer')} buttonStyle={{flex: .4}}  title={'Plan a meal'}/>
           </View>
           <View style={{flex: .34, justifyContent: 'center', alignItems: 'center'}}>
             <SmallText>Already have an account?</SmallText>

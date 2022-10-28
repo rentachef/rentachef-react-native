@@ -44,8 +44,8 @@ const Wallet = inject('stores')((props) => {
     <>
       <View style={styles.screenContainer}>
         <View style={{ flex: 1 }}>
-          <Subtitle2>{role === 'chef' ? 'Bank Account' : 'Payment Method'}</Subtitle2>
-          {role === 'chef' &&
+          <Subtitle2>{role === 'Cook' ? 'Bank Account' : 'Payment Method'}</Subtitle2>
+          {role === 'Cook' &&
             <TouchableOpacity style={styles.item} onPress={() => props.navigation.navigate('WalletBankAccount')}>
               <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='bank-outline' size={30}/>
               <View style={styles.leftTitleContainer}>
@@ -54,7 +54,7 @@ const Wallet = inject('stores')((props) => {
               </View>
               <Icon style={{ marginTop: 10 }} color={Colors.primaryColor} name='chevron-right' size={30} />
             </TouchableOpacity>}
-          {role === 'customer' &&
+          {role === 'Consumer' &&
            <>
             <TouchableOpacity style={styles.item} onPress={() => setModalIndex(0)}>
               <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='credit-card-outline' size={30}/>

@@ -2,6 +2,7 @@ import {ApiConfig, CHEF_REVIEWS, DEFAULT_API_CONFIG} from "../api-config";
 import {ApisauceInstance, create} from "apisauce";
 import Toast from '../../components/toast/toast'
 import {getGeneralApiProblem} from "../api.problem";
+import {AvailabilitySetup, BackgroundCheck, BankAccount, WorkZoneSetup} from "../../models/chef/ChefProfileSetup";
 
 export default class ChefApi {
   /**
@@ -22,6 +23,7 @@ export default class ChefApi {
   constructor (config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
     this.config.url = this.config.url ? this.config.url : DEFAULT_API_CONFIG.url
+    this.setup()
   }
 
   // eslint-disable-next-line @typescript-eslint/member-naming
@@ -67,15 +69,18 @@ export default class ChefApi {
    */
   setup () {
     // construct the apisauce instance
-    this.apisauce = create({
+    let config = {
       baseURL: this.config.url,
       timeout: this.config.timeout,
       headers: {
         Accept: 'application/json',
         appCode: 'RAC'
       },
-    })
+    }
+
+    this.apisauce = create(config)
     this.apisauce.addMonitor(this.badResponseHandler)
+    delete this.apisauce.headers['Authorization'] //for development proposes only
   }
 
   static createDataResponse (data: any, header: string = ''): any {
@@ -84,6 +89,21 @@ export default class ChefApi {
       data: data,
       header: header,
     }
+  }
+
+  setToken(token: string) {
+    delete this.apisauce.headers['Authorization']
+    this.apisauce.setHeader('Authorization', `Bearer ${token}`)
+  }
+
+  setBasic(token: string) {
+    delete this.apisauce.headers['Authorization']
+    this.apisauce.setHeader('Authorization', `Basic ${token}`)
+  }
+
+  logout() {
+    console.log('logout, deleting authorization header...')
+    delete this.apisauce.headers['Authorization']
   }
 
   async getChefReviews() {
@@ -115,15 +135,50 @@ export default class ChefApi {
         return problem
       }
     }
-    if(response.status === 204){
+    if(response.status === 204) {
       return
     }
 
     return response
   }
 
-  async getChefProfile() { //TODO
-    /*const url = 'asd'
+  async loginToApi(email: string, password: string) { //TODO add a Basic oAuth with the userDataKey from cognito
+    const url = 'auth/login'
+    const response = await this.apisauce.post(url, { email, password })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response.data
+  }
+
+  async registerUser(email: string, password: string, role: string, cognitoClientId: string) {
+    const url = `auth/register/${role}`
+    const response = await this.apisauce.post(url, { email, password, cognitoClientId })
+
+    if (!response.ok) {
+      console.log(response)
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async getChefProfile() {
+    const url = 'cook'
     const response = await this.apisauce.get(url)
 
     if (!response.ok) {
@@ -136,16 +191,96 @@ export default class ChefApi {
       return
     }
 
-    return response*/
-    return
+    return response
   }
 
-  async getChefSettings() { //TODO
-    return
+  async getUserSettings() {
+    const url = 'user/settings'
+
+    const response = await this.apisauce.get(url)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204){
+      return
+    }
+
+    return response
   }
 
   async getCustomerSettings() { //TODO
     return
   }
 
+  async setChefWorkZone(data: WorkZoneSetup) {
+    const url = `cook/workZone`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setChefAvailability(data: AvailabilitySetup) {
+    const url = `cook/availability`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setChefBankAccount(data: BankAccount) {
+    const url = `cook/bankAccount`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setChefBackgroundCheck(data: BackgroundCheck) {
+    const url = `cook/backgroundCheck`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
 }

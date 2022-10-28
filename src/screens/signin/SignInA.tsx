@@ -179,12 +179,12 @@ export default class SignInA extends Component {
       }
     );
     try {
-      const user = await Auth.signIn(email, password);
-      console.log("user", user)
-      this.props?.stores?.authStore?.setUserAuthInfo({}, user)
+      const user = await Auth.signIn(email, password)
+      this.props?.stores?.authStore?.setUserAuthInfo(user)
+      await this.props?.stores.authStore.login(email, password)
       this.props?.navigation?.navigate('Home', {screen: 'Home'})
     } catch (error) {
-      console.log('error signing in', error);
+      console.log('error signing in', error)
       let errorMessage = error?.message ? error.message : 'Error while signing in'
       notifyError(errorMessage)
     }

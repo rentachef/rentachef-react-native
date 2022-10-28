@@ -1,7 +1,7 @@
 import ChefDashboard from "../screens/chef/dashboard/dashboard";
 import Earnings from "../screens/chef/dashboard/earnings";
 import Reviews from "../screens/chef/dashboard/reviews";
-import React from "react";
+import React, {useEffect} from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createStackNavigator} from "@react-navigation/stack";
 import CustomerDashboard from "../screens/customer/dashboard/dashboard";
@@ -19,6 +19,7 @@ import ChefFilters from "../screens/customer/dashboard/chef-filters";
 import ChefResults from "../screens/customer/dashboard/chef-results";
 import ChefAbout from "../screens/customer/dashboard/chef-about/chef-about";
 import Checkout from "../screens/customer/dashboard/checkout/checkout";
+import {inject, observer} from "mobx-react";
 
 // create bottom tab navigator
 const Tab = createBottomTabNavigator();
@@ -47,7 +48,13 @@ type Props = {
 };
 
 // HomeNavigator
-function CustomerNavigator() {
+const CustomerNavigator = inject('stores')(observer((props) => {
+
+  useEffect(() => {
+    props.stores.chefProfileStore.getChefProfile()
+    props.stores.customerSettingsStore.getCustomerSettings()
+  }, []);
+
   return (
     <Tab.Navigator
       initialRouteName="CustomerHome"
@@ -96,6 +103,6 @@ function CustomerNavigator() {
       <Tab.Screen name="Settings" component={ChefSettingsStack} />
     </Tab.Navigator>
   );
-}
+}))
 
 export default CustomerNavigator;

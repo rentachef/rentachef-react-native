@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from "../../../components/buttons/Button";
 import paymentSetupImage from '../../../assets/chef-profile-sign-up/check-graphic.png';
 import { isEmpty } from 'lodash';
-import {notifySuccess} from "../../../components/toast/toast";
+import {notifyError, notifySuccess} from "../../../components/toast/toast";
 
 @inject("stores")
 @observer
@@ -81,13 +81,18 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
 
   saveChanges = () => {
     const { bankName, accountNumber, routingNumber, currency } = this.state.bankAccount;
-    this.props.stores.chefProfileStore.setChefBankAccount({
-      bankName,
-      accountNumber: Number(accountNumber),
-      routingNumber: Number(routingNumber),
-      currency
-    })
-    notifySuccess('Bank Account linked!');
+    try {
+      this.props.stores.chefProfileStore.saveChefBankAccount({
+        bankName,
+        accountNumber: Number(accountNumber),
+        routingNumber: Number(routingNumber),
+        currency
+      })
+      notifySuccess('Bank Account linked!');
+    } catch(e) {
+      console.log('Error saving bank account', e.message)
+      notifyError(`Error saving changes: ${e.message}`)
+    }
   }
 
   render() {

@@ -97,12 +97,14 @@ import {inject} from "mobx-react";
 
 // MainNavigatorA
 const MainNavigatorA = inject('stores')((props) => {
-  console.log('props', props.stores.authStore)
+  console.log('props', props.stores.authStore.authInfo)
+  const { userId } = props.stores.authStore.authInfo
+
   return (
     //<Authenticator>
       <NavigationContainer>
         {/*{props.authState === 'initializing' ? <ActivityIndicator size={'medium'}/> : null}*/}
-        {props.userDataKey === '' || props.userDataKey === undefined ? <AuthStack.Navigator screenOptions={{headerShown: true}}>
+        {(userId === '' || userId === undefined) ? <AuthStack.Navigator screenOptions={{headerShown: true}}>
           <Stack.Screen
             name="PreSignUp"
             override={'PreSignUp'}
@@ -185,7 +187,7 @@ const MainNavigatorA = inject('stores')((props) => {
           <Stack.Screen
             name="Home"
             //component={ChefNavigator}
-            component={props.stores.authStore.authInfo.role === 'customer' ? CustomerNavigator : ChefNavigator}
+            component={props.stores.authStore.authInfo.role === 'Customer' ? CustomerNavigator : ChefNavigator}
             options={{headerShown: false}}
             screenOptions={{headerShown: false}}
           />

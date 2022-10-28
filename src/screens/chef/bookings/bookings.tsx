@@ -142,7 +142,7 @@ const Bookings = inject('stores')((props) => {
   const [bookings, setBookings] = useState(props.stores.chefBookingsStore.chefBookings || bookingsMock)
 
   const navigateTo = (cb: ChefBooking) => {
-    props.stores.authStore.authInfo.role === 'chef' ?
+    props.stores.authStore.authInfo.role === 'Cook' ?
       props.navigation.navigate('BookingRequest', { booking: {...cb} }) :
       props.navigation.navigate('CustomerBooking', { booking: {...cb} })
   }

@@ -16,8 +16,6 @@ export default interface ChefBooking {
   paymentMethod?: PaymentMethods
   amount?: number
   notes?: string
-  hoursWorked?: number
-  chefHourlyRate?: number
   chargeDetails?: {
     hoursWorked: number
     chefHourlyRate: number
@@ -27,6 +25,7 @@ export default interface ChefBooking {
     total: number
   }
   chef: {
+    id?: string,
     name: string,
     hourlyRate: number
   }

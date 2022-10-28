@@ -29,7 +29,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
     //TODO get from API
     setChef({
       ...route.params.chef,
-      bio: stores.chefSettingsStore.getChefBio(),
+      bio: stores.chefSettingsStore.bio,
       availability: stores.chefProfileStore.retrieveChefAvailability()
     })
   }, [])
