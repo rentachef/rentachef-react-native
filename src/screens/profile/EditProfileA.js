@@ -29,7 +29,7 @@ import Colors from '../../theme/colors';
 import Button from "../../components/buttons/Button";
 import {inject} from "mobx-react";
 import {isEmpty} from "lodash";
-import {notifySuccess} from "../../components/toast/toast";
+import {notifyError, notifySuccess} from "../../components/toast/toast";
 
 // EditProfileA Config
 const AVATAR_SIZE = 100;
@@ -138,14 +138,18 @@ export default class EditProfileA extends Component {
     this.setState({ profile: { ...this.state.profile, [key]: key === 'phoneCountry' ? value?.cca2 : value }})
   }
 
-  saveChanges = () => {
+  saveChanges = async () => {
     const { profile } = this.state
 
-    if(this.role === 'Cook')
-      this.props.stores.chefSettingsStore.setChefProfile(profile);
+    if(this.role === 'Cook') {
+      let result = await this.props.stores.chefSettingsStore.saveChefProfile(profile);
+      if(result === 'SUCCESS')
+        notifySuccess('Profile data saved!')
+      else
+        notifyError(`Error saving profile changes: ${result}`)
+    }
     else
       this.props.stores.customerSettingsStore.setCustomerProfile(profile);
-    notifySuccess('Profile data saved!')
   }
 
   isValid = () => Object.values(this.state.profile).every((v: any) => !isEmpty(v))
@@ -192,7 +196,7 @@ export default class EditProfileA extends Component {
                 keyboardType={"default"}
                 onFocus={() => this.setState({ focus: 0 })}
                 onBlur={() => this.setState({ focus: undefined })}
-                value={profile.fullName}
+                value={profile.fullName || this.props.stores.chefProfileStore.backgroundCheck?.legalName}
                 onChangeText={v => this.onChange('fullName', v)}
                 style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
                 placeholderTextColor={Colors.placeholderColor}
@@ -204,13 +208,17 @@ export default class EditProfileA extends Component {
                 keyboardType={"email-address"}
                 onFocus={() => this.setState({ focus: 1 })}
                 onBlur={() => this.setState({ focus: undefined })}
-                value={profile.email}
+                value={profile.email || this.props.stores.authStore.authInfo.attributes?.email}
                 onChangeText={v => this.onChange('email', v)}
                 style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
                 placeholderTextColor={Colors.placeholderColor}
               />
               <Text style={styles.inputGroupItemLabel}>Phone Number</Text>
-              <PhoneTextInput phone={profile.phoneNumber}  country={profile.phoneCountry} onChange={this.onChange} />
+              <PhoneTextInput
+                phone={profile.phoneNumber}
+                country={profile.phoneCountry}
+                onChange={this.onChange}
+              />
               <Text style={styles.inputGroupItemLabel}>Address</Text>
               <TextInput
                 autoCapitalize="none"

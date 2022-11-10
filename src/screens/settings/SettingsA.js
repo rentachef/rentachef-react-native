@@ -197,7 +197,7 @@ export default class SettingsA extends Component {
     this.role = props.stores.authStore.authInfo.role;
     this.menuItems = this.role === 'Cook' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
     console.log(this.menuItems)
-    this.userEmail = props.stores.authStore.authInfo.attributes.email;
+    this.userEmail = props.stores.authStore.authInfo.attributes?.email;
   }
 
   navigateTo = screen => () => {

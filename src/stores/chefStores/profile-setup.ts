@@ -3,7 +3,7 @@ import ChefProfileSetup, {
   AvailabilitySetup,
   WeekDayAndTime,
   DayAndTime,
-  WorkZoneSetup, BankAccount, BackgroundCheck
+  WorkZoneSetup, BankAccount, BackgroundCheck, PickupDetails
 } from "../../models/chef/ChefProfileSetup";
 import AuthStore from "../AuthStore";
 import {isEmpty} from "lodash";
@@ -23,10 +23,10 @@ class ChefProfileStore {
     this.rootStore.chefApi.getChefProfile().then((r: any) => {
       console.log("chefProfile from API", r.data)
       if(!!r) {
-        this.setChefWorkZone(r.data.workZone)
-        this.setChefAvailability(r.data.availability)
-        this.setChefBankAccount(r.data.bankAccount)
-        this.setChefBackgroundCheck(r.data.backgroundCheck)
+        this.setChefWorkZone(r.data.workZone || {})
+        this.setChefAvailability(r.data.availability || {})
+        this.setChefBankAccount(r.data.bankAccount || {})
+        this.setChefBackgroundCheck(r.data.backgroundCheck || {})
       }
 
       return r
@@ -40,6 +40,8 @@ class ChefProfileStore {
   @observable bankAccount?: BankAccount
 
   @observable backgroundCheck?: BackgroundCheck
+
+  @observable pickupDetails?: PickupDetails
 
   @action retrieveChefAvailability = () => {
     if(!!this.availability) {
@@ -80,28 +82,34 @@ class ChefProfileStore {
   @action saveChefWorkZone = async (data: WorkZoneSetup) => {
     const response = await this.rootStore.chefApi.setChefWorkZone(data)
     if(response.ok)
-      this.workZone = Object.assign({}, data)
+      this.setChefWorkZone(data)
   }
 
   @action saveChefAvailability = async (data: AvailabilitySetup) => {
     const response = await this.rootStore.chefApi.setChefAvailability(data)
     if(response.ok)
-      this.availability = Object.assign({}, data)
+      this.setChefAvailability(data)
   }
 
   @action saveChefBankAccount = async (data: BankAccount) => {
     const response = await this.rootStore.chefApi.setChefBankAccount(data)
     if(response.ok)
-      this.bankAccount = Object.assign({}, data)
+      this.setChefBankAccount(data)
   }
 
   @action saveChefBackgroundCheck = async (data: BackgroundCheck) => {
     const response = await this.rootStore.chefApi.setChefBackgroundCheck(data)
     if(response.ok)
-      this.backgroundCheck = Object.assign({}, data)
+      this.setChefBackgroundCheck(data)
   }
 
-  @action setChefAvailability = async (data: AvailabilitySetup) => {
+  @action savePickupDetails = async (data: PickupDetails) => {
+    const response = await this.rootStore.chefApi.setChefPickupDetails(data)
+    if(response.ok)
+      this.setChefPickupDetails(data)
+  }
+
+  @action setChefAvailability = (data: AvailabilitySetup) => {
     this.availability = Object.assign({}, data)
   }
 
@@ -115,6 +123,10 @@ class ChefProfileStore {
 
   @action setChefBackgroundCheck = (data: BackgroundCheck) => {
     this.backgroundCheck = Object.assign({}, data)
+  }
+
+  @action setChefPickupDetails = (data: PickupDetails) => {
+    this.pickupDetails = Object.assign({}, data)
   }
 }
 

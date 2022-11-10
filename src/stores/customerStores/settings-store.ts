@@ -19,9 +19,9 @@ class CustomerSettingsStore {
     this.rootStore.chefApi.getCustomerSettings().then((r: any) => {
       console.log("r", r)
       if(!!r) {
-        this.setCustomerProfile(r?.data.profile)
-        this.setCustomerPreferences(r?.data.preferences)
-        this.setCustomerLocation(r?.data.location)
+        this.setCustomerProfile(r?.data.profile || {})
+        this.setCustomerPreferences(r?.data.preferences || {})
+        this.setCustomerLocation(r?.data.location || {})
       }
       return r
     })

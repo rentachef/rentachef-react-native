@@ -121,7 +121,7 @@ export default class SignInA extends Component {
 
   emailChange = text => {
     this.setState({
-      email: text,
+      email: text.trim(),
     });
   };
 

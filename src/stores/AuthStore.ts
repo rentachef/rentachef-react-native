@@ -2,6 +2,10 @@ import {action, makeAutoObservable, observable} from 'mobx';
 import ChefApi from "../services/chef/chef-api";
 
 export interface AuthProps {
+  attributes: {
+    email: string;
+    phone_number: string;
+  };
   userId: string;
   username: string;
   password: string;
@@ -99,6 +103,10 @@ class AuthStore {
 }
   * */
   @observable authInfo: AuthProps = {
+    attributes: {
+      email: '',
+      phone_number: ''
+    },
     userId: '',
     username: '',
     password: '',
@@ -113,22 +121,23 @@ class AuthStore {
   }
 
   @action setApiData = (data: UserApiData) => {
-    this.authInfo['role'] = data.role
-    this.authInfo['userId'] = data.userId
-    this.authInfo['password'] = data.password
+    this.setUserAuthInfo(this.authInfo, data)
   }
 
   @action login = async (email: string, password: string) => {
     console.log('loggin in')
     const apiUser = await this.rootStore.chefApi.loginToApi(email, password)
-    this.rootStore.chefApi.setToken(apiUser.tokenSession)
-    this.setApiData({
-      role: apiUser.data.userType,
-      userId: apiUser.data._id,
-      password: ''
-    })
-    console.log('authInfo after change', this.authInfo)
-    return 'SUCCESS'
+    if(!!apiUser) {
+      this.rootStore.chefApi.setToken(apiUser.tokenSession)
+      this.setApiData({
+        role: apiUser.data.userType,
+        userId: apiUser.data._id,
+        password: ''
+      })
+      console.log('authInfo after change', this.authInfo)
+      return 'SUCCESS'
+    } else
+      return 'FAILED'
   }
 
   @action register = async () => {

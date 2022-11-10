@@ -41,11 +41,16 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(backgroundCheck)
+  }, [backgroundCheck])
+
 
   const onButtonPressed = (choice: string) => {
     let func = choice === 'camera' ? launchCamera : launchImageLibrary
-    func(cameraOptions)
+    func(choice === 'camera' ? cameraOptions : { selectionLimit: 0 })
       .then((data: ImagePickerResponse) => {
+        console.log(data)
         if(!data.didCancel) {
           setShowCamera(false)
           //@ts-ignore
@@ -69,7 +74,7 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
     notifySuccess('Background Check saved!')
   }
 
-  const isValid = Object.values(backgroundCheck).every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
+  const isValid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
 
   return (
     <View style={styles.screenContainer}>

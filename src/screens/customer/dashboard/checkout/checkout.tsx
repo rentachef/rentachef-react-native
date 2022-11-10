@@ -17,6 +17,7 @@ import Divider from "../../../../components/divider/Divider";
 import Button from "../../../../components/buttons/Button";
 import CheckoutSelectPayment from "./checkout-select-payment";
 import CheckoutModal from "./checkout-modal";
+import {inject, observer} from "mobx-react";
 
 const bookingRequestMock = { //TODO BookingRequest
   clientName: 'Kristin Watson',
@@ -38,26 +39,14 @@ const dishes = [
   { key: 'pizza', label: 'Pizza' }
 ]
 
-const cuisines = [{
-  key: 'bbq',
-  label: 'BBQ'
-},{
-  key: 'thai',
-  label: 'Thai'
-},{
-  key: 'greek',
-  label: 'Greek'
-}]
-
 const formatName = (name: string) => `${name.split(' ')[0]} ${name.split(' ')[1][0]}.`
 
-const Checkout = ({ navigation, route }) => {
+const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
   const [booking, setBooking] = useState(bookingRequestMock)
   const [modalIndex, setModalIndex] = useState(-1)
   const [showModal, setShowModal] = useState(false)
   const { chefAvailability } = route.params
-
-  console.log('availability', chefAvailability)
+  const { cuisines } = stores.searchStore
 
   useEffect(() => {
     console.log(booking)
@@ -215,6 +204,6 @@ const Checkout = ({ navigation, route }) => {
       </SafeAreaView>}
     </>
   )
-}
+}))
 
 export default Checkout

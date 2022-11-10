@@ -4,6 +4,7 @@ import ChefSettings, {
   Bio,
 } from "../../models/chef/ChefSettings";
 import {BankAccount} from "../../models/chef/ChefProfileSetup";
+import {notifyError} from "../../components/toast/toast";
 
 class ChefSettingsStore {
   rootStore: any;
@@ -15,10 +16,10 @@ class ChefSettingsStore {
 
   getChefSettings = () => {
     this.rootStore.chefApi.getUserSettings().then((r: any) => {
-      console.log("r", r)
+      console.log("chef settings", r)
       if(!!r) {
-        this.setChefProfile(r?.data.profile)
-        this.setChefBio(r?.data.bio)
+        this.setChefProfile(r?.data.profile || {})
+        this.setChefBio(r?.data.bio || {})
       }
       return r
     })
@@ -31,6 +32,23 @@ class ChefSettingsStore {
   @action setChefProfile = (data: any) => this.profile = data
 
   @action setChefBio = (data: any) => this.bio = data
+
+  @action saveChefProfile = async (data: Profile) => {
+    const response = await this.rootStore.chefApi.setUserProfile(data)
+    if(response.ok)
+      this.profile = Object.assign({}, data)
+    else
+      return response.error?.message
+  }
+
+  @action saveChefBio = async (data: Bio) => {
+    console.log('saving bio...')
+    const response = await this.rootStore.chefApi.setUserBio(data)
+    if(response.ok)
+      this.bio = Object.assign({}, data)
+    else
+      notifyError(`Error saving Bio: ${response.error.message}`)
+  }
 
   //TODO remove
   @action getChefBio = () => {

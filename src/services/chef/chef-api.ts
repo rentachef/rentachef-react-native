@@ -2,7 +2,15 @@ import {ApiConfig, CHEF_REVIEWS, DEFAULT_API_CONFIG} from "../api-config";
 import {ApisauceInstance, create} from "apisauce";
 import Toast from '../../components/toast/toast'
 import {getGeneralApiProblem} from "../api.problem";
-import {AvailabilitySetup, BackgroundCheck, BankAccount, WorkZoneSetup} from "../../models/chef/ChefProfileSetup";
+import {
+  AvailabilitySetup,
+  BackgroundCheck,
+  BankAccount,
+  PickupDetails,
+  WorkZoneSetup
+} from "../../models/chef/ChefProfileSetup";
+import {Bio, Profile} from "../../models/chef/ChefSettings";
+import {CustomerLocation, Preferences} from "../../models/user/CustomerSettings";
 
 export default class ChefApi {
   /**
@@ -149,6 +157,7 @@ export default class ChefApi {
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) {
+        this.logout()
         return problem
       }
     }
@@ -194,8 +203,8 @@ export default class ChefApi {
     return response
   }
 
-  async getUserSettings() {
-    const url = 'user/settings'
+    async getUserSettings() {
+    const url = 'users/settings'
 
     const response = await this.apisauce.get(url)
 
@@ -212,10 +221,24 @@ export default class ChefApi {
     return response
   }
 
-  async getCustomerSettings() { //TODO
-    return
+  async getCuisines() {
+    const url = `cuisines/`
+    const response = await this.apisauce.get(url)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
   }
 
+  //CHEF PROFILE SETUP
   async setChefWorkZone(data: WorkZoneSetup) {
     const url = `cook/workZone`
     const response = await this.apisauce.post(url, data)
@@ -269,6 +292,109 @@ export default class ChefApi {
 
   async setChefBackgroundCheck(data: BackgroundCheck) {
     const url = `cook/backgroundCheck`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setChefPickupDetails(data: PickupDetails) {
+    const url = `cook/pickupDetails`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  //USER SETTINGS
+  async setUserBio(data: Bio) {
+    const url = `users/settings/bio`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setUserProfile(data: Profile) {
+    const url = `users/settings/profile`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setUserPreferences(data: Preferences) {
+    const url = `users/settings/preferences`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setUserWallet(data: any) {
+    const url = `users/settings/preferences`
+    const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async setUserLocation(data: CustomerLocation) {
+    const url = `users/settings/location`
     const response = await this.apisauce.post(url, data)
 
     if (!response.ok) {

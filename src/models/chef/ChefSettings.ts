@@ -29,6 +29,7 @@ export interface Bio {
 }
 
 export interface Cuisine {
+  _id: string
   key: string
   label: string
 }

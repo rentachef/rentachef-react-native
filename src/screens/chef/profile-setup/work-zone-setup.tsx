@@ -1,22 +1,17 @@
 import React from 'react'
 import {View, StyleSheet, Dimensions, Image, ScrollView, TextInput, Platform, PermissionsAndroid} from 'react-native'
 import {BoldHeading, LightText, SemiBoldHeading, SmallBoldHeading, Text} from "../../../components/text/CustomText";
-import MapView, {Circle, PROVIDER_GOOGLE} from 'react-native-maps';
 import {inject, observer, PropTypes} from "mobx-react";
 import {computed, observable, reaction} from "mobx";
-import CustomLabel from "./slider-custom-label";
 import {Slider} from '@miblanchard/react-native-slider';
 import isEqual from 'lodash/isEqual'
 import Geolocation from 'react-native-geolocation-service'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {ChefMapView} from "./map-view";
 import Geocoder from 'react-native-geocoding';
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
-import rootStore from '../../../stores';
-import {WorkZoneSetup} from "../../../models/chef/ChefProfileSetup";
 import {notifySuccess} from "../../../components/toast/toast";
-import {ProfileSetupType} from "../../../stores/chefStores/profile-setup";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -48,7 +43,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
 
-    const { workZone } = props.stores.chefProfileStore
+    const { workZone, pickupDetails } = props.stores.chefProfileStore
 
     this.state = {
       myPosition: {
@@ -60,6 +55,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         longitude: workZone?.longitude || 0,
         speed: 0
       },
+      pickup: workZone.pickup,
       radiusState: workZone?.radius || 300,
       radius: workZone ? Object.keys(radiusMap).find(key => radiusMap[key] === workZone.radius) : 0,
       zipCitySearch: "",
@@ -89,7 +85,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       ).then(granted => {
-        if (granted && this._mounted) {
+        if (granted && this._mounted && this.state.myPosition.latitude !== 0) {
           this.watchLocation();
         }
       });
@@ -140,6 +136,14 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       .catch(error => console.warn(error));
   }
 
+  togglePickup = () => {
+    let { pickup } = this.state
+    this.setState({ pickup: !pickup }, () => {
+      if(!pickup)
+        this.props.stores.chefProfileStore.setChefPickupDetails({})
+    })
+  }
+
   saveData = () => {
     this.props.stores.chefProfileStore.saveChefWorkZone({
       radius: this.state.radiusState,
@@ -150,26 +154,11 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   }
 
   render() {
-    const { radius, radiusState, focus, myPosition } = this.state;
-    const { accuracy, altitude, altitudeAccuracy, heading, latitude, longitude, speed } = this.state.myPosition
+    const { radius, radiusState, focus, myPosition, pickup } = this.state;
+    const { latitude, longitude } = this.state.myPosition
     return (
       <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: '#FFFFFF'}}>
         <View style={{ margin: 10 }}>
-          {/*<TextInput
-            style={{backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#CCCCCC', minHeight: 30, justifyContent: 'center', alignItems: 'center', width: '90%', borderRadius: 5, marginHorizontal: 10, padding: 5,marginBottom: 5}}
-            placeholder={'enter your city or postal code'}
-            placeholderTextColor={'#A7AFBF'}
-            maxLength={20}
-            returnKeyLabel="Search"
-            returnKeyType="search"
-            onSubmitEditing={(e) => {
-              this._location = e.nativeEvent.text
-              this.setState({
-                zipCitySearch: e.nativeEvent.text
-              })
-              this.geoCodeAddress(e.nativeEvent.text)
-            }}
-          />*/}
           <TextInput
             autoCapitalize="none"
             placeholder="enter your city or postal code"
@@ -213,6 +202,20 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
           {Object.keys(radiusMap).map(item => (
             <Text key={Number(item)} style={workZoneSetupStyles.distanceTrackMarksLabel}>{Number(item)}</Text>
           ))}
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
+          <Icon
+            name='package-variant-closed'
+            color={Colors.secondaryColor}
+            size={30}
+          />
+          <Text>Available for Pickup</Text>
+          <Icon
+            name={pickup ? 'radiobox-marked' : 'radiobox-blank'}
+            color={pickup ? Colors.primaryColor : Colors.primaryText}
+            size={23}
+            onPress={this.togglePickup}
+          />
         </View>
         <View style={workZoneSetupStyles.buttonContainer}>
           <Button

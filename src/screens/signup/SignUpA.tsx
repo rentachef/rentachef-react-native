@@ -176,7 +176,7 @@ export default class SignUpA extends Component {
     const { email, phone, password } = this.state;
 
     try {
-      const { user } = await Auth.signUp({
+      const userInfo = {
         username: email,
         password: password,
         attributes: {
@@ -184,8 +184,9 @@ export default class SignUpA extends Component {
           phone_number: phone,   // optional - E.164 number convention
           // other custom attributes
         }
-      });
-      this.props.stores.authStore.setUserAuthInfo({ username: this.state.email, password: this.state.password, role: this.props.route.params.role, userDataKey: user.userDataKey });
+      };
+      const { user } = await Auth.signUp(userInfo);
+      this.props.stores.authStore.setUserAuthInfo({ ...userInfo, role: this.props.route.params.role }, user);
       //Success user JSON after signup
       // {
       //   "username": "arun.tummala12@gmail.com",

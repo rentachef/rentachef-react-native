@@ -10,6 +10,7 @@ export interface WorkZoneSetup {
   latitude: number
   longitude: number
   radius: number
+  pickup: boolean
 }
 
 // AVAILABILITY
@@ -49,4 +50,21 @@ export interface BackgroundCheck {
   idFrontUri?: string
   idBackUri?: string
   approved: boolean
+}
+
+export interface PickupDetails {
+  address: PickupAddress
+  timeRange: PickupTimeRange
+}
+
+export interface PickupAddress {
+  street: string
+  number?: number
+  city: string
+  guidelines: string
+}
+
+export interface PickupTimeRange {
+  from: number
+  to: number
 }

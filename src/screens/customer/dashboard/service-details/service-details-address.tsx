@@ -10,7 +10,7 @@ import Button from "../../../../components/buttons/Button";
 const recentLocations = [
   { address: '1047 Mount Pleasant Rd', city: 'Toronto, Ontario M4P 2M5' },
   { address: '6391 Elgin St. Celina', city: 'Toronto, Ontario M3P 2P6' },
-  { address: '2972 Westheimer Rd', city: 'Toronto, Ontario M4P 1c9' },
+  { address: '2972 Westheimer Rd', city: 'Toronto, Ontario M4P 1C9' },
 ]
 
 const renderItem = (data, index) => {

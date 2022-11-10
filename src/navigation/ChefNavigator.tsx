@@ -72,6 +72,7 @@ const ChefNavigator = inject('stores')(observer((props: any) => {
   useEffect(() => {
     props.stores.chefProfileStore.getChefProfile()
     props.stores.chefSettingsStore.getChefSettings()
+    props.stores.searchStore.getCuisines()
   }, []);
 
   return (

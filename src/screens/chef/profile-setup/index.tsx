@@ -7,6 +7,7 @@ import Colors from '../../../theme/colors';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {inject, observer} from "mobx-react";
 import {isEmpty} from "lodash";
+import SwitchComponent from "../../components/switch-component";
 
 @inject('stores')
 @observer

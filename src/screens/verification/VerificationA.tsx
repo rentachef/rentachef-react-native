@@ -159,6 +159,7 @@ export default class VerificationA extends Component {
 
     try {
       const confirmSignup = await Auth.confirmSignUp(this.props.stores.authStore.authInfo.username, this.state.pin);
+      console.log('confirmSignup', confirmSignup)
       const confirmRegistration = await this.props.stores.authStore.register()
       if(confirmSignup === 'SUCCESS' && confirmRegistration === 'SUCCESS') {
         this.closeModal();
