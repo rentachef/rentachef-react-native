@@ -41,6 +41,7 @@ import Reviews from "../screens/chef/dashboard/reviews";
 import ChefSettingsStack from "./SettingsNavigator";
 import Bookings from "../screens/chef/bookings/bookings";
 import ChefBookingsStack from "./BookingsNavigator";
+import Chat from "../screens/chat/Chat";
 
 // HomeNavigator Config
 
@@ -102,7 +103,7 @@ function ChefNavigator() {
       <Tab.Screen name="ChefSchedule" component={ChefBookingsStack}/>
       <Tab.Screen
         name="ChefChat"
-        component={Cart}
+        component={Chat}
         options={{
           tabBarIcon: props => (
             <TabBadgeIcon
