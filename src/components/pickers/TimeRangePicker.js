@@ -6,7 +6,7 @@ import TimePicker from "./TimePicker";
 import Button from "../buttons/Button";
 import LinkButton from "../buttons/LinkButton";
 
-const TimeRangePicker = ({ selected, onCancel, onSelect }) => {
+const TimeRangePicker = ({ selected, onCancel, onSelect, isValid }) => {
   const [index, setIndex] = useState(0);
   const [timeFrom, setTimeFrom] = useState(selected?.timing.from || new Date());
   const [timeTo, setTimeTo] = useState(selected?.timing.to || new Date());
@@ -29,7 +29,14 @@ const TimeRangePicker = ({ selected, onCancel, onSelect }) => {
       {index === 0 ? <TimePicker time={timeFrom} onChange={setTimeFrom}/> : <TimePicker time={timeTo} onChange={setTimeTo} />}
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => onSelect(timeFrom, timeTo)}
+          disabled={isValid !== undefined ? !isValid() : false}
+          onPress={() => {
+            if(isValid !== undefined)
+              if(isValid())
+                onSelect(timeFrom, timeTo)
+            else
+              onSelect(timeFrom, timeTo)
+          }}
           title='Use these times'
         />
       </View>

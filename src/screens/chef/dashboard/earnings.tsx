@@ -25,13 +25,23 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import {Heading5, LightText, Heading6, SmallBoldHeading, SemiBoldHeading} from "../../../components/text/CustomText";
+import {
+  Heading5,
+  LightText,
+  Heading6,
+  SmallBoldHeading,
+  SemiBoldHeading,
+  HeadlineBold
+} from "../../../components/text/CustomText";
 import Avatar from "../../../components/avatar/Avatar";
 import Colors from "../../../theme/colors";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import {useEffect, useState} from "react";
+import ChefEarning from "../../../models/chef/ChefDashboard";
+import moment from "moment";
+import {inject} from "mobx-react";
 
-function Day() {
+function Day(props) {
   const [showSortModal, setSortModal] = useState(false);
 
   useEffect(() => {
@@ -39,9 +49,30 @@ function Day() {
     console.log("showSortModal", showSortModal)
   });
 
+  const renderItem = ({ date, consumerName, amount }: ChefEarning) => (
+    <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
+      <View style={{flex: .15, justifyContent: 'center'}}>
+        <Avatar
+          imageUri={require('../../../assets/img/profile_1.jpeg')}
+          rounded
+          size={50}
+        />
+      </View>
+      <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
+        <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center'  }}>
+          <LightText style={{marginBottom: 3}}>{moment(date).format('MMM dd, yyyy')}</LightText>
+          <Heading6 style={{marginBottom: 3}}>{consumerName}</Heading6>
+        </View>
+        <View style={{flex: .5, alignItems: 'flex-end', justifyContent: 'center'  }}>
+          <Heading6 style={{marginBottom: 3}}>{`$${amount.toFixed(2)}`}</Heading6>
+        </View>
+      </View>
+    </View>
+  )
+
   return (
-    <View style={{ flex: 1}}>
-      <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 5, backgroundColor: '#ffffff', opacity: showSortModal ? 0.5: 1 }}>
+    <View style={{ flex: 1, backgroundColor: Colors.backgroundColor }}>
+      <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 20, backgroundColor: '#ffffff', opacity: showSortModal ? 0.5: 1 }}>
         <TouchableOpacity onPress={() => {
           console.log("onPress setSortModal")
           //setSortModal(false)
@@ -54,45 +85,8 @@ function Day() {
         }} style={{ alignSelf: 'flex-end', marginRight: 10}}>
           <Heading6 style={{color: Colors.primaryColor}}>Sort By</Heading6>
         </TouchableOpacity>
-        <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
-          <View style={{flex: .15, justifyContent: 'center'}}>
-            <Avatar
-              imageUri={require('../../../assets/img/profile_1.jpeg')}
-              rounded
-              size={50}
-            />
-          </View>
-          <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
-            <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center'  }}>
-              <LightText style={{marginBottom: 3}}>June 18, 2021</LightText>
-              <Heading5 style={{marginBottom: 3}}>John Doe</Heading5>
-            </View>
-            <View style={{flex: .5, alignItems: 'flex-end', justifyContent: 'center'  }}>
-              <Heading5 style={{marginBottom: 3}}>$162.50</Heading5>
-            </View>
-          </View>
-        </View>
-        <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
-          <View style={{flex: .15, justifyContent: 'center'}}>
-            <Avatar
-              imageUri={require('../../../assets/img/profile_1.jpeg')}
-              rounded
-              size={50}
-            />
-          </View>
-          <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
-            <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center' }}>
-              <LightText style={{marginBottom: 3}}>June 18, 2021</LightText>
-              <Heading5 style={{marginBottom: 3}}>John Doe</Heading5>
-            </View>
-            <View style={{flex: .5, alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Heading5 style={{marginVertical: 3}}>$162.50</Heading5>
-            </View>
-          </View>
-
-        </View>
-
       </View>
+      {props.earnings.map((e: ChefEarning) => renderItem(e))}
       {showSortModal &&
         <SafeAreaView style={{flex: 1, position: 'absolute', width: '100%', height: '100%'}}>
           <RACBottomSheet
@@ -163,7 +157,8 @@ function Year({ navigation }) {
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function Earnings() {
+const Earnings = inject('stores')((props) => {
+  console.log('earnings store', props.stores.chefSettingsStore.profile)
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -181,10 +176,12 @@ export default function Earnings() {
         //tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Day" component={Day} />
+      <Tab.Screen name="Day" children={() => <Day earnings={props.stores.chefDashboardStore.chefEarnings}/>} />
       <Tab.Screen name="Week" component={Week} />
       <Tab.Screen name="Month" component={Month} />
       <Tab.Screen name="Year" component={Year} />
     </Tab.Navigator>
   );
-}
+})
+
+export default Earnings

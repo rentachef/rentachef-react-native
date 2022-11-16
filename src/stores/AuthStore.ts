@@ -1,5 +1,7 @@
 import {action, makeAutoObservable, observable} from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ChefApi from "../services/chef/chef-api";
+import {useLocalStore} from "mobx-react";
 
 export interface AuthProps {
   attributes: {
@@ -27,6 +29,8 @@ class AuthStore {
   constructor(rootStore: any) {
     makeAutoObservable(this)
     this.rootStore = rootStore
+
+    this.checkIfLogged()
   }
 
   /*
@@ -116,6 +120,19 @@ class AuthStore {
     role: ''
   };
 
+  @action checkIfLogged = async () => {
+    console.log('checking if logged...')
+    const userId = await AsyncStorage.getItem('@userId')
+    console.log(userId)
+    if(!!userId) {
+      const token = await AsyncStorage.getItem('@apiToken')
+      if(!!token) {
+        this.rootStore.chefApi.setToken(token)
+        this.authInfo['userId'] = userId
+      }
+    }
+  }
+
   @action setUserAuthInfo = (data: AuthProps, authObj: any) => {
     this.authInfo = Object.assign({}, data, authObj)
   }
@@ -129,6 +146,8 @@ class AuthStore {
     const apiUser = await this.rootStore.chefApi.loginToApi(email, password)
     if(!!apiUser) {
       this.rootStore.chefApi.setToken(apiUser.tokenSession)
+      await AsyncStorage.setItem('@apiToken', apiUser.tokenSession)
+      await AsyncStorage.setItem('@userId', apiUser.data._id)
       this.setApiData({
         role: apiUser.data.userType,
         userId: apiUser.data._id,
@@ -156,8 +175,9 @@ class AuthStore {
       return 'REGISTRATION_FAILED'
   }
 
-  @action logout = () => {
+  @action logout = async () => {
     this.rootStore.chefApi.logout()
+    await AsyncStorage.removeItem('@userId')
   }
 }
 

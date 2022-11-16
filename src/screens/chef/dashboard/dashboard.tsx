@@ -16,6 +16,8 @@ import Divider from "../../../components/divider/Divider";
 import Icon from "../../../components/icon/Icon"
 import Colors from '../../../theme/colors';
 import {observer} from 'mobx-react'
+import ChefEarning from "../../../models/chef/ChefDashboard";
+import moment from "moment";
 
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
@@ -40,12 +42,11 @@ const dashboardStyles = StyleSheet.create({
 
 @observer
 export default class ChefDashboard extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props)
-      this.navigateTo = this.navigateTo.bind(this)
-    }
+  constructor(props: any) {
+      super(props)
+  }
 
-    navigateTo = screen => () => {
+    navigateTo = (screen: string) => {
       const {navigation} = this.props;
       navigation.navigate(screen);
     };
@@ -82,7 +83,7 @@ export default class ChefDashboard extends React.Component<any, any> {
         return (
           <View style={{flex: 1, backgroundColor: '#ffffff'}}>
             <View style={dashboardStyles.dashboardHeaderContainer}>
-              <SemiBoldHeading>Hi Jenny!</SemiBoldHeading>
+              <SemiBoldHeading>{`Hi ${this.props.stores?.chefProfileStore.backgroundCheck?.legalName.split(' ')[0] || ''}!`}</SemiBoldHeading>
               <Text>Here is what's going on today</Text>
             </View>
             <View style={dashboardStyles.dashboardContainer}>
@@ -137,7 +138,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                   <View style={{alignItems: 'center', flexDirection: 'row'}}>
                     <View style={{alignItems: 'flex-start', flex: 1}}><Text style={{justifyContent:'flex-start', alignSelf: 'flex-start'}}>Your Earnings</Text></View>
                     <TouchableOpacity
-                      onPress={this.navigateTo("ChefEarnings")}
+                      onPress={() => this.navigateTo("ChefEarnings")}
                       style={{alignSelf: 'flex-end' , flex: 1}}
                     >
                       <Text style={{justifyContent:'flex-end', alignSelf: 'flex-end', color: Colors.primaryColor}}>View All</Text>
@@ -169,7 +170,7 @@ export default class ChefDashboard extends React.Component<any, any> {
 
               <TouchableOpacity
                 style={{marginVertical: 5, marginTop: 10, flex: .25 }}
-                onPress={this.navigateTo('ChefReviews')}
+                onPress={() => this.navigateTo('ChefReviews')}
               >
                 <CardContainer
                   title={'Ratings and Reviews'}

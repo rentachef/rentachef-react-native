@@ -1,6 +1,23 @@
 import React from 'react'
-import {View, StyleSheet, Dimensions, Image, ScrollView, TextInput, Platform, PermissionsAndroid} from 'react-native'
-import {BoldHeading, LightText, SemiBoldHeading, SmallBoldHeading, Text} from "../../../components/text/CustomText";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  ScrollView,
+  TextInput,
+  Platform,
+  PermissionsAndroid,
+  SafeAreaView, TouchableOpacity
+} from 'react-native'
+import {
+  BoldHeading,
+  HeadlineBold,
+  LightText,
+  SemiBoldHeading,
+  SmallBoldHeading,
+  Text
+} from "../../../components/text/CustomText";
 import {inject, observer, PropTypes} from "mobx-react";
 import {computed, observable, reaction} from "mobx";
 import {Slider} from '@miblanchard/react-native-slider';
@@ -12,6 +29,11 @@ import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
 import {notifySuccess} from "../../../components/toast/toast";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {RACBottomSheet} from "../../components/bottom-sheet-modal";
+import TimeRangePicker from "../../../components/pickers/TimeRangePicker";
+import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
+import {isEmpty} from "lodash";
+import moment from "moment";
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -43,7 +65,9 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
 
-    const { workZone, pickupDetails } = props.stores.chefProfileStore
+    const { workZone } = props.stores.chefProfileStore
+
+    const pickupDetails = props.stores.chefProfileStore.retrieveChefPickupDetails()
 
     this.state = {
       myPosition: {
@@ -55,14 +79,17 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         longitude: workZone?.longitude || 0,
         speed: 0
       },
-      pickup: workZone.pickup,
+      pickup: !isEmpty(pickupDetails),
+      pickupDetails: pickupDetails || {},
+      modalIndex: -1,
+      selectedDate: undefined,
       radiusState: workZone?.radius || 300,
       radius: workZone ? Object.keys(radiusMap).find(key => radiusMap[key] === workZone.radius) : 0,
       zipCitySearch: "",
       focus: 0
     }
 
-    console.log('WorkZone from Store', props.stores)
+    console.log('pickupDetails from Store', props.stores.chefProfileStore.pickupDetails)
     reaction(
       () => this._location, (newLocation) => {
         console.log("newLocation", newLocation)
@@ -136,12 +163,15 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       .catch(error => console.warn(error));
   }
 
-  togglePickup = () => {
-    let { pickup } = this.state
-    this.setState({ pickup: !pickup }, () => {
-      if(!pickup)
-        this.props.stores.chefProfileStore.setChefPickupDetails({})
+  togglePickup = (flag: boolean) => {
+    this.setState({ pickup: flag, modalIndex: !flag ? -1 : 1 }, () => {
+      if(!flag)
+        this.setState({ pickupDetails: {} })
     })
+  }
+
+  selectTiming = (timeFrom: Date, timeTo: Date) => {
+    this.setState({ pickupDetails: { ...this.state.pickupDetails, timing: { from: timeFrom, to: timeTo }}, modalIndex: -1, pickup: true })
   }
 
   saveData = () => {
@@ -150,11 +180,15 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       latitude: this.state.myPosition.latitude,
       longitude: this.state.myPosition.longitude
     });
+    this.props.stores.chefProfileStore.saveChefPickupDetails(this.state.pickupDetails)
     notifySuccess('Workzone saved!')
   }
 
+  arePickupDetailsValid = () =>
+    !!this.state.pickupDetails?.address?.street && !!this.state.pickupDetails?.address?.city
+
   render() {
-    const { radius, radiusState, focus, myPosition, pickup } = this.state;
+    const { radius, radiusState, focus, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch } = this.state;
     const { latitude, longitude } = this.state.myPosition
     return (
       <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: '#FFFFFF'}}>
@@ -203,19 +237,60 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
             <Text key={Number(item)} style={workZoneSetupStyles.distanceTrackMarksLabel}>{Number(item)}</Text>
           ))}
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
-          <Icon
-            name='package-variant-closed'
-            color={Colors.secondaryColor}
-            size={30}
-          />
-          <Text>Available for Pickup</Text>
-          <Icon
-            name={pickup ? 'radiobox-marked' : 'radiobox-blank'}
-            color={pickup ? Colors.primaryColor : Colors.primaryText}
-            size={23}
-            onPress={this.togglePickup}
-          />
+        <View style={{borderWidth: 1, borderColor: Colors.placeholderColor, borderRadius: 20, margin: 20}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 5}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+              <Icon
+                name='package-variant-closed'
+                color={Colors.secondaryColor}
+                size={30}
+              />
+              <Text style={{marginHorizontal: 20 }}>{pickup ? 'Available for Pickup!' : 'Not available for Pickup'}</Text>
+            </View>
+            <Icon
+              name={pickup ? 'check-circle' : 'checkbox-blank-circle-outline'}
+              color={pickup ? Colors.primaryColor : Colors.primaryText}
+              size={23}
+              onPress={() => this.togglePickup(!pickup)}
+            />
+          </View>
+          {!isEmpty(pickupDetails) && modalIndex === -1 &&
+          <View style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 30 }}>
+              <View style={{ flexDirection: 'column' }}>
+                <HeadlineBold style={{alignItems: 'center'}}>
+                  <Icon name='timer-sand' size={20} />
+                  From: {moment(pickupDetails.timing.from).format('hh:mm A')}
+                </HeadlineBold>
+                <HeadlineBold>
+                  <Icon name='timer-sand-full' size={20} />
+                  To: {moment(pickupDetails.timing.to).format('hh:mm A')}
+                </HeadlineBold>
+              </View>
+              <View style={{ margin: 20, flexBasis: '30%' }}>
+                <Button
+                  onPress={() => this.setState({ modalIndex: 0 })}
+                  title='Change'
+                  outlined
+                  small
+                  titleColor={Colors.primaryText}
+                  borderColor={Colors.backgroundDark}
+                />
+              </View>
+            </View>
+            <View style={workZoneSetupStyles.item}>
+              <Icon name='map-marker-outline' size={30}/>
+              <View style={{flex: .7, flexDirection: 'column', alignSelf: 'flex-start', marginLeft: 20}}>
+                <Text style={workZoneSetupStyles.title}>{pickupDetails.address?.street}</Text>
+                <LightText style={workZoneSetupStyles.title}>{pickupDetails.address?.city}</LightText>
+              </View>
+              {pickupDetails.address?.guidelines &&
+              <View style={{flex: .3, alignSelf: 'flex-start', flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                <Icon name='note-text-outline' size={30}/>
+                <Text style={{ alignSelf: 'center' }}>{pickupDetails.address?.guidelines}</Text>
+              </View>}
+            </View>
+          </View>}
         </View>
         <View style={workZoneSetupStyles.buttonContainer}>
           <Button
@@ -223,10 +298,75 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
             title='Save'
           />
         </View>
+        {modalIndex !== -1 &&
+          <SafeAreaView style={{ flex: 2, position: 'absolute', width: '100%', height: '100%' }}>
+            {
+              <RACBottomSheet
+                onSheetChanges={(index: any) => {
+                  console.log('value', index)
+                }}
+                size='100%'
+                index={modalIndex}
+                onClose={() => this.setState({ modalIndex: -1 })}
+              >
+                <>
+                  <View style={{ margin: 10, alignItems: 'center', flex: .4 }}>
+                    <HeadlineBold>Pickup Address</HeadlineBold>
+                    <TextInput
+                      autoCapitalize='words'
+                      placeholder='Street Name'
+                      keyboardType='default'
+                      value={pickupDetails.address?.street || ''}
+                      style={[workZoneSetupStyles.inputGroupItem, { maxHeight: 40 }]}
+                      placeholderTextColor={Colors.placeholderColor}
+                      onChangeText={text => this.setState({ pickupDetails: { ...pickupDetails, address: { ...pickupDetails.address, street: text }}})}
+                    />
+                    <TextInput
+                      autoCapitalize='words'
+                      placeholder='Street Number'
+                      keyboardType='default'
+                      value={pickupDetails.address?.number || ''}
+                      style={[workZoneSetupStyles.inputGroupItem, { maxHeight: 40 }]}
+                      placeholderTextColor={Colors.placeholderColor}
+                      onChangeText={text => this.setState({ pickupDetails: { ...pickupDetails, address: { ...pickupDetails.address, number: text }}})}
+                    />
+                    <TextInput
+                      autoCapitalize='words'
+                      placeholder='City'
+                      keyboardType='default'
+                      value={pickupDetails.address?.city || zipCitySearch}
+                      style={[workZoneSetupStyles.inputGroupItem, { maxHeight: 40 }]}
+                      placeholderTextColor={Colors.placeholderColor}
+                      onChangeText={text => this.setState({ pickupDetails: { ...pickupDetails, address: { ...pickupDetails.address, city: text }}})}
+                    />
+                    <TextInput
+                      placeholder='Guidelines (door color, doorbell)...'
+                      placeholderTextColor={Colors.placeholderTextColor}
+                      multiline={true}
+                      numberOfLines={3}
+                      style={workZoneSetupStyles.textArea}
+                      value={pickupDetails.address?.guidelines || ''}
+                      onChangeText={text => this.setState({ pickupDetails: { ...pickupDetails, address: { ...pickupDetails.address, guidelines: text }}})}
+                      textAlignVertical='top'
+                    />
+                  </View>
+                  <View style={{ flex: .6}}>
+                    <TimeRangePicker
+                      isValid={this.arePickupDetailsValid}
+                      selected={!!pickupDetails.timing ? pickupDetails : selectedDate}
+                      onSelect={this.selectTiming}
+                      onCancel={
+                        () => this.setState({modalIndex: -1, timeForDay: '', selectedDate: undefined},
+                        () => this.setState({ pickup: modalIndex === 0 }))}
+                    />
+                  </View>
+                </>
+              </RACBottomSheet>}
+          </SafeAreaView>}
       </ScrollView>
     )
   }
-  //https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#support-for-defaultprops-in-jsx
+
   static defaultProps = defaultProps
 }
 
@@ -244,6 +384,7 @@ const workZoneSetupStyles = StyleSheet.create({
   distanceSlider: {
     flex: .08,
     marginHorizontal: 20,
+    marginTop: 10,
     color: '#d3d3d3'
   },
   distanceTrackMarks: {
@@ -258,7 +399,8 @@ const workZoneSetupStyles = StyleSheet.create({
     marginLeft: 10
   },
   inputGroupItem: {
-    flex: .08,
+    flex: 1,
+    width: '100%',
     paddingHorizontal: 20,
     borderColor: Colors.backgroundDark,
     borderWidth: 2,
@@ -276,4 +418,24 @@ const workZoneSetupStyles = StyleSheet.create({
     backgroundColor: Colors.background,
     alignItems: 'flex-end'
   },
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    width: '100%'
+  },
+  title: {
+    fontSize: 15,
+    letterSpacing: .8
+  },
+  textArea: {
+    width: '100%',
+    padding: 15,
+    marginVertical: 8,
+    borderColor: Colors.backgroundDark,
+    borderWidth: 2,
+    borderRadius: 12,
+    textAlign: 'left',
+    color: Colors.primaryText,
+  }
 });

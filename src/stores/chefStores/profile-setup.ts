@@ -5,17 +5,14 @@ import ChefProfileSetup, {
   DayAndTime,
   WorkZoneSetup, BankAccount, BackgroundCheck, PickupDetails
 } from "../../models/chef/ChefProfileSetup";
-import AuthStore from "../AuthStore";
 import {isEmpty} from "lodash";
 
 class ChefProfileStore {
   rootStore: any;
-  authStore: any;
 
-  constructor(rootStore: any, authStore: AuthStore) {
+  constructor(rootStore: any) {
     makeAutoObservable(this)
     this.rootStore = rootStore
-    this.authStore = authStore
   }
 
   getChefProfile = () => {
@@ -27,6 +24,7 @@ class ChefProfileStore {
         this.setChefAvailability(r.data.availability || {})
         this.setChefBankAccount(r.data.bankAccount || {})
         this.setChefBackgroundCheck(r.data.backgroundCheck || {})
+        this.setChefPickupDetails(r.data.pickupDetails || {})
       }
 
       return r
@@ -44,7 +42,7 @@ class ChefProfileStore {
   @observable pickupDetails?: PickupDetails
 
   @action retrieveChefAvailability = () => {
-    if(!!this.availability) {
+    if(!isEmpty(this.availability)) {
       this.availability.weeklyHours = this.availability?.weeklyHours?.map((wh: WeekDayAndTime) => {
         return {
           day: wh.day,
@@ -79,6 +77,11 @@ class ChefProfileStore {
       : this.bankAccount;
   }
 
+  @action retrieveChefPickupDetails = () => {
+    return !isEmpty(this.pickupDetails) ? { ...this.pickupDetails, timing: { from: new Date(this.pickupDetails.timing?.from), to: new Date(this.pickupDetails.timing?.to )}}
+      : this.pickupDetails;
+  }
+
   @action saveChefWorkZone = async (data: WorkZoneSetup) => {
     const response = await this.rootStore.chefApi.setChefWorkZone(data)
     if(response.ok)
@@ -103,7 +106,7 @@ class ChefProfileStore {
       this.setChefBackgroundCheck(data)
   }
 
-  @action savePickupDetails = async (data: PickupDetails) => {
+  @action saveChefPickupDetails = async (data: PickupDetails) => {
     const response = await this.rootStore.chefApi.setChefPickupDetails(data)
     if(response.ok)
       this.setChefPickupDetails(data)

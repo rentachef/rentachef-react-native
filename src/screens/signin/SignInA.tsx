@@ -116,6 +116,7 @@ export default class SignInA extends Component {
       passwordFocused: false,
       secureTextEntry: true,
       inputModalVisible: false,
+      loading: false
     };
   }
 
@@ -170,24 +171,27 @@ export default class SignInA extends Component {
   };
 
   signIn = async () => {
-    //const { username, password } = this.props.stores.authStore.authInfo
-    const { email, password } = this.state
-    this.setState(
-      {
-        emailFocused: false,
-        passwordFocused: false,
+    this.setState({ loading: true }, async () => {
+      const { email, password } = this.state
+      this.setState(
+        {
+          emailFocused: false,
+          passwordFocused: false,
+        }
+      );
+      try {
+        const user = await Auth.signIn(email.trim(), password.trim())
+        this.props?.stores?.authStore?.setUserAuthInfo(user)
+        await this.props?.stores.authStore.login(email, password)
+        this.props?.navigation?.navigate('Home', {screen: 'Home'})
+      } catch (error) {
+        console.log('error signing in', error)
+        let errorMessage = error?.message ? error.message : 'Error while signing in'
+        notifyError(errorMessage)
+      } finally {
+        this.setState({ loading: false })
       }
-    );
-    try {
-      const user = await Auth.signIn(email, password)
-      this.props?.stores?.authStore?.setUserAuthInfo(user)
-      await this.props?.stores.authStore.login(email, password)
-      this.props?.navigation?.navigate('Home', {screen: 'Home'})
-    } catch (error) {
-      console.log('error signing in', error)
-      let errorMessage = error?.message ? error.message : 'Error while signing in'
-      notifyError(errorMessage)
-    }
+    })
   };
 
   render() {
@@ -256,6 +260,7 @@ export default class SignInA extends Component {
                 <Button
                   onPress={() => this.signIn()}
                   title={'Sign in'.toUpperCase()}
+                  loading={this.state.loading}
                 />
               </View>
 

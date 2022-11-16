@@ -1,17 +1,17 @@
 import AuthStore from "./AuthStore";
 import SearchStore from "./SearchStore";
-import ChefReviewsStore from "./chefStores/reviews-store";
 import ChefProfileStore from "./chefStores/profile-setup";
 import ChefSettingsStore from "./chefStores/settings-store";
 import ChefBookingsStore from "./chefStores/bookings-store";
 import CustomerSettingsStore from "./customerStores/settings-store";
+import ChefDashboardStore from "./chefStores/dashboard-store";
 import ChefApi from "../services/chef/chef-api";
 
 class RootStore {
   chefApi: ChefApi;
   authStore: AuthStore;
   searchStore: SearchStore;
-  chefReviewsStore: ChefReviewsStore;
+  //chefDashboardStore: ChefDashboardStore;
   chefBookingsStore: ChefBookingsStore;
   chefProfileStore: ChefProfileStore;
   chefSettingsStore: ChefSettingsStore;
@@ -21,9 +21,9 @@ class RootStore {
     this.chefApi.setup()
     this.authStore = new AuthStore(this)
     this.searchStore = new SearchStore(this)
-    this.chefReviewsStore = new ChefReviewsStore(this)
+    //this.chefDashboardStore = new ChefDashboardStore(this)
     this.chefBookingsStore = new ChefBookingsStore(this)
-    this.chefProfileStore = new ChefProfileStore(this, this.authStore)
+    this.chefProfileStore = new ChefProfileStore(this)
     this.chefSettingsStore = new ChefSettingsStore(this)
     this.customerSettingsStore = new CustomerSettingsStore(this)
   }

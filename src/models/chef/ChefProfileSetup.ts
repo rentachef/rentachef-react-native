@@ -10,7 +10,6 @@ export interface WorkZoneSetup {
   latitude: number
   longitude: number
   radius: number
-  pickup: boolean
 }
 
 // AVAILABILITY
@@ -54,7 +53,7 @@ export interface BackgroundCheck {
 
 export interface PickupDetails {
   address: PickupAddress
-  timeRange: PickupTimeRange
+  timing: PickupTimeRange
 }
 
 export interface PickupAddress {
@@ -65,6 +64,5 @@ export interface PickupAddress {
 }
 
 export interface PickupTimeRange {
-  from: number
-  to: number
+  timing: Timing
 }

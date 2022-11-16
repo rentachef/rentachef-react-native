@@ -64,14 +64,19 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
 
   const saveChanges = async () => {
     const { legalName, socialNumber, idFrontUri, idBackUri } = backgroundCheck
-    await props.stores.chefProfileStore.saveChefBackgroundCheck({
-      legalName,
-      socialNumber: Number(socialNumber),
-      idFrontUri: await _getBase64(idFrontUri),
-      idBackUri: await _getBase64(idBackUri),
-      approved: false
-    })
-    notifySuccess('Background Check saved!')
+    try {
+      await props.stores.chefProfileStore.saveChefBackgroundCheck({
+        legalName,
+        socialNumber: Number(socialNumber),
+        idFrontUri: await _getBase64(idFrontUri),
+        idBackUri: await _getBase64(idBackUri),
+        approved: false
+      })
+      notifySuccess('Background Check saved!')
+    } catch(e) {
+      console.log('Error saving background check', e)
+      notifyError('Error please contact support')
+    }
   }
 
   const isValid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9

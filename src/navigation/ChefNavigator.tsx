@@ -9,6 +9,8 @@
 import React, { useEffect } from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import Chat from "../screens/chat/Chat";
+
 
 // import components
 import TabBadgeIcon from '../components/navigation/TabBadgeIcon';
@@ -21,9 +23,6 @@ import Search from '../screens/search/SearchA';
 
 // import Favorites screen
 import Favorites from '../screens/favorites/FavoritesA';
-
-// import Cart screen
-import Cart from '../screens/cart/CartA';
 
 // import Settings screen
 import Settings from '../screens/settings/SettingsA'
@@ -70,9 +69,11 @@ function ChefDashboardStackScreen() {
 const ChefNavigator = inject('stores')(observer((props: any) => {
 
   useEffect(() => {
-    props.stores.chefProfileStore.getChefProfile()
-    props.stores.chefSettingsStore.getChefSettings()
-    props.stores.searchStore.getCuisines()
+    setTimeout(() => {
+      props.stores.chefProfileStore.getChefProfile()
+      props.stores.chefSettingsStore.getChefSettings()
+      props.stores.searchStore.getCuisines()
+    }, 1000)
   }, []);
 
   return (
@@ -111,7 +112,7 @@ const ChefNavigator = inject('stores')(observer((props: any) => {
       <Tab.Screen name="ChefSchedule" component={ChefBookingsStack}/>
       <Tab.Screen
         name="ChefChat"
-        component={Cart}
+        children={() => <Chat userId={props.stores.authStore.authInfo.userId} />}
         options={{
           tabBarIcon: props => (
             <TabBadgeIcon

@@ -7,7 +7,7 @@
 
 // import dependencies
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 'react-native';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 
 // import components
@@ -112,6 +112,7 @@ type Props = {
   titleColor?: string;
   rounded?: boolean;
   outlined?: boolean;
+  loading?: boolean;
 };
 
 // Button
@@ -133,6 +134,7 @@ const Button = ({
   titleColor,
   rounded,
   outlined,
+  loading
 }: Props) => (
   <TouchableOpacity
     onPress={onPress}
@@ -165,6 +167,7 @@ const Button = ({
       ]}>
       <Text style={titleStyle}>{title || 'Button'}</Text>
     </ButtonText>
+    {loading && <ActivityIndicator size="small" color={Colors.secondaryColor} />}
   </TouchableOpacity>
 );
 
