@@ -44,9 +44,9 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
 
   const getTotal = () => {
     if(booking.status === 'Confirmed')
-      return booking.chef.hourlyRate.toFixed(2)
+      return booking.chef?.hourlyRate.toFixed(2)
     if(booking.status === 'Completed')
-      return booking.amount.total.toFixed(2)
+      return booking.amount?.total.toFixed(2)
   }
 
   return (
@@ -60,8 +60,8 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
             <Icon name='map-marker-outline' size={30} style={{ flex: .5, flexBasis: '12%' }}/>
             <View style={{ flexBasis: '65%'}}>
-              <Text style={{ marginVertical: 5}}>{booking.address}</Text>
-              <Subtitle2 style={{ marginVertical: 5}}>{booking.address}</Subtitle2>
+              <Text style={{ marginVertical: 5}}>{booking.location.address}</Text>
+              <Subtitle2 style={{ marginVertical: 5}}>{booking.location.city}</Subtitle2>
             </View>
             <View style={{ alignItems: 'center', flexBasis: '25%' }}>
               <Avatar
@@ -69,7 +69,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 rounded
                 size={40}
               />
-              <Subtitle2 style={{ color: Colors.primaryText, marginTop: 5 }}>{formatName(role === 'Cook' ? booking.clientName : booking.chef.name)}</Subtitle2>
+              <Subtitle2 style={{ color: Colors.primaryText, marginTop: 5 }}>{formatName(role === 'Cook' ? booking.consumerName : booking.chefName)}</Subtitle2>
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 50, marginTop: -10 }}>
@@ -138,8 +138,8 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
               <Heading6 style={{ marginVertical: 10 }}>Amount Charged</Heading6>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row' }}>
-                  <FAIcon style={{ marginRight: 15 }} name={`cc-${booking.paymentMethod?.creditCards[0].cardBrand}`} size={35} color={Colors.primaryText} />
-                  <HeadlineBold style={{ alignSelf: 'center' }}>●●●● {booking.paymentMethod?.creditCards[0].cardNumber}</HeadlineBold>
+                  <FAIcon style={{ marginRight: 15 }} name={`${booking.paymentMethod?.cardBrand}`} size={35} color={Colors.primaryText} />
+                  <HeadlineBold style={{ alignSelf: 'center' }}>●●●● {booking.paymentMethod?.cardNumber}</HeadlineBold>
                 </View>
                 <HeadlineBold style={{ alignSelf: 'center' }}>$ {getTotal()}</HeadlineBold>
               </View>
@@ -157,7 +157,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
                     onPress={() => {}}
-                    title={`Message ${formatName(role === 'Cook' ? booking.clientName : booking.chef.name)}`}
+                    title={`Message ${formatName(role === 'Cook' ? booking.clientName : booking.chefName)}`}
                     color={Colors.backgroundMedium}
                   />
                 </View>

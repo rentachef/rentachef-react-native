@@ -187,7 +187,7 @@ const MainNavigatorA = inject('stores')((props) => {
           <Stack.Screen
             name="Home"
             //component={ChefNavigator}
-            component={props.stores.authStore.authInfo.role === 'Customer' ? CustomerNavigator : ChefNavigator}
+            component={props.stores.authStore.authInfo.role === 'Consumer' ? CustomerNavigator : ChefNavigator}
             options={{headerShown: false}}
             screenOptions={{headerShown: false}}
           />

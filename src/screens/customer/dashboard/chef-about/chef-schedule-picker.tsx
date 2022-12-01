@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import Button from "../../../../components/buttons/Button";
 import Colors from "../../../../theme/colors";
+import {isDate, isEmpty} from "lodash";
 
 const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
   console.log('chefAvailability', JSON.stringify(chefAvailability.weeklyHours))
@@ -29,8 +30,12 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
   const onSelectedDate = (value: Timing) => {
     setSelectedTiming(value)
     console.log(value)
+    setHourFrom(undefined)
+    setHourTo(undefined)
     setHoursRange(_getDatesByHourRange(value.from, value.to))
   }
+
+  console.log('IS EMPTY', isEmpty(selectedTiming), isEmpty(hourFrom), hourTo)
 
   return (
     <View style={{ flex: 1, margin: 20, marginTop: 5, alignItems: 'center' }}>
@@ -58,6 +63,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                   <Picker
                     selectedValue={hourFrom || undefined}
                     onValueChange={(value) => {
+                      console.log('hourFrom', value)
                       setHourFrom(value)
                       setHourTo(undefined)
                     }}
@@ -65,7 +71,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                   >
                     <Picker.Item label='Hour from' value={undefined} />
                     {hoursRange.filter((d, i) => i !== hoursRange.length - 1).map((d: Date, i: number) => (
-                      <Picker.Item key={i} label={moment(d).format('HH:mm')} value={d}/>
+                      <Picker.Item key={i} label={moment(d).utc().format('HH:mm')} value={d}/>
                     ))}
                   </Picker>
                 </View>
@@ -74,11 +80,16 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                     <Text>To</Text>
                     <Picker
                       selectedValue={hourTo || undefined}
-                      onValueChange={setHourTo}
+                      onValueChange={(value) => {
+                        console.log('hourTo', value)
+                        setHourTo(value)
+                      }}
                       style={{ marginLeft: 5, backgroundColor: Colors.pickerBackground }}
                     >
                       <Picker.Item label='Hour to' value={undefined} />
-                      {hoursRange.filter(hr => hr > hourFrom).map((d: Date, i: number) => <Picker.Item key={i} label={moment(d).format('HH:mm')} value={d}/>)}
+                      {hoursRange.filter(hr => hr > hourFrom).map((d: Date, i: number) => (
+                        <Picker.Item key={i} label={moment(d).utc().format('HH:mm')} value={d}/>
+                      ))}
                     </Picker>
                   </View>}
               </View>}
@@ -87,7 +98,15 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
           <Button
             title='Continue'
             buttonStyle={{ padding: 10, backgroundColor: Colors.primaryColor, alignSelf: 'stretch' }}
-            onPress={onConfirm}
+            disabled={isEmpty(selectedTiming) || !isDate(hourFrom) || !isDate(hourTo)}
+            onPress={() => {
+              onConfirm({
+                from: moment(selectedTiming.from)
+                  .set('hours', Number(moment(hourFrom).format('HH'))),
+                to: moment(selectedTiming.to)
+                  .set('hours', Number(moment(hourTo).format('HH')))
+              })
+            }}
           />
         </View>
       </View>

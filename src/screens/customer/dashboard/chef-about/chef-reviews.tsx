@@ -29,9 +29,7 @@ const reviewsMock = [
   },
 ]
 
-const ChefReviews = () => {
-  const [reviews, setReviews] = useState(reviewsMock)
-
+const ChefReviews = ({ reviews }) => {
   useEffect(() => {
     //TODO get reviews from endpoint
   }, [])

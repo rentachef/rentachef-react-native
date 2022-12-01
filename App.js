@@ -346,7 +346,7 @@ class App extends React.Component {
     await rootStoreTrunk.init()
     AppState.addEventListener('change', this._handleAppStateChange)
     //Orientation.lockToPortrait()
-    await this._checkAuthState()
+    //await this._checkAuthState()
     SplashScreen.hide()
   }
 

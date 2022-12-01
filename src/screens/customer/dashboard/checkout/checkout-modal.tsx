@@ -6,11 +6,18 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import globalStyles from "../../../../theme/global-styles";
 import Button from "../../../../components/buttons/Button";
 
-const CheckoutModal = ({ navigation }) => {
+const CheckoutModal = ({ navigation, action }) => {
   const [loading, setLoading] = useState(true)
+  const [bookingId, setBookingId] = useState()
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 5000)
+    setTimeout(() => {
+      action().then(res => {
+        setLoading(false)
+        console.log('bookingId', res)
+        setBookingId(res)
+      })
+    }, 2000)
   }, [])
 
   return (
@@ -27,14 +34,14 @@ const CheckoutModal = ({ navigation }) => {
             <View style={{ width: '80%', height: '15%', justifyContent: 'space-around' }}>
                 <Button
                   title='View Booking'
-                  onPress={() => navigation.navigate('CustomerDashboard')}
+                  onPress={() => navigation.navigate('Bookings', { bookingId })}
                 />
                 <Button
                   title='Message Chef'
                   outlined
                   buttonStyle={{ backgroundColor: Colors.onPrimaryColor, borderColor: Colors.onPrimaryColor }}
                   titleColor={Colors.primaryText}
-                  onPress={() => {}}
+                  onPress={() => navigation.navigate('CustomerChat')}
                 />
             </View>
           </>}

@@ -14,30 +14,53 @@ class ChefDashboardStore {
 
   @observable chefEarnings: ChefEarning[] = [
     {
-      date: moment('2022-05-13').toDate(),
-      consumerName: 'Annette Black',
-      amount: 162.60
+      _id: {
+        year: 2022,
+        month: 5
+      },
+      total_cost_month: 350
     },
     {
-      date: moment('2022-05-13').toDate(),
-      consumerName: 'Victoria Hanson',
-      amount: 82.39
-    }
+      _id: {
+        year: 2022,
+        month: 6
+      },
+      total_cost_month: 239
+    },
+    {
+      _id: {
+        year: 2022,
+        month: 6
+      },
+      total_cost_month: 541
+    },
+    {
+      _id: {
+        year: 2022,
+        month: 8
+      },
+      total_cost_month: 450
+    },
+    {
+      _id: {
+        year: 2022,
+        month: 9
+      },
+      total_cost_month: 650
+    },
   ]
 
   getChefReviews = () => {
-    this.rootStore.chefApi.getChefReviews().then((r: any) => {
+    this.rootStore.chefApi.getChefReviews(this.rootStore.authStore.authInfo.userId).then((r: any) => {
       console.log("r", r)
-      this.setChefReviews(r?.data)
-      return r
+      this.setChefReviews(r?.data || [])
     })
   }
 
   getChefEarnings = () => {
     this.rootStore.chefApi.getChefEarnings().then((r: any) => {
-      console.log("r", r)
-      this.setChefEarnings(r?.data)
-      return r
+      console.log("chef earnings", r.data)
+      this.setChefEarnings(r?.data || [])
     })
   }
 

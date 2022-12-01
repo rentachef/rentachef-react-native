@@ -2,6 +2,7 @@ import {action, makeAutoObservable, observable} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ChefApi from "../services/chef/chef-api";
 import {useLocalStore} from "mobx-react";
+import {Auth} from "aws-amplify";
 
 export interface AuthProps {
   attributes: {
@@ -129,7 +130,13 @@ class AuthStore {
       if(!!token) {
         this.rootStore.chefApi.setToken(token)
         this.authInfo['userId'] = userId
+        const role = await AsyncStorage.getItem('@userRole')
+        if(!!role)
+          this.authInfo['role'] = role
       }
+      const user = await Auth.currentAuthenticatedUser();
+      if(!!user)
+        this.authInfo = { ...this.authInfo, ...user }
     }
   }
 
@@ -148,6 +155,7 @@ class AuthStore {
       this.rootStore.chefApi.setToken(apiUser.tokenSession)
       await AsyncStorage.setItem('@apiToken', apiUser.tokenSession)
       await AsyncStorage.setItem('@userId', apiUser.data._id)
+      await AsyncStorage.setItem('@userRole', apiUser.data.userType)
       this.setApiData({
         role: apiUser.data.userType,
         userId: apiUser.data._id,
@@ -177,6 +185,7 @@ class AuthStore {
 
   @action logout = async () => {
     this.rootStore.chefApi.logout()
+    this.rootStore.reset()
     await AsyncStorage.removeItem('@userId')
   }
 }

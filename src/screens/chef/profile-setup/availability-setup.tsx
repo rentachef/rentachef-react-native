@@ -52,7 +52,8 @@ export default class ChefAvailability extends React.Component<any, any> {
       weeklyHours: availability?.weeklyHours ? [...availability.weeklyHours] : [],
       timeZone: availability?.timeZone ? availability.timeZone : 'Eastern Standard Time (EST)',
       timeForDay: '',
-      selectedDate: undefined
+      selectedDate: undefined,
+      loading: false
     }
   }
 
@@ -127,22 +128,31 @@ export default class ChefAvailability extends React.Component<any, any> {
 
   saveData = () => {
     const { weeklyHours, dateOverrides, timeZone } = this.state;
-    let availabilitySetup: AvailabilitySetup = {
-      weeklyHours,
-      dateOverrides,
-      timeZone
-    };
-    console.log(JSON.stringify(availabilitySetup));
-    rootStore.chefProfileStore.saveChefAvailability(availabilitySetup)
-      .then(_ => notifySuccess('Availability saved!'))
-      .catch(err => notifyError(`An error ocurred: ${err.message}`))
+
+    this.setState({ loading: true }, () => {
+      let availabilitySetup: AvailabilitySetup = {
+        weeklyHours,
+        dateOverrides,
+        timeZone
+      };
+
+      rootStore.chefProfileStore.saveChefAvailability(availabilitySetup)
+        .then(_ => {
+          notifySuccess('Availability saved!')
+          this.setState({ loading: false })
+        })
+        .catch(err => {
+          notifyError(`An error ocurred: ${err.message}`)
+          this.setState({ loading: false })
+        })
+    })
   }
 
   isValid = () => this.state.weeklyHours.length > 0 || this.state.dateOverrides.length > 0
 
   render() {
     const buttons = ['Weekly Hours', 'Date Overrides']
-    const { selectedIndex, timeZone, modalView, modalIndex, selectedDate, timeForDay, calendarDates, dateOverrides } = this.state
+    const { selectedIndex, timeZone, modalView, modalIndex, selectedDate, timeForDay, calendarDates, dateOverrides, loading } = this.state
 
     return (
       <View style={{flex: 1, backgroundColor: '#FFFFFF', padding: 5, height: '99%'}}>
@@ -201,7 +211,8 @@ export default class ChefAvailability extends React.Component<any, any> {
             <Button
               onPress={() => this.saveData()}
               title='Save'
-              disabled={!this.isValid()}
+              disabled={!this.isValid() || loading}
+              loading={loading}
             />
           </View>
         </View>

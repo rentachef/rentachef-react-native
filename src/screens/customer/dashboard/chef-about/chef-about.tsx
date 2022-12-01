@@ -21,22 +21,23 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import ChefSchedulePicker from "./chef-schedule-picker";
 
 const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
-  const [chef, setChef] = useState({})
+  const [chef, setChef] = useState({...route.params.chef})
   const [index, setIndex] = useState(0)
   const [modalIndex, setModalIndex] = useState(-1)
+  const [reviews, setChefReviews] = useState([])
 
   useEffect(() => {
-    //TODO get from API
-    setChef({
-      ...route.params.chef,
-      bio: stores.chefSettingsStore.bio,
-      availability: stores.chefProfileStore.retrieveChefAvailability()
-    })
+    getChefReviews()
   }, [])
 
   useEffect(() => {
-    console.log(chef)
+    console.log('Selected chef', chef)
   }, [chef])
+
+  const getChefReviews = () => {
+    stores.searchStore.getChefReviews(chef.userId)
+      .then(rev => setChefReviews(rev))
+  }
 
   return (
     <>
@@ -48,22 +49,23 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
             size='xl'
           />
           <View style={{ padding: 15 }}>
+            {chef.settings?.bio?.covid?.testDate &&
+              <View style={{ flexDirection: 'row' }}>
+                <Icon style={{ marginRight: 5 }} name='shield-check' color={Colors.primaryColor} size={18} />
+                <Text>COVID-19 Tested</Text>
+              </View>}
+            <Heading5>{chef.settings.profile.fullName}</Heading5>
             <View style={{ flexDirection: 'row' }}>
-              <Icon style={{ marginRight: 5 }} name='shield-check' color={Colors.primaryColor} size={18} />
-              <Text>{chef.bio?.covid?.testDate ? 'COVID-19 Tested' : ''}</Text>
-            </View>
-            <Heading5>{chef.name}</Heading5>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 17, fontWeight: '600' }}>$ {chef.hourRate}</Text>
+              <Text style={{ fontSize: 17, fontWeight: '600' }}>$ {chef.hourlyRate}</Text>
               <Subtitle2 style={{ alignSelf: 'center' }}>/hr</Subtitle2>
             </View>
             <View style={{ marginVertical: 5 }}>
-              <Subtitle2>{chef.bio?.cuisines[0]?.label} ● {chef.bio?.cuisines?.length}+ bookings</Subtitle2>
+              <Subtitle2>{chef.settings.bio?.cuisines[0]?.label} ● {chef.bookings.length}+ bookings</Subtitle2>
             </View>
             <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
               <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ marginRight: 5, alignSelf: 'center' }} name='star' color={Colors.primaryColor} size={18} />
-                <Subtitle1>{chef.scoring}</Subtitle1>
+                <Subtitle1>{chef.scoring || 0}</Subtitle1>
               </View>
               <Text style={{ marginLeft: 20 }}>
                 {chef.verified && (<View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -81,7 +83,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
               backgroundColor: Colors.disabled
             }}
             selectedIndex={index}
-            buttons={['About', `Reviews (${chef?.reviews})`]}
+            buttons={['About', `Reviews (${reviews?.length})`]}
             containerStyle={globalStyles.btnGroupContainer}
             selectedButtonStyle={globalStyles.btnGroupSelectedBtn}
             selectedTextStyle={{color: Colors.primaryText}}
@@ -91,7 +93,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
             <ChefBio data={chef} />
           </View> :
           <View>
-            <ChefReviews />
+            <ChefReviews reviews={reviews} />
           </View>}
         </ScrollView>
         <View style={{ height: 60, marginVertical: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -112,7 +114,16 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
             <Button
               title='Continue'
               buttonStyle={{ padding: 10, backgroundColor: Colors.primaryColor, alignSelf: 'stretch' }}
-              onPress={() => navigation.navigate('Checkout', { chefAvailability: chef?.availability })}
+              onPress={
+                () => navigation.navigate('Checkout', { chef: {
+                  userId: chef.userId,
+                  name: chef.settings.profile.fullName,
+                  availability: chef.availability,
+                  photo: chef.photo,
+                  hourlyRate: chef.hourlyRate,
+                  cuisines: chef.settings.bio.cuisines,
+                  specialties: chef.settings.bio.specialties
+                }})}
             />
           </View>
         </View>

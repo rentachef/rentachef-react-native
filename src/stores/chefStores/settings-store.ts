@@ -35,9 +35,10 @@ class ChefSettingsStore {
 
   @action saveChefProfile = async (data: Profile) => {
     const response = await this.rootStore.chefApi.setUserProfile(data)
-    if(response.ok)
+    if(response.ok) {
       this.profile = Object.assign({}, data)
-    else
+      return 'SUCCESS'
+    } else
       return response.error?.message
   }
 

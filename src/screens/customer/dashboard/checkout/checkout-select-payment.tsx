@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import {Heading6} from "../../../../components/text/CustomText";
 import {Picker} from "@react-native-picker/picker";
-import {SafeAreaView, SectionList, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {SafeAreaView, ScrollView, SectionList, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Cuisine} from "../../../../models/chef/ChefSettings";
 import globalStyles from "../../../../theme/global-styles";
 import Button from "../../../../components/buttons/Button";
 import Colors from "../../../../theme/colors";
 import {inject} from "mobx-react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import FAIcon from "react-native-vector-icons/FontAwesome";
+import {BottomSheetScrollView} from "@gorhom/bottom-sheet";
 
 const paymentMethodsMock = [
   {
@@ -19,33 +21,33 @@ const paymentMethodsMock = [
   }
 ]
 
-const renderItem = (item, withIcon, onSelect) => (
-  <TouchableOpacity style={styles.item} onPress={() => onSelect(item)}>
-    <Text
-      style={styles.title}
-    >
-      {!!item.ccNumber ? `●●●● ${item.ccNumber.toString().slice(-4)}` : item.type}
-    </Text>
+//
+
+const renderItem = (index, item, withIcon, onSelect) => (
+  <TouchableOpacity key={index} style={styles.item} onPress={() => onSelect(item)}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <FAIcon style={{ marginHorizontal: 15 }} name={item?.cardBrand} size={35} color={Colors.primaryText} />
+      <Text>{!!item.cardNumber ? `●●●● ${item.cardNumber.toString().slice(-4)}` : item.type}</Text>
+    </View>
     {withIcon && <Icon style={styles.icon} name='check-circle-outline' size={20} />}
   </TouchableOpacity>
 );
 
 const CheckoutSelectPayment = inject('stores')(({ selected, onSelect, stores }) => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(selected || {...stores.chefProfileStore.bankAccount})
-  const [paymentMethods, setPaymentMethods] = useState<any[]>(paymentMethodsMock)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(selected || {...stores.customerSettingsStore.paymentMethods})
 
   useEffect(() => {
     console.log('selectedPaymentMethod', selectedPaymentMethod)
   }, [])
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between' }}>
+    <BottomSheetScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'space-between' }}>
       <Heading6>Choose Payment</Heading6>
       <SafeAreaView style={styles.container}>
         <SectionList
-          sections={[{data: paymentMethods}]}
+          sections={[{data: stores.customerSettingsStore.paymentMethods}]}
           keyExtractor={(item, index) => item + index}
-          renderItem={({item, index}) => renderItem(item, selected === item, onSelect)}
+          renderItem={({item, index}) => renderItem(index, item, selected === item, onSelect)}
           renderSectionFooter={() =>
             <TouchableOpacity style={{ ...styles.item, flexDirection: 'row', justifyContent: 'flex-start', borderBottomWidth: 0 }} onPress={() => console.log('add payment method')}>
               <Icon name='plus' size={25} />
@@ -53,7 +55,7 @@ const CheckoutSelectPayment = inject('stores')(({ selected, onSelect, stores }) 
             </TouchableOpacity>}
         />
       </SafeAreaView>
-    </View>
+    </BottomSheetScrollView>
   )
 })
 

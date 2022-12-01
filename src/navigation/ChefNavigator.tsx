@@ -73,6 +73,9 @@ const ChefNavigator = inject('stores')(observer((props: any) => {
       props.stores.chefProfileStore.getChefProfile()
       props.stores.chefSettingsStore.getChefSettings()
       props.stores.searchStore.getCuisines()
+      props.stores.chefDashboardStore.getChefEarnings()
+      props.stores.chefDashboardStore.getChefReviews()
+      props.stores.bookingsStore.getBookings()
     }, 1000)
   }, []);
 
@@ -117,7 +120,7 @@ const ChefNavigator = inject('stores')(observer((props: any) => {
           tabBarIcon: props => (
             <TabBadgeIcon
               name={`forum${props.focused ? '' : '-outline'}`}
-              badgeCount={5}
+              badgeCount={0}
               {...props}
             />
           ),

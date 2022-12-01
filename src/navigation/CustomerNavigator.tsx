@@ -20,6 +20,7 @@ import ChefResults from "../screens/customer/dashboard/chef-results";
 import ChefAbout from "../screens/customer/dashboard/chef-about/chef-about";
 import Checkout from "../screens/customer/dashboard/checkout/checkout";
 import {inject, observer} from "mobx-react";
+import Chat from "../screens/chat/Chat";
 
 // create bottom tab navigator
 const Tab = createBottomTabNavigator();
@@ -51,8 +52,12 @@ type Props = {
 const CustomerNavigator = inject('stores')(observer((props) => {
 
   useEffect(() => {
-    props.stores.chefProfileStore.getChefProfile()
-    props.stores.customerSettingsStore.getCustomerSettings()
+    setTimeout(() => {
+      props.stores.customerSettingsStore.getCustomerSettings()
+      props.stores.searchStore.getCuisines()
+      props.stores.searchStore.getChefs()
+      props.stores.bookingsStore.getBookings()
+    }, 1000)
   }, []);
 
   return (
@@ -89,12 +94,12 @@ const CustomerNavigator = inject('stores')(observer((props) => {
       <Tab.Screen name="CustomerSchedule" component={ChefBookingsStack}/>
       <Tab.Screen
         name="ChefChat"
-        component={Cart}
+        children={() => <Chat userId={props.stores.authStore.authInfo.userId} />}
         options={{
           tabBarIcon: props => (
             <TabBadgeIcon
               name={`forum${props.focused ? '' : '-outline'}`}
-              badgeCount={5}
+              badgeCount={0}
               {...props}
             />
           ),

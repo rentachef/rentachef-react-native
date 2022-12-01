@@ -125,7 +125,8 @@ export default class EditProfileA extends Component {
 
     this.state = {
       profile: this.role === 'Cook' ? {...props.stores.chefSettingsStore.profile} : {...props.stores.customerSettingsStore.profile},
-      focus: false
+      focus: false,
+      loading: false
     };
   }
 
@@ -135,21 +136,30 @@ export default class EditProfileA extends Component {
   };
 
   onChange = (key, value) => {
-    this.setState({ profile: { ...this.state.profile, [key]: key === 'phoneCountry' ? value?.cca2 : value }})
+    console.log('changing ', key)
+    this.setState({ profile: { ...this.state.profile, [key]: key === 'phoneCountry' ? value?.cca2 : value }}, () => console.log(this.state.profile))
   }
 
   saveChanges = async () => {
     const { profile } = this.state
 
-    if(this.role === 'Cook') {
-      let result = await this.props.stores.chefSettingsStore.saveChefProfile(profile);
+    this.setState({ loading: true }, async () => {
+      if(isEmpty(profile.fullName) && this.role === 'Cook')
+        profile.fullName = this.props.stores.chefProfileStore.backgroundCheck?.legalName
+
+      if(isEmpty(profile.email))
+        profile.email = this.props.stores.authStore.authInfo.attributes?.email
+
+      let result = this.role === 'Cook' ?
+        await this.props.stores.chefSettingsStore.saveChefProfile(profile) :
+        await this.props.stores.customerSettingsStore.saveCustomerProfile(profile)
       if(result === 'SUCCESS')
         notifySuccess('Profile data saved!')
       else
-        notifyError(`Error saving profile changes: ${result}`)
-    }
-    else
-      this.props.stores.customerSettingsStore.setCustomerProfile(profile);
+        notifyError(`Error saving profile} changes: ${result}`)
+
+      this.setState({loading: false})
+    })
   }
 
   isValid = () => Object.values(this.state.profile).every((v: any) => !isEmpty(v))
@@ -196,7 +206,7 @@ export default class EditProfileA extends Component {
                 keyboardType={"default"}
                 onFocus={() => this.setState({ focus: 0 })}
                 onBlur={() => this.setState({ focus: undefined })}
-                value={profile.fullName || this.props.stores.chefProfileStore.backgroundCheck?.legalName}
+                value={profile.fullName || ''}
                 onChangeText={v => this.onChange('fullName', v)}
                 style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
                 placeholderTextColor={Colors.placeholderColor}
@@ -268,7 +278,8 @@ export default class EditProfileA extends Component {
           <Button
             onPress={() => this.saveChanges()}
             title='Save'
-            disabled={!this.isValid()}
+            disabled={!this.isValid() || this.state.loading}
+            loading={this.state.loading}
           />
         </View>
       </ScrollView>

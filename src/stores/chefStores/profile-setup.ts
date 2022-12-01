@@ -84,8 +84,11 @@ class ChefProfileStore {
 
   @action saveChefWorkZone = async (data: WorkZoneSetup) => {
     const response = await this.rootStore.chefApi.setChefWorkZone(data)
-    if(response.ok)
+    if(response.ok) {
       this.setChefWorkZone(data)
+      return 'SUCCESS'
+    } else
+      return response.error
   }
 
   @action saveChefAvailability = async (data: AvailabilitySetup) => {
@@ -96,20 +99,29 @@ class ChefProfileStore {
 
   @action saveChefBankAccount = async (data: BankAccount) => {
     const response = await this.rootStore.chefApi.setChefBankAccount(data)
-    if(response.ok)
+    if(response.ok) {
       this.setChefBankAccount(data)
+      return 'SUCCESS'
+    } else
+      return response.error
   }
 
   @action saveChefBackgroundCheck = async (data: BackgroundCheck) => {
     const response = await this.rootStore.chefApi.setChefBackgroundCheck(data)
-    if(response.ok)
+    if(response.ok) {
       this.setChefBackgroundCheck(data)
+      return 'SUCCESS'
+    } else
+      return response.error
   }
 
   @action saveChefPickupDetails = async (data: PickupDetails) => {
     const response = await this.rootStore.chefApi.setChefPickupDetails(data)
-    if(response.ok)
+    if(response.ok) {
       this.setChefPickupDetails(data)
+      return 'SUCCESS'
+    } else
+      return response.error
   }
 
   @action setChefAvailability = (data: AvailabilitySetup) => {

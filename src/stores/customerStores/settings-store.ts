@@ -1,11 +1,10 @@
 import {action, makeAutoObservable, observable} from 'mobx';
-import ChefApi from "../../services/chef/chef-api";
 import ChefSettings, {
   Profile,
   Bio, Preferences
 } from "../../models/chef/ChefSettings";
-import {BankAccount} from "../../models/chef/ChefProfileSetup";
-import {CustomerLocation, PaymentMethods} from "../../models/user/CustomerSettings";
+import {CustomerLocation, PaymentMethod} from "../../models/user/CustomerSettings";
+import {isEmpty, sortBy} from "lodash";
 
 class CustomerSettingsStore {
   rootStore: any;
@@ -16,39 +15,79 @@ class CustomerSettingsStore {
   }
 
   getCustomerSettings = () => {
-    this.rootStore.chefApi.getCustomerSettings().then((r: any) => {
+    this.rootStore.chefApi.getUserSettings().then((r: any) => {
       console.log("r", r)
       if(!!r) {
         this.setCustomerProfile(r?.data.profile || {})
         this.setCustomerPreferences(r?.data.preferences || {})
         this.setCustomerLocation(r?.data.location || {})
       }
-      return r
     })
+
+    this.getPaymentMethods()
   }
 
   @observable profile?: Profile
 
-  @observable preferences?: Preferences
+  @observable preferences?: Preferences = []
 
-  @observable paymentMethods?: PaymentMethods
+  @observable paymentMethods: PaymentMethod[] = []
 
   @observable defaultLocation?: CustomerLocation
 
-  @action setCustomerProfile = (data: Profile) => this.profile = data
+  @action setCustomerProfile = (data: Profile) => this.profile = Object.assign({}, data)
 
-  @action setCustomerPreferences = (data: Preferences) => this.preferences = data
+  @action setCustomerPreferences = (data: Preferences) => this.preferences = Object.assign([], data)
 
-  @action setCustomerLocation = (data: CustomerLocation) => this.defaultLocation = data
+  @action setCustomerPaymentMethods = (data: PaymentMethod[]) => this.paymentMethods = Object.assign([], sortBy(data, pm => pm.default))
 
-  //TODO remove
-  @action getCustomerPreferences = () => {
-    return this.preferences
+  @action setCustomerLocation = (data: CustomerLocation) => {
+    if(!isEmpty(data))
+      this.defaultLocation = Object.assign({}, data)
   }
 
-  //TODO remove
-  @action getCustomerProfile = () => {
-    return this.profile
+  @action saveCustomerProfile = async (data: Profile) => {
+    const response = await this.rootStore.chefApi.setUserProfile(data)
+    if(response.ok) {
+      this.profile = Object.assign({}, data)
+      return 'SUCCESS'
+    }
+    else
+      return response.error?.message
+  }
+
+  @action saveCustomerPreferences = async (data: Preferences) => {
+    const response = await this.rootStore.chefApi.setUserPreferences(data)
+    if(response.ok) {
+      this.preferences = Object.assign({}, data)
+      return 'SUCCESS'
+    }
+    else
+      return response.error?.message
+  }
+
+  addCard = (data: PaymentMethod) => this.rootStore.chefApi.addConsumerPaymentMethod(data)
+
+  getPaymentMethods = () => {
+    this.rootStore.chefApi.getUserPaymentMethods().then((r: any) => {
+      if (!!r) {
+        console.log('received paymentMethods for update', r.data)
+        this.setCustomerPaymentMethods(r?.data || [])
+      }
+    })
+  }
+
+  setDefaultPaymentMethod = async (id: string) => {
+    const response = await this.rootStore.chefApi.setDefaultPaymentMethod(id)
+    if(response.ok)
+      this.setCustomerPaymentMethods(this.paymentMethods.map(pm => {
+        if(pm.default)
+          delete pm['default']
+        if(pm._id === id)
+          pm['default'] = true
+
+        return pm
+      }))
   }
 }
 

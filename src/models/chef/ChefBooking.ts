@@ -1,12 +1,12 @@
 import {Cuisine} from "./ChefSettings";
-import {PaymentMethods} from "../user/CustomerSettings";
+import {CustomerLocation, PaymentMethods} from "../user/CustomerSettings";
 
 export type BookingStatus = 'Pending' | 'Completed' | 'Cancelled' | 'Confirmed'
 
 export default interface ChefBooking {
-  id?: string
-  clientName: string
-  address: string
+  _id?: string
+  consumerName: string
+  location: CustomerLocation,
   photo: string
   dateTime: Date
   status: BookingStatus
@@ -24,9 +24,6 @@ export default interface ChefBooking {
     tip: number | string
     total: number
   }
-  chef: {
-    id?: string,
-    name: string,
-    hourlyRate: number
-  }
+  chefId: string,
+  chefName: string
 }

@@ -19,6 +19,7 @@ import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import ConfirmBooking from "./confirm-booking";
 import {Text} from '../../../components/text/CustomText';
 import BookingNotes from "./booking-notes";
+import {notifyError} from "../../../components/toast/toast";
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -57,21 +58,28 @@ interface Coordinates {
   lng?: number
 }
 
-const BookingRequest = ({ navigation, route })  => {
+const BookingRequest = inject('stores')((props)  => {
   const [currentPosition, setCurrentPosition] = useState<Coordinates>({})
   const [modalIndex, setModalIndex] = useState(-1)
-  const { booking } = route.params
+  const { booking } = props.route.params
 
   useEffect(() => {
-    //console.log('Navigation props', booking)
-    //_getDistance(booking.address)
+    _getDistance(`${booking.location.address}, ${booking.location.city}`)
   }, [])
 
   const confirmBooking = (estimate: number) => {
-    booking.estimate = estimate;
-    booking.status = 'Confirmed';
-    setModalIndex(-1)
-    navigation.navigate('BookingInvoice', { booking })
+    //call API for confirmation
+    props.stores.bookingsStore.updateBooking(booking._id, { status: 'Confirmed', estimate })
+      .then( _ => {
+        booking.status = 'Confirmed';
+        booking.estimate = estimate;
+        setModalIndex(-1)
+        props.navigation.navigate('BookingInvoice', { booking })
+      })
+      .catch(err => {
+        console.log('Error updating booking', err.message)
+        notifyError(err.message)
+      })
   }
 
   return (
@@ -89,13 +97,13 @@ const BookingRequest = ({ navigation, route })  => {
             rounded
             size={40}
           />
-          <Heading6 style={{ marginVertical: 5, marginHorizontal: 20 }}>{booking.clientName}</Heading6>
+          <Heading6 style={{ marginVertical: 5, marginHorizontal: 20 }}>{booking.consumerName}</Heading6>
         </View>
         <View style={{ flexDirection: 'row', marginVertical: 20, width: '60%' }}>
           <Icon name='map-marker-outline' size={30} style={{ flex: .5, flexBasis: '20%' }}/>
           <View style={{ flexBasis: '80%'}}>
-            <Text style={{ marginVertical: 5}}>{booking.address}</Text>
-            <Subtitle2 style={{ marginVertical: 5}}>{booking.address}</Subtitle2>
+            <Text style={{ marginVertical: 5}}>{booking.location.address}</Text>
+            <Subtitle2 style={{ marginVertical: 5}}>{booking.location.city}</Subtitle2>
             <Icon name='navigation' size={20} style={{ transform: [{rotate: '45deg'}], position: 'absolute', bottom: 5, color: Colors.primaryColor }} />
             <Subtitle2 style={{ marginVertical: 5, color: Colors.primaryColor, marginLeft: 20 }}>About 0.4 mi away</Subtitle2>
           </View>
@@ -118,6 +126,13 @@ const BookingRequest = ({ navigation, route })  => {
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
             <Text style={{ marginLeft: 20, marginVertical: 5 }}>Cuisine</Text>
             <Text style={{ margin: 5 }}>{booking.cuisine.label}</Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', height: 50 }}>
+          <Icon name='food' size={30} />
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
+            <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dish</Text>
+            <Text style={{ margin: 5 }}>{booking.dish.label}</Text>
           </View>
         </View>
         <TouchableOpacity onPress={() => setModalIndex(1)}>
@@ -143,7 +158,7 @@ const BookingRequest = ({ navigation, route })  => {
             <View style={{ flex: .5, justifyContent: 'flex-end' }}>
               <Button
                 onPress={() => {}}
-                title={`Message ${booking.clientName}`}
+                title={`Message ${booking.consumerName}`}
                 color={Colors.backgroundMedium}
               />
             </View>
@@ -170,7 +185,7 @@ const BookingRequest = ({ navigation, route })  => {
           <View style={{ flex: .5, marginVertical: 10 }}>
             <Button
               onPress={() => {}}
-              title={`Message ${booking.clientName}`}
+              title={`Message ${booking.consumerName}`}
               color={Colors.backgroundMedium}
             />
           </View>
@@ -201,16 +216,16 @@ const BookingRequest = ({ navigation, route })  => {
             onSheetChanges={(index: any) => {
               console.log('value', index)
             }}
+            size={'50%'}
             index={modalIndex}
-            size={'40%'}
             onClose={() => setModalIndex(-1)}
           >
-            {modalIndex === 0 ? <ConfirmBooking onConfirm={confirmBooking} /> : <BookingNotes value={booking.notes} />}
+            {modalIndex === 0 ? <ConfirmBooking onConfirm={confirmBooking} /> : <BookingNotes value={booking.notes} onDone={() => setModalIndex(-1)} />}
           </RACBottomSheet>
       </SafeAreaView>}
     </ScrollView>
   )
-}
+})
 
 export default BookingRequest
 

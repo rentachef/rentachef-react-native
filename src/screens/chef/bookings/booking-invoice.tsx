@@ -36,7 +36,7 @@ const BookingInvoice = inject('stores')(({ navigation, route, stores }) => {
         </View>}
       <View style={styles.item}>
         <Text style={styles.title}>Client</Text>
-        <Text style={styles.titleBold}>{booking.clientName}</Text>
+        <Text style={styles.titleBold}>{booking.consumerName}</Text>
       </View>
       <View style={styles.item}>
         <Text style={styles.title}>Hours Worked</Text>

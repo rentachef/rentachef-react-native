@@ -27,7 +27,7 @@ import {ChefMapView} from "./map-view";
 import Geocoder from 'react-native-geocoding';
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
-import {notifySuccess} from "../../../components/toast/toast";
+import {notifyError, notifySuccess} from "../../../components/toast/toast";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import TimeRangePicker from "../../../components/pickers/TimeRangePicker";
@@ -86,7 +86,8 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       radiusState: workZone?.radius || 300,
       radius: workZone ? Object.keys(radiusMap).find(key => radiusMap[key] === workZone.radius) : 0,
       zipCitySearch: "",
-      focus: 0
+      focus: 0,
+      loading: false
     }
 
     console.log('pickupDetails from Store', props.stores.chefProfileStore.pickupDetails)
@@ -175,20 +176,33 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
   }
 
   saveData = () => {
-    this.props.stores.chefProfileStore.saveChefWorkZone({
-      radius: this.state.radiusState,
-      latitude: this.state.myPosition.latitude,
-      longitude: this.state.myPosition.longitude
-    });
-    this.props.stores.chefProfileStore.saveChefPickupDetails(this.state.pickupDetails)
-    notifySuccess('Workzone saved!')
+    this.setState({ loading: true }, () => {
+      let promises = [
+        this.props.stores.chefProfileStore.saveChefPickupDetails(this.state.pickupDetails),
+        this.props.stores.chefProfileStore.saveChefWorkZone({
+          radius: this.state.radiusState,
+          latitude: this.state.myPosition.latitude,
+          longitude: this.state.myPosition.longitude
+        })
+      ]
+      Promise.all(promises).then(res => {
+        if(res[0] === 'SUCCESS' && res[1] === 'SUCCESS') {
+          notifySuccess('Workzone saved!')
+          this.setState({ loading: false })
+        }
+        else {
+          notifyError(`ERROR: ${res[0] - res[1]}` )
+          this.setState({ loading: false })
+        }
+      })
+    })
   }
 
   arePickupDetailsValid = () =>
     !!this.state.pickupDetails?.address?.street && !!this.state.pickupDetails?.address?.city
 
   render() {
-    const { radius, radiusState, focus, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch } = this.state;
+    const { radius, radiusState, focus, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch, loading } = this.state;
     const { latitude, longitude } = this.state.myPosition
     return (
       <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: '#FFFFFF'}}>
@@ -296,6 +310,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
           <Button
             onPress={() => this.saveData()}
             title='Save'
+            loading={loading}
           />
         </View>
         {modalIndex !== -1 &&

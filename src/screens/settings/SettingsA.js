@@ -185,7 +185,6 @@ const Setting = ({icon, title, onPress, extraData}: Props) => (
 @inject('stores')
 @observer
 export default class SettingsA extends Component {
-  userEmail = '';
   menuItems = [];
   role = '';
   constructor(props) {
@@ -196,8 +195,6 @@ export default class SettingsA extends Component {
 
     this.role = props.stores.authStore.authInfo.role;
     this.menuItems = this.role === 'Cook' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
-    console.log(this.menuItems)
-    this.userEmail = props.stores.authStore.authInfo.attributes?.email;
   }
 
   navigateTo = screen => () => {
@@ -259,7 +256,7 @@ export default class SettingsA extends Component {
                   <View styles={styles.info}>
                     <Subtitle1 style={styles.name}>{this.props.stores.chefProfileStore.backgroundCheck?.legalName || 'Your Name'}</Subtitle1>
                     <Subtitle2 style={styles.email}>
-                      {this.userEmail}
+                      {this.props.stores.authStore.authInfo.attributes?.email}
                     </Subtitle2>
                   </View>
                   <Icon name='chevron-right' size={30} style={styles.iconRight} />

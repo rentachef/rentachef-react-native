@@ -3,42 +3,23 @@ import {SafeAreaView, StyleSheet, TouchableOpacity, View} from "react-native";
 import {HeadlineBold, SmallBoldText, Text} from '../../components/text/CustomText';
 import Colors from "../../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import {Subtitle2} from "../../components/text/CustomText";
 import {RACBottomSheet} from "../components/bottom-sheet-modal";
-import FAIcon from 'react-native-vector-icons/FontAwesome';
-import globalStyles from "../../theme/global-styles";
-import CreditCard from "../../components/creditcard/CreditCard";
 import CustomerCards from "./CustomerCards";
+import FAIcon from "react-native-vector-icons/FontAwesome";
 
-const customerCreditCards = [
-  {
-    id: 1,
-    cardNumber: '1234',
-    cardBrand: 'visa'
-  },
-  {
-    id: 2,
-    cardNumber: '9867',
-    cardBrand: 'amex'
-  },
-  {
-    id: 3,
-    cardNumber: '6686',
-    cardBrand: 'mastercard'
-  },
-  {
-    id: 4,
-    cardNumber: '7501',
-    cardBrand: 'diners-club'
-  }
-]
-
-const Wallet = inject('stores')((props) => {
+const Wallet = inject('stores')(observer((props) => {
   const { bankAccount } = props.stores.chefProfileStore;
   const { role } = props.stores.authStore.authInfo;
-  const [modalIndex, setModalIndex] = useState(0)
-  const [selectedCard, setSelectedCard] = useState(customerCreditCards[0])
+  const [modalIndex, setModalIndex] = useState(-1)
+  const { paymentMethods } = props.stores.customerSettingsStore
+  const [selectedCard, setSelectedCard] = useState(paymentMethods.length > 0 ? paymentMethods.find(pm => pm.default) : undefined)
+
+  useEffect(() => {
+    console.log('paymentMethods changed!')
+    setSelectedCard(paymentMethods.find(pm => pm.default))
+  }, [paymentMethods])
 
   return (
     <>
@@ -59,8 +40,8 @@ const Wallet = inject('stores')((props) => {
             <TouchableOpacity style={styles.item} onPress={() => setModalIndex(0)}>
               <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='credit-card-outline' size={30}/>
               <View style={styles.leftTitleContainer}>
-                <Text style={styles.title}>{selectedCard?.cardBrand.toUpperCase()}</Text>
-                <Text style={styles.titleBold}>●●●● {selectedCard?.cardNumber}</Text>
+                <FAIcon name={selectedCard?.cardBrand} size={30} />
+                <Text style={styles.titleBold}>{selectedCard?.type === 'Credit Card' ? '●●●●' : selectedCard.type} {selectedCard?.cardNumber}</Text>
               </View>
               <Icon style={{ marginTop: 10 }} color={Colors.primaryColor} name='chevron-right' size={30} />
             </TouchableOpacity>
@@ -79,14 +60,15 @@ const Wallet = inject('stores')((props) => {
             console.log('value', index)
           }}
           index={modalIndex}
-          size={'50%'}
+          size={'90%'}
           onClose={() => setModalIndex(-1)}
         >
           <CustomerCards
-            defaultCard={selectedCard}
-            cards={customerCreditCards}
+            defaultCard={paymentMethods.find(c => c.default)}
+            cards={paymentMethods}
             onSelect={(cc) => {
               setSelectedCard(cc)
+              props.stores.customerSettingsStore.setDefaultPaymentMethod(cc._id)
               setModalIndex(-1)
             }}
           />
@@ -94,7 +76,7 @@ const Wallet = inject('stores')((props) => {
       </SafeAreaView>}
     </>
   )
-})
+}))
 
 export default Wallet
 
@@ -117,7 +99,8 @@ const styles = StyleSheet.create({
   titleBold: {
     fontSize: 16,
     fontWeight: 'bold',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    marginLeft: 10
   },
   item: {
     flex: .08,
@@ -131,6 +114,7 @@ const styles = StyleSheet.create({
   },
   leftTitleContainer: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })

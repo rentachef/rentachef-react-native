@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import {Text} from '../../components/text/CustomText';
+import {Heading6, Text} from '../../components/text/CustomText';
 import {Subtitle1, Subtitle2} from "../../components/text/CustomText";
 import Colors from '../../theme/colors';
 import Divider from "../../components/divider/Divider";
@@ -24,6 +24,12 @@ import {Cuisine} from "../../models/chef/ChefSettings";
 import {notifyError, notifySuccess} from "../../components/toast/toast";
 import {isEmpty} from "lodash";
 import _getBase64 from "../../utils/imageConverter";
+import {RACBottomSheet} from "../components/bottom-sheet-modal";
+import TimeRangePicker from "../../components/pickers/TimeRangePicker";
+import TimeZonePicker from "../../components/pickers/TimeZonePicker";
+import {Picker} from "@react-native-picker/picker";
+import globalStyles from "../../theme/global-styles";
+import DishDialog from "./DishDialog";
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -106,7 +112,9 @@ const Bio = inject('stores')((props) => {
   const [focus, setFocus] = useState(undefined)
   const [selectedChips, setSelectedChips] = useState([])
   const [specialtiesPhotos, setSpecialtiesPhotos] = useState<specialtiesPhotoGallery[]>([])
+  const [specialties, setSpecialties] = useState([...props.stores.chefSettingsStore.bio?.specialties] || [])
   const [openGallery, setOpenGallery] = useState(false)
+  const [modalIndex, setModalIndex] = useState(-1)
   const [bio, setBio] = useState({...props.stores.chefSettingsStore.bio} || {
     about: '',
     affiliations: [],
@@ -124,7 +132,6 @@ const Bio = inject('stores')((props) => {
     if(!bio.covid)
       setBio({...bio, covid: { fullVaccines: false, testDate: undefined } }) //initialize covid
 
-    console.log(bio)
   }, []);
 
   const onSelectChip = (item: string) => {
@@ -181,7 +188,8 @@ const Bio = inject('stores')((props) => {
       let changes = {
         ...bio,
         cuisines: cuisines.filter((c: Cuisine) => selectedChips.includes(c._id)).map(c => c._id),
-        photosUris
+        photosUris,
+        specialties
       }
 
       await props.stores.chefSettingsStore.saveChefBio(changes)
@@ -195,123 +203,171 @@ const Bio = inject('stores')((props) => {
   const isValid = () => selectedChips.length > 0
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Subtitle2>Let people know more about your culinary expertise.</Subtitle2>
-        <View style={styles.item}>
-          <Subtitle1>About</Subtitle1>
-          <TextInput
-            placeholder='Tell us about yourself'
-            placeholderTextColor={Colors.placeholderTextColor}
-            multiline={true}
-            numberOfLines={5}
-            value={bio.about}
-            onChangeText={v => setBio({...bio, about: v})}
-            style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
-            onFocus={() => setFocus(0)}
-            onBlur={() => setFocus(undefined)}
-            textAlignVertical='top'
+    <>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={{ opacity: modalIndex !== -1 ? 0.5: 1}}>
+          <Subtitle2>Let people know more about your culinary expertise.</Subtitle2>
+          <View style={styles.item}>
+            <Subtitle1>About</Subtitle1>
+            <TextInput
+              placeholder='Tell us about yourself'
+              placeholderTextColor={Colors.placeholderTextColor}
+              multiline={true}
+              numberOfLines={5}
+              value={bio.about}
+              onChangeText={v => setBio({...bio, about: v})}
+              style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
+              onFocus={() => setFocus(0)}
+              onBlur={() => setFocus(undefined)}
+              textAlignVertical='top'
+            />
+          </View>
+          <Divider type='full-bleed' />
+          <View style={styles.item}>
+            <Subtitle1>Restaurant Affiliations</Subtitle1>
+            <TextInput
+              placeholder='Restaurant Name, City'
+              placeholderTextColor={Colors.placeholderTextColor}
+              value={bio.affiliations}
+              onChangeText={v => setBio({...bio, affiliations: v})}
+              style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
+              onFocus={() => setFocus(1)}
+              onBlur={() => setFocus(undefined)}
+            />
+          </View>
+          <Divider type='full-bleed' />
+          <View style={styles.item}>
+            <Subtitle1>Cuisines</Subtitle1>
+            <View style={{...styles.imageGrid, marginVertical: 20}}>
+              {cuisines.map((item, i: number) => (
+                <Chip
+                  key={i}
+                  title={item.label}
+                  onPress={() => onSelectChip(item._id)}
+                  type='outline'
+                  buttonStyle={[{ borderColor: Colors.placeholderColor}, selectedChips.some((it: string) => it === item._id) && { backgroundColor: Colors.primaryColor}]}
+                  containerStyle={{ margin: 2 }}
+                  titleStyle={{ color: Colors.secondaryColor }}
+                />
+              ))}
+            </View>
+          </View>
+          <Divider type='full-bleed' />
+          <View style={styles.item}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+              <Subtitle1>Specialties</Subtitle1>
+              <Chip
+                key='-1'
+                title=''
+                onPress={() => setModalIndex(0)}
+                type='solid'
+                icon={{
+                  name: "plus",
+                  type: "font-awesome",
+                  size: 20,
+                  color: Colors.secondaryColor,
+                }}
+                iconRight
+                buttonStyle={{ borderColor: Colors.placeholderColor, backgroundColor: Colors.primaryColor}}
+                containerStyle={{ margin: 2 }}
+                titleStyle={{ color: Colors.secondaryColor }}
+              />
+            </View>
+            <View style={{...styles.imageGrid, marginTop: 10}}>
+              {specialties.map((item, i: number) => (
+                <Chip
+                  key={i}
+                  title={item.label}
+                  onPress={() => setSpecialties(specialties.filter(it => it.label !== item.label))}
+                  type='outline'
+                  icon={{
+                    name: "close",
+                    type: "font-awesome",
+                    size: 20,
+                    color: Colors.secondaryColor,
+                  }}
+                  iconRight
+                  buttonStyle={{ borderColor: Colors.placeholderColor}}
+                  containerStyle={{ margin: 2 }}
+                  titleStyle={{ color: Colors.secondaryColor }}
+                />
+              ))}
+            </View>
+          </View>
+          <View style={styles.imageGrid}>
+            {specialtiesPhotos?.map((item, i: number) => (
+              <TouchableOpacity key={i} onPress={() => setOpenGallery(true)}>
+                <Image key={item.key} style={styles.imageGridItem} source={{ uri: item.url }}/>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <Button
+            onPress={() => launchImageLibrary(cameraOptions, onPhotoSelect)}
+            title='Attach Photos'
+            titleColor={Colors.black}
+            titleStyle={{
+              letterSpacing: 1,
+              fontWeight: 'bold'
+            }}
+            buttonStyle={styles.button}
+            socialIconName='image'
+            color={Colors.white}
+            rounded
           />
-        </View>
-        <Divider type='full-bleed' />
-        <View style={styles.item}>
-          <Subtitle1>Restaurant Affiliations</Subtitle1>
-          <TextInput
-            placeholder='Restaurant Name, City'
-            placeholderTextColor={Colors.placeholderTextColor}
-            value={bio.affiliations}
-            onChangeText={v => setBio({...bio, affiliations: v})}
-            style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
-            onFocus={() => setFocus(1)}
-            onBlur={() => setFocus(undefined)}
-          />
-        </View>
-        <Divider type='full-bleed' />
-        <View style={styles.item}>
-          <Subtitle1>Specialties</Subtitle1>
-          <TextInput
-            placeholder='Add your specialties separated by commas.'
-            placeholderTextColor={Colors.placeholderTextColor}
-            multiline={true}
-            numberOfLines={3}
-            value={bio.specialties}
-            onChangeText={v => setBio({...bio, specialties: v})}
-            style={[styles.inputGroupItem, focus === 2 && styles.inputGroupItemFocused]}
-            onFocus={() => setFocus(2)}
-            onBlur={() => setFocus(undefined)}
-            textAlignVertical='top'
-          />
-        </View>
-        <View style={styles.imageGrid}>
-          {specialtiesPhotos?.map(item => (
-            <TouchableOpacity onPress={() => setOpenGallery(true)}>
-              <Image key={item.key} style={styles.imageGridItem} source={{ uri: item.url }}/>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <Button
-          onPress={() => launchImageLibrary(cameraOptions, onPhotoSelect)}
-          title='Attach Photos'
-          titleColor={Colors.black}
-          titleStyle={{
-            letterSpacing: 1,
-            fontWeight: 'bold'
-          }}
-          buttonStyle={styles.button}
-          socialIconName='image'
-          color={Colors.white}
-          rounded
-        />
-        {openGallery &&
+          {openGallery &&
           <ImageGallery
             close={() => setOpenGallery(false)}
             renderHeaderComponent={headerComponent}
             isOpen={openGallery}
             images={specialtiesPhotos}
           />}
-        <Divider type='full-bleed' />
-        <View style={styles.item}>
-          <Subtitle1>Cuisines</Subtitle1>
-          <View style={{...styles.imageGrid, marginVertical: 20}}>
-            {cuisines.map((item, i: number) => (
-              <Chip
-                key={i}
-                title={item.label}
-                onPress={() => onSelectChip(item._id)}
-                type='outline'
-                buttonStyle={[{ borderColor: Colors.placeholderColor}, selectedChips.some((it: string) => it === item._id) && { backgroundColor: Colors.primaryColor}]}
-                containerStyle={{ margin: 2 }}
-                titleStyle={{ color: Colors.secondaryColor }}
+          <Divider type='full-bleed' />
+          {covid &&
+            <View style={styles.item}>
+              <Subtitle1>COVID-19 Screening</Subtitle1>
+              <View style={styles.imageGrid}>
+                <Text style={styles.item}>Are you fully vaccinated?</Text>
+                <SwitchComponent key={bio.covid?.fullVaccines} style={{ marginTop: 18 }} checked={bio.covid?.fullVaccines} onSwitch={(v: boolean) => handleCovid(v, 'fullVaccines')} />
+              </View>
+              <Text>Test Date</Text>
+              <DatePicker
+                maximumDate={new Date()}
+                minimumDate={new Date(2020, 1, 1)}
+                style={{ alignSelf: 'center'}}
+                mode='date'
+                date={new Date(bio.covid?.testDate || null) || new Date()}
+                onDateChange={(d: Date) => handleCovid(d, 'testDate')}
               />
-            ))}
-          </View>
-        </View>
-        {covid &&
-          <View style={styles.item}>
-            <Subtitle1>COVID-19 Screening</Subtitle1>
-            <View style={styles.imageGrid}>
-              <Text style={styles.item}>Are you fully vaccinated?</Text>
-              <SwitchComponent key={bio.covid?.fullVaccines} style={{ marginTop: 18 }} checked={bio.covid?.fullVaccines} onSwitch={(v: boolean) => handleCovid(v, 'fullVaccines')} />
-            </View>
-            <Text>Test Date</Text>
-            <DatePicker
-              maximumDate={new Date()}
-              minimumDate={new Date(2020, 1, 1)}
-              style={{ alignSelf: 'center'}}
-              mode='date'
-              date={new Date(bio.covid?.testDate || null) || new Date()}
-              onDateChange={(d: Date) => handleCovid(d, 'testDate')}
+            </View>}
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={() => saveChanges()}
+              title='Save'
+              disabled={!isValid()}
             />
-          </View>}
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => saveChanges()}
-            title='Save'
-            disabled={!isValid()}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      {modalIndex !== -1 &&
+      <SafeAreaView style={{ flex: 1, position: 'absolute', width: '100%', height: '100%' }}>
+        {
+          <RACBottomSheet
+            onSheetChanges={(index: any) => {
+              console.log('value', index)
+            }}
+            index={modalIndex}
+            onClose={() => setModalIndex(-1)}
+          >
+            <DishDialog
+              cuisines={cuisines.filter((c: Cuisine) => selectedChips.includes(c._id))}
+              onSubmit={({cuisine, dish}) => {
+                setSpecialties([...specialties, { ...dish, cuisineId: cuisine._id }])
+                setModalIndex(-1)
+              }}
+            />
+          </RACBottomSheet>}
+      </SafeAreaView>}
+    </>
   )
 })
 

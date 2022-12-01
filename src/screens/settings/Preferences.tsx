@@ -9,6 +9,7 @@ import {KeyValuePair, Preferences} from '../../models/user/CustomerSettings';
 import Button from "../../components/buttons/Button";
 import {inject} from "mobx-react";
 import upsert, {downsert} from "../../utils/upsert";
+import {notifyError, notifySuccess} from "../../components/toast/toast";
 
 const days = [
   { key: 'monday', value: 'Monday' },
@@ -26,22 +27,11 @@ const dayTimes = [
   { key: 'evening', value: 'Evening' },
 ]
 
-const cuisines: Cuisine[] = [
-  { key: 'asian', label: 'Asian' },
-  { key: 'bbq', label: 'BBQ' },
-  { key: 'mexican', label: 'Mexican' },
-  { key: 'italian', label: 'Italian' },
-  { key: 'american', label: 'American' },
-  { key: 'french', label: 'French' },
-  { key: 'spanish', label: 'Spanish' },
-  { key: 'dessert', label: 'Dessert' },
-  { key: 'greek', label: 'Greek' }
-]
-
 const CustomerPreferences = inject('stores')(({ navigation, stores }) => {
-  const [selectedDays, setSelectedDays] = useState<KeyValuePair[]>([])
-  const [selectedCuisines, setSelectedCuisine] = useState<Cuisine[]>([])
-  const [dayTime, setDayTime] = useState<KeyValuePair | undefined>()
+  const [selectedDays, setSelectedDays] = useState<KeyValuePair[]>(stores.customerSettingsStore.preferences?.daysOfService || [])
+  const [selectedCuisines, setSelectedCuisine] = useState<Cuisine[]>(stores.customerSettingsStore.preferences?.cuisines || [])
+  const [dayTime, setDayTime] = useState<KeyValuePair | undefined>(stores.customerSettingsStore.preferences?.dayTimeOfService || [])
+  const { cuisines } = stores.searchStore
 
   useEffect(() => {
     const preferences = stores.customerSettingsStore.preferences
@@ -69,12 +59,17 @@ const CustomerPreferences = inject('stores')(({ navigation, stores }) => {
 
   const saveChanges = () => {
     console.log(selectedDays, selectedCuisines, dayTime)
-    stores.customerSettingsStore.setCustomerPreferences({
+    stores.customerSettingsStore.saveCustomerPreferences({
       daysOfService: selectedDays,
       dayTimeOfService: dayTime,
       cuisines: selectedCuisines
+    }).then(res => {
+      if(res ==='SUCCESS') {
+        notifySuccess('Preferences saved!')
+        navigation.navigate('SettingsA')
+      } else
+        notifyError(`Error while setting preferences: ${res.error?.message}`)
     })
-    navigation.navigate('SettingsA')
   }
 
   return (

@@ -25,6 +25,7 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   const [focus, setFocus] = useState(undefined)
   const [showCamera, setShowCamera] = useState(false)
   const [buttonChoice, setButtonChoice] = useState('')
+  const [loading, setLoading] = useState(false)
   const [backgroundCheck, setBackgroundCheck] = useState({
     legalName: '',
     socialNumber: '',
@@ -64,6 +65,8 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
 
   const saveChanges = async () => {
     const { legalName, socialNumber, idFrontUri, idBackUri } = backgroundCheck
+
+    setLoading(true)
     try {
       await props.stores.chefProfileStore.saveChefBackgroundCheck({
         legalName,
@@ -71,11 +74,17 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
         idFrontUri: await _getBase64(idFrontUri),
         idBackUri: await _getBase64(idBackUri),
         approved: false
+      }).then(res => {
+        if(res === 'SUCCESS')
+          notifySuccess('Background Check saved!')
+        else
+          notifyError(`Error: ${res}`)
+
+        setLoading(false)
       })
-      notifySuccess('Background Check saved!')
     } catch(e) {
       console.log('Error saving background check', e)
-      notifyError('Error please contact support')
+      notifyError(`Error please contact support: ${e.message}`)
     }
   }
 

@@ -1,9 +1,9 @@
 import * as React from "react";
-import {Button, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Button, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import Colors from "../../../theme/colors";
 import {ButtonGroup, Card} from "react-native-elements";
 import {useState} from "react";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import Avatar from '../../../components/avatar/Avatar';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ChefBooking, {BookingStatus} from "../../../models/chef/ChefBooking";
@@ -12,143 +12,26 @@ import _getColorByStatus from "../../../utils/statusColors";
 
 const buttons = ['Upcoming', 'Past']
 
-const bookingsMock: ChefBooking[] = [
-  {
-    clientName: 'Kristin Watson',
-    photo: require('../../../assets/img/profile_2.jpeg'),
-    address: '2972 Westheimer Rd',
-    dateTime: new Date(),
-    status: 'Completed',
-    diners: 4,
-    cuisine: {
-      key: 'italian',
-      label: 'Italian'
-    },
-    paymentMethod: {
-      creditCards: [
-        {
-          cardNumber: 9867,
-          cardBrand: 'visa'
-        }
-      ]
-    },
-    notes: 'Chicken Carbonara\n' +
-      'Red Velvet Cake\n' +
-      'Ceaser Salad\n' +
-      '---\n' +
-      'We have induction stove and oven.',
-    chargeDetails: {
-      hoursWorked: 3,
-      chefHourlyRate: 50,
-      gst_hst: 4.99,
-      serviceFee: 2.99,
-      tip: 5.00,
-      total: 162.98
-    },
-    chef: {
-      name: 'Jenny Wilson',
-      hourlyRate: 50
-    }
-  },
-  {
-    clientName: 'Saylor Frase',
-    photo: require('../../../assets/img/profile_1.jpeg'),
-    address: '1047 Mount Pleasant  Rd',
-    dateTime: new Date(),
-    status: 'Pending',
-    diners: 8,
-    cuisine: {
-      key: 'italian',
-      label: 'Italian'
-    },
-    chef: {
-      name: 'Jenny Wilson',
-      hourlyRate: 50
-    }
-  },
-  {
-    clientName: 'Kathryn Murphy',
-    photo: require('../../../assets/img/profile_2.jpeg'),
-    address: '2972 Westheimer Rd',
-    dateTime: new Date(),
-    status: 'Confirmed',
-    diners: 2,
-    cuisine: {
-      key: 'italian',
-      label: 'Italian'
-    },
-    chef: {
-      name: 'Jenny Wilson',
-      hourlyRate: 50
-    }
-  },
-  {
-    clientName: 'Davon Lane',
-    photo: require('../../../assets/img/profile_1.jpeg'),
-    address: '2972 Westheimer Rd',
-    dateTime: new Date(),
-    status: 'Completed',
-    diners: 4,
-    cuisine: {
-      key: 'italian',
-      label: 'Italian'
-    },
-    paymentMethod: {
-      creditCards: [
-        {
-          cardNumber: 9867,
-          cardBrand: 'visa'
-        }
-      ]
-    },
-    notes: 'Chicken Carbonara\n' +
-      'Red Velvet Cake\n' +
-      'Ceaser Salad\n' +
-      '---\n' +
-      'We have induction stove and oven.',
-    chargeDetails: {
-      hoursWorked: 3,
-      chefHourlyRate: 50,
-      gst_hst: 4.99,
-      serviceFee: 2.99,
-      tip: 5.00,
-      total: 162.98
-    },
-    chef: {
-      name: 'Jenny Wilson',
-      hourlyRate: 50
-    }
-  },
-  {
-    clientName: 'Eleanor Pena',
-    photo: require('../../../assets/img/profile_2.jpeg'),
-    address: '2972 Westheimer Rd',
-    dateTime: new Date(),
-    status: 'Cancelled',
-    diners: 6,
-    cuisine: {
-      key: 'italian',
-      label: 'Italian'
-    },
-    chef: {
-      name: 'Jenny Wilson',
-      hourlyRate: 50
-    }
-  },
-]
-
-const Bookings = inject('stores')((props) => {
+const Bookings = inject('stores')(observer((props) => {
   const [index, setIndex] = useState(0)
-  const [bookings, setBookings] = useState(props.stores.chefBookingsStore.chefBookings || bookingsMock)
+  const [refreshing, setRefreshing] = useState(false)
+  const bookings = props.stores.bookingsStore.retrieveBookings()
+
+  const { role } = props.stores.authStore.authInfo
 
   const navigateTo = (cb: ChefBooking) => {
-    props.stores.authStore.authInfo.role === 'Cook' ?
+    role === 'Cook' ?
       props.navigation.navigate('BookingRequest', { booking: {...cb} }) :
       props.navigation.navigate('CustomerBooking', { booking: {...cb} })
   }
 
   return (
-    <ScrollView style={styles.screenContainer}>
+    <ScrollView
+      style={styles.screenContainer}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={() => props.stores.bookingsStore.getBookings()} />
+      }
+    >
       <ButtonGroup
         onPress={i => setIndex(i)}
         buttonStyle={{
@@ -175,8 +58,8 @@ const Bookings = inject('stores')((props) => {
                   />
                 </View>
                 <View style={styles.cardContent}>
-                  <Text style={styles.cardTitle}>{cb.clientName}</Text>
-                  <Text style={styles.cardText}><Icon name='map-marker-outline' size={17}/>{cb.address}</Text>
+                  <Text style={styles.cardTitle}>{role === 'Cook' ? cb.consumerName : cb.chefName}</Text>
+                  <Text style={styles.cardText}><Icon name='map-marker-outline' size={17}/>{cb.location.address}</Text>
                   <Text style={styles.cardText}><Icon name='calendar-outline' size={17}/>{cb.dateTime.toDateString()}</Text>
                   <Text style={{...styles.cardText, color: _getColorByStatus(cb.status)}}>● {cb.status}</Text>
                 </View>
@@ -190,7 +73,7 @@ const Bookings = inject('stores')((props) => {
       </View>
     </ScrollView>
   )
-})
+}))
 
 export default Bookings
 

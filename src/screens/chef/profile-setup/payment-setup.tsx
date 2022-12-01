@@ -21,7 +21,8 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
           bankName: '',
           accountNumber: '',
           routingNumber: '',
-          currency: ''
+          currency: '',
+          loading: false
       }}
     }
   }
@@ -81,22 +82,31 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
 
   saveChanges = () => {
     const { bankName, accountNumber, routingNumber, currency } = this.state.bankAccount;
-    try {
-      this.props.stores.chefProfileStore.saveChefBankAccount({
-        bankName,
-        accountNumber: Number(accountNumber),
-        routingNumber: Number(routingNumber),
-        currency
-      })
-      notifySuccess('Bank Account linked!');
-    } catch(e) {
-      console.log('Error saving bank account', e.message)
-      notifyError(`Error saving changes: ${e.message}`)
-    }
+
+    this.setState({ loading: true }, () => {
+      try {
+        this.props.stores.chefProfileStore.saveChefBankAccount({
+          bankName,
+          accountNumber: Number(accountNumber),
+          routingNumber: Number(routingNumber),
+          currency
+        }).then(res => {
+          if(res === 'SUCCESS')
+            notifySuccess('Bank Account linked!');
+          else
+            notifyError(`Error saving changes: ${res}`)
+
+          this.setState({ loading: false })
+        })
+      } catch(e) {
+        console.log('Error saving bank account', e.message)
+        notifyError(`Error saving changes: ${e.message}`)
+      }
+    })
   }
 
   render() {
-    const { focus, bankAccount } = this.state;
+    const { focus, bankAccount, loading } = this.state;
 
     return (
       <View style={styles.screenContainer}>
@@ -164,7 +174,8 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
           <Button
             onPress={() => this.saveChanges()}
             title='Save'
-            disabled={!this.isValid()}
+            disabled={!this.isValid() || loading}
+            loading={loading}
           />
         </View>
       </View>

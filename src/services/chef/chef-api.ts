@@ -10,7 +10,8 @@ import {
   WorkZoneSetup
 } from "../../models/chef/ChefProfileSetup";
 import {Bio, Profile} from "../../models/chef/ChefSettings";
-import {CustomerLocation, Preferences} from "../../models/user/CustomerSettings";
+import {CustomerLocation, PaymentMethod, Preferences} from "../../models/user/CustomerSettings";
+import BookingRequest from "../../models/BookingRequest";
 
 export default class ChefApi {
   /**
@@ -114,61 +115,42 @@ export default class ChefApi {
     delete this.apisauce.headers['Authorization']
   }
 
-  async getChefReviews() {
-    //const url = CHEF_REVIEWS.url
-    const url = 'http://renta-loadb-1nm9ghuov34vb-81868913c5443b9a.elb.us-east-1.amazonaws.com:8080/retrieveBookings?userId=1'
-    const response = await this.apisauce.get(url)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204){
-      return
-    }
-
-    return response
+  async getChefReviews(chefId: string) {
+    const url = `/bookings/reviews/${chefId}` //TODO url to const
+    return await this._get(url)
   }
 
   async getChefEarnings() {
-    //const url = CHEF_REVIEWS.url
-    const url = 'http://renta-loadb-1nm9ghuov34vb-81868913c5443b9a.elb.us-east-1.amazonaws.com:8080/retrieveBookings?userId=1'
-    const response = await this.apisauce.get(url)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204){
-      return
-    }
-
-    return response
+    const url = 'bookings/earnings'
+    return await this._get(url)
   }
 
   async getChefBookings() {
-    //const url = CHEF_REVIEWS.url
-    const url = 'http://renta-loadb-1nm9ghuov34vb-81868913c5443b9a.elb.us-east-1.amazonaws.com:8080/retrieveBookings?userId=1'
-    const response = await this.apisauce.get(url)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    const url = '/bookings/chef/'
+    return await this._get(url)
   }
 
-  async loginToApi(email: string, password: string) { //TODO add a Basic oAuth with the userDataKey from cognito
+  async getConsumerBookings() {
+    const url = '/bookings/consumer/'
+    return await this._get(url)
+  }
+
+  async getChefsByCuisine(cuisineId: string) {
+    const url = `/cook/cuisine/${cuisineId}`
+    return await this._get(url)
+  }
+
+  async updateBooking(id: string, update: any) {
+    const url = `/bookings/${id}`
+    return await this._put(url, update)
+  }
+
+  async book(booking: BookingRequest) {
+    const url = '/bookings/book'
+    return await this._post(url, booking)
+  }
+
+  async loginToApi(email: string, password: string) {
     const url = 'auth/login'
     const response = await this.apisauce.post(url, { email, password })
 
@@ -188,214 +170,113 @@ export default class ChefApi {
 
   async registerUser(email: string, password: string, role: string, cognitoClientId: string) {
     const url = `auth/register/${role}`
-    const response = await this.apisauce.post(url, { email, password, cognitoClientId })
-
-    if (!response.ok) {
-      console.log(response)
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, { email, password, cognitoClientId })
   }
 
   async getChefProfile() {
     const url = 'cook'
-    const response = await this.apisauce.get(url)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204){
-      return
-    }
-
-    return response
+    return await this._get(url)
   }
 
-    async getUserSettings() {
+  async getUserSettings() {
     const url = 'users/settings'
+    return await this._get(url)
+  }
 
-    const response = await this.apisauce.get(url)
+  async getUserPaymentMethods() {
+    const url = 'users/paymentMethods'
+    return await this._get(url)
+  }
 
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204){
-      return
-    }
+  async addConsumerPaymentMethod(card: PaymentMethod) {
+    const url = 'users/paymentMethods/new'
+    return await this._post(url, card)
+  }
 
-    return response
+  async setDefaultPaymentMethod(cardId: string) {
+    const url = `users/paymentMethods/default/${cardId}`
+    return await this._put(url)
   }
 
   async getCuisines() {
     const url = `cuisines/`
-    const response = await this.apisauce.get(url)
+    return await this._get(url)
+  }
 
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+  async getChefs() {
+    const url = `cook/top/`
+    return await this._get(url)
   }
 
   //CHEF PROFILE SETUP
   async setChefWorkZone(data: WorkZoneSetup) {
     const url = `cook/workZone`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   async setChefAvailability(data: AvailabilitySetup) {
     const url = `cook/availability`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   async setChefBankAccount(data: BankAccount) {
     const url = `cook/bankAccount`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   async setChefBackgroundCheck(data: BackgroundCheck) {
     const url = `cook/backgroundCheck`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   async setChefPickupDetails(data: PickupDetails) {
     const url = `cook/pickupDetails`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   //USER SETTINGS
   async setUserBio(data: Bio) {
     const url = `users/settings/bio`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   async setUserProfile(data: Profile) {
     const url = `users/settings/profile`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   async setUserPreferences(data: Preferences) {
     const url = `users/settings/preferences`
-    const response = await this.apisauce.post(url, data)
-
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) {
-        return problem
-      }
-    }
-    if(response.status === 204) {
-      return
-    }
-
-    return response
+    return await this._post(url, data)
   }
 
   async setUserWallet(data: any) {
     const url = `users/settings/preferences`
+    return await this._post(url, data)
+  }
+
+  async setUserLocation(data: CustomerLocation) {
+    const url = `users/settings/location`
+    return await this._post(url, data)
+  }
+
+  async _get(url: string)  {
+    const response = await this.apisauce.get(url)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async _post(url: string, data: any)  {
     const response = await this.apisauce.post(url, data)
 
     if (!response.ok) {
@@ -411,9 +292,8 @@ export default class ChefApi {
     return response
   }
 
-  async setUserLocation(data: CustomerLocation) {
-    const url = `users/settings/location`
-    const response = await this.apisauce.post(url, data)
+  async _put(url: string, data = null)  {
+    const response = await this.apisauce.put(url, data)
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

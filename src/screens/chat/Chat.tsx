@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
 })
 
 const pubnub = new Pubnub({
-  publishKey: "pub-c-deff526c-8e88-4255-a222-e06847c31493",
-  subscribeKey: "sub-c-3ec223b9-03dc-4989-b5fc-e8ed6c300277",
+  publishKey: "pub-c-5a77543b-8b6d-414c-9b82-6d21b4ff90c2",
+  subscribeKey: "sub-c-b2c54a47-f40e-4ea6-96a7-eaa5af67251d",
   uuid: "myUniqueUserId1",
   subscribeRequestTimeout: 60000,
   presenceTimeout: 122
@@ -78,7 +78,7 @@ const Chat = (props) => {
     // With the right payload, you can publish a message, add a reaction to a message,
     // send a push notification, or send a small payload called a signal.
     const publishPayload = {
-      channel : "hello_world",
+      channel : "Channel-Barcelona",
       message: {
         title: "greeting",
         description: message
@@ -89,12 +89,12 @@ const Chat = (props) => {
   useEffect(() => {
     // subscribe to a channel
     pubnub.subscribe({
-      channels: ["hello_world"]
+      channels: ["Channel-Barcelona"]
     });
     // cleanup subscription
     return () => {
       pubnub.unsubscribe({
-        channels: ["hello_world"]
+        channels: ["Channel-Barcelona"]
       });
     }
   }, [pubnub]);

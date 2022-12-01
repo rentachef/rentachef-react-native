@@ -5,6 +5,7 @@ import {AvailabilitySetup} from "../models/chef/ChefProfileSetup";
 class SearchStore {
   rootStore: any;
   @observable cuisines = [];
+  @observable topChefs = [];
 
   constructor(rootStore: any) {
     this.rootStore = rootStore
@@ -13,9 +14,37 @@ class SearchStore {
 
   @action getCuisines = async () => {
     const response = await this.rootStore.chefApi.getCuisines()
-    console.log('result for cuisines', response)
     if(response.ok)
-      this.cuisines = response.data
+      this.cuisines = response.data || []
+  }
+
+  @action getChefs = async () => {
+    const response = await this.rootStore.chefApi.getChefs()
+    if(response.ok)
+      this.setTopChefs(response.data || [])
+  }
+
+  @action setTopChefs = chefs => this.topChefs = chefs
+
+  getChefReviews = async (chefId: string) => {
+    const response = await this.rootStore.chefApi.getChefReviews(chefId)
+    if(response.ok) {
+      return response.data || []
+    }
+  }
+
+  getConsumerBookings = async () => {
+    const response = await this.rootStore.chefApi.getConsumerBookings()
+    if(response.ok) {
+      return response.data || []
+    }
+  }
+
+  getChefsByCuisine = async (id: string) => {
+    const response = await this.rootStore.chefApi.getChefsByCuisine(id)
+    if(response.ok) {
+      return response.data || []
+    }
   }
 }
 

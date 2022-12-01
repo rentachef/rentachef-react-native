@@ -5,6 +5,7 @@ import {FlatList, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View} 
 import Avatar from "../../../components/avatar/Avatar";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../../../theme/colors";
+import RACLoader from "../../../components/skeleton/RACLoader";
 
 const renderItem = (item, onSelect) =>
   <TouchableOpacity key={item.index} onPress={!!onSelect ? () => onSelect(item.item) : () => {}}>
@@ -18,14 +19,14 @@ const renderItem = (item, onSelect) =>
       </View>
       <View style={styles.cardContent}>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.cardTitle}>{item.item.name}</Text>
+          <Text style={styles.cardTitle}>{item.item.settings.profile.fullName}</Text>
           {item.verified && <Icon style={{ marginHorizontal: 5, lineHeight: 25 }} name='check-decagram' color='#4684FF' size={20} />}
         </View>
-        <Text style={styles.cardText}><Icon name='star' color={Colors.primaryColor} size={17}/>{item.item.scoring} ({item.item.reviews} reviews)</Text>
-        <Paragraph numberOfLines={1} style={{ fontSize: 14 }}>{item.item.cuisines.map(c => c.label).join(' ● ')}</Paragraph>
+        <Text style={styles.cardText}><Icon name='star' color={Colors.primaryColor} size={17}/>{item.item.scoring || 0} ({item.item.reviews || 0} reviews)</Text>
+        <Paragraph numberOfLines={1} style={{ fontSize: 14 }}>{item.item.settings.bio.cuisines.map(c => c.label).join(' ● ')}</Paragraph>
       </View>
       <View style={styles.cardIcon}>
-        <Text style={{...styles.cardText, flex: .5, fontWeight: 'bold', fontSize: 18 }}>$ {item.item.hourRate}<LightText>/hr</LightText></Text>
+        <Text style={{...styles.cardText, flex: .5, fontWeight: 'bold', fontSize: 18 }}>$ {item.item.hourlyRate}<LightText>/hr</LightText></Text>
       </View>
     </Card>
   </TouchableOpacity>
@@ -33,13 +34,14 @@ const renderItem = (item, onSelect) =>
 const ChefsList = ({data, title, onSelect}) => {
   return (
     <SafeAreaView>
-      <ScrollView style={{ marginTop: 35, flexGrow: 1, height: '100%', bottom: 25 }}>
-        <SmallBoldHeading>{title}</SmallBoldHeading>
-        <FlatList
-          data={data}
-          renderItem={item => renderItem(item, onSelect)}
-        />
-      </ScrollView>
+      {data.length > 0 ?
+        <ScrollView style={{ marginTop: 35, flexGrow: 1, height: '100%', bottom: 25 }}>
+          <SmallBoldHeading>{title}</SmallBoldHeading>
+          <FlatList
+            data={data}
+            renderItem={item => renderItem(item, onSelect)}
+          />
+        </ScrollView> : <RACLoader size='xl' />}
     </SafeAreaView>
   )
 }

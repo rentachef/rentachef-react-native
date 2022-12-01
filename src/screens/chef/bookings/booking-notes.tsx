@@ -5,8 +5,8 @@ import {Subtitle1} from "../../../components/text/CustomText";
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
 
-const BookingNotes = (props) => {
-  const [notes, setNotes] = useState(props.value || '')
+const BookingNotes = ({ value, onDone }) => {
+  const [notes, setNotes] = useState(value || '')
 
   return (
     <View style={globalStyles.screenContainer}>
@@ -28,7 +28,7 @@ const BookingNotes = (props) => {
           title='Done'
           buttonStyle={{ backgroundColor: Colors.secondaryColor }}
           titleColor={Colors.background}
-          onPress={() => onSelect(selectedCuisine)}
+          onPress={onDone}
         />
       </View>
     </View>

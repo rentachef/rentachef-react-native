@@ -11,13 +11,16 @@ export interface KeyValuePair {
   value: string
 }
 
-export interface PaymentMethods {
-  creditCards?: CreditCard[]
-  applePay?: undefined //TODO
-  paypal?: undefined //TODO
+export interface PaymentMethod {
+  _id?: string
+  type: string
+  cardNumber?: number
+  cardBrand?: string //TODO
+  default?: boolean
 }
 
 export interface CreditCard {
+  id?: string
   cardNumber: number
   cardBrand: string
 }
@@ -25,5 +28,5 @@ export interface CreditCard {
 export interface CustomerLocation {
   address: string
   city: string
-  postalCode: number
+  postalCode: string
 }

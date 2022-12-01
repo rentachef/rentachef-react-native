@@ -197,7 +197,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:0.64.2"  // From node_modules
+    implementation "com.facebook.react:react-native:0.65.3"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
@@ -232,7 +232,7 @@ allprojects {
 
     configurations.all {
         resolutionStrategy {
-            force "com.facebook.react:react-native:0.64.2"  //<-- please change here
+            force "com.facebook.react:react-native:0.65.3"  //<-- please change here
         }
     }
 }

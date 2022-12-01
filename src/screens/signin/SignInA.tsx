@@ -182,7 +182,8 @@ export default class SignInA extends Component {
       try {
         const user = await Auth.signIn(email.trim(), password.trim())
         this.props?.stores?.authStore?.setUserAuthInfo(user)
-        await this.props?.stores.authStore.login(email, password)
+        let result = await this.props?.stores.authStore.login(email, password)
+        console.log('logueando', result)
         this.props?.navigation?.navigate('Home', {screen: 'Home'})
       } catch (error) {
         console.log('error signing in', error)
