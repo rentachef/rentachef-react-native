@@ -12,22 +12,28 @@ import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import globalStyles from "../../../theme/global-styles";
 
 const BookingRateClient = inject('stores')(({stores, route}) => {
+  const [loading, setLoading] = useState(false)
   const [selectedTip, setSelectedTip] = useState<string | null>()
   const [totalTip, setTotalTip] = useState(0)
-  const [total, setTotal] = useState(route?.params.total)
   const [modalIndex, setModalIndex] = useState(-1)
   const { role } = stores.authStore.authInfo
+  const [review, setReview] = useState({
+    reviewerName: role === 'Cook' ? stores.chefSettingsStore.profile?.fullName : stores.customerSettingsStore.profile?.fullName ,
+    reviewerId: stores.authStore.authInfo.userId
+  })
   const { chef } = route?.params
+  const { total } = route?.params
+  const { bookingId } = route?.params
 
-  useEffect(() => {console.log(selectedTip)}, [selectedTip])
+  useEffect(() => console.log(review), [review])
 
   const toDecimal = (percent: string) => parseFloat(percent) / 100
 
   const calculateTip = (selectedTip: string) => {
     setSelectedTip(selectedTip)
-    if(selectedTip !== 'custom') {
+    if(selectedTip !== 'custom')
       setTotalTip((total * toDecimal(selectedTip))?.toFixed(2))
-    } else
+    else
       setModalIndex(0)
   }
 
@@ -51,7 +57,7 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
               </>
             )}
           <Rating
-            onFinishRating={() => {}}
+            onFinishRating={(stars) => setReview( {...review, stars })}
             startingValue={0}
             ratingColor={Colors.primaryColor}
           />
@@ -61,8 +67,8 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
             multiline={true}
             numberOfLines={8}
             style={styles.textArea}
-            value={''}
-            onChangeText={() => {}}
+            value={review?.review || ''}
+            onChangeText={v => setReview({ ...review, review: v})}
             textAlignVertical='top'
           />
         </View>
@@ -108,8 +114,20 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
         </View>}
         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
           <Button
-            onPress={() => {}}
+            onPress={() => {
+              setLoading(true)
+              stores.bookingsStore.addReview({
+                chefId: chef.id,
+                review,
+                tip: totalTip,
+                bookingId
+              }).then(res => {
+                setLoading(false)
+                console.log('Review:', res.data)
+              })
+            }}
             title='Done'
+            loading={loading}
             color={Colors.primaryColor}
           />
         </View>

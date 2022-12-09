@@ -312,7 +312,6 @@ import SignUpA from "./src/screens/signup/SignUpA"
 import {action, computed, makeAutoObservable, makeObservable, observable} from "mobx"
 import {initStripe, StripeProvider} from '@stripe/stripe-react-native';
 
-
 const MySignInComponent = inject("stores")(observer(props => props.children(props)))
 // APP
 let rootStoreTrunk
@@ -348,6 +347,7 @@ class App extends React.Component {
     //Orientation.lockToPortrait()
     //await this._checkAuthState()
     SplashScreen.hide()
+
   }
 
   componentWillUnmount() {
@@ -393,7 +393,7 @@ class App extends React.Component {
             stores={rootStore}
             authStore={rootStore.authStore}
             searchStore={rootStore.searchStore}
-            chefReviewsStore={rootStore.chefReviewsStore}
+            bookingsStore={rootStore.bookingsStore}
             chefProfileStore={rootStore.chefProfileStore}
             chefSettingsStore={rootStore.chefSettingsStore}
             customerSettingsStore={rootStore.customerSettingsStore}

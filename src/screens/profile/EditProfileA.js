@@ -153,10 +153,12 @@ export default class EditProfileA extends Component {
       let result = this.role === 'Cook' ?
         await this.props.stores.chefSettingsStore.saveChefProfile(profile) :
         await this.props.stores.customerSettingsStore.saveCustomerProfile(profile)
+
+      console.log(result)
       if(result === 'SUCCESS')
         notifySuccess('Profile data saved!')
       else
-        notifyError(`Error saving profile} changes: ${result}`)
+        notifyError(`Error saving profile changes: ${result}`)
 
       this.setState({loading: false})
     })

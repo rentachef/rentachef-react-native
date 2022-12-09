@@ -188,8 +188,8 @@ export default class ChefApi {
     return await this._get(url)
   }
 
-  async addConsumerPaymentMethod(card: PaymentMethod) {
-    const url = 'users/paymentMethods/new'
+  async addConsumerPaymentMethod(card: any) {
+    const url = 'stripe/addCard'
     return await this._post(url, card)
   }
 
@@ -251,12 +251,17 @@ export default class ChefApi {
   }
 
   async setUserWallet(data: any) {
-    const url = `users/settings/preferences`
+    const url = 'users/settings/preferences'
     return await this._post(url, data)
   }
 
   async setUserLocation(data: CustomerLocation) {
     const url = `users/settings/location`
+    return await this._post(url, data)
+  }
+
+  async setBookingReview(data: any) {
+    const url = `bookings/review`
     return await this._post(url, data)
   }
 
@@ -266,6 +271,7 @@ export default class ChefApi {
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) {
+        console.log(problem)
         return problem
       }
     }
@@ -282,6 +288,7 @@ export default class ChefApi {
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) {
+        console.log(problem)
         return problem
       }
     }
@@ -298,6 +305,7 @@ export default class ChefApi {
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) {
+        console.log(problem)
         return problem
       }
     }

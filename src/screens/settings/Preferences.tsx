@@ -7,7 +7,7 @@ import Colors from "../../theme/colors";
 import {Cuisine} from "../../models/chef/ChefSettings";
 import {KeyValuePair, Preferences} from '../../models/user/CustomerSettings';
 import Button from "../../components/buttons/Button";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import upsert, {downsert} from "../../utils/upsert";
 import {notifyError, notifySuccess} from "../../components/toast/toast";
 
@@ -27,10 +27,12 @@ const dayTimes = [
   { key: 'evening', value: 'Evening' },
 ]
 
-const CustomerPreferences = inject('stores')(({ navigation, stores }) => {
+const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) => {
+  console.log('PREFERENCES', stores.customerSettingsStore.preferences)
   const [selectedDays, setSelectedDays] = useState<KeyValuePair[]>(stores.customerSettingsStore.preferences?.daysOfService || [])
   const [selectedCuisines, setSelectedCuisine] = useState<Cuisine[]>(stores.customerSettingsStore.preferences?.cuisines || [])
   const [dayTime, setDayTime] = useState<KeyValuePair | undefined>(stores.customerSettingsStore.preferences?.dayTimeOfService || [])
+  const [loading, setLoading] = useState(false)
   const { cuisines } = stores.searchStore
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const CustomerPreferences = inject('stores')(({ navigation, stores }) => {
       if(!!preferences.dayTimeOfService)
         setDayTime(preferences.dayTimeOfService)
       if(!!preferences.cuisines)
-        setSelectedCuisine(preferences.cuisines)
+        setSelectedCuisine(cuisines.filter(c => preferences.cuisines.includes(c._id)))
     }
   }, [])
 
@@ -52,18 +54,20 @@ const CustomerPreferences = inject('stores')(({ navigation, stores }) => {
   }
 
   const onSelectCuisine = (item: any) => {
+    console.log(item, selectedCuisines)
     let chips = [...selectedCuisines]
-    downsert(chips, item, 'key')
+    downsert(chips, item, '_id')
     setSelectedCuisine([...chips])
   }
 
   const saveChanges = () => {
-    console.log(selectedDays, selectedCuisines, dayTime)
+    setLoading(true)
     stores.customerSettingsStore.saveCustomerPreferences({
       daysOfService: selectedDays,
       dayTimeOfService: dayTime,
-      cuisines: selectedCuisines
+      cuisines: selectedCuisines.map(c => c._id)
     }).then(res => {
+      setLoading(false)
       if(res ==='SUCCESS') {
         notifySuccess('Preferences saved!')
         navigation.navigate('SettingsA')
@@ -116,7 +120,7 @@ const CustomerPreferences = inject('stores')(({ navigation, stores }) => {
                   title={item.label}
                   onPress={() => onSelectCuisine(item)}
                   type='outline'
-                  buttonStyle={[{ borderColor: Colors.placeholderColor}, selectedCuisines.some((it: any) => it.key === item.key) && { backgroundColor: Colors.primaryColor}]}
+                  buttonStyle={[{ borderColor: Colors.placeholderColor}, selectedCuisines.some((it: any) => it._id === item._id) && { backgroundColor: Colors.primaryColor}]}
                   containerStyle={{ margin: 2 }}
                   titleStyle={{ color: Colors.secondaryColor }}
                 />
@@ -130,11 +134,13 @@ const CustomerPreferences = inject('stores')(({ navigation, stores }) => {
             buttonStyle={{ backgroundColor: Colors.secondaryColor }}
             titleColor={Colors.background}
             onPress={saveChanges}
+            loading={loading}
+            loadingColor={Colors.primaryColor}
           />
         </View>
       </View>
     </View>
   )
-})
+}))
 
 export default CustomerPreferences

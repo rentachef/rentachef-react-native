@@ -18,7 +18,7 @@ import {Chip} from "react-native-elements";
 import SwitchComponent from "../components/switch-component";
 import DatePicker from "react-native-date-picker";
 import {ImageGallery, ImageObject} from "@georstat/react-native-image-gallery";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import Button from "../../components/buttons/Button";
 import {Cuisine} from "../../models/chef/ChefSettings";
 import {notifyError, notifySuccess} from "../../components/toast/toast";
@@ -108,18 +108,20 @@ interface specialtiesPhotoGallery {
 
 const covid = true
 
-const Bio = inject('stores')((props) => {
+const Bio = inject('stores')(observer((props) => {
+  const [loading, setLoading] = useState(false)
   const [focus, setFocus] = useState(undefined)
   const [selectedChips, setSelectedChips] = useState([])
   const [specialtiesPhotos, setSpecialtiesPhotos] = useState<specialtiesPhotoGallery[]>([])
-  const [specialties, setSpecialties] = useState([...props.stores.chefSettingsStore.bio?.specialties] || [])
+  const [specialties, setSpecialties] = useState(!isEmpty(props.stores.chefSettingsStore.bio?.specialties) ? [...props.stores.chefSettingsStore.bio?.specialties] : [])
   const [openGallery, setOpenGallery] = useState(false)
   const [modalIndex, setModalIndex] = useState(-1)
-  const [bio, setBio] = useState({...props.stores.chefSettingsStore.bio} || {
+  const [bio, setBio] = useState(!isEmpty(props.stores.chefSettingsStore.bio) ? {...props.stores.chefSettingsStore.bio} : {
     about: '',
-    affiliations: [],
+    affiliations: '',
     covid: { fullVaccines: false, testDate: undefined }
   })
+  const [imgError, setImgError] = useState([])
   const { cuisines } = props.stores.searchStore
 
   useEffect(() => { //add get cuisines from API
@@ -131,8 +133,11 @@ const Bio = inject('stores')((props) => {
       }))
     if(!bio.covid)
       setBio({...bio, covid: { fullVaccines: false, testDate: undefined } }) //initialize covid
-
   }, []);
+
+  useEffect(() => {
+    console.log('BIO:', bio)
+  }, [bio])
 
   const onSelectChip = (item: string) => {
     let chips = [...selectedChips]
@@ -176,6 +181,7 @@ const Bio = inject('stores')((props) => {
 
   const saveChanges = async () => {
     console.log('saving...')
+    setLoading(true)
 
     try {
       //getting base64 of photos
@@ -193,12 +199,19 @@ const Bio = inject('stores')((props) => {
       }
 
       await props.stores.chefSettingsStore.saveChefBio(changes)
-      //notifySuccess('Bio data saved!')
+      setLoading(false)
+      notifySuccess('Bio data saved!')
     } catch(e) {
       console.log('Error', e.message)
+      setLoading(false)
       notifyError('Error saving Bio data: ' + e.message)
     }
   }
+
+  const onImageError = (index: number) => setImgError([ ...imgError, {
+    defaultUri: 'https://static.thenounproject.com/png/3674270-200.png',
+    index
+  }])
 
   const isValid = () => selectedChips.length > 0
 
@@ -297,7 +310,12 @@ const Bio = inject('stores')((props) => {
           <View style={styles.imageGrid}>
             {specialtiesPhotos?.map((item, i: number) => (
               <TouchableOpacity key={i} onPress={() => setOpenGallery(true)}>
-                <Image key={item.key} style={styles.imageGridItem} source={{ uri: item.url }}/>
+                <Image
+                  key={item.key}
+                  style={styles.imageGridItem}
+                  source={{ uri: imgError.some(ie => ie.index === i) ? imgError[0].defaultUri : item.url }}
+                  onError={() => onImageError(i)}
+                />
               </TouchableOpacity>
             ))}
           </View>
@@ -343,7 +361,8 @@ const Bio = inject('stores')((props) => {
             <Button
               onPress={() => saveChanges()}
               title='Save'
-              disabled={!isValid()}
+              disabled={!isValid() || loading}
+              loading={loading}
             />
           </View>
         </ScrollView>
@@ -369,6 +388,6 @@ const Bio = inject('stores')((props) => {
       </SafeAreaView>}
     </>
   )
-})
+}))
 
 export default Bio

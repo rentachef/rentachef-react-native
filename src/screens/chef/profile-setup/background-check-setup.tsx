@@ -88,7 +88,10 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
     }
   }
 
-  const isValid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
+  const isValid = () => {
+    console.log(backgroundCheck)
+    return Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
+  }
 
   return (
     <View style={styles.screenContainer}>
@@ -172,9 +175,10 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          disabled={!isValid}
+          disabled={!isValid || loading}
           onPress={() => saveChanges()}
           title='Submit'
+          loading={loading}
         />
       </View>
     </View>

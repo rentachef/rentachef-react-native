@@ -10,16 +10,16 @@ import moment from "moment";
 import {RACBottomSheet} from "../../../components/bottom-sheet-modal";
 import ChefSchedulePicker from "../chef-about/chef-schedule-picker";
 import {Picker} from "@react-native-picker/picker";
-import CheckoutSelectCuisine from "./checkout-select-cuisine";
 import ChefBooking from "../../../../models/chef/ChefBooking";
 import {Cuisine} from "../../../../models/chef/ChefSettings";
 import Divider from "../../../../components/divider/Divider";
 import Button from "../../../../components/buttons/Button";
-import CheckoutSelectPayment from "./checkout-select-payment";
+import CheckoutSelect from "./checkout-select";
 import CheckoutModal from "./checkout-modal";
 import {inject, observer} from "mobx-react";
 import BookingRequest from "../../../../models/BookingRequest";
 import {isEmpty} from "lodash";
+import FAIcon from "react-native-vector-icons/FontAwesome";
 
 const formatName = (name: string) => `${name.split(' ')[0]} ${name.split(' ')[1][0]}.`
 
@@ -36,7 +36,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
     status: 'Pending',
     diners: 1,
     cuisine: undefined,
-    paymentMethod: undefined,
+    paymentMethod: stores.customerSettingsStore.paymentMethods?.find(pm => pm.default),
     hourlyRate: chef.hourlyRate,
     total: 0,
     dish: undefined
@@ -127,7 +127,14 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={{ alignSelf: 'center' }}>Payment</Text>
               <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => setModalIndex(1)}>
-                {!!booking.paymentMethod ? <Text style={{ color: Colors.primaryText, margin: 5 }}>{booking?.paymentMethod.type}</Text> : <Text style={{ margin: 5, color: Colors.primaryColor }}>Add Payment</Text>}
+                {!!booking.paymentMethod ?
+                  <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                    <FAIcon name={booking?.paymentMethod.cardBrand} size={20}/>
+                    <Text style={{ color: Colors.primaryText, margin: 5 }}>
+                      {booking?.paymentMethod.cardNumber}
+                    </Text>
+                  </View>
+                   : <Text style={{ margin: 5, color: Colors.primaryColor }}>Add Payment</Text>}
                 <Icon name='chevron-right' size={30} style={{ color: Colors.primaryColor }}/>
               </TouchableOpacity>
             </View>
@@ -181,29 +188,34 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
           onClose={() => setModalIndex(-1)}
         >
           {modalIndex === 0 &&
-            <CheckoutSelectCuisine
-              data={chef.cuisines}
+            <CheckoutSelect
               title='Choose Cuisine'
+              itemsType='cuisine'
+              data={chef.cuisines}
               selected={booking.cuisine}
-              onSelect={(cuisine: Cuisine) => {
+              onSelect={(cuisine) => {
                 console.log('selected cuisine', cuisine)
-                setBooking({...booking, cuisine})
+                setBooking({...booking, cuisine, dish: undefined})
                 setModalIndex(-1)
               }}
             />}
-            {modalIndex === 3 &&
-            <CheckoutSelectCuisine
-              data={chef.specialties.filter(s => s.cuisineId === booking.cuisine?._id)}
-              title='Choose Dish'
-              selected={booking.dish}
-              onSelect={(dish: Cuisine) => {
-                console.log('selected dish', dish)
-                setBooking({...booking, dish})
-                setModalIndex(-1)
-              }}
-            />}
+          {modalIndex === 3 &&
+              <CheckoutSelect
+                title='Choose Dish'
+                itemsType='cuisine'
+                data={chef.specialties.filter(s => s.cuisineId === booking.cuisine?._id)}
+                selected={booking.cuisine}
+                onSelect={(dish) => {
+                  console.log('selected dish', dish)
+                  setBooking({...booking, dish})
+                  setModalIndex(-1)
+                }}
+              />}
           {modalIndex === 1 &&
-            <CheckoutSelectPayment
+            <CheckoutSelect
+              title='Choose Payment'
+              itemsType='paymentMethod'
+              data={stores.customerSettingsStore.paymentMethods}
               selected={booking.paymentMethod}
               onSelect={(paymentMethod) => {
                 console.log('selected payment', paymentMethod)

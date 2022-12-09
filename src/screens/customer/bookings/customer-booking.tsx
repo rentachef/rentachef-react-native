@@ -20,7 +20,7 @@ import CheckoutModal from "../dashboard/checkout/checkout-modal";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import CheckoutSelectCuisine from "../dashboard/checkout/checkout-select-cuisine";
 import {Cuisine} from "../../../models/chef/ChefSettings";
-import CheckoutSelectPayment from "../dashboard/checkout/checkout-select-payment";
+import CheckoutSelect from "../dashboard/checkout/checkout-select";
 import _getColorByStatus from "../../../utils/statusColors";
 import {ListItem} from "react-native-elements";
 import CustomerCards from "../../settings/CustomerCards";
@@ -36,8 +36,9 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
   const [cancellationFee, setCancellationFee] = useState(false)
   const { role } = stores.authStore.authInfo
 
+  console.log('ChargeDetails:', booking.chargeDetails)
+
   useEffect(() => {
-    console.log(moment().diff(moment(booking.dateTime), 'hours') > 24)
     if(booking.status === 'confirmed' && moment(booking.dateTime).diff(moment(), 'hours') > 24)
       setCancellationFee(true)
   }, [])
@@ -46,7 +47,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
     if(booking.status === 'Confirmed')
       return booking.chef?.hourlyRate.toFixed(2)
     if(booking.status === 'Completed')
-      return booking.amount?.total.toFixed(2)
+      return booking.chargeDetails?.total?.toFixed(2)
   }
 
   return (
@@ -121,15 +122,15 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>GST/HST</LightText>
-              <LightText>$ {booking.chargeDetails?.gst_hst.toFixed(2)}</LightText>
+              <LightText>$ {booking.chargeDetails?.gst_hst?.toFixed(2)}</LightText>
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>Service Fee</LightText>
-              <LightText>$ {booking.chargeDetails?.serviceFee.toFixed(2)}</LightText>
+              <LightText>$ {booking.chargeDetails?.serviceFee?.toFixed(2) || 0}</LightText>
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>Tip</LightText>
-              <LightText>$ {booking.chargeDetails?.tip.toFixed(2)}</LightText>
+              <LightText>$ {booking.chargeDetails?.tip?.toFixed(2) || 0}</LightText>
             </View>
           </>}
           {booking.status !== 'Pending' && booking.status !== 'Cancelled' &&
@@ -156,7 +157,11 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 </View>
                 <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
-                    onPress={() => {}}
+                    onPress={() => navigation.navigate('CustomerChat', {
+                      channel: `inbox.${booking.chefId}.${booking.consumerId}`,
+                      userId: booking.consumerId,
+                      pubnub: undefined
+                    })}
                     title={`Message ${formatName(role === 'Cook' ? booking.clientName : booking.chefName)}`}
                     color={Colors.backgroundMedium}
                   />
@@ -180,20 +185,23 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             <>
               <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
               <View style={{ paddingHorizontal: 30 }}>
-                <View style={{ flex: .5, marginVertical: 10 }}>
+                {/*TODO <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
                     onPress={() => {}}
                     title='Book Again'
                     color={Colors.primaryColor}
                   />
-                </View>
-                <View style={{ flex: .5, marginVertical: 10 }}>
+                </View>*/}
+                {!booking.reviewId && <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
-                    onPress={() => navigation.navigate('ChefClientRate', { total: booking.chargeDetails.total, chef: booking.chef })}
+                    onPress={() => navigation.navigate('ChefClientRate', { total: booking.chargeDetails?.total, chef: {
+                        name: booking.chefName,
+                        id: booking.chefId
+                      }, bookingId: booking._id })}
                     title='Rate your Order'
                     color={Colors.backgroundMedium}
                   />
-                </View>
+                </View>}
                 <TouchableOpacity style={{ flex: 1, alignSelf: 'center', marginTop: 10 }}>
                   <Text style={{ color: Colors.secondaryColor }}>Get Help</Text>
                 </TouchableOpacity>
@@ -220,7 +228,11 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
               <Button
                 title='Cancel Booking'
                 buttonStyle={{ backgroundColor: Colors.primaryColor, width: '45%' }}
-                onPress={() => setModalIndex(-1)}
+                onPress={() => {
+                  stores.bookingsStore.updateBooking(booking._id, { status: 'Cancelled' })
+                  navigation.goBack()
+                  setModalIndex(-1)
+                }}
               />
             </View>
           </View>

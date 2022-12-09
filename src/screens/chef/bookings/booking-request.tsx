@@ -45,7 +45,7 @@ const _getDistance = (direction: string) => {
       .then(res => {
         let destination = res.results[0].geometry.location;
         console.log('destination location', destination);
-        let urlFetchDistance = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='${origin?.lat}','${origin?.lng}'&destinations='${destination.lat}'%2C'${destination.lng}'&key='AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ'`;
+        let urlFetchDistance = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins='${origin?.lat}','${origin?.lng}'&destinations='${destination.lat}'%2C'${destination.lng}'&key='AIzaSyA0l83tK-CeCGprznMHigBppBaKJ1WMlVY'`;
         fetch(urlFetchDistance)
           .then(res => res.json())
           .then(res => console.log('distance', res))
@@ -62,6 +62,8 @@ const BookingRequest = inject('stores')((props)  => {
   const [currentPosition, setCurrentPosition] = useState<Coordinates>({})
   const [modalIndex, setModalIndex] = useState(-1)
   const { booking } = props.route.params
+
+  console.log(booking)
 
   useEffect(() => {
     _getDistance(`${booking.location.address}, ${booking.location.city}`)
@@ -155,13 +157,6 @@ const BookingRequest = inject('stores')((props)  => {
       </View>
       {booking.status === 'Pending' ? (
           <View style={{ paddingHorizontal: 20 }}>
-            <View style={{ flex: .5, justifyContent: 'flex-end' }}>
-              <Button
-                onPress={() => {}}
-                title={`Message ${booking.consumerName}`}
-                color={Colors.backgroundMedium}
-              />
-            </View>
             <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
               <View style={{ ...styles.buttonContainer, width: '50%'}}>
@@ -184,18 +179,25 @@ const BookingRequest = inject('stores')((props)  => {
           <Subtitle2 style={{ bottom: 10 }}>This booking will be automatically marked complete 3 days after the due date. </Subtitle2>
           <View style={{ flex: .5, marginVertical: 10 }}>
             <Button
-              onPress={() => {}}
+              onPress={() => {
+                props.navigation.navigate('ChefChat', {
+                  channel: `inbox.${booking.chefId}.${booking.consumerId}`,
+                  userId: booking.chefId,
+                  pubnub: undefined
+                })
+              }}
               title={`Message ${booking.consumerName}`}
               color={Colors.backgroundMedium}
             />
           </View>
-          <View style={{ flex: .5, marginVertical: 10 }}>
-            <Button
-              onPress={() => {}}
-              title='Mark as Completed'
-              color={Colors.primaryColor}
-            />
-          </View>
+          {booking.status === 'Confirmed' &&
+            <View style={{ flex: .5, marginVertical: 10 }}>
+              <Button
+                onPress={() => {}}
+                title='Mark as Completed'
+                color={Colors.primaryColor}
+              />
+            </View>}
           <View style={{ flex: .5, marginVertical: 10 }}>
             <Button
               onPress={() => {}}

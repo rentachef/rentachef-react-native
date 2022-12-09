@@ -16,7 +16,7 @@ class ChefSettingsStore {
 
   getChefSettings = () => {
     this.rootStore.chefApi.getUserSettings().then((r: any) => {
-      console.log("chef settings", r)
+      console.log("chef settings", r?.data)
       if(!!r) {
         this.setChefProfile(r?.data.profile || {})
         this.setChefBio(r?.data.bio || {})

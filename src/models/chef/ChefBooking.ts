@@ -18,7 +18,6 @@ export default interface ChefBooking {
   notes?: string
   chargeDetails?: {
     hoursWorked: number
-    chefHourlyRate: number
     gst_hst: number
     serviceFee: number
     tip: number | string

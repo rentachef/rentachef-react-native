@@ -113,6 +113,7 @@ type Props = {
   rounded?: boolean;
   outlined?: boolean;
   loading?: boolean;
+  loadingColor?: any;
 };
 
 // Button
@@ -134,7 +135,8 @@ const Button = ({
   titleColor,
   rounded,
   outlined,
-  loading
+  loading,
+  loadingColor
 }: Props) => (
   <TouchableOpacity
     onPress={onPress}
@@ -165,9 +167,9 @@ const Button = ({
         outlined && styles.outlinedTitle,
         titleColor && {color: titleColor},
       ]}>
-      <Text style={titleStyle}>{title || 'Button'}</Text>
+      <Text style={titleStyle}>{title}</Text>
     </ButtonText>
-    {loading && <ActivityIndicator size="small" color={Colors.secondaryColor} />}
+    {loading && <ActivityIndicator size="small" color={!!loadingColor ? loadingColor : Colors.secondaryColor} />}
   </TouchableOpacity>
 );
 

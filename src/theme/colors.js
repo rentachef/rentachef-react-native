@@ -139,7 +139,7 @@ const themes = {
     // primary color
     primaryColor: '#FFC534',
     primaryColorDark: '#FBB12B',
-    primaryColorLight: '#00e78c',
+    primaryColorLight: '#FFC534B2',
     onPrimaryColor: '#fff',
 
     // accent color, triad

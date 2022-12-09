@@ -186,7 +186,9 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         })
       ]
       Promise.all(promises).then(res => {
+        console.log('workZone response', res)
         if(res[0] === 'SUCCESS' && res[1] === 'SUCCESS') {
+          console.log('Both succeded!')
           notifySuccess('Workzone saved!')
           this.setState({ loading: false })
         }
@@ -281,7 +283,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
                   To: {moment(pickupDetails.timing.to).format('hh:mm A')}
                 </HeadlineBold>
               </View>
-              <View style={{ margin: 20, flexBasis: '30%' }}>
+              <View style={{ margin: 10, flexBasis: '35%' }}>
                 <Button
                   onPress={() => this.setState({ modalIndex: 0 })}
                   title='Change'

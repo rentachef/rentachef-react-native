@@ -28,10 +28,6 @@ class RootStore {
     this.chefSettingsStore = new ChefSettingsStore(this)
     this.customerSettingsStore = new CustomerSettingsStore(this)
   }
-
-  reset() {
-    rootStore.reset()
-  }
 }
 
 const rootStore = new RootStore()

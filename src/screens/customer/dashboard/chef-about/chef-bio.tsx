@@ -37,7 +37,7 @@ const ChefBio = ({ data }) => {
         <View style={globalStyles.imageGrid}>
           {data.settings.bio.photosUris?.map((item, index) => (
             <TouchableOpacity key={index}>
-              <Image key={index} style={globalStyles.imageGridItem} source={{ uri: item }}/>
+              <Image key={index} style={globalStyles.imageGridItem} source={{ uri: item }} onError={({nativeEvent: {error}}) => console.log(error)}/>
             </TouchableOpacity>
           ))}
         </View>}

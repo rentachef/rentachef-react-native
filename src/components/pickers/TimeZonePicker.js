@@ -14,11 +14,11 @@ const Item = ({ title, withIcon, onSelect }) => (
   </TouchableOpacity>
 );
 
-const TimeZonePicker = ({ onChange, selected }) => {
+const TimeZonePicker = ({ data, onChange, selected }) => {
   return (
     <SafeAreaView style={styles.container}>
       <SectionList
-        sections={timezones}
+        sections={!!data ? [{data}] : timezones}
         keyExtractor={(item, index) => item + index}
         renderItem={({ item }) => <Item title={item} withIcon={selected === item} onSelect={onChange} /> }
         renderSectionHeader={({ section: { title } }) => (

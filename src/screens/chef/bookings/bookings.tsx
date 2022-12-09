@@ -7,7 +7,7 @@ import {inject, observer} from "mobx-react";
 import Avatar from '../../../components/avatar/Avatar';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ChefBooking, {BookingStatus} from "../../../models/chef/ChefBooking";
-import {Text} from '../../../components/text/CustomText';
+import {HeadlineBold, Text} from '../../../components/text/CustomText';
 import _getColorByStatus from "../../../utils/statusColors";
 
 const buttons = ['Upcoming', 'Past']
@@ -70,6 +70,12 @@ const Bookings = inject('stores')(observer((props) => {
               </Card>
             </TouchableOpacity>
           ))}
+        {bookings.length === 0 &&
+          <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
+            <Icon name='notebook' size={30} />
+            <HeadlineBold>You have no bookings yet...</HeadlineBold>
+          </View>
+        }
       </View>
     </ScrollView>
   )
@@ -82,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     padding: 5,
-    height: '99%'
+    height: '99%',
   },
   btnGroupContainer: {
     height: 40,

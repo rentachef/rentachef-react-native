@@ -25,26 +25,33 @@ const Wallet = inject('stores')(observer((props) => {
     <>
       <View style={styles.screenContainer}>
         <View style={{ flex: 1 }}>
-          <Subtitle2>{role === 'Cook' ? 'Bank Account' : 'Payment Method'}</Subtitle2>
           {role === 'Cook' &&
-            <TouchableOpacity style={styles.item} onPress={() => props.navigation.navigate('WalletBankAccount')}>
-              <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='bank-outline' size={30}/>
-              <View style={styles.leftTitleContainer}>
-                <Text style={styles.title}>{bankAccount?.bankName}</Text>
-                <Text style={styles.titleBold}>●●●● {bankAccount?.accountNumber.toString().slice(-4)}</Text>
-              </View>
-              <Icon style={{ marginTop: 10 }} color={Colors.primaryColor} name='chevron-right' size={30} />
-            </TouchableOpacity>}
+            <>
+              <Subtitle2>Bank Account</Subtitle2>
+              <TouchableOpacity style={styles.item} onPress={() => props.navigation.navigate('WalletBankAccount')}>
+                <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='bank-outline' size={30}/>
+                <View style={styles.leftTitleContainer}>
+                  <Text style={styles.title}>{bankAccount?.bankName}</Text>
+                  <Text style={styles.titleBold}>●●●● {bankAccount?.accountNumber.toString().slice(-4)}</Text>
+                </View>
+                <Icon style={{ marginTop: 10 }} color={Colors.primaryColor} name='chevron-right' size={30} />
+              </TouchableOpacity>
+            </>}
           {role === 'Consumer' &&
            <>
-            <TouchableOpacity style={styles.item} onPress={() => setModalIndex(0)}>
-              <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='credit-card-outline' size={30}/>
-              <View style={styles.leftTitleContainer}>
-                <FAIcon name={selectedCard?.cardBrand} size={30} />
-                <Text style={styles.titleBold}>{selectedCard?.type === 'Credit Card' ? '●●●●' : selectedCard.type} {selectedCard?.cardNumber}</Text>
-              </View>
-              <Icon style={{ marginTop: 10 }} color={Colors.primaryColor} name='chevron-right' size={30} />
-            </TouchableOpacity>
+             {paymentMethods.length > 0 &&
+               <>
+                 <Subtitle2>Payment Method</Subtitle2>
+                 <TouchableOpacity style={styles.item} onPress={() => setModalIndex(0)}>
+                   <Icon style={{marginHorizontal: 10}} color={Colors.secondaryText} name='credit-card-outline' size={30}/>
+                   <View style={styles.leftTitleContainer}>
+                     <FAIcon name={selectedCard?.cardBrand} size={30}/>
+                     <Text
+                       style={styles.titleBold}>{selectedCard?.type === 'Credit Card' ? '●●●●' : selectedCard?.type} {selectedCard?.cardNumber}</Text>
+                   </View>
+                   <Icon style={{marginTop: 10}} color={Colors.primaryColor} name='chevron-right' size={30}/>
+                 </TouchableOpacity>
+               </>}
             <Subtitle2>Add Payment Method</Subtitle2>
             <TouchableOpacity style={{...styles.item, justifyContent: 'flex-start' }} onPress={() => props.navigation.navigate('AddCard')}>
               <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='credit-card-plus-outline' size={30}/>

@@ -42,6 +42,9 @@ import Bookings from "../screens/chef/bookings/bookings";
 import ChefBookingsStack from "./BookingsNavigator";
 import {inject, observer} from "mobx-react";
 import {reaction} from "mobx";
+import {isEmpty} from "lodash";
+import {notifyWarn} from "../components/toast/toast";
+import ChatList from "../screens/chat/ChatList";
 
 // HomeNavigator Config
 
@@ -62,6 +65,7 @@ function ChefDashboardStackScreen() {
       <ChefDashboardStack.Screen name="ChefDashboard" component={ChefDashboard} options={{headerShown: false}}/>
       <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
       <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
+      <ChefDashboardStack.Screen name="ChefChat" component={Chat} options={{ title: 'Inbox', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
     </ChefDashboardStack.Navigator>
   );
 }
@@ -92,7 +96,7 @@ const ChefNavigator = inject('stores')(observer((props: any) => {
             iconName = `home${focused ? '' : '-outline'}`;
           } else if (route.name === 'ChefSchedule') {
             iconName = 'calendar';
-          } else if (route.name === 'ChefChat') {
+          } else if (route.name === 'ChefChatList') {
             iconName = `forum${focused ? '' : '-outline'}`;
           } else if (route.name === 'Settings') {
             iconName = `account-settings${focused ? '' : '-outline'}`;
@@ -113,19 +117,7 @@ const ChefNavigator = inject('stores')(observer((props: any) => {
       <Tab.Screen name="ChefDashboardStack" component={ChefDashboardStackScreen} options={{headerShown: false}}/>
       <Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>
       <Tab.Screen name="ChefSchedule" component={ChefBookingsStack}/>
-      <Tab.Screen
-        name="ChefChat"
-        children={() => <Chat userId={props.stores.authStore.authInfo.userId} />}
-        options={{
-          tabBarIcon: props => (
-            <TabBadgeIcon
-              name={`forum${props.focused ? '' : '-outline'}`}
-              badgeCount={0}
-              {...props}
-            />
-          ),
-        }}
-      />
+      <Tab.Screen name="ChefChatList" component={props2 => <ChatList {...props2} userId={props.stores.authStore.authInfo.userId} />}/>
       <Tab.Screen name="Settings" component={ChefSettingsStack} />
     </Tab.Navigator>
   );

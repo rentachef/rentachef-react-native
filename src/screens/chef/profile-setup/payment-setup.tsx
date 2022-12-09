@@ -17,13 +17,13 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
     super(props)
     this.state = {
       focus: undefined,
-      bankAccount: {...props.stores.chefProfileStore.retreiveChefBankAccount() || {
+      bankAccount: !isEmpty(props.stores.chefProfileStore.retreiveChefBankAccount()) ? {...props.stores.chefProfileStore.retreiveChefBankAccount()} : {
           bankName: '',
           accountNumber: '',
           routingNumber: '',
-          currency: '',
-          loading: false
-      }}
+          currency: ''
+      },
+      loading: false
     }
   }
 
@@ -78,7 +78,10 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
     this.setState({ bankAccount });
   }
 
-  isValid = () => Object.values(this.state.bankAccount).every((v: any) => !isEmpty(v))
+  isValid = () => {
+    console.log('bankAccount is valid?', this.state.bankAccount, !isEmpty(this.state.bankAccount))
+    return !isEmpty(this.state.bankAccount) && Object.values(this.state.bankAccount).every((v: any) => !isEmpty(v))
+  }
 
   saveChanges = () => {
     const { bankName, accountNumber, routingNumber, currency } = this.state.bankAccount;

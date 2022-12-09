@@ -18,6 +18,7 @@ import Colors from '../../../theme/colors';
 import {inject, observer} from 'mobx-react'
 import ChefEarning from "../../../models/chef/ChefDashboard";
 import moment from "moment";
+import {sumBy} from "lodash";
 
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
@@ -44,14 +45,23 @@ const dashboardStyles = StyleSheet.create({
 @observer
 export default class ChefDashboard extends React.Component<any, any> {
   constructor(props: any) {
-      super(props)
+     super(props)
 
     this.state = {
-      reviews: props.stores.chefDashboardStore.chefReviews || [],
-      earnings: props.stores.chefDashboardStore.chefEarnings || []
+      reviews: [],
+      earnings: []
     }
+  }
 
-    console.log('REVIEWS:', props.stores.chefDashboardStore.chefReviews)
+  componentDidMount() {
+    this.props.stores.chefDashboardStore.getChefReviews()
+      .then(reviews => {
+        this.setState({ reviews })
+      })
+    this.props.stores.chefDashboardStore.getChefEarnings()
+      .then(earnings => {
+        this.setState({ earnings })
+      })
   }
 
   calculateAverageStars = () => this.state.reviews.length > 0 ?
@@ -60,27 +70,29 @@ export default class ChefDashboard extends React.Component<any, any> {
 
   navigateTo = (screen: string) => {
     const {navigation} = this.props;
-    navigation.navigate(screen);
+    navigation.navigate(screen, { reviews: this.state.reviews });
   };
 
   render() {
-    const { earnings } = this.state
+    const { earnings, reviews } = this.state
 
     const data = {
       labels: earnings.map(e => `${e._id.month}/${e._id.year}`),
       datasets: [
         {
-          data: earnings.map(e => e.total_cost_month)
+          data: earnings.map(e => e.total_earnings_month)
         }
       ]
     };
+
+    console.log('DATA:', JSON.stringify(data))
 
     const chartConfig = {
         backgroundColor: '#ffffff',
         backgroundGradientFrom: '#ffffff',
         backgroundGradientTo: '#ffffff',
-        color: (opacity = 1) => `rgb(251, 177, 43, ${opacity})`,
-        labelColor: (opacity = 1) => `rgb(74, 81, 95, ${opacity})`,
+        color: (opacity = 1) => '#FBB12B',
+        labelColor: (opacity = 1) => '#4A515F',
         style: {
           borderRadius: 100
         },
@@ -98,11 +110,11 @@ export default class ChefDashboard extends React.Component<any, any> {
       return (
         <View style={{flex: 1, backgroundColor: '#ffffff'}}>
           <View style={dashboardStyles.dashboardHeaderContainer}>
-            <SemiBoldHeading>{`Hi ${this.props.stores?.chefProfileStore.backgroundCheck?.legalName.split(' ')[0] || ''}!`}</SemiBoldHeading>
+            <SemiBoldHeading>{`Hi ${this.props.stores?.chefSettingsStore.profile?.fullName?.split(' ')[0] || ''}!`}</SemiBoldHeading>
             <Text>Here is what's going on today</Text>
           </View>
           <View style={dashboardStyles.dashboardContainer}>
-            <View style={{marginVertical: 15, marginBottom: 10, flex: .3 }}>
+            {/*<View style={{marginVertical: 10, marginBottom: 10, flex: .3 }}>
               <CardContainer
                 title={'Today\'s Schedule'}
                 style={[dashboardStyles.cardContainer, {flex: 1}]}
@@ -123,32 +135,9 @@ export default class ChefDashboard extends React.Component<any, any> {
                 </View>
               </CardContainer>
               <Divider type='middle' dividerStyle={{ marginVertical: 10 }} />
-            </View>
+            </View>*/}
 
-            <View style={{marginVertical: 15, marginTop: 10, flex: .5 }}>
-              {/*<CardContainer
-                title={'Your Earnings'}
-                style={[dashboardStyles.cardContainer, {flex: 1}]}
-              >
-                <View style={{flex: 1}}>
-                  <View style={{alignItems: 'center'}}><Text>Total Earned</Text></View>
-                  <BarChart
-                    style={{borderRadius: 16}}
-                    data={data}
-                    showValuesOnTopOfBars={false}
-                    showBarTops={false}
-                    fromZero={true}
-                    width={Dimensions.get("window").width - 60}
-                    height={180}
-                    //yAxisLabel="$"
-                    chartConfig={chartConfig}
-                    verticalLabelRotation={0}
-                    flatColor={true}
-                    withCustomBarColorFromData={false}
-                    withInnerLines={true}
-                  />
-                </View>
-              </CardContainer>*/}
+            <View style={{marginVertical: 25, marginTop: 10, flex: .5 }}>
               <View style={{flex: 1, minHeight: 320 }}>
                 <View style={{alignItems: 'center', flexDirection: 'row'}}>
                   <View style={{alignItems: 'flex-start', flex: 1}}><Text style={{justifyContent:'flex-start', alignSelf: 'flex-start'}}>Your Earnings</Text></View>
@@ -161,7 +150,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                 </View>
                 <View style={{alignItems: 'center', flex: 1}}>
                   <SmallBoldHeading style={{justifyContent:'center', alignSelf: 'center'}}>
-                    $ {this.props.stores.chefDashboardStore.chefEarnings?.length || 0}
+                    $ {sumBy(earnings, 'total_earnings_month') || 0}
                   </SmallBoldHeading>
                   <Subtitle2>Total Earned</Subtitle2>
                 </View>
@@ -180,10 +169,25 @@ export default class ChefDashboard extends React.Component<any, any> {
                   withCustomBarColorFromData={false}
                   withInnerLines={true}
                 />
+                {/*<BarChart
+                  style={{borderRadius: 16}}
+                  data={data}
+                  showValuesOnTopOfBars={false}
+                  showBarTops={false}
+                  fromZero={true}
+                  width={Dimensions.get("window").width - 50}
+                  height={250}
+                  //yAxisLabel="$"
+                  chartConfig={chartConfig}
+                  verticalLabelRotation={0}
+                  flatColor={true}
+                  withCustomBarColorFromData={false}
+                  withInnerLines={true}
+                />*/}
               </View>
             </View>
 
-            <Divider type={'middle'}/>
+            <Divider type={'full-bleed'}/>
 
             <TouchableOpacity
               style={{marginVertical: 5, marginTop: 10, flex: .25 }}
@@ -199,7 +203,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                     <SmallBoldHeading>{this.calculateAverageStars()}</SmallBoldHeading>
                   </View>
                   <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-                    <LightText>{this.state.reviews?.length || 0} Reviews</LightText>
+                    <LightText>{reviews.length || 0} Reviews</LightText>
                   </View>
                 </View>
               </CardContainer>

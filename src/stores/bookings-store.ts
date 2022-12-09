@@ -1,6 +1,7 @@
 import {action, makeAutoObservable} from "mobx";
 import BookingRequest from "../models/BookingRequest";
 import {notifyError} from "../components/toast/toast";
+import ChefBooking from "../models/chef/ChefBooking";
 
 class BookingsStore {
   rootStore: any;
@@ -27,7 +28,7 @@ class BookingsStore {
   }
 
   retrieveBookings = () => {
-    return this.bookings.map(cb => {
+    return this.bookings.map((cb: ChefBooking) => {
       return {...cb, dateTime: new Date(cb.dateTime)}
     })
   }
@@ -54,6 +55,16 @@ class BookingsStore {
     }
     else {
       notifyError(`Error when booking: ${result.error.message}`)
+      return result.error?.message
+    }
+  }
+
+  addReview = async (data: any) => {
+    const result = await this.rootStore.chefApi.setBookingReview(data)
+    if(result.ok)
+      return result.data
+    else {
+      notifyError(`Error when adding review: ${result.error.message}`)
       return result.error?.message
     }
   }

@@ -21,32 +21,26 @@ export default class ChefEarnings extends React.Component<any, any> {
 
 import * as React from 'react';
 import {Button, Text, TouchableOpacity, View} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 import {
-  Heading5,
-  LightText,
   Heading6,
-  BoldHeading,
-  SmallBoldHeading,
-  SmallText, SmallBoldText
+  SmallText, SmallBoldText, HeadlineBold
 } from "../../../components/text/CustomText";
-import Avatar from "../../../components/avatar/Avatar";
+import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import Colors from "../../../theme/colors";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import {useEffect, useState} from "react";
-import Icon from "../../../components/icon/Icon";
-import {inject, observer} from "mobx-react";
-//import ChefReviewsStore from "../../../stores/chefStores/reviews-store";
+import moment from "moment";
+import {ButtonGroup} from "react-native-elements";
+import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 
-const Day = inject("chefReviewsStore")(observer((props: any) => {
+const filters = ['Most Relevant', 'Newest', 'Highest Rating', 'Lowest Rating']
+
+const ReviewsList = (props: any) => {
+  console.log('DAY REVIEWS', props.reviews)
   const [showSortModal, setSortModal] = useState(false);
-  const [reviews, setReviews] = useState([]);
-  const [commitHistory, setCommitHistory] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [reviews, setReviews] = useState(props.reviews);
+  const [sortBy, setSortBy] = useState();
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -57,166 +51,87 @@ const Day = inject("chefReviewsStore")(observer((props: any) => {
     setSortModal(!showSortModal);
   }
 
-  useEffect(() => {
-    console.log("props", props)
-    let data = props && props.chefReviewsStore ? props.chefReviewsStore.getChefReviews(): ''
-    console.log("data", data)
-  })
-
-  /*useEffect(() => {
-    fetch(
-      `https://api.github.com/search/commits?q=repo:facebook/react+css&page=${reviews}`,
-      {
-        method: "GET",
-        headers: new Headers({
-          Accept: "application/vnd.github.cloak-preview"
-        })
-      }
-    )
-      .then(res => res.json())
-      .then(response => {
-        setCommitHistory(response.items);
-        setIsLoading(false);
-      })
-      .catch(error => console.log(error));
-  }, [reviews]);*/
-
-
-
   return (
-    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 5 }}>
-      <TouchableOpacity onPress={() => {
-        console.log("onPress setSortModal", showSortModal)
-        toggle()
-        /*setTimeout(() => {
-          setSortModal(false)
-        },10)*/
-        //setSortModal(true)
-        /*setTimeout(() => {
-          setSortModal(true)
-        },10000)*/
-      }} style={{ alignSelf: 'flex-end', marginRight: 10}}>
-        <Heading6 style={{color: Colors.primaryColor}}>Sort By</Heading6>
-      </TouchableOpacity>
-      <View style={{flex: .2, alignItems: 'flex-start',  flexDirection: 'column', borderBottomColor: 'gray', borderBottomWidth: .25}}>
-        <View style={{flex: .35, justifyContent: 'flex-start', alignItems: 'stretch', alignSelf: 'flex-start', alignContent:'space-between',  flexDirection: 'row'}}>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-        </View>
-        <View style={{flex: .35, alignItems: 'flex-start',  flexDirection: 'row' }}>
-          <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-            <SmallBoldText style={{color: '#333333'}}>Jenny was an incredible chef, we will definitely consider her for future opportunities</SmallBoldText>
-          </View>
-        </View>
-        <View style={{flex: .3, alignItems: 'flex-start',  flexDirection: 'row', marginTop: 3 }}>
-          <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-            <SmallText>John Green</SmallText>
-          </View>
-        </View>
-      </View>
-      <View style={{flex: .2, alignItems: 'flex-start',  flexDirection: 'column', borderBottomColor: 'gray', borderBottomWidth: .25}}>
-        <View style={{flex: .35, justifyContent: 'flex-start', alignItems: 'stretch', alignSelf: 'flex-start', alignContent:'space-between',  flexDirection: 'row'}}>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-          <Icon color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>
-        </View>
-        <View style={{flex: .35, alignItems: 'flex-start',  flexDirection: 'row' }}>
-          <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-            <SmallBoldText style={{color: '#333333'}}>Jenny was an incredible chef, we will definitely consider her for future opportunities</SmallBoldText>
-          </View>
-        </View>
-        <View style={{flex: .3, alignItems: 'flex-start',  flexDirection: 'row', marginTop: 3 }}>
-          <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-            <SmallText>John Green</SmallText>
-          </View>
-        </View>
-      </View>
-      {showSortModal ?
-        <RACBottomSheet
-          index={1}
-          onSheetChanges={(ind)=> {
-            console.log("onSheetChange showSortModal index", showSortModal, ind)
-
-          }}>
-          <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 5 }}>
-            <View style={{flex: .1}}><Text>Sort By</Text></View>
-            <View style={{padding: 5, flex: .8, flexDirection: 'column'}}>
-              <View style={{flex: .5}}><Text>Most Relevant</Text></View>
-              <View style={{flex: .5}}><Text>Newest</Text></View>
-              <View style={{flex: .5}}><Text>Highest Rating</Text></View>
-              <View style={{flex: .5}}><Text>Lowest Rating</Text></View>
+    <>
+      {reviews.length > 0 ?
+        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 5, backgroundColor: Colors.background }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '90%', margin: 10 }}>
+              <SmallText>{props.dayText}</SmallText>
+              <TouchableOpacity
+                onPress={() => {
+                  toggle()
+                }}
+                style={{ alignSelf: 'flex-end', marginRight: 10, flexDirection: 'row', alignItems: 'center'}}
+              >
+                <Icon name={'sort'} size={25} color={Colors.primaryColor}/>
+                <Heading6 style={{color: Colors.primaryColor}}>Sort By</Heading6>
+              </TouchableOpacity>
             </View>
-          </View>
-        </RACBottomSheet> : null }
-    </View>
+            {reviews.map((r, i) => (
+              <View key={i} style={{flex: .2, alignItems: 'flex-start',  flexDirection: 'column', borderBottomColor: 'gray', borderBottomWidth: .25, margin: 10 }}>
+                <View style={{flex: .35, justifyContent: 'flex-start', alignItems: 'stretch', alignSelf: 'flex-start', alignContent:'space-between',  flexDirection: 'row'}}>
+                  {Array.from(Array(r.stars).keys()).map((s, idx) => (<Icon key={idx} color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>))}
+                </View>
+                <View style={{flex: .35, alignItems: 'flex-start',  flexDirection: 'row' }}>
+                  <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
+                    <SmallBoldText style={{color: '#333333'}}>"{r.review}"</SmallBoldText>
+                  </View>
+                </View>
+                <View style={{flex: .3, alignItems: 'flex-start',  flexDirection: 'row', marginTop: 3 }}>
+                  <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
+                    <SmallText>{r.reviewerName}</SmallText>
+                  </View>
+                </View>
+              </View>
+            ))}
+          {showSortModal ?
+            <RACBottomSheet
+              index={1}
+              onSheetChanges={(ind)=> {
+                console.log("onSheetChange showSortModal index", showSortModal, ind)
+
+              }}>
+              <TimeZonePicker
+                data={filters}
+                selected={sortBy}
+                onChange={i => {
+                  setSortBy(i)
+                  setSortModal(false)
+                }}
+              />
+            </RACBottomSheet> : null }
+      </View> :
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.background }}>
+        <Icon name='note-text' size={30} />
+        <HeadlineBold>No reviews here...</HeadlineBold>
+      </View>}
+    </>
   )
-}))
-
-// @ts-ignore
-function Week({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
 }
 
-// @ts-ignore
-function Month({ navigation }) {
+export default function Reviews({ route }) {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const { reviews } = route.params
+  const buttons = ['Day', 'Week', 'Month', 'Year']
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
+    <>
+      <ButtonGroup
+        onPress={setSelectedIndex}
+        buttonStyle={{
+          backgroundColor: Colors.disabled
+        }}
+        selectedIndex={selectedIndex}
+        buttons={buttons}
+        containerStyle={{height: 40, borderRadius: 8}}
+        selectedButtonStyle={{backgroundColor: Colors.primary, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
+        selectedTextStyle={{color: Colors.primaryText}}
+        textStyle={{color: Colors.secondaryText, fontWeight: 'bold'}}
       />
-    </View>
-  );
-}
-
-function Year({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
-
-const Tab = createMaterialTopTabNavigator();
-
-export default function Reviews() {
-  return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        headerShown: false,
-        tabBarStyle: {
-          borderColor: 'gray',
-          borderRadius: 5,
-          backgroundColor: '#eaedf3', // TabBar background
-        },
-        tabBarContentContainerStyle: {
-          margin: 5
-        },
-        tabBarActiveBackgroundColor: 'blue',
-        tabBarActiveTintColor: '#000000',
-        //tabBarInactiveTintColor: 'gray',
-      })}
-    >
-      <Tab.Screen name="Day" component={Day} />
-      <Tab.Screen name="Week" component={Week} />
-      <Tab.Screen name="Month" component={Month} />
-      <Tab.Screen name="Year" component={Year} />
-    </Tab.Navigator>
+      {selectedIndex === 0 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).dayOfYear() === moment().dayOfYear())} dayText={moment().format('MMMM DD')}/>}
+      {selectedIndex === 1 &&  <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).week() === moment().week())} dayText={`Week ${moment().week()} ${moment().year()}`}/>}
+      {selectedIndex === 2 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).month() === moment().month())} dayText={moment().format('MMMM YYYY')}/>}
+      {selectedIndex === 3 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).year() === moment().year())} dayText={moment().format('YYYY')}/>}
+    </>
   );
 }

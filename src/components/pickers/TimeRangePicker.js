@@ -5,11 +5,12 @@ import {ButtonGroup} from "react-native-elements";
 import TimePicker from "./TimePicker";
 import Button from "../buttons/Button";
 import LinkButton from "../buttons/LinkButton";
+import moment from "moment";
 
 const TimeRangePicker = ({ selected, onCancel, onSelect, isValid }) => {
   const [index, setIndex] = useState(0);
-  const [timeFrom, setTimeFrom] = useState(selected?.timing.from || new Date());
-  const [timeTo, setTimeTo] = useState(selected?.timing.to || new Date());
+  const [timeFrom, setTimeFrom] = useState(selected?.timing.from || moment().utc().startOf('day').toDate());
+  const [timeTo, setTimeTo] = useState(selected?.timing.to || moment().utc().startOf('day').toDate());
   const buttons = ['Start Time', 'End Time'];
 
   return (
@@ -31,10 +32,10 @@ const TimeRangePicker = ({ selected, onCancel, onSelect, isValid }) => {
         <Button
           disabled={isValid !== undefined ? !isValid() : false}
           onPress={() => {
-            if(isValid !== undefined)
+            if(isValid !== undefined) {
               if(isValid())
                 onSelect(timeFrom, timeTo)
-            else
+            } else
               onSelect(timeFrom, timeTo)
           }}
           title='Use these times'

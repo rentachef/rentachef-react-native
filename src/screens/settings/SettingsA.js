@@ -218,7 +218,7 @@ export default class SettingsA extends Component {
           try {
             await Auth.signOut();
             this.props.stores.authStore.setUserAuthInfo({}, {})
-            this.props.stores.authStore.logout()
+            await this.props.stores.authStore.logout()
           } catch (error) {
             console.log('error signing out: ', error);
           }
@@ -226,8 +226,26 @@ export default class SettingsA extends Component {
       ],
       {cancelable: false},
     );
-    
   };
+
+  getEmail = () => {
+    if(!!this.props.stores.authStore.authInfo.attributes?.email)
+      return this.props.stores.authStore.authInfo.attributes?.email
+    if(this.role === 'Cook' && !!this.props.stores.chefSettingsStore.profile?.email)
+      return this.props.stores.chefSettingsStore.profile?.email
+    if(this.role === 'Consumer' && !!this.props.stores.customerSettingsStore.profile?.email)
+      return this.props.stores.customerSettingsStore.profile?.email
+  }
+
+  getName = () => {
+    console.log(this.role, !!this.props.stores.customerSettingsStore.profile?.fullName)
+    if(this.role === 'Cook' && !!this.props.stores.chefSettingsStore.profile?.fullName)
+      return this.props.stores.chefSettingsStore.profile?.fullName
+    if(this.role === 'Consumer' && !!this.props.stores.customerSettingsStore.profile?.fullName)
+      return this.props.stores.customerSettingsStore.profile?.fullName
+    else
+      return 'Your Name'
+  }
 
   render() {
     const {notificationsOn} = this.state;
@@ -254,9 +272,9 @@ export default class SettingsA extends Component {
                 />
                 <View style={styles.profileInfo}>
                   <View styles={styles.info}>
-                    <Subtitle1 style={styles.name}>{this.props.stores.chefProfileStore.backgroundCheck?.legalName || 'Your Name'}</Subtitle1>
+                    <Subtitle1 style={styles.name}>{this.getName()}</Subtitle1>
                     <Subtitle2 style={styles.email}>
-                      {this.props.stores.authStore.authInfo.attributes?.email}
+                      {this.getEmail()}
                     </Subtitle2>
                   </View>
                   <Icon name='chevron-right' size={30} style={styles.iconRight} />

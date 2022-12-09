@@ -19,6 +19,7 @@ class CustomerSettingsStore {
       console.log("r", r)
       if(!!r) {
         this.setCustomerProfile(r?.data.profile || {})
+        console.log('setting preferences', r?.data.preferences)
         this.setCustomerPreferences(r?.data.preferences || {})
         this.setCustomerLocation(r?.data.location || {})
       }
@@ -37,7 +38,7 @@ class CustomerSettingsStore {
 
   @action setCustomerProfile = (data: Profile) => this.profile = Object.assign({}, data)
 
-  @action setCustomerPreferences = (data: Preferences) => this.preferences = Object.assign([], data)
+  @action setCustomerPreferences = (data: Preferences) => this.preferences = Object.assign({}, data)
 
   @action setCustomerPaymentMethods = (data: PaymentMethod[]) => this.paymentMethods = Object.assign([], sortBy(data, pm => pm.default))
 
@@ -59,14 +60,14 @@ class CustomerSettingsStore {
   @action saveCustomerPreferences = async (data: Preferences) => {
     const response = await this.rootStore.chefApi.setUserPreferences(data)
     if(response.ok) {
-      this.preferences = Object.assign({}, data)
+      this.setCustomerPreferences(data)
       return 'SUCCESS'
     }
     else
       return response.error?.message
   }
 
-  addCard = (data: PaymentMethod) => this.rootStore.chefApi.addConsumerPaymentMethod(data)
+  addCard = (data: any) => this.rootStore.chefApi.addConsumerPaymentMethod(data)
 
   getPaymentMethods = () => {
     this.rootStore.chefApi.getUserPaymentMethods().then((r: any) => {
