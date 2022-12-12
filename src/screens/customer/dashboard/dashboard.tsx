@@ -16,7 +16,7 @@ import {isEmpty} from "lodash";
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
-const requestLocationPermission = async () => {
+const requestLocationPermission = async (cb: any) => {
  try {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -31,6 +31,7 @@ const requestLocationPermission = async () => {
     console.log('granted', granted);
     if (granted === 'granted') {
       console.log('You can use Geolocation');
+      cb()
       return true;
     } else {
       console.log('You cannot use Geolocation');
@@ -60,8 +61,10 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   const [location, setLocation] = useState<CustomerLocation>(stores.customerSettingsStore.defaultLocation || {})
 
   useEffect(() => {
-    requestLocationPermission()
+    requestLocationPermission(getCurrentLocation)
+  }, [])
 
+  const getCurrentLocation = () => {
     if(isEmpty(stores.customerSettingsStore.defaultLocation)) {
       console.log('obtaining current location...')
       Geolocation.getCurrentPosition(position => {
@@ -75,7 +78,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
           })
       })
     }
-  }, [])
+  }
 
   return (
     <ScrollView style={styles.screenContainer}>
