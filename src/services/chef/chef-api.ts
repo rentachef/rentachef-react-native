@@ -265,6 +265,16 @@ export default class ChefApi {
     return await this._post(url, data)
   }
 
+  async saveChatIfNotExists(chat: any) {
+    const url = `chats/`
+    return await this._post(url, chat)
+  }
+
+  async getUserChats() {
+    const url = `chats`
+    return await this._get(url)
+  }
+
   async _get(url: string)  {
     const response = await this.apisauce.get(url)
 

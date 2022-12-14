@@ -1,16 +1,26 @@
 import React, {useEffect, useState} from "react";
 import {SectionList, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
-import {Heading2, Heading6, HeadlineBold, Text, Title} from "../../components/text/CustomText";
+import {Heading2, Heading6, HeadlineBold, SmallText, Text, Title} from "../../components/text/CustomText";
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import globalStyles from "../../theme/global-styles";
 import Colors from "../../theme/colors";
 import {ButtonGroup} from "react-native-elements";
 import Pubnub from "pubnub";
 import {inject} from "mobx-react";
+import Avatar from "../../components/avatar/Avatar";
 
-const Item = ({ title, withIcon, onSelect }) => (
+const Item = ({ title, text, withIcon, onSelect }) => (
   <TouchableOpacity style={styles.item} onPress={() => onSelect(title)}>
-    <Text style={styles.title}>{title}</Text>{withIcon && <Icon style={styles.icon} name='check-bold' size={20} />}
+    <Avatar
+      imageUri={undefined}
+      rounded
+      size={50}
+    />
+    <View style={{ flexDirection: 'column', justifyContent: 'flex-start', flexBasis: '70%'}}>
+      <Heading6 style={styles.title}>{title}</Heading6>
+      <SmallText style={styles.title}>{text}</SmallText>
+    </View>
+    {withIcon && <Icon style={styles.icon} name='chevron-right' size={20} />}
   </TouchableOpacity>
 );
 
@@ -26,6 +36,27 @@ const ChatList = (inject('stores')((props) => {
   const buttons = ['Messages', 'Notifications']
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [channels, setChannels] = useState([])
+  const { role } = props.stores.authStore.authInfo
+
+  useEffect(() => {
+    props.stores.searchStore.getChats()
+      .then(chats => {
+        pubnub.fetchMessages({
+          channels: chats.map(c => c.channel),
+          count: 1
+        }, (status, data) => {
+          let channels = chats.map(c => {
+            c['lastMessage'] = data.channels[c.channel][0].message?.description
+            return c
+          })
+          setChannels(channels)
+        })
+      })
+  }, [])
+
+  useEffect(() => {
+    console.log(channels)
+  }, [channels])
 
   const onChannelClick = (channel) => {
     props.navigation.navigate('CustomerChat', { channel, userId: props.userId, pubnub })
@@ -53,7 +84,7 @@ const ChatList = (inject('stores')((props) => {
         <SectionList
           sections={[{data: channels}]}
           keyExtractor={(item, index) => item + index}
-          renderItem={({ item }) => <Item title={item} onSelect={onChannelClick} /> }
+          renderItem={({ item }) => <Item title={role === 'Cook' ? item.consumer.name : item.chef.name } withIcon={true} text={item.lastMessage} onSelect={() => onChannelClick(item.channel)} /> }
         />
       }
     </View>
@@ -67,10 +98,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#e3e3e3',
     padding: 15,
     marginVertical: 8,
     width: '100%'
-  }
+  },
+  cardPhoto: {
+    flexBasis: '10%'
+  },
 })

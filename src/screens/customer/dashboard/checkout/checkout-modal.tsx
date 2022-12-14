@@ -36,13 +36,13 @@ const CheckoutModal = ({ navigation, action }) => {
                   title='View Booking'
                   onPress={() => navigation.navigate('CustomerSchedule', { bookingId })}
                 />
-                <Button
+                {/*<Button
                   title='Message Chef'
                   outlined
                   buttonStyle={{ backgroundColor: Colors.onPrimaryColor, borderColor: Colors.onPrimaryColor }}
                   titleColor={Colors.primaryText}
                   onPress={() => navigation.navigate('CustomerChat')}
-                />
+                />*/}
             </View>
           </>}
       </View>

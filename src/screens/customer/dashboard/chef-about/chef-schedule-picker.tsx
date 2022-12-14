@@ -24,12 +24,14 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
     let chefTimings = [].concat.apply([], chefAvailability.weeklyHours?.map((wh: WeekDayAndTime) => _getNextDatesFromWeeklyHours(wh, 4)))
     chefTimings.concat(chefAvailability.dateOverrides?.map((dt: DayAndTime) => dt.timing))
 
+    console.log('chef timings', chefTimings.sort((a: Timing, b: Timing) => a.from - b.from))
+
     setTimings(chefTimings.sort((a: Timing, b: Timing) => a.from - b.from))
   }, [])
 
   const onSelectedDate = (value: Timing) => {
     setSelectedTiming(value)
-    console.log(value)
+    console.log('selected', value)
     setHourFrom(undefined)
     setHourTo(undefined)
     setHoursRange(_getDatesByHourRange(value.from, value.to))

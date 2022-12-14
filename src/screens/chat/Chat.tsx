@@ -7,8 +7,9 @@ import ChatMessage from "./ ChatMessage";
 import {isEmpty} from "lodash";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import Pubnub from "pubnub";
+import { inject } from "mobx-react";
 
-const Chat = ({ route }) => {
+const Chat = inject('stores')(({ stores, route }) => {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [pubnubClient, setPubnubClient] = useState(route.params.pubnub || new Pubnub({
@@ -18,11 +19,16 @@ const Chat = ({ route }) => {
     subscribeRequestTimeout: 60000,
     presenceTimeout: 122
   }))
-  let { userId, channel } = route.params
+  let { userId, channel, consumer, chef } = route.params
 
   const showMessage = (msg: any) => {
-    setMessages((messages) => [...messages, msg]);
+    if(msg.publisher !== userId)
+      setMessages((messages) => [...messages, msg]);
   };
+
+  useEffect(() => {
+    stores.searchStore.saveChatIfNotExists({ channel, consumer, chef })
+  }, [])
 
   useEffect(() => {
     // add listener
@@ -135,7 +141,7 @@ const Chat = ({ route }) => {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-}
+})
 
 export default Chat
 

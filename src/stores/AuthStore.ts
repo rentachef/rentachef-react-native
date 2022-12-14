@@ -151,6 +151,7 @@ class AuthStore {
   @action login = async (email: string, password: string) => {
     console.log('loggin in')
     const apiUser = await this.rootStore.chefApi.loginToApi(email, password)
+    console.log('apiUser', apiUser)
     if(!!apiUser) {
       this.rootStore.chefApi.setToken(apiUser.tokenSession)
       await AsyncStorage.setItem('@apiToken', apiUser.tokenSession)

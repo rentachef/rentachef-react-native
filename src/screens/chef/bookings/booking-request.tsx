@@ -183,7 +183,9 @@ const BookingRequest = inject('stores')((props)  => {
                 props.navigation.navigate('ChefChat', {
                   channel: `inbox.${booking.chefId}.${booking.consumerId}`,
                   userId: booking.chefId,
-                  pubnub: undefined
+                  pubnub: undefined,
+                  consumer: { id: booking.consumerId, name: booking.consumerName},
+                  chef: { id: booking.chefId, name: booking.chefName }
                 })
               }}
               title={`Message ${booking.consumerName}`}

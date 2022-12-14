@@ -19,9 +19,10 @@ import ChefFilters from "../screens/customer/dashboard/chef-filters";
 import ChefResults from "../screens/customer/dashboard/chef-results";
 import ChefAbout from "../screens/customer/dashboard/chef-about/chef-about";
 import Checkout from "../screens/customer/dashboard/checkout/checkout";
-import {inject, observer} from "mobx-react";
+import {inject, observer, PropTypes} from "mobx-react";
 import Chat from "../screens/chat/Chat";
 import ChatList from "../screens/chat/ChatList";
+import HeaderIconButton from "../components/navigation/HeaderIconButton";
 
 // create bottom tab navigator
 const Tab = createBottomTabNavigator();
@@ -39,7 +40,11 @@ function CustomerDashboardStackScreen() {
       <CustomerDashboardStack.Screen name="ChefResults" component={ChefResults} options={{ title: '', headerBackTitle: 'Back'}} />
       <CustomerDashboardStack.Screen name="ChefAbout" component={ChefAbout} options={{ title: '', headerBackTitle: 'Back'}} />
       <CustomerDashboardStack.Screen name="Checkout" component={Checkout} options={{ title: 'Booking Details', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
-      <CustomerDashboardStack.Screen name="CustomerChat" component={Chat} options={{ title: 'Inbox', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
+      <CustomerDashboardStack.Screen name="CustomerChat" component={Chat} options={{ 
+        title: 'Inbox', 
+        headerBackTitle: 'Back', 
+        headerTitleAlign: 'center'
+      }} />
     </CustomerDashboardStack.Navigator>
   );
 }
@@ -94,7 +99,9 @@ const CustomerNavigator = inject('stores')(observer((props) => {
       })}>
       <Tab.Screen name="CustomerDashboardStack" component={CustomerDashboardStackScreen} options={{headerShown: false}}/>
       <Tab.Screen name="CustomerSchedule" component={ChefBookingsStack}/>
-      <Tab.Screen name="CustomerChatList" component={props2 => <ChatList {...props2} userId={props.stores.authStore.authInfo.userId} />}/>
+      <Tab.Screen name="CustomerChatList">
+        {props2 => <ChatList {...props2} userId={props.stores.authStore.authInfo.userId} />}
+      </Tab.Screen>
       <Tab.Screen name="Settings" component={ChefSettingsStack} />
     </Tab.Navigator>
   );

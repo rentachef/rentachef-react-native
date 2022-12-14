@@ -117,7 +117,9 @@ const ChefNavigator = inject('stores')(observer((props: any) => {
       <Tab.Screen name="ChefDashboardStack" component={ChefDashboardStackScreen} options={{headerShown: false}}/>
       <Tab.Screen name="ChefProfileSetupStack" component={ChefProfileSetupStack} options={{headerShown: false}}/>
       <Tab.Screen name="ChefSchedule" component={ChefBookingsStack}/>
-      <Tab.Screen name="ChefChatList" component={props2 => <ChatList {...props2} userId={props.stores.authStore.authInfo.userId} />}/>
+      <Tab.Screen name="ChefChatList">
+        {props2 => <ChatList {...props2} userId={props.stores.authStore.authInfo.userId} />}
+      </Tab.Screen>
       <Tab.Screen name="Settings" component={ChefSettingsStack} />
     </Tab.Navigator>
   );

@@ -12,9 +12,23 @@ import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
 import {inject, observer} from "mobx-react";
 import {CustomerLocation} from "../../../models/user/CustomerSettings";
-import {isEmpty} from "lodash";
+import {forEach, isEmpty} from "lodash";
+import SetupModal from '../../welcome/Setup';
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
+
+const validations = {
+  Cook: [
+      { key: 'workZone', title: 'Workzone', valid: false, stack: 'ChefProfileSetupStack', page: 'ChefWorkZoneSetup' },
+      { key: 'availability', title: 'Availability', valid: false, stack: 'ChefProfileSetupStack', page: 'ChefAvailabilitySetup' },
+      { key: 'bankAccount', title: 'Bank Account', valid: false, stack: 'ChefProfileSetupStack', page: 'ChefPaymentSetup' },
+      { key: 'backgroundCheck', title: 'Background Check', valid: false, stack: 'ChefProfileSetupStack', page: 'ChefBackgroundCheckSetup' }
+  ],
+  Consumer: [
+      { key: 'preferences', title: 'Preferences', valid: false, stack: 'Settings', page: 'Preferences' },
+      { key: 'paymentMethods', title: 'Wallet', valid: false, stack: 'Settings', page: 'Wallet' }
+  ]
+}
 
 const requestLocationPermission = async (cb: any) => {
  try {
@@ -57,12 +71,42 @@ const getFormattedAddress = (address_components: any) => {
 }
 
 const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => {
+  const { role } = stores.authStore.authInfo
   const [modalIndex, setModalIndex] = useState(-1)
   const [location, setLocation] = useState<CustomerLocation>(stores.customerSettingsStore.defaultLocation || {})
-
+  //const [validators, setValidators] = useState([...validations[role]])
+  
   useEffect(() => {
+    console.log('mounting dashboard...')
     requestLocationPermission(getCurrentLocation)
   }, [])
+
+  /*useEffect(() => {
+    setTimeout(() => {
+      console.log('VALIDATORS: ', validators)
+      let validationResults = validators.map(v => {
+          console.log('validating...', v)
+          if(role === 'Cook') {
+            if(!isEmpty(stores.chefProfileStore[v.key]))
+              return { ...v, valid: true }
+            else return v
+          }
+          if(role === 'Consumer') {
+            if(!isEmpty(stores.customerSettingsStore[v.key]))
+              return { ...v, valid: true }
+            else return v
+          }
+      })
+      console.log('After validation', validationResults)
+      setValidators(validationResults)
+    }, 1000);
+  }, [])
+
+  useEffect(() => {
+    console.log('validators', validators.some(v => !v.valid))
+  }, [validators])*/
+
+  const navigate = ({stack, page}) => navigation.navigate(stack, { screen: page })
 
   const getCurrentLocation = () => {
     if(isEmpty(stores.customerSettingsStore.defaultLocation)) {
@@ -82,36 +126,37 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
 
   return (
     <ScrollView style={styles.screenContainer}>
-      <View style={{ opacity: modalIndex !== -1 ? 0.3: 1 }}>
-        <TouchableOpacity style={styles.dashboardContainer} onPress={() => setModalIndex(0)}>
-          <Text>{location.address} - </Text><LightText>Today</LightText>
-        </TouchableOpacity>
-        <View>
-          <SearchA navigation={navigation} />
-          <View style={{ paddingTop: 15 }}>
-            <SmallBoldHeading>Popular Cuisines</SmallBoldHeading>
-            <CuisinesCarousel onSelect={(item: any) => navigation.navigate('ChefResults', { searchedValue: item })} />
+      {/*validators.some(v => !v.valid) ? <SetupModal navigateTo={navigate} missing={validators.filter(v => !v.valid)} /> :*/}
+        <View style={{ opacity: modalIndex !== -1 ? 0.3: 1 }}>
+          <TouchableOpacity style={styles.dashboardContainer} onPress={() => setModalIndex(0)}>
+            <Text>{location.address} - </Text><LightText>Today</LightText>
+          </TouchableOpacity>
+          <View>
+            <SearchA navigation={navigation} />
+            <View style={{ paddingTop: 15 }}>
+              <SmallBoldHeading>Popular Cuisines</SmallBoldHeading>
+              <CuisinesCarousel onSelect={(item: any) => navigation.navigate('ChefResults', { searchedValue: item })} />
+            </View>
+            <Divider type='full-bleed' />
+            <ChefsList data={stores.searchStore.topChefs} title='Top rated chefs near you' onSelect={(chef) => {
+              console.log('selected chef', JSON.stringify(chef))
+              navigation.navigate('ChefAbout', { chef })
+            }} />
           </View>
-          <Divider type='full-bleed' />
-          <ChefsList data={stores.searchStore.topChefs} title='Top rated chefs near you' onSelect={(chef) => {
-            console.log('selected chef', JSON.stringify(chef))
-            navigation.navigate('ChefAbout', { chef })
-          }} />
         </View>
-      </View>
-      {modalIndex !== -1 &&
-      <SafeAreaView style={{ position: 'absolute', width: '100%', height: '100%' }}>
-        <RACBottomSheet
-          onSheetChanges={(index: any) => {
-            console.log('value', index)
-          }}
-          index={modalIndex}
-          size={'50%'}
-          onClose={() => setModalIndex(-1)}
-        >
-          <ServiceDetails navigation={navigation} onClose={() => setModalIndex(-1)} />
-        </RACBottomSheet>
-      </SafeAreaView>}
+        {modalIndex !== -1 &&
+        <SafeAreaView style={{ position: 'absolute', width: '100%', height: '100%' }}>
+          <RACBottomSheet
+            onSheetChanges={(index: any) => {
+              console.log('value', index)
+            }}
+            index={modalIndex}
+            size={'50%'}
+            onClose={() => setModalIndex(-1)}
+          >
+            <ServiceDetails navigation={navigation} onClose={() => setModalIndex(-1)} />
+          </RACBottomSheet>
+        </SafeAreaView>}
     </ScrollView>
   )
 }))

@@ -46,6 +46,19 @@ class SearchStore {
       return response.data || []
     }
   }
+
+  saveChatIfNotExists = async (chat: any) => {
+    const response = await this.rootStore.chefApi.saveChatIfNotExists(chat)
+    if(response.ok) {
+      return response.data
+    }
+  }
+
+  getChats = async () => {
+    const response = await this.rootStore.chefApi.getUserChats()
+    if(response.ok)
+      return response.data || []
+  }
 }
 
 export default SearchStore

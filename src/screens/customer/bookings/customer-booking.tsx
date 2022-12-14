@@ -160,7 +160,9 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                     onPress={() => navigation.navigate('CustomerChat', {
                       channel: `inbox.${booking.chefId}.${booking.consumerId}`,
                       userId: booking.consumerId,
-                      pubnub: undefined
+                      pubnub: undefined,
+                      consumer: { id: booking.consumerId, name: booking.consumerName},
+                      chef: { id: booking.chefId, name: booking.chefName }
                     })}
                     title={`Message ${formatName(role === 'Cook' ? booking.clientName : booking.chefName)}`}
                     color={Colors.backgroundMedium}

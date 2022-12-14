@@ -18,6 +18,7 @@ import Button from "../../../components/buttons/Button";
 import { remove } from 'lodash';
 import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
 import {Text} from '../../../components/text/CustomText';
+import moment from 'moment';
 
 const getMarkedDates = (dateOverrides: DayAndTime[]) => {
   let markedDates = {};
@@ -103,8 +104,8 @@ export default class ChefAvailability extends React.Component<any, any> {
       let weekDayAndTime: WeekDayAndTime = {
         day: timeForDay,
         timing: {
-          from: timeFrom,
-          to: timeTo
+          from: moment(timeFrom).set('minutes', 0).toDate(),
+          to: moment(timeTo).set('minutes', 0).toDate()
         }
       }
       var wh = [...weeklyHours];
@@ -114,8 +115,8 @@ export default class ChefAvailability extends React.Component<any, any> {
       let dayAndTime: DayAndTime = {
         day: timeFrom,
         timing: {
-          from: timeFrom,
-          to: timeTo
+          from: moment(timeFrom).set('minutes', 0).toDate(),
+          to: moment(timeTo).set('minutes', 0).toDate()
         }
       }
       var dov = [...dateOverrides];
