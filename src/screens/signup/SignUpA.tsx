@@ -115,6 +115,7 @@ export default class SignUpA extends Component {
       password: '',
       passwordFocused: false,
       secureTextEntry: true,
+      loading: false
     };
   }
 
@@ -176,59 +177,63 @@ export default class SignUpA extends Component {
     const { email, phone, password } = this.state;
 
     try {
-      const userInfo = {
-        username: email,
-        password: password,
-        attributes: {
-          email: email,          // optional
-          phone_number: phone,   // optional - E.164 number convention
-          // other custom attributes
+      this.setState({ loading: true }, async () => {
+        const userInfo = {
+          username: email,
+          password: password,
+          attributes: {
+            email: email,          // optional
+            phone_number: phone,   // optional - E.164 number convention
+            // other custom attributes
+          }
+        };
+        const { user } = await Auth.signUp(userInfo);
+        this.props.stores.authStore.setUserAuthInfo({ ...userInfo, role: this.props.route.params.role }, user);
+        //Success user JSON after signup
+        // {
+        //   "username": "arun.tummala12@gmail.com",
+        //   "pool": {
+        //   "userPoolId": "us-east-1_lIuuH6J2w",
+        //     "clientId": "3j00jcfrjm71vnjhaieuj4r76n",
+        //     "client": {
+        //     "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
+        //       "fetchOptions": {}
+        //   },
+        //   "advancedSecurityDataCollectionFlag": true
+        // },
+        //   "Session": null,
+        //   "client": {
+        //   "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
+        //     "fetchOptions": {}
+        // },
+        //   "signInUserSession": null,
+        //   "authenticationFlowType": "USER_SRP_AUTH",
+        //   "keyPrefix": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n",
+        //   "userDataKey": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n.arun.tummala12@gmail.com.userData"
+        // }
+        if(user) {
+          this.setState(
+            {
+              emailFocused: false,
+              phoneFocused: false,
+              passwordFocused: false,
+              loading: false
+            },
+            this.navigateTo('Verification'),
+          );
         }
-      };
-      const { user } = await Auth.signUp(userInfo);
-      this.props.stores.authStore.setUserAuthInfo({ ...userInfo, role: this.props.route.params.role }, user);
-      //Success user JSON after signup
-      // {
-      //   "username": "arun.tummala12@gmail.com",
-      //   "pool": {
-      //   "userPoolId": "us-east-1_lIuuH6J2w",
-      //     "clientId": "3j00jcfrjm71vnjhaieuj4r76n",
-      //     "client": {
-      //     "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
-      //       "fetchOptions": {}
-      //   },
-      //   "advancedSecurityDataCollectionFlag": true
-      // },
-      //   "Session": null,
-      //   "client": {
-      //   "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
-      //     "fetchOptions": {}
-      // },
-      //   "signInUserSession": null,
-      //   "authenticationFlowType": "USER_SRP_AUTH",
-      //   "keyPrefix": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n",
-      //   "userDataKey": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n.arun.tummala12@gmail.com.userData"
-      // }
-      if(user) {
-        this.setState(
-          {
-            emailFocused: false,
-            phoneFocused: false,
-            passwordFocused: false,
-          },
-          this.navigateTo('Verification'),
-        );
+      })
+      } catch (error) {
+        //TODO: password error handling for
+        //{
+        //     "code": "InvalidPasswordException",
+        //     "name": "InvalidPasswordException",
+        //     "message": "Password did not conform with policy: Password must have uppercase characters"
+        // }
+        this.setState({ loading: false })
+        console.log('error signing up:', error);
+        notifyMessage('Error', error.message);
       }
-    } catch (error) {
-      //TODO: password error handling for
-      //{
-      //     "code": "InvalidPasswordException",
-      //     "name": "InvalidPasswordException",
-      //     "message": "Password did not conform with policy: Password must have uppercase characters"
-      // }
-      console.log('error signing up:', error);
-      notifyMessage('Error', error.message);
-    }
 
   };
 
@@ -334,6 +339,7 @@ export default class SignUpA extends Component {
                 <Button
                   onPress={this.createAccount}
                   title={'Create Account'}
+                  loading={this.state.loading}
                 />
               </View>
 

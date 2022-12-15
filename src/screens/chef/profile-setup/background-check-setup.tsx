@@ -18,7 +18,9 @@ const cameraOptions: CameraOptions = {
   cameraType: 'back',
   quality: 0.5,
   presentationStyle: 'fullScreen',
-  saveToPhotos: true
+  saveToPhotos: true,
+  maxHeight: 600,
+  maxWidth: 800
 }
 
 const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {

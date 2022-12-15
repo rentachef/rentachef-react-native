@@ -8,6 +8,7 @@ import {Subtitle2} from "../../components/text/CustomText";
 import {RACBottomSheet} from "../components/bottom-sheet-modal";
 import CustomerCards from "./CustomerCards";
 import FAIcon from "react-native-vector-icons/FontAwesome";
+import { isEmpty } from 'lodash';
 
 const Wallet = inject('stores')(observer((props) => {
   const { bankAccount } = props.stores.chefProfileStore;
@@ -32,7 +33,8 @@ const Wallet = inject('stores')(observer((props) => {
                 <Icon style={{ marginHorizontal: 10 }} color={Colors.secondaryText} name='bank-outline' size={30}/>
                 <View style={styles.leftTitleContainer}>
                   <Text style={styles.title}>{bankAccount?.bankName}</Text>
-                  <Text style={styles.titleBold}>●●●● {bankAccount?.accountNumber.toString().slice(-4)}</Text>
+                  {!isEmpty(bankAccount) && <Text style={styles.titleBold}>●●●● {bankAccount?.accountNumber.toString().slice(-4)}</Text>}
+                  {isEmpty(bankAccount) && <Text style={styles.titleBold}>Not setted</Text>}
                 </View>
                 <Icon style={{ marginTop: 10 }} color={Colors.primaryColor} name='chevron-right' size={30} />
               </TouchableOpacity>

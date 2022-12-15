@@ -36,6 +36,7 @@ const ChatList = (inject('stores')((props) => {
   const buttons = ['Messages', 'Notifications']
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [channels, setChannels] = useState([])
+  const [notifications, setNotifications] = useState([])
   const { role } = props.stores.authStore.authInfo
 
   useEffect(() => {
@@ -80,12 +81,24 @@ const ChatList = (inject('stores')((props) => {
         selectedTextStyle={{color: Colors.primaryText}}
         textStyle={{color: Colors.secondaryText, fontWeight: 'bold'}}
       />
-      {selectedIndex === 0 &&
+      {selectedIndex === 0 && channels.length > 0 &&
         <SectionList
           sections={[{data: channels}]}
           keyExtractor={(item, index) => item + index}
           renderItem={({ item }) => <Item title={role === 'Cook' ? item.consumer.name : item.chef.name } withIcon={true} text={item.lastMessage} onSelect={() => onChannelClick(item.channel)} /> }
         />
+      }
+      {selectedIndex === 0 && channels.length === 0 &&
+        <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
+          <Icon name='chat' size={30} />
+          <HeadlineBold>You have no chats yet...</HeadlineBold>
+        </View>
+      }
+      {selectedIndex === 1 && notifications.length === 0 &&
+        <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
+          <Icon name='bell' size={30} />
+          <HeadlineBold>You have no notifications...</HeadlineBold>
+        </View>
       }
     </View>
   )

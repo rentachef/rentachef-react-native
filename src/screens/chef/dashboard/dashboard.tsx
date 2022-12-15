@@ -51,6 +51,8 @@ export default class ChefDashboard extends React.Component<any, any> {
       reviews: [],
       earnings: []
     }
+
+    console.log(props.stores?.chefSettingsStore.profile)
   }
 
   componentDidMount() {

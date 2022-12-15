@@ -3,7 +3,7 @@ import {Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} f
 import Colors from "../../theme/colors";
 import Button from "../../components/buttons/Button";
 import { KeyboardAvoidingView } from "react-native";
-import ChatMessage from "./ ChatMessage";
+import ChatMessage from "./ChatMessage";
 import {isEmpty} from "lodash";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import Pubnub from "pubnub";

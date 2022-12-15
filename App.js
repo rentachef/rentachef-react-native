@@ -154,138 +154,6 @@ const MyTheme = Object.assign({}, AmplifyTheme, {
     padding: 20,
   }
 })
-/*const MyTheme = Object.assign({}, AmplifyTheme, {
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingTop: 20,
-    width: '100%',
-    backgroundColor: '#FFF',
-  },
-  section: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  sectionScroll: {
-    flex: 1,
-    width: '100%',
-    paddingHorizontal: 20,
-  },
-  sectionHeader: {
-    width: '100%',
-    marginBottom: 32,
-    paddingTop: 20,
-  },
-  sectionHeaderText: {
-    color: theme.primaryText,
-    fontSize: 20,
-    fontWeight: '500',
-  },
-  sectionFooter: {
-    width: '100%',
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 15,
-    marginBottom: 20,
-  },
-  sectionFooterLink: {
-    fontSize: 14,
-    color: buttonColor,
-    alignItems: 'baseline',
-    textAlign: 'center',
-  },
-  sectionFooterLinkDisabled: {
-    fontSize: 14,
-    color: 'blue',
-    alignItems: 'baseline',
-    textAlign: 'center',
-  },
-  navBar: {
-    marginTop: 35,
-    padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  navButton: {
-    marginLeft: 12,
-    borderRadius: 4,
-  },
-  cell: {
-    flex: 1,
-    width: '50%',
-  },
-  errorRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  errorRowIcon: {
-    height: 25,
-    width: 25,
-  },
-  errorRowText: {
-    marginLeft: 10,
-  },
-  photo: {
-    width: '100%',
-  },
-  album: {
-    width: '100%',
-  },
-  button: {
-    backgroundColor: 'pink',
-    alignItems: 'center',
-    padding: 16,
-  },
-  buttonDisabled: {
-    backgroundColor: 'tomato',
-    alignItems: 'center',
-    padding: 16,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  formField: {
-    marginBottom: 22,
-  },
-  input: {
-    padding: 16,
-    borderWidth: 1,
-    borderRadius: 3
-  },
-  inputLabel: {
-    marginBottom: 8,
-  },
-  phoneContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  phoneInput: {
-    flex: 2,
-    padding: 16,
-    borderWidth: 1,
-    borderRadius: 3
-  },
-  picker: {
-    flex: 1,
-    height: 44,
-  },
-  pickerItem: {
-    height: 44,
-  },
-  signedOutMessage: {
-    textAlign: 'center',
-    padding: 20,
-  }
-})*/
 
 Amplify.configure(config);
 enableScreens();
@@ -345,7 +213,7 @@ class App extends React.Component {
     await rootStoreTrunk.init()
     AppState.addEventListener('change', this._handleAppStateChange)
     //Orientation.lockToPortrait()
-    //await this._checkAuthState()
+    await this._checkAuthState()
     SplashScreen.hide()
 
   }
@@ -362,6 +230,7 @@ class App extends React.Component {
       this._authState = 'loggedIn'
     } catch (err) {
       console.log(' User is not signed in');
+
       this._authState = 'loggedOut'
     }
   }
