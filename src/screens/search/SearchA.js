@@ -43,7 +43,7 @@ import {Filters} from "../../models/user/filters";
 // SearchA Config
 const isRTL = I18nManager.isRTL;
 const SEARCH_ICON = 'magnify';
-const imgHolder = require('../../assets/img/imgholder.png');
+const imgHolder = require('@assets/img/imgholder.png');
 
 // SearchA Styles
 const styles = StyleSheet.create({
@@ -140,32 +140,32 @@ export default class SearchA extends Component {
       categories: [
         {
           key: 1,
-          imageUri: require('../../assets/img/pizza_3.jpg'),
+          imageUri: require('@assets/img/pizza_3.jpg'),
           name: 'Pizza',
         },
         {
           key: 2,
-          imageUri: require('../../assets/img/meat_1.jpg'),
+          imageUri: require('@assets/img/meat_1.jpg'),
           name: 'Grill',
         },
         {
           key: 3,
-          imageUri: require('../../assets/img/spaghetti_2.jpg'),
+          imageUri: require('@assets/img/spaghetti_2.jpg'),
           name: 'Pasta',
         },
         {
           key: 4,
-          imageUri: require('../../assets/img/soup_1.jpg'),
+          imageUri: require('@assets/img/soup_1.jpg'),
           name: 'Soups',
         },
         {
           key: 5,
-          imageUri: require('../../assets/img/salad_1.jpg'),
+          imageUri: require('@assets/img/salad_1.jpg'),
           name: 'Salads',
         },
         {
           key: 6,
-          imageUri: require('../../assets/img/cake_2.jpg'),
+          imageUri: require('@assets/img/cake_2.jpg'),
           name: 'Dessert',
         },
       ],
@@ -252,7 +252,7 @@ export default class SearchA extends Component {
         <View style={{padding: 5, flex: 1, flexDirection: 'row'}}>
           <View style={{flex: .15, justifyContent: 'center'}}>
             <Avatar
-              imageUri={require('../../assets/img/profile_1.jpeg')}
+              imageUri={require('@assets/img/profile_1.jpeg')}
               rounded
               size={50}
             />

@@ -95,7 +95,7 @@ const BookingRequest = inject('stores')((props)  => {
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Avatar
-            imageUri={require('../../../assets/img/profile_1.jpeg')}
+            imageUri={require('../@assets/img/profile_1.jpeg')}
             rounded
             size={40}
           />

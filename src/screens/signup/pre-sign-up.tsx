@@ -2,12 +2,14 @@ import React, {Component} from "react";
 import {View, Text, Image, TouchableOpacity, SafeAreaView} from "react-native";
 import {inject, observer} from "mobx-react";
 import Carousel, {Pagination} from "react-native-snap-carousel";
-import PreSignUpImage1 from "../../assets/pre-sign-up/pre-sign-up-image-1.png"
-import PreSignUpImage2 from "../../assets/pre-sign-up/pre-sign-up-image-2.png"
-import PreSignUpImage3 from "../../assets/pre-sign-up/pre-sign-up-image-3.png"
+
 import Colors from "../../theme/colors"
 import {BigBoldHeading, SemiBoldHeading, SmallBoldHeading, SmallText} from "../../components/text/CustomText";
 import Button from "../../components/buttons/Button";
+
+const PreSignUpImage1 = require("@assets/pre-sign-up/pre-sign-up-image-1.png");
+const PreSignUpImage2 = require("@assets/pre-sign-up/pre-sign-up-image-2.png");
+const PreSignUpImage3 = require("@assets/pre-sign-up/pre-sign-up-image-3.png");
 
 @inject('stores')
 @observer

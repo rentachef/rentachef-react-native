@@ -30,7 +30,7 @@ import Colors from '../../theme/colors';
 import Layout from '../../theme/layout';
 
 // WideProductCard Config
-const imgHolder = require('../../assets/img/imgholder.png');
+const imgHolder = require('@assets/img/imgholder.png');
 const FAVORITE_ICON = Platform.OS === 'ios' ? 'ios-heart' : 'md-heart';
 
 // WideProductCard Styles

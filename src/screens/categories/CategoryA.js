@@ -36,26 +36,26 @@ export default class CategoryA extends Component {
     this.state = {
       products: [
         {
-          imageUri: require("../../assets/img/pizza_3.jpg"),
+          imageUri: require("@assets/img/pizza_3.jpg"),
           name: "Pizza Margherita 35cm",
           price: 10.99,
           quantity: 0
         },
         {
-          imageUri: require("../../assets/img/pizza_1.jpg"),
+          imageUri: require("@assets/img/pizza_1.jpg"),
           name: "Pizza Napolitana",
           price: 8.99,
           quantity: 0
         },
         {
-          imageUri: require("../../assets/img/sandwich_2.jpg"),
+          imageUri: require("@assets/img/sandwich_2.jpg"),
           name: "Subway sandwich",
           price: 8.49,
           quantity: 0,
           discountPercentage: 10
         },
         {
-          imageUri: require("../../assets/img/meat_1.jpg"),
+          imageUri: require("@assets/img/meat_1.jpg"),
           name: "Grilled Meat",
           price: 10.99,
           quantity: 0

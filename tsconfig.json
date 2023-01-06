@@ -11,6 +11,10 @@
     "noEmit": true,
     "strict": true,
     "target": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["rentachef/assets/*"]
+    }
     //"typeRoots" : ["node_modules/@types", "src/types"]
   },
   "exclude": [

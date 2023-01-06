@@ -127,7 +127,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                   </View>
                   <View style={{flex: .15, justifyContent: 'center'}}>
                     <Avatar
-                      imageUri={require('../../../assets/img/profile_1.jpeg')}
+                      imageUri={require('../@assets/img/profile_1.jpeg')}
                       rounded
                       size={50}
                     />

@@ -20,7 +20,7 @@ import TouchableItem from '../TouchableItem';
 import Colors from '../../theme/colors';
 
 // RestaurantCard Config
-const imgHolder = require('../../assets/img/imgholder.png');
+const imgHolder = require('@assets/img/imgholder.png');
 const IOS = Platform.OS === 'ios';
 const STAR_ICON = IOS ? 'ios-star' : 'md-star';
 

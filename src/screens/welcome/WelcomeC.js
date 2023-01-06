@@ -24,7 +24,7 @@ import Logo from '../../components/logo/Logo';
 import Colors from '../../theme/colors';
 
 // WelcomeC Config
-const bgImg = require('../../assets/img/welcome_1.jpg');
+const bgImg = require('@assets/img/welcome_1.jpg');
 
 // WelcomeC Styles
 const styles = StyleSheet.create({

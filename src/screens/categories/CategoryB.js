@@ -43,39 +43,39 @@ export default class CategoryB extends Component {
     this.state = {
       products: [
         {
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: require('@assets/img/sandwich_2.jpg'),
           name: 'Subway sandwich',
           price: 8.49,
           quantity: 0,
           discountPercentage: 10,
         },
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: require('@assets/img/pizza_1.jpg'),
           name: 'Pizza Margarita 35cm',
           price: 10.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: require('@assets/img/cake_1.jpg'),
           name: 'Chocolate cake',
           price: 4.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img//sandwich_2.jpg'),
+          imageUri: require('@assets/img//sandwich_2.jpg'),
           name: 'Subway sandwich',
           price: 8.49,
           quantity: 0,
           discountPercentage: 10,
         },
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: require('@assets/img/pizza_1.jpg'),
           name: 'Pizza Margarita 35cm',
           price: 10.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: require('@assets/img/cake_1.jpg'),
           name: 'Chocolate cake',
           price: 4.99,
           quantity: 0,
