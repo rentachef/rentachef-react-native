@@ -152,7 +152,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                 </View>
                 <View style={{alignItems: 'center', flex: 1}}>
                   <SmallBoldHeading style={{justifyContent:'center', alignSelf: 'center'}}>
-                    $ {sumBy(earnings, 'total_earnings_month') || 0}
+                    $ {sumBy(earnings, 'total_earnings_month').toFixed(2) || 0}
                   </SmallBoldHeading>
                   <Subtitle2>Total Earned</Subtitle2>
                 </View>

@@ -60,7 +60,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
               <Subtitle2 style={{ alignSelf: 'center' }}>/hr</Subtitle2>
             </View>
             <View style={{ marginVertical: 5 }}>
-              <Subtitle2>{chef.settings.bio?.cuisines[0]?.label} ● {chef.bookings.length}+ bookings</Subtitle2>
+              <Subtitle2>{chef.settings.bio?.cuisines[0]?.label} ● {chef.chefBookings.length}+ bookings</Subtitle2>
             </View>
             <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
               <View style={{ flexDirection: 'row' }}>

@@ -32,6 +32,7 @@ const renderItem = (item, onSelect) =>
   </TouchableOpacity>
 
 const ChefsList = ({data, title, onSelect}) => {
+  console.log(JSON.stringify(data.find(d => d.settings.profile.fullName === 'Momo G')))
   return (
     <SafeAreaView>
       {data.length > 0 ?

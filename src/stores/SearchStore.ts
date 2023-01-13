@@ -47,6 +47,13 @@ class SearchStore {
     }
   }
 
+  getChefHourlyRate = async (id: string) => {
+    const response = await this.rootStore.chefApi.getChefHourlyRate(id)
+    if(response.ok) {
+      return Number(response.data)
+    }
+  }
+
   saveChatIfNotExists = async (chat: any) => {
     const response = await this.rootStore.chefApi.saveChatIfNotExists(chat)
     if(response.ok) {

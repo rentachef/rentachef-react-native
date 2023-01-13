@@ -19,7 +19,8 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
   const { role } = stores.authStore.authInfo
   const [review, setReview] = useState({
     reviewerName: role === 'Cook' ? stores.chefSettingsStore.profile?.fullName : stores.customerSettingsStore.profile?.fullName ,
-    reviewerId: stores.authStore.authInfo.userId
+    reviewerId: stores.authStore.authInfo.userId,
+    stars: 0
   })
   const { chef } = route?.params
   const { total } = route?.params
@@ -36,6 +37,12 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
     else
       setModalIndex(0)
   }
+
+  const addReview = (data) => 
+    stores.bookingsStore.addReview(data).then(res => {
+      setLoading(false)
+      console.log('Review:', res.data)
+    })
 
   return (
     <>
@@ -116,14 +123,11 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
           <Button
             onPress={() => {
               setLoading(true)
-              stores.bookingsStore.addReview({
+              addReview({
                 chefId: chef.id,
                 review,
                 tip: totalTip,
                 bookingId
-              }).then(res => {
-                setLoading(false)
-                console.log('Review:', res.data)
               })
             }}
             title='Done'

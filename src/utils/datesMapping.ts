@@ -1,5 +1,6 @@
 import {Timing, WeekDayAndTime} from "../models/chef/ChefProfileSetup";
 import moment from "moment";
+import ChefResults from "../screens/customer/dashboard/chef-results";
 
 export function _getWeekDayByShortDayString(shortDay: string): number | undefined {
   switch(shortDay) {
@@ -27,6 +28,12 @@ export function _getNextDatesFromWeeklyHours(wh: WeekDayAndTime, quantity: numbe
   const timeTo = moment(wh.timing.to).format('HH:mm')
   let date
   let result: Timing[] = []
+
+  if(wh.day === moment().format('ddd'))
+    result.push({
+      from: moment(`${moment().format('YYYY-MM-DD')} ${timeFrom}`).toDate(),
+      to: moment(`${moment().format('YYYY-MM-DD')} ${timeTo}`).toDate()
+    })
 
   if(!!dayINeed) {
     if(today < dayINeed)

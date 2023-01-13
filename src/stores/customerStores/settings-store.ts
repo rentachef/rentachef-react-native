@@ -22,6 +22,7 @@ class CustomerSettingsStore {
         console.log('setting preferences', r?.data.preferences)
         this.setCustomerPreferences(r?.data.preferences || {})
         this.setCustomerLocation(r?.data.location || {})
+        this.setCustomerPaymentMethods
       }
     })
 

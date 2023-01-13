@@ -19,7 +19,8 @@ import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import ConfirmBooking from "./confirm-booking";
 import {Text} from '../../../components/text/CustomText';
 import BookingNotes from "./booking-notes";
-import {notifyError} from "../../../components/toast/toast";
+import {notifyError, notifyWarn} from "../../../components/toast/toast";
+import moment from "moment";
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -35,7 +36,7 @@ const _getColorByStatus = (status: BookingStatus) => {
   }
 }
 
-const _getDistance = (direction: string) => {
+const _getDistance = async (direction: string) => {
   let origin: Coordinates;
   //Get current location
   Geolocation.getCurrentPosition((position: GeoPosition) => {
@@ -62,21 +63,21 @@ const BookingRequest = inject('stores')((props)  => {
   const [currentPosition, setCurrentPosition] = useState<Coordinates>({})
   const [modalIndex, setModalIndex] = useState(-1)
   const { booking } = props.route.params
+  const { hourlyRate } = props.stores.chefProfileStore
 
   console.log(booking)
 
   useEffect(() => {
     _getDistance(`${booking.location.address}, ${booking.location.city}`)
+      .then(res => console.log(res))
   }, [])
 
   const confirmBooking = (estimate: number) => {
-    //call API for confirmation
     props.stores.bookingsStore.updateBooking(booking._id, { status: 'Confirmed', estimate })
       .then( _ => {
         booking.status = 'Confirmed';
         booking.estimate = estimate;
         setModalIndex(-1)
-        props.navigation.navigate('BookingInvoice', { booking })
       })
       .catch(err => {
         console.log('Error updating booking', err.message)
@@ -145,13 +146,21 @@ const BookingRequest = inject('stores')((props)  => {
         </TouchableOpacity>
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
-          <Text>Estimated Hours </Text>
-          <Text>{booking.estimate}</Text>
+          {!(booking.status === 'Completed') && 
+            <>
+              <Text>Estimated Hours</Text>
+              <Text>{booking.estimate}</Text>
+            </>}
+          {booking.status === 'Completed' && 
+            <>
+              <Text>Hours Worked</Text>
+              <Text>{booking.paymentDetails.hoursWorked}</Text>
+            </>}
         </View>
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
           <Text>Estimated Total </Text>
-          <Text>$ {booking.total} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
+          <Text>$ {booking.total || booking.estimate * hourlyRate} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
         </View>
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
       </View>
@@ -195,7 +204,12 @@ const BookingRequest = inject('stores')((props)  => {
           {booking.status === 'Confirmed' &&
             <View style={{ flex: .5, marginVertical: 10 }}>
               <Button
-                onPress={() => {}}
+                onPress={() => {
+                  if(moment(booking.dateTime) > moment().add(booking.estimate, 'hours'))
+                    notifyWarn('You cannot complete a Booking until is done')
+                  else
+                    props.navigation.navigate('BookingInvoice', { booking })}
+                }
                 title='Mark as Completed'
                 color={Colors.primaryColor}
               />

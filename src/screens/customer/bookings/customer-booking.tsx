@@ -34,20 +34,26 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
   const [showNotes, setShowNotes] = useState(false)
   const [modalIndex, setModalIndex] = useState(-1)
   const [cancellationFee, setCancellationFee] = useState(false)
+  const [hourlyRate, setHourlyRate] = useState(0)
   const { role } = stores.authStore.authInfo
 
-  console.log('ChargeDetails:', booking.chargeDetails)
+  console.log('ChargeDetails:', booking)
 
   useEffect(() => {
-    if(booking.status === 'confirmed' && moment(booking.dateTime).diff(moment(), 'hours') > 24)
-      setCancellationFee(true)
+    if(booking.status === 'Confirmed') {
+      if(moment(booking.dateTime).diff(moment(), 'hours') > 24)
+        setCancellationFee(true)
+      
+      stores.searchStore.getChefHourlyRate(booking.chefId)
+        .then(v => setHourlyRate(v))
+    } 
   }, [])
 
   const getTotal = () => {
     if(booking.status === 'Confirmed')
-      return booking.chef?.hourlyRate.toFixed(2)
+      return hourlyRate.toFixed(2)
     if(booking.status === 'Completed')
-      return booking.chargeDetails?.total?.toFixed(2)
+      return (booking.paymentDetails?.transaction?.stripeAmount / 100).toFixed(2)
   }
 
   return (
@@ -55,7 +61,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
       <ScrollView contentContainerStyle={{ flexGrow: 1, opacity: modalIndex !== -1 ? 0.5 : 1 }}>
         <View style={globalStyles.screenContainer}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text>ORDER #232332</Text>
+            <Text>ORDER   #{booking._id.slice(-6)}</Text>
             <Text style={{ color: _getColorByStatus(booking.status), top: 5 }}>● {booking.status}</Text>
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
@@ -117,26 +123,26 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
           {booking.status === 'Completed' &&
           <>
             <View style={styles.paymentDetailsItem}>
-              <LightText>{`Price (${booking.chargeDetails?.hoursWorked} x ${booking.chargeDetails?.chefHourlyRate}/hr)`}</LightText>
-              <LightText>$ {(booking.chargeDetails?.hoursWorked * booking.chargeDetails?.chefHourlyRate).toFixed(2)}</LightText>
+              <LightText>{`Price (${booking.paymentDetails?.hoursWorked} x ${booking.paymentDetails?.chefHourlyRate}/hr)`}</LightText>
+              <LightText>$ {(booking.paymentDetails?.hoursWorked * booking.paymentDetails?.chefHourlyRate).toFixed(2)}</LightText>
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>GST/HST</LightText>
-              <LightText>$ {booking.chargeDetails?.gst_hst?.toFixed(2)}</LightText>
+              <LightText>$ {booking.paymentDetails?.gst_hst?.toFixed(2)}</LightText>
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>Service Fee</LightText>
-              <LightText>$ {booking.chargeDetails?.serviceFee?.toFixed(2) || 0}</LightText>
+              <LightText>$ {booking.paymentDetails?.serviceFee?.toFixed(2) || 0}</LightText>
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>Tip</LightText>
-              <LightText>$ {booking.chargeDetails?.tip?.toFixed(2) || 0}</LightText>
+              <LightText>$ {booking.paymentDetails?.tip?.toFixed(2) || 0}</LightText>
             </View>
           </>}
           {booking.status !== 'Pending' && booking.status !== 'Cancelled' &&
             <View style={{ marginVertical: 10 }}>
-              {booking.status === 'Confirmed' && <LightText>You may see a temporary hold on your payment method in the amount of the chef’s hourly rate of $50.</LightText>}
-              <Heading6 style={{ marginVertical: 10 }}>Amount Charged</Heading6>
+              {booking.status === 'Confirmed' && <LightText>You may see a temporary hold on your payment method in the amount of the chef’s hourly rate of ${hourlyRate}.</LightText>}
+              <Heading6 style={{ marginVertical: 10 }}>{booking.status === 'Completed' ? 'Amount Charged' : 'Amount to charge'}</Heading6>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row' }}>
                   <FAIcon style={{ marginRight: 15 }} name={`${booking.paymentMethod?.cardBrand}`} size={35} color={Colors.primaryText} />

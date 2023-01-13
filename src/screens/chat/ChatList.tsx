@@ -8,6 +8,7 @@ import {ButtonGroup} from "react-native-elements";
 import Pubnub from "pubnub";
 import {inject} from "mobx-react";
 import Avatar from "../../components/avatar/Avatar";
+import { isEmpty } from "lodash";
 
 const Item = ({ title, text, withIcon, onSelect }) => (
   <TouchableOpacity style={styles.item} onPress={() => onSelect(title)}>
@@ -46,11 +47,13 @@ const ChatList = (inject('stores')((props) => {
           channels: chats.map(c => c.channel),
           count: 1
         }, (status, data) => {
-          let channels = chats.map(c => {
-            c['lastMessage'] = data.channels[c.channel][0].message?.description
-            return c
-          })
-          setChannels(channels)
+          if(!isEmpty(data['channels'])) {
+            let channels = chats.map(c => {
+              c['lastMessage'] = data.channels[c.channel][0].message?.description
+              return c
+            })
+            setChannels(channels)
+          }
         })
       })
   }, [])

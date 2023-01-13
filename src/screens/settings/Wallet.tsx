@@ -15,6 +15,7 @@ const Wallet = inject('stores')(observer((props) => {
   const { role } = props.stores.authStore.authInfo;
   const [modalIndex, setModalIndex] = useState(-1)
   const { paymentMethods } = props.stores.customerSettingsStore
+  console.log('pms from store', paymentMethods)
   const [selectedCard, setSelectedCard] = useState(paymentMethods.length > 0 ? paymentMethods.find(pm => pm.default) : undefined)
 
   useEffect(() => {

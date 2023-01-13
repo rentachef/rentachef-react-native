@@ -198,6 +198,11 @@ export default class ChefApi {
     return await this._put(url)
   }
 
+  async chargeClient(chargeObject: any) {
+    const url = 'stripe/charge'
+    return await this._post(url, chargeObject)
+  }
+
   async getCuisines() {
     const url = `cuisines/`
     return await this._get(url)
@@ -205,6 +210,11 @@ export default class ChefApi {
 
   async getChefs() {
     const url = `cook/top/`
+    return await this._get(url)
+  }
+
+  async getChefHourlyRate(id: string) {
+    const url = `cook/hourlyRate/${id}`
     return await this._get(url)
   }
 

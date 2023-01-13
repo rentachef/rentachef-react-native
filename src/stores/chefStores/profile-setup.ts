@@ -25,6 +25,7 @@ class ChefProfileStore {
         this.setChefBankAccount(r.data.bankAccount || {})
         this.setChefBackgroundCheck(r.data.backgroundCheck || {})
         this.setChefPickupDetails(r.data.pickupDetails || {})
+        this.hourlyRate = r.data.hourlyRate
       }
 
       return r
@@ -40,6 +41,8 @@ class ChefProfileStore {
   @observable backgroundCheck?: BackgroundCheck
 
   @observable pickupDetails?: PickupDetails
+
+  @observable hourlyRate?: Number
 
   @action retrieveChefAvailability = () => {
     if(!isEmpty(this.availability)) {

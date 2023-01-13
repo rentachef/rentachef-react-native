@@ -22,6 +22,7 @@ const Chat = inject('stores')(({ stores, route }) => {
   let { userId, channel, consumer, chef } = route.params
 
   const showMessage = (msg: any) => {
+    console.log(msg, userId)
     if(msg.publisher !== userId)
       setMessages((messages) => [...messages, msg]);
   };

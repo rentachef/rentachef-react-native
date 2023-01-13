@@ -21,7 +21,7 @@ class BookingsStore {
       })
     else
       this.rootStore.chefApi.getConsumerBookings().then((r: any) => {
-        console.log("recieved consumer bookings", r.data)
+        console.log("received consumer bookings", JSON.stringify(r.data))
         this.setBookings(r?.data)
         return r
       })
@@ -45,6 +45,17 @@ class BookingsStore {
 
   @action setBookings = (data: any) => {
     this.bookings = data
+  }
+
+  @action completeBooking = async (chargeObject: any) => {
+    const result = await this.rootStore.chefApi.chargeClient(chargeObject)
+    if(result.ok) {
+      let index = this.bookings.findIndex(b => b._id === chargeObject.bookingId)
+      this.bookings[index] = result.data
+      console.log('updated store bookings: ', this.bookings)
+      return('OK')
+    } else
+      return result.error
   }
 
   book = async (booking: BookingRequest) => {
