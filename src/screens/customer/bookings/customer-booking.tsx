@@ -202,7 +202,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 </View>*/}
                 {!booking.reviewId && <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
-                    onPress={() => navigation.navigate('ChefClientRate', { total: (booking.paymentDetails?.transaction?.stripeAmount / 100).toFixed(2), chef: {
+                    onPress={() => navigation.navigate('ChefClientRate', { total: (booking.paymentDetails?.chefHourlyRate * booking.paymentDetails?.hoursWorked).toFixed(2), chef: {
                         name: booking.chefName,
                         id: booking.chefId
                       }, bookingId: booking._id })}
