@@ -53,7 +53,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
     if(booking.status === 'Confirmed')
       return hourlyRate.toFixed(2)
     if(booking.status === 'Completed')
-      return (booking.paymentDetails?.transaction?.stripeAmount / 100).toFixed(2)
+      return ((booking.paymentDetails?.transaction?.stripeAmount + (booking.paymentDetails?.tip?.transaction?.stripeAmount || 0)) / 100).toFixed(2)
   }
 
   return (
@@ -136,7 +136,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>Tip</LightText>
-              <LightText>$ {booking.paymentDetails?.tip?.toFixed(2) || 0}</LightText>
+              <LightText>$ {(booking.paymentDetails?.tip?.transaction?.stripeAmount / 100)?.toFixed(2) || 0}</LightText>
             </View>
           </>}
           {booking.status !== 'Pending' && booking.status !== 'Cancelled' &&
@@ -202,7 +202,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 </View>*/}
                 {!booking.reviewId && <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
-                    onPress={() => navigation.navigate('ChefClientRate', { total: booking.chargeDetails?.total, chef: {
+                    onPress={() => navigation.navigate('ChefClientRate', { total: (booking.paymentDetails?.transaction?.stripeAmount / 100).toFixed(2), chef: {
                         name: booking.chefName,
                         id: booking.chefId
                       }, bookingId: booking._id })}

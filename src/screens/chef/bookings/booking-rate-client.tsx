@@ -11,7 +11,7 @@ import {Chip} from "react-native-elements";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import globalStyles from "../../../theme/global-styles";
 
-const BookingRateClient = inject('stores')(({stores, route}) => {
+const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
   const [loading, setLoading] = useState(false)
   const [selectedTip, setSelectedTip] = useState<string | null>()
   const [totalTip, setTotalTip] = useState(0)
@@ -20,11 +20,13 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
   const [review, setReview] = useState({
     reviewerName: role === 'Cook' ? stores.chefSettingsStore.profile?.fullName : stores.customerSettingsStore.profile?.fullName ,
     reviewerId: stores.authStore.authInfo.userId,
-    stars: 0
+    stars: 1
   })
   const { chef } = route?.params
   const { total } = route?.params
   const { bookingId } = route?.params
+
+  console.log('total', total)
 
   useEffect(() => console.log(review), [review])
 
@@ -39,10 +41,16 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
   }
 
   const addReview = (data) => 
-    stores.bookingsStore.addReview(data).then(res => {
-      setLoading(false)
-      console.log('Review:', res.data)
-    })
+    stores.bookingsStore.addReview(data)
+      .then(res => {
+        setLoading(false)
+        console.log('Review:', res)
+        navigation.goBack()
+      })
+      .catch(err => {
+        setLoading(false)
+        console.log(JSON.stringify(err))
+      })
 
   return (
     <>
@@ -65,7 +73,8 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
             )}
           <Rating
             onFinishRating={(stars) => setReview( {...review, stars })}
-            startingValue={0}
+            startingValue={1}
+            minValue={1}
             ratingColor={Colors.primaryColor}
           />
           <TextInput
@@ -132,6 +141,7 @@ const BookingRateClient = inject('stores')(({stores, route}) => {
             }}
             title='Done'
             loading={loading}
+            disabled={loading}
             color={Colors.primaryColor}
           />
         </View>

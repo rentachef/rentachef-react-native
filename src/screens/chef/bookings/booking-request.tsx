@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
 import {ButtonGroup, Card} from "react-native-elements";
 import {useState} from "react";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import Avatar from '../../../components/avatar/Avatar';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ChefBooking, {BookingStatus} from "../../../models/chef/ChefBooking";
@@ -21,6 +21,7 @@ import {Text} from '../../../components/text/CustomText';
 import BookingNotes from "./booking-notes";
 import {notifyError, notifyWarn} from "../../../components/toast/toast";
 import moment from "moment";
+import { ConsoleLogger } from "@aws-amplify/core";
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -59,17 +60,17 @@ interface Coordinates {
   lng?: number
 }
 
-const BookingRequest = inject('stores')((props)  => {
+const BookingRequest = inject('stores')(observer((props)  => {
   const [currentPosition, setCurrentPosition] = useState<Coordinates>({})
   const [modalIndex, setModalIndex] = useState(-1)
   const { booking } = props.route.params
   const { hourlyRate } = props.stores.chefProfileStore
 
-  console.log(booking)
+  console.log('booking', booking)
 
   useEffect(() => {
-    _getDistance(`${booking.location.address}, ${booking.location.city}`)
-      .then(res => console.log(res))
+    //_getDistance(`${booking.location.address}, ${booking.location.city}`)
+    //  .then(res => console.log(res))
   }, [])
 
   const confirmBooking = (estimate: number) => {
@@ -85,6 +86,13 @@ const BookingRequest = inject('stores')((props)  => {
       })
   }
 
+  const getTotal = () => {
+    let workEffort = booking.paymentDetails.hoursWorked * booking.paymentDetails.chefHourlyRate
+    let tip = !!booking.paymentDetails.tip ? Number((booking.paymentDetails.tip.transaction.stripeAmount / 100).toFixed(2)) : 0
+
+    return (workEffort + tip).toFixed(2)
+  }
+    
   return (
     <ScrollView style={styles.screenContainer}>
       <View style={{ padding: 20, opacity: modalIndex !== -1 ? 0.3: 1 }}>
@@ -159,8 +167,8 @@ const BookingRequest = inject('stores')((props)  => {
         </View>
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
-          <Text>Estimated Total </Text>
-          <Text>$ {booking.total || booking.estimate * hourlyRate} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
+          <Text>{booking.status === 'Completed' ? 'Booking Total' : 'Estimated Total'}</Text>
+          <Text>$ {booking.status === 'Completed' ? getTotal() : booking.estimate * hourlyRate} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
         </View>
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
       </View>
@@ -243,7 +251,7 @@ const BookingRequest = inject('stores')((props)  => {
       </SafeAreaView>}
     </ScrollView>
   )
-})
+}))
 
 export default BookingRequest
 

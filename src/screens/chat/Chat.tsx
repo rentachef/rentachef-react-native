@@ -60,7 +60,7 @@ const Chat = inject('stores')(({ stores, route }) => {
     pubnubClient.fetchMessages({
       channels: [channel]
     }, (status, response) => {
-      console.log('MESSAGES FROM PUBNUB:', response)
+      console.log('MESSAGES FROM PUBNUB:', JSON.stringify(response))
       if(!isEmpty(response.channels[channel]))
         setMessages(response.channels[channel])
     })
@@ -115,7 +115,7 @@ const Chat = inject('stores')(({ stores, route }) => {
       <KeyboardAvoidingView style={{position: 'absolute', left: 0, right: 0, bottom: 0}} behavior="position">
         <KeyboardAwareScrollView>
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            {!isEmpty(messages) && messages.map((message: any, idx) => <ChatMessage key={idx} id={message.uuid || message.timetoken} text={message.message?.description || ''} sender={message.uuid === userId} />)}
+            {!isEmpty(messages) && messages.map((message: any, idx) => <ChatMessage key={idx} time={message.timetoken} id={message.uuid || message.timetoken} text={message.message?.description || ''} sender={message.uuid === userId} />)}
           </ScrollView>
         </KeyboardAwareScrollView>
 

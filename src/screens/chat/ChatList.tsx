@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {SectionList, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
-import {Heading2, Heading6, HeadlineBold, SmallText, Text, Title} from "../../components/text/CustomText";
+import {ActivityIndicator, SectionList, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Heading6, HeadlineBold, SmallText, Text, Title} from "../../components/text/CustomText";
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import globalStyles from "../../theme/global-styles";
 import Colors from "../../theme/colors";
@@ -38,15 +38,18 @@ const ChatList = (inject('stores')((props) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [channels, setChannels] = useState([])
   const [notifications, setNotifications] = useState([])
+  const [loading, setLoading] = useState(false)
   const { role } = props.stores.authStore.authInfo
 
   useEffect(() => {
+    setLoading(true)
     props.stores.searchStore.getChats()
       .then(chats => {
         pubnub.fetchMessages({
           channels: chats.map(c => c.channel),
           count: 1
         }, (status, data) => {
+          setLoading(false)
           if(!isEmpty(data['channels'])) {
             let channels = chats.map(c => {
               c['lastMessage'] = data.channels[c.channel][0].message?.description
@@ -91,10 +94,15 @@ const ChatList = (inject('stores')((props) => {
           renderItem={({ item }) => <Item title={role === 'Cook' ? item.consumer.name : item.chef.name } withIcon={true} text={item.lastMessage} onSelect={() => onChannelClick(item.channel)} /> }
         />
       }
-      {selectedIndex === 0 && channels.length === 0 &&
+      {selectedIndex === 0 && channels.length === 0 && !loading &&
         <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
           <Icon name='chat' size={30} />
           <HeadlineBold>You have no chats yet...</HeadlineBold>
+        </View>
+      }
+      {loading &&
+        <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
+          <ActivityIndicator size={30} color={Colors.primaryColor} />
         </View>
       }
       {selectedIndex === 1 && notifications.length === 0 &&

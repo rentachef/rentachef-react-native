@@ -46,7 +46,7 @@ const BookingInvoice = inject('stores')(({ navigation, route, stores }) => {
     setTotal((hourlyRate * workedHours).toFixed(2))
   }, [workedHours])
 
-  const onCompleted = () => {
+  const onCompleted = async () => {
     setLoading(true)
     let chargeObject = {
       clientId: booking.consumerId,
@@ -58,18 +58,21 @@ const BookingInvoice = inject('stores')(({ navigation, route, stores }) => {
       bookingId: booking._id
     }
 
-    console.log(chargeObject)
+    console.log('chargeObject', chargeObject)
 
     if(!some(Object.values(chargeObject), v => isEmpty(v?.toString()))) {
-      const res = stores.bookingsStore.completeBooking(chargeObject)
-      console.log(res)
+      const res = await stores.bookingsStore.completeBooking(chargeObject)
+      console.log('complete booking response', res)
       setLoading(false)
       if(res === 'OK') {
+        console.log('completed ok!')
         notifySuccess('Client Charged!')
         setReceipt({})
       }
-      else
+      else {
+        console.log('complete failed!', res)
         notifyError(res)
+      }
     } else {
       notifyError('Something went wrong, some values are empty')
       setLoading(false)
@@ -131,7 +134,7 @@ const BookingInvoice = inject('stores')(({ navigation, route, stores }) => {
             />
             <Button
               title='Rate the Client'
-              onPress={() => navigation.navigate('ChefClientRate', { name: booking.consumerName, id: booking.consumerId })}
+              onPress={() => navigation.navigate('ChefClientRate', { name: booking.consumerName, id: booking.consumerId, total: Number(total) })}
               color={Colors.backgroundMedium}
             />
           </View>) : (
