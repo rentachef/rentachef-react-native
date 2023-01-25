@@ -12,43 +12,7 @@ class ChefDashboardStore {
 
   @observable chefReviews: any
 
-  @observable chefEarnings: ChefEarning[] = [
-    {
-      _id: {
-        year: 2022,
-        month: 5
-      },
-      total_cost_month: 350
-    },
-    {
-      _id: {
-        year: 2022,
-        month: 6
-      },
-      total_cost_month: 239
-    },
-    {
-      _id: {
-        year: 2022,
-        month: 6
-      },
-      total_cost_month: 541
-    },
-    {
-      _id: {
-        year: 2022,
-        month: 8
-      },
-      total_cost_month: 450
-    },
-    {
-      _id: {
-        year: 2022,
-        month: 9
-      },
-      total_cost_month: 650
-    },
-  ]
+  @observable chefEarnings: ChefEarning[] = []
 
   @action getChefReviews = async () => {
     const response = await this.rootStore.chefApi.getChefReviews(this.rootStore.authStore.authInfo.userId)

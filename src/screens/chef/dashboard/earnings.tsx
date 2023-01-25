@@ -49,8 +49,11 @@ function Day(props) {
     console.log("showSortModal", showSortModal)
   });
 
-  const renderItem = ({ date, consumerName, amount }: ChefEarning) => (
-    <View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
+  console.log('day props', JSON.stringify(props))
+
+  const renderItem = ({ date, name, total, tip }: ChefEarning) => (
+    <></>
+    /*<View style={{padding: 5, flex: .1, flexDirection: 'row'}}>
       <View style={{flex: .15, justifyContent: 'center'}}>
         <Avatar
           imageUri={require('../../../assets/img/profile_1.jpeg')}
@@ -61,13 +64,13 @@ function Day(props) {
       <View style={{flex: .85, justifyContent: 'center', flexDirection: 'row' }}>
         <View style={{flex: .75, alignItems: 'flex-start', justifyContent: 'center'  }}>
           <LightText style={{marginBottom: 3}}>{moment(date).format('MMM dd, yyyy')}</LightText>
-          <Heading6 style={{marginBottom: 3}}>{consumerName}</Heading6>
+          <Heading6 style={{marginBottom: 3}}>{name}</Heading6>
         </View>
         <View style={{flex: .5, alignItems: 'flex-end', justifyContent: 'center'  }}>
-          <Heading6 style={{marginBottom: 3}}>{`$${amount.toFixed(2)}`}</Heading6>
+          <Heading6 style={{marginBottom: 3}}>{`$${total.toFixed(2)} + ${tip}`}</Heading6>
         </View>
       </View>
-    </View>
+    </View>*/
   )
 
   return (
@@ -158,7 +161,7 @@ function Year({ navigation }) {
 const Tab = createMaterialTopTabNavigator();
 
 const Earnings = inject('stores')((props) => {
-  console.log('earnings store', props.stores.chefSettingsStore.profile)
+  console.log('earnings store', JSON.stringify(props.stores.chefDashboardStore.chefEarnings))
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

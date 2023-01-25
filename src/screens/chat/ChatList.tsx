@@ -8,7 +8,7 @@ import {ButtonGroup} from "react-native-elements";
 import Pubnub from "pubnub";
 import {inject} from "mobx-react";
 import Avatar from "../../components/avatar/Avatar";
-import { isEmpty } from "lodash";
+import { compact, isEmpty } from "lodash";
 
 const Item = ({ title, text, withIcon, onSelect }) => (
   <TouchableOpacity style={styles.item} onPress={() => onSelect(title)}>
@@ -48,14 +48,19 @@ const ChatList = (inject('stores')((props) => {
         pubnub.fetchMessages({
           channels: chats.map(c => c.channel),
           count: 1
-        }, (status, data) => {
+        }).then((data) => {
           setLoading(false)
           if(!isEmpty(data['channels'])) {
+            console.log(data.channels)
             let channels = chats.map(c => {
-              c['lastMessage'] = data.channels[c.channel][0].message?.description
-              return c
+              console.log(c.channel)
+              if(!!data.channels[c.channel]) {
+                c['lastMessage'] = data.channels[c.channel][0].message?.description
+                return c
+              } else
+                return null
             })
-            setChannels(channels)
+            setChannels(compact(channels))
           }
         })
       })
@@ -66,7 +71,7 @@ const ChatList = (inject('stores')((props) => {
   }, [channels])
 
   const onChannelClick = (channel) => {
-    props.navigation.navigate('CustomerChat', { channel, userId: props.userId, pubnub })
+    props.navigation.navigate(role === 'Cook' ? 'ChefChat' : 'CustomerChat', { channel, userId: props.userId, pubnub })
   }
 
   return (
