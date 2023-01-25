@@ -6,7 +6,7 @@ import {Subtitle2} from "../../../components/text/CustomText";
 import Colors from "../../../theme/colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from "../../../components/buttons/Button";
-import paymentSetupImage from '../../../assets/chef-profile-sign-up/check-graphic.png';
+import paymentSetupImage from '../@assets/chef-profile-sign-up/check-graphic.png';
 import { isEmpty } from 'lodash';
 import {notifyError, notifySuccess} from "../../../components/toast/toast";
 

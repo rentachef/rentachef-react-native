@@ -184,7 +184,7 @@ export default class AboutUsA extends Component {
               activeDotStyle={styles.activeDot}
               dotStyle={styles.dot}>
               <ImageBackground
-                source={require('../../assets/img/about_1.jpg')}
+                source={require('@assets/img/about_1.jpg')}
                 style={styles.bgImg}>
                 <GradientContainer
                   colors={
@@ -198,7 +198,7 @@ export default class AboutUsA extends Component {
                   <View style={styles.row}>
                     <View style={styles.avatarWrapper}>
                       <Avatar
-                        imageUri={require('../../assets/img/profile_2.jpeg')}
+                        imageUri={require('@assets/img/profile_2.jpeg')}
                         size={AVATAR_SIZE}
                         rounded
                       />
@@ -221,7 +221,7 @@ export default class AboutUsA extends Component {
               </ImageBackground>
 
               <ImageBackground
-                source={require('../../assets/img/about_2.jpg')}
+                source={require('@assets/img/about_2.jpg')}
                 style={styles.bgImg}>
                 <GradientContainer
                   colors={
@@ -243,7 +243,7 @@ export default class AboutUsA extends Component {
               </ImageBackground>
 
               <ImageBackground
-                source={require('../../assets/img/about_3.jpg')}
+                source={require('@assets/img/about_3.jpg')}
                 style={styles.bgImg}>
                 <GradientContainer
                   colors={

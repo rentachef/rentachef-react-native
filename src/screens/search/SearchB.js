@@ -120,21 +120,21 @@ export default class SearchB extends Component {
       ],
       offers: [
         {
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: require('@assets/img/sandwich_2.jpg'),
           name: 'Subway Sandwich',
           price: 8.49,
           description:
             'Ham sandwich with two servings of crisp veggies on freshly baked bread for under 400 calories',
         },
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: require('@assets/img/pizza_1.jpg'),
           name: 'Pizza Margarita 35cm',
           price: 10.99,
           description:
             'Made with San Marzano tomatoes, mozzarella cheese, fresh basil, salt and extra-virgin olive oil',
         },
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: require('@assets/img/cake_1.jpg'),
           name: 'Chocolate Cake',
           price: 4.99,
           description: 'Cake flavored with melted chocolate, cocoa powder',
@@ -142,13 +142,13 @@ export default class SearchB extends Component {
       ],
       dessert: [
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: require('@assets/img/cake_1.jpg'),
           name: 'Chocolate Cake',
           price: 4.99,
           description: 'Cake flavored with melted chocolate, cocoa powder',
         },
         {
-          imageUri: require('../../assets/img/cake_2.jpg'),
+          imageUri: require('@assets/img/cake_2.jpg'),
           name: 'Strawberry Cake',
           price: 6.99,
           description:
@@ -157,14 +157,14 @@ export default class SearchB extends Component {
       ],
       grill: [
         {
-          imageUri: require('../../assets/img/barbecue_1.jpg'),
+          imageUri: require('@assets/img/barbecue_1.jpg'),
           name: 'Beef Steak',
           price: 14.99,
           description:
             'Boneless rib-eye steaks (about 12 ounces each) or filets mignons (8 to 10 ounces each), trimmed',
         },
         {
-          imageUri: require('../../assets/img/meat_1.jpg'),
+          imageUri: require('@assets/img/meat_1.jpg'),
           name: 'Grilled Beef Steaks',
           price: 24.99,
           description:
@@ -173,14 +173,14 @@ export default class SearchB extends Component {
       ],
       pasta: [
         {
-          imageUri: require('../../assets/img/spaghetti_1.jpg'),
+          imageUri: require('@assets/img/spaghetti_1.jpg'),
           name: 'Spaghetti and Meatballs',
           price: 14.99,
           description:
             'Ground beef, tomato sauce, tomato paste, green bell pepper, diced tomatoes',
         },
         {
-          imageUri: require('../../assets/img/spaghetti_2.jpg'),
+          imageUri: require('@assets/img/spaghetti_2.jpg'),
           name: 'Filipino Spaghetti',
           price: 24.99,
           description:
@@ -189,14 +189,14 @@ export default class SearchB extends Component {
       ],
       pizza: [
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: require('@assets/img/pizza_1.jpg'),
           name: 'Pizza Margarita 35cm',
           price: 10.99,
           description:
             'Made with San Marzano tomatoes, mozzarella cheese, fresh basil, salt and extra-virgin olive oil',
         },
         {
-          imageUri: require('../../assets/img/pizza_2.jpg'),
+          imageUri: require('@assets/img/pizza_2.jpg'),
           name: 'Pizza Formaggio',
           price: 10.9,
           description:
@@ -205,7 +205,7 @@ export default class SearchB extends Component {
       ],
       salad: [
         {
-          imageUri: require('../../assets/img/salad_1.jpg'),
+          imageUri: require('@assets/img/salad_1.jpg'),
           name: 'Fig Salad with Goat Cheese',
           price: 8.99,
           description:
@@ -214,7 +214,7 @@ export default class SearchB extends Component {
       ],
       soup: [
         {
-          imageUri: require('../../assets/img/soup_1.jpg'),
+          imageUri: require('@assets/img/soup_1.jpg'),
           name: 'Roasted Carrot Soup',
           price: 11.99,
           description:

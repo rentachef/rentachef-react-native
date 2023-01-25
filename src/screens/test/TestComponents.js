@@ -58,7 +58,7 @@ import UnderlineTextInput from '../../components/textinputs/UnderlineTextInput';
 // import colors
 import Colors from '../../theme/colors';
 
-const ProductImg = require('../../assets/img/sandwich_2.jpg');
+const ProductImg = require('@assets/img/sandwich_2.jpg');
 
 const styles = StyleSheet.create({
   container: {
@@ -189,7 +189,7 @@ export default class TestComponents extends Component {
             {'<Avatar imageUri="http://..." borderRadius={8} />'}
           </Caption>
           <Avatar
-            imageUri={require('../../assets/img/profile_1.jpeg')}
+            imageUri={require('@assets/img/profile_1.jpeg')}
             borderRadius={8}
             size="large"
           />

@@ -52,7 +52,7 @@ const Bookings = inject('stores')(observer((props) => {
               <Card wrapperStyle={styles.cardWrapper} containerStyle={styles.cardContainer}>
                 <View style={styles.cardPhoto}>
                   <Avatar
-                    imageUri={require('../../../assets/img/profile_1.jpeg')}
+                    imageUri={require('../@assets/img/profile_1.jpeg')}
                     rounded
                     size={50}
                   />

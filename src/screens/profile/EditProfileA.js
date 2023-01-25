@@ -179,7 +179,7 @@ export default class EditProfileA extends Component {
         <KeyboardAwareScrollView enableOnAndroid>
           <View style={styles.avatarSection}>
             <Avatar
-              imageUri={require('../../assets/img/profile_1.jpeg')}
+              imageUri={require('@assets/img/profile_1.jpeg')}
               rounded
               size={AVATAR_SIZE}
             />

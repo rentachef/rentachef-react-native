@@ -72,7 +72,7 @@ export default class FavoritesA extends Component {
       products: [
         {
           id: 'product1',
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: require('@assets/img/sandwich_2.jpg'),
           name: 'Subway sandwich',
           price: 8.49,
           quantity: 0,
@@ -80,14 +80,14 @@ export default class FavoritesA extends Component {
         },
         {
           id: 'product2',
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: require('@assets/img/pizza_1.jpg'),
           name: 'Pizza Margarita 35cm',
           quantity: 0,
           price: 10.99,
         },
         {
           id: 'product3',
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: require('@assets/img/cake_1.jpg'),
           name: 'Chocolate cake',
           quantity: 0,
           price: 4.99,

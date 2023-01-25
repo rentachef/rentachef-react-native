@@ -217,7 +217,7 @@ export default class SettingsB extends Component {
             <View style={[styles.row, styles.profileContainer]}>
               <View style={styles.leftSide}>
                 <Avatar
-                  imageUri={require('../../assets/img/profile_1.jpeg')}
+                  imageUri={require('@assets/img/profile_1.jpeg')}
                   size={60}
                   rounded
                 />

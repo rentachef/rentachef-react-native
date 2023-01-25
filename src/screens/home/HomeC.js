@@ -31,7 +31,7 @@ import SafeAreaView from '../../components/SafeAreaView';
 import Colors from '../../theme/colors';
 
 // HomeC Config
-const imgHolder = require('../../assets/img/imgholder.png');
+const imgHolder = require('@assets/img/imgholder.png');
 
 // HomeC Styles
 const styles = StyleSheet.create({
@@ -111,7 +111,7 @@ export default class HomeC extends Component {
     this.state = {
       products: [
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: require('@assets/img/pizza_1.jpg'),
           name: 'Pizza Formaggio 35cm',
           rating: 4.8,
           price: 10.9,
@@ -119,14 +119,14 @@ export default class HomeC extends Component {
           favorite: false,
         },
         {
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: require('@assets/img/sandwich_2.jpg'),
           name: 'Subway sandwich',
           rating: 4.2,
           price: 4.99,
           favorite: false,
         },
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: require('@assets/img/cake_1.jpg'),
           name: 'Cake Cherries Pie',
           rating: 3.8,
           price: 8.49,
@@ -137,52 +137,52 @@ export default class HomeC extends Component {
       categories: [
         {
           key: 1,
-          imageUri: require('../../assets/img/pizza_3.jpg'),
+          imageUri: require('@assets/img/pizza_3.jpg'),
           name: 'Pizza',
         },
         {
           key: 2,
-          imageUri: require('../../assets/img/meat_1.jpg'),
+          imageUri: require('@assets/img/meat_1.jpg'),
           name: 'Grill',
         },
         {
           key: 3,
-          imageUri: require('../../assets/img/spaghetti_2.jpg'),
+          imageUri: require('@assets/img/spaghetti_2.jpg'),
           name: 'Pasta',
         },
         {
           key: 4,
-          imageUri: require('../../assets/img/soup_1.jpg'),
+          imageUri: require('@assets/img/soup_1.jpg'),
           name: 'Soups',
         },
         {
           key: 5,
-          imageUri: require('../../assets/img/salad_1.jpg'),
+          imageUri: require('@assets/img/salad_1.jpg'),
           name: 'Salads',
         },
         {
           key: 6,
-          imageUri: require('../../assets/img/cake_2.jpg'),
+          imageUri: require('@assets/img/cake_2.jpg'),
           name: 'Dessert',
         },
       ],
       restauratns: [
         {
-          imageUri: require('../../assets/img/about_2.jpg'),
+          imageUri: require('@assets/img/about_2.jpg'),
           name: 'The Glass Onion',
           rating: 5.0,
           price: 3,
           cuisines: 'Japanese, Sushi, Thai, Italian, Pizza',
         },
         {
-          imageUri: require('../../assets/img/about_1.jpg'),
+          imageUri: require('@assets/img/about_1.jpg'),
           name: 'Jekyll & Hyde Club',
           rating: 4.9,
           price: 4,
           cuisines: 'Soups, BBQ, Wings, Hamburger',
         },
         {
-          imageUri: require('../../assets/img/about_3.jpg'),
+          imageUri: require('@assets/img/about_3.jpg'),
           name: '2 Dudes Brew & Que',
           rating: 4.8,
           price: 3,

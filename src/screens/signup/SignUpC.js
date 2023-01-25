@@ -29,7 +29,7 @@ import Colors from '../../theme/colors';
 import Layout from '../../theme/layout';
 
 // SignUpC Config
-const bgImg = require('../../assets/img/signup_1.jpg');
+const bgImg = require('@assets/img/signup_1.jpg');
 
 const PLACEHOLDER_TEXT_COLOR = 'rgba(255, 255, 255, 0.8)';
 const INPUT_TEXT_COLOR = '#fff';
