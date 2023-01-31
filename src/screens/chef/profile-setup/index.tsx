@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Dimensions, Image, ScrollView } from 'react-native'
 import { LightText, SemiBoldHeading, Subtitle1, Text } from "../../../components/text/CustomText";
-import profileBackgroundImage from '../@assets/profile-setup-background-png.png'
+import profileBackgroundImage from '@assets/profile-setup-background-png.png'
 import TouchableItem from "../../../components/TouchableItem";
 import Colors from '../../../theme/colors';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";

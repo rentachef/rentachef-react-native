@@ -19,7 +19,7 @@ import TouchableItem from "../../../components/TouchableItem";
 import UnderlineTextInput from "../../../components/textinputs/UnderlineTextInput";
 import {Timestamp} from "react-native-reanimated/lib/types/lib/reanimated2";
 import moment from "moment";
-const imgHolder = require('../@assets/img/imgholder.png');
+const imgHolder = require('@assets/img/imgholder.png');
 
 const recentSearchesMock = ['BBQ', 'Italian', 'Butter chicken']
 
@@ -31,52 +31,52 @@ interface RecentSearch {
 const categories = [
     {
       key: 1,
-      imageUri: require('../@assets/img/pizza_3.jpg'),
+      imageUri: require('@assets/img/pizza_3.jpg'),
       name: 'Pizza',
     },
     {
       key: 2,
-      imageUri: require('../@assets/img/meat_1.jpg'),
+      imageUri: require('@assets/img/meat_1.jpg'),
       name: 'Grill',
     },
     {
       key: 3,
-      imageUri: require('../@assets/img/spaghetti_2.jpg'),
+      imageUri: require('@assets/img/spaghetti_2.jpg'),
       name: 'Pasta',
     },
     {
       key: 4,
-      imageUri: require('../@assets/img/soup_1.jpg'),
+      imageUri: require('@assets/img/soup_1.jpg'),
       name: 'Soups',
     },
     {
       key: 5,
-      imageUri: require('../@assets/img/salad_1.jpg'),
+      imageUri: require('@assets/img/salad_1.jpg'),
       name: 'Salads',
     },
     {
       key: 6,
-      imageUri: require('../@assets/img/cake_2.jpg'),
+      imageUri: require('@assets/img/cake_2.jpg'),
       name: 'Dessert',
     },
   {
     key: 7,
-    imageUri: require('../@assets/img/barbecue_1.jpg'),
+    imageUri: require('@assets/img/barbecue_1.jpg'),
     name: 'BBQ',
   },
   {
     key: 8,
-    imageUri: require('../@assets/img/cake_2.jpg'),
+    imageUri: require('@assets/img/cake_2.jpg'),
     name: 'Dessert',
   },
   {
     key: 9,
-    imageUri: require('../@assets/img/cake_2.jpg'),
+    imageUri: require('@assets/img/cake_2.jpg'),
     name: 'Dessert',
   },
   {
     key: 10,
-    imageUri: require('../@assets/img/cake_2.jpg'),
+    imageUri: require('@assets/img/cake_2.jpg'),
     name: 'Dessert',
   }
 ]
