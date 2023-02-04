@@ -7,9 +7,9 @@ import Colors from "../../theme/colors"
 import {BigBoldHeading, SemiBoldHeading, SmallBoldHeading, SmallText} from "../../components/text/CustomText";
 import Button from "../../components/buttons/Button";
 
-const PreSignUpImage1 = require("@assets/pre-sign-up/pre-sign-up-image-1.png");
-const PreSignUpImage2 = require("@assets/pre-sign-up/pre-sign-up-image-2.png");
-const PreSignUpImage3 = require("@assets/pre-sign-up/pre-sign-up-image-3.png");
+let PreSignUpImage1 = require("@assets/pre-sign-up/pre-sign-up-image-1.png");
+let PreSignUpImage2 = require("@assets/pre-sign-up/pre-sign-up-image-2.png");
+let PreSignUpImage3 = require("@assets/pre-sign-up/pre-sign-up-image-3.png");
 
 @inject('stores')
 @observer

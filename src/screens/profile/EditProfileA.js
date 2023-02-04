@@ -37,6 +37,8 @@ const IOS = Platform.OS === 'ios';
 const CAMERA_ICON = IOS ? 'ios-camera' : 'md-camera';
 const INPUT_FOCUSED_BORDER_COLOR = Colors.primaryColor;
 
+let profile_1 = require('@assets/img/profile_1.jpeg');
+
 // EditProfileA Styles
 const styles = StyleSheet.create({
   container: {
@@ -179,7 +181,7 @@ export default class EditProfileA extends Component {
         <KeyboardAwareScrollView enableOnAndroid>
           <View style={styles.avatarSection}>
             <Avatar
-              imageUri={require('@assets/img/profile_1.jpeg')}
+              imageUri={profile_1}
               rounded
               size={AVATAR_SIZE}
             />

@@ -10,8 +10,8 @@ import React from 'react';
 import {Image, StyleSheet, ViewStyle} from 'react-native';
 
 // Logo Config
-const LOGO = require('@assets/img/logo.png');
-const LOGO_TEXT_WIDE = require('@assets/img/logo_text_wide.png');
+let LOGO = require('@assets/img/logo.png');
+let LOGO_TEXT_WIDE = require('@assets/img/logo_text_wide.png');
 
 // Logo Styles
 const styles = StyleSheet.create({

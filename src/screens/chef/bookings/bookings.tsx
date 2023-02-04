@@ -10,6 +10,7 @@ import ChefBooking, {BookingStatus} from "../../../models/chef/ChefBooking";
 import {HeadlineBold, Text} from '../../../components/text/CustomText';
 import _getColorByStatus from "../../../utils/statusColors";
 
+let profile_1 = require('@assets/img/profile_1.jpeg');
 const buttons = ['Upcoming', 'Past']
 
 const Bookings = inject('stores')(observer((props) => {
@@ -52,7 +53,7 @@ const Bookings = inject('stores')(observer((props) => {
               <Card wrapperStyle={styles.cardWrapper} containerStyle={styles.cardContainer}>
                 <View style={styles.cardPhoto}>
                   <Avatar
-                    imageUri={require('@assets/img/profile_1.jpeg')}
+                    imageUri={profile_1}
                     rounded
                     size={50}
                   />

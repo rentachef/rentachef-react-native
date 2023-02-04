@@ -43,6 +43,11 @@ const YELP_ICON = 'yelp';
 const OVERLAY_COLOR = 'rgba(185, 0, 57, 0.4)';
 const AVATAR_SIZE = 54;
 
+
+let about_1 = require('@assets/img/about_1.jpg')
+let profile_2 = require('@assets/img/profile_2.jpeg')
+let about_2 = require('@assets/img/about_2.jpg')
+let about_3 = require('@assets/img/about_3.jpg')
 // AboutUsA Styles
 const styles = StyleSheet.create({
   pb6: {paddingBottom: 6},
@@ -184,7 +189,7 @@ export default class AboutUsA extends Component {
               activeDotStyle={styles.activeDot}
               dotStyle={styles.dot}>
               <ImageBackground
-                source={require('@assets/img/about_1.jpg')}
+                source={about_1}
                 style={styles.bgImg}>
                 <GradientContainer
                   colors={
@@ -198,7 +203,7 @@ export default class AboutUsA extends Component {
                   <View style={styles.row}>
                     <View style={styles.avatarWrapper}>
                       <Avatar
-                        imageUri={require('@assets/img/profile_2.jpeg')}
+                        imageUri={profile_2}
                         size={AVATAR_SIZE}
                         rounded
                       />
@@ -221,7 +226,7 @@ export default class AboutUsA extends Component {
               </ImageBackground>
 
               <ImageBackground
-                source={require('@assets/img/about_2.jpg')}
+                source={about_2}
                 style={styles.bgImg}>
                 <GradientContainer
                   colors={
@@ -243,7 +248,7 @@ export default class AboutUsA extends Component {
               </ImageBackground>
 
               <ImageBackground
-                source={require('@assets/img/about_3.jpg')}
+                source={about_3}
                 style={styles.bgImg}>
                 <GradientContainer
                   colors={

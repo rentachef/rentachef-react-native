@@ -412,7 +412,7 @@ PODS:
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNReanimated (2.14.1):
+  - RNReanimated (2.13.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -743,12 +743,12 @@ SPEC CHECKSUMS:
   react-native-date-picker: 93e43b3084cea595b4d68b1405d6d99849663bd6
   react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
   react-native-google-maps: 34517207071d54f3bc23c68752bbec0217bfc79e
-  react-native-image-base64: acfe962aa79535d826a2668e66474e85a9ee468d
-  react-native-image-picker: 433f17b9d7147bfe38c10d89eab718dd707afc60
+  react-native-image-base64: 2ff9ac788639c87a91361ab6652cc95e871b1e54
+  react-native-image-picker: 60f4246eb5bb7187fc15638a8c1f13abd3820695
   react-native-maps: a421fe6aeb74279597c4ea9598f25796108e2d89
-  react-native-netinfo: 877946c7b4eb85a639cf1ea31333dadc2be999a1
-  react-native-pager-view: fc311e95f8ba2b710deae6cb0a21f2102fb49d99
-  react-native-safe-area-context: 8465df05de8106c584b117f0e027e17174d6e02e
+  react-native-netinfo: 3d3769f0d65de15c83a9bf1346f8be71de5a24bf
+  react-native-pager-view: da490aa1f902c9a5aeecf0909cc975ad0e92e53e
+  react-native-safe-area-context: 61c8c484a3a9e7d1fda19f7b1794b35bbfd2262a
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-unicons: 3f98688cbfc9f47e3ae45dd1560b7a2ab65075f4
   React-perflogger: f8205b59ccf68dbe4184e71ac7b4db55ea0c8965
@@ -765,17 +765,17 @@ SPEC CHECKSUMS:
   ReactCommon: 3a88b42affa0809e2524f978700a22841b04a421
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAWSCognito: bbfdc784e906e3837d4d996c17ffed19356afc19
-  RNCAsyncStorage: 889cea2408e52fe71da475306dcef43951577da0
-  RNCMaskedView: f127cd9652acfa31b91dcff613e07ba18b774db6
+  RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+  RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
-  RNDateTimePicker: 1bfe1bd77201b1d69ed0fe0c01b9f40c8bffb264
+  RNDateTimePicker: 0530a73a6f3a1a85814cbde0802736993b9e675e
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNReanimated: f1c46b7223b0fe46c4d98bdd7716b8d553a73b07
+  RNReanimated: 7c664a74689972eff8e726535824233596f5f158
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 6adc5c52d2488a476248413064b7f2832e639057
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   Stripe: a11f72e054b581f16064d5b735e33a056f197c34
-  stripe-react-native: 34fe3aa10a5caf2a5d9ff0d7bcc7ad31c6881d24
+  stripe-react-native: 345fb31abf42374a8cb48a4e03d183647f89195d
   StripeApplePay: e6267e960bee142c5140137c79f36639d96be2d2
   StripeCore: e7a5ef22f15ca26f83a9d8f52e87c6767317a268
   StripeFinancialConnections: f4530a4feddc2c2fdd378fd767a161f0fddbb258

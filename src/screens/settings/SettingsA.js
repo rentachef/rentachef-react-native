@@ -50,6 +50,7 @@ const ABOUT_ICON = IOS
   : 'md-information-circle-outline';
 const LOGOUT_ICON = IOS ? 'ios-log-out' : 'md-log-out';
 
+let profile_1 = require('@assets/img/profile_1.jpeg');
 // SettingsA Styles
 const styles = StyleSheet.create({
   container: {
@@ -266,7 +267,7 @@ export default class SettingsA extends Component {
             <View style={[styles.row, styles.profileContainer]}>
               <View style={styles.leftSide}>
                 <Avatar
-                  imageUri={require('@assets/img/profile_1.jpeg')}
+                  imageUri={profile_1}
                   rounded
                   size={60}
                 />

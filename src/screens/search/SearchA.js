@@ -43,7 +43,7 @@ import {Filters} from "../../models/user/filters";
 // SearchA Config
 const isRTL = I18nManager.isRTL;
 const SEARCH_ICON = 'magnify';
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // SearchA Styles
 const styles = StyleSheet.create({

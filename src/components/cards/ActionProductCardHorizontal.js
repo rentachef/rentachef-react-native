@@ -29,7 +29,7 @@ import TouchableItem from '../TouchableItem';
 import Colors from '../../theme/colors';
 
 // ActionProductCardHorizontal Config
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 const isRTL = I18nManager.isRTL;
 const IOS = Platform.OS === 'ios';

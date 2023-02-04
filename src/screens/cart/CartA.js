@@ -29,6 +29,10 @@ import Colors from '../../theme/colors';
 // CartA Config
 const EMPTY_STATE_ICON = 'cart-remove';
 
+let sandwich_2 = require('@assets/img/sandwich_2.jpg');
+let pizza_1 = require('@assets/img/pizza_1.jpg');
+let cake_1 = require('@assets/img/cake_1.jpg');
+
 // CartA Styles
 const styles = StyleSheet.create({
   flex1: {
@@ -84,7 +88,7 @@ export default class CartA extends Component {
       products: [
         {
           id: 'product1',
-          imageUri: require('@assets/img/sandwich_2.jpg'),
+          imageUri: sandwich_2,
           name: 'Subway sandwich',
           price: 10.0,
           quantity: 2,
@@ -92,14 +96,14 @@ export default class CartA extends Component {
         },
         {
           id: 'product2',
-          imageUri: require('@assets/img/pizza_1.jpg'),
+          imageUri: pizza_1,
           name: 'Pizza Margarita 35cm',
           price: 20.0,
           quantity: 1,
         },
         {
           id: 'product3',
-          imageUri: require('@assets/img/cake_1.jpg'),
+          imageUri: cake_1,
           name: 'Chocolate cake',
           price: 30.0,
           quantity: 2,

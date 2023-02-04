@@ -25,7 +25,7 @@ import Layout from '../../theme/layout';
 const IOS = Platform.OS === 'ios';
 const MINUS_ICON = IOS ? 'ios-remove' : 'md-remove';
 const PLUS_ICON = IOS ? 'ios-add' : 'md-add';
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // ActionProductCard Styles
 const styles = StyleSheet.create({

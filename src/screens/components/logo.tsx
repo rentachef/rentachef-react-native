@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, View, Text} from 'react-native'
 // @ts-ignore
-import logoIcon from '@assets/rent-a-chef-icon-512x512.png'
+let logoIcon = require('@assets/rent-a-chef-icon-512x512.png');
 
 const Logo = () => {
   return (

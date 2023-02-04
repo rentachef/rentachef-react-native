@@ -49,6 +49,8 @@ const TERMS_ICON = IOS ? 'ios-paper' : 'md-paper';
 const ADD_ICON = IOS ? 'ios-add-circle-outline' : 'md-add-circle-outline';
 const LOGOUT_ICON = IOS ? 'ios-exit' : 'md-exit';
 
+let profile_1 = require('@assets/img/profile_1.jpeg');
+
 // SettingsB Styles
 const styles = StyleSheet.create({
   container: {
@@ -217,7 +219,7 @@ export default class SettingsB extends Component {
             <View style={[styles.row, styles.profileContainer]}>
               <View style={styles.leftSide}>
                 <Avatar
-                  imageUri={require('@assets/img/profile_1.jpeg')}
+                  imageUri={profile_1}
                   size={60}
                   rounded
                 />

@@ -11,14 +11,10 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		B21124EDFAAF64F22465F2BA /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		B21124EDFAAF64F22465F2BA /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		EF43A9FB26D70BB60070E130 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */; };
+		EFAA6B5B298F03D9008E1D7F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = EFAA6B5A298F03D9008E1D7F /* assets */; };
 		EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
-		EFB6D37D295D01B900F8296E /* src in Resources */ = {isa = PBXBuildFile; fileRef = EFB6D357295D01B700F8296E /* src */; };
-		EFB6D384295D01B900F8296E /* chef-profile-sign-up in Resources */ = {isa = PBXBuildFile; fileRef = EFB6D35E295D01B700F8296E /* chef-profile-sign-up */; };
-		EFB6D389295D01B900F8296E /* img in Resources */ = {isa = PBXBuildFile; fileRef = EFB6D363295D01B800F8296E /* img */; };
-		EFB6D38B295D01B900F8296E /* pre-sign-up in Resources */ = {isa = PBXBuildFile; fileRef = EFB6D365295D01B800F8296E /* pre-sign-up */; };
-		EFB6D390295D01B900F8296E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = EFB6D36A295D01B800F8296E /* assets */; };
 		EFE1C415295CC60B000D5122 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */; };
 		EFE1C416295CC60B000D5122 /* Karla-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30F26CB2D6C008924CA /* Karla-ExtraBold.ttf */; };
 		EFE1C417295CC60B000D5122 /* Karla-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30B26CB2D6C008924CA /* Karla-ExtraBoldItalic.ttf */; };
@@ -68,47 +64,7 @@
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF8349A6270E56C500A646C7 /* rentachef.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rentachef.entitlements; path = rentachef/rentachef.entitlements; sourceTree = "<group>"; };
-		EFB6D34E295D002200F8296E /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
-		EFB6D350295D005C00F8296E /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = assets/src; sourceTree = "<group>"; };
-		EFB6D352295D017D00F8296E /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = assets/src; sourceTree = "<group>"; };
-		EFB6D354295D01B600F8296E /* soup_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = soup_2.png; path = assets/src/assets/img/soup_2.png; sourceTree = "<group>"; };
-		EFB6D355295D01B600F8296E /* onboarding_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = onboarding_2.png; path = assets/src/assets/img/onboarding_2.png; sourceTree = "<group>"; };
-		EFB6D356295D01B700F8296E /* pizza_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pizza_2.jpg; path = assets/src/assets/img/pizza_2.jpg; sourceTree = "<group>"; };
-		EFB6D357295D01B700F8296E /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = assets/src; sourceTree = "<group>"; };
-		EFB6D358295D01B700F8296E /* about_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = about_1.jpg; path = assets/src/assets/img/about_1.jpg; sourceTree = "<group>"; };
-		EFB6D359295D01B700F8296E /* profile-setup-background-png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "profile-setup-background-png.png"; path = "assets/src/assets/profile-setup-background-png.png"; sourceTree = "<group>"; };
-		EFB6D35A295D01B700F8296E /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = assets/src/assets/img/logo.png; sourceTree = "<group>"; };
-		EFB6D35B295D01B700F8296E /* salad_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = salad_1.jpg; path = assets/src/assets/img/salad_1.jpg; sourceTree = "<group>"; };
-		EFB6D35C295D01B700F8296E /* cake_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cake_2.jpg; path = assets/src/assets/img/cake_2.jpg; sourceTree = "<group>"; };
-		EFB6D35D295D01B700F8296E /* spaghetti_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = spaghetti_2.jpg; path = assets/src/assets/img/spaghetti_2.jpg; sourceTree = "<group>"; };
-		EFB6D35E295D01B700F8296E /* chef-profile-sign-up */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "chef-profile-sign-up"; path = "assets/src/assets/chef-profile-sign-up"; sourceTree = "<group>"; };
-		EFB6D35F295D01B700F8296E /* pizza_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pizza_3.jpg; path = assets/src/assets/img/pizza_3.jpg; sourceTree = "<group>"; };
-		EFB6D360295D01B700F8296E /* check-graphic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check-graphic.png"; path = "assets/src/assets/chef-profile-sign-up/check-graphic.png"; sourceTree = "<group>"; };
-		EFB6D361295D01B700F8296E /* cake_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cake_3.png; path = assets/src/assets/img/cake_3.png; sourceTree = "<group>"; };
-		EFB6D362295D01B700F8296E /* meat_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = meat_1.jpg; path = assets/src/assets/img/meat_1.jpg; sourceTree = "<group>"; };
-		EFB6D363295D01B800F8296E /* img */ = {isa = PBXFileReference; lastKnownFileType = folder; name = img; path = assets/src/assets/img; sourceTree = "<group>"; };
-		EFB6D364295D01B800F8296E /* onboarding_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = onboarding_3.png; path = assets/src/assets/img/onboarding_3.png; sourceTree = "<group>"; };
-		EFB6D365295D01B800F8296E /* pre-sign-up */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "pre-sign-up"; path = "assets/src/assets/pre-sign-up"; sourceTree = "<group>"; };
-		EFB6D366295D01B800F8296E /* pizza_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pizza_1.jpg; path = assets/src/assets/img/pizza_1.jpg; sourceTree = "<group>"; };
-		EFB6D367295D01B800F8296E /* onboarding_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = onboarding_4.png; path = assets/src/assets/img/onboarding_4.png; sourceTree = "<group>"; };
-		EFB6D368295D01B800F8296E /* sandwich_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sandwich_2.jpg; path = assets/src/assets/img/sandwich_2.jpg; sourceTree = "<group>"; };
-		EFB6D369295D01B800F8296E /* pizza_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pizza_4.png; path = assets/src/assets/img/pizza_4.png; sourceTree = "<group>"; };
-		EFB6D36A295D01B800F8296E /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = assets/src/assets; sourceTree = "<group>"; };
-		EFB6D36B295D01B800F8296E /* about_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = about_3.jpg; path = assets/src/assets/img/about_3.jpg; sourceTree = "<group>"; };
-		EFB6D36C295D01B800F8296E /* pre-sign-up-image-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pre-sign-up-image-1.png"; path = "assets/src/assets/pre-sign-up/pre-sign-up-image-1.png"; sourceTree = "<group>"; };
-		EFB6D36D295D01B800F8296E /* pre-sign-up-image-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pre-sign-up-image-2.png"; path = "assets/src/assets/pre-sign-up/pre-sign-up-image-2.png"; sourceTree = "<group>"; };
-		EFB6D36E295D01B800F8296E /* pre-sign-up-image-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pre-sign-up-image-3.png"; path = "assets/src/assets/pre-sign-up/pre-sign-up-image-3.png"; sourceTree = "<group>"; };
-		EFB6D36F295D01B800F8296E /* profile_1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = profile_1.jpeg; path = assets/src/assets/img/profile_1.jpeg; sourceTree = "<group>"; };
-		EFB6D370295D01B800F8296E /* profile_2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = profile_2.jpeg; path = assets/src/assets/img/profile_2.jpeg; sourceTree = "<group>"; };
-		EFB6D371295D01B800F8296E /* sandwich_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sandwich_1.png; path = assets/src/assets/img/sandwich_1.png; sourceTree = "<group>"; };
-		EFB6D372295D01B800F8296E /* logo_text_wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_text_wide.png; path = assets/src/assets/img/logo_text_wide.png; sourceTree = "<group>"; };
-		EFB6D373295D01B900F8296E /* soup_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = soup_1.jpg; path = assets/src/assets/img/soup_1.jpg; sourceTree = "<group>"; };
-		EFB6D374295D01B900F8296E /* imgholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imgholder.png; path = assets/src/assets/img/imgholder.png; sourceTree = "<group>"; };
-		EFB6D375295D01B900F8296E /* onboarding_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = onboarding_1.png; path = assets/src/assets/img/onboarding_1.png; sourceTree = "<group>"; };
-		EFB6D376295D01B900F8296E /* about_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = about_2.jpg; path = assets/src/assets/img/about_2.jpg; sourceTree = "<group>"; };
-		EFB6D377295D01B900F8296E /* cake_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cake_1.jpg; path = assets/src/assets/img/cake_1.jpg; sourceTree = "<group>"; };
-		EFB6D378295D01B900F8296E /* barbecue_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = barbecue_1.jpg; path = assets/src/assets/img/barbecue_1.jpg; sourceTree = "<group>"; };
-		EFB6D379295D01B900F8296E /* rent-a-chef-icon-512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rent-a-chef-icon-512x512.png"; path = "assets/src/assets/rent-a-chef-icon-512x512.png"; sourceTree = "<group>"; };
+		EFAA6B5A298F03D9008E1D7F /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../src/assets; sourceTree = "<group>"; };
 		EFE4D30526CB2D6C008924CA /* Karla-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Italic.ttf"; path = "../src/theme/fonts/Karla-Italic.ttf"; sourceTree = "<group>"; };
 		EFE4D30626CB2D6C008924CA /* Karla-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-LightItalic.ttf"; path = "../src/theme/fonts/Karla-LightItalic.ttf"; sourceTree = "<group>"; };
 		EFE4D30726CB2D6C008924CA /* Karla-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-SemiBold.ttf"; path = "../src/theme/fonts/Karla-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -130,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B21124EDFAAF64F22465F2BA /* BuildFile in Frameworks */,
+				B21124EDFAAF64F22465F2BA /* (null) in Frameworks */,
 				FA4438391C40866C9D9B7533 /* libPods-rentachef.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,47 +169,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				EFB6D35D295D01B700F8296E /* spaghetti_2.jpg */,
-				EFB6D350295D005C00F8296E /* src */,
-				EFB6D352295D017D00F8296E /* src */,
-				EFB6D376295D01B900F8296E /* about_2.jpg */,
-				EFB6D36B295D01B800F8296E /* about_3.jpg */,
-				EFB6D34E295D002200F8296E /* assets */,
-				EFB6D358295D01B700F8296E /* about_1.jpg */,
-				EFB6D36A295D01B800F8296E /* assets */,
-				EFB6D378295D01B900F8296E /* barbecue_1.jpg */,
-				EFB6D377295D01B900F8296E /* cake_1.jpg */,
-				EFB6D35C295D01B700F8296E /* cake_2.jpg */,
-				EFB6D361295D01B700F8296E /* cake_3.png */,
-				EFB6D360295D01B700F8296E /* check-graphic.png */,
-				EFB6D35E295D01B700F8296E /* chef-profile-sign-up */,
-				EFB6D363295D01B800F8296E /* img */,
-				EFB6D374295D01B900F8296E /* imgholder.png */,
-				EFB6D372295D01B800F8296E /* logo_text_wide.png */,
-				EFB6D35A295D01B700F8296E /* logo.png */,
-				EFB6D362295D01B700F8296E /* meat_1.jpg */,
-				EFB6D375295D01B900F8296E /* onboarding_1.png */,
-				EFB6D355295D01B600F8296E /* onboarding_2.png */,
-				EFB6D364295D01B800F8296E /* onboarding_3.png */,
-				EFB6D367295D01B800F8296E /* onboarding_4.png */,
-				EFB6D366295D01B800F8296E /* pizza_1.jpg */,
-				EFB6D356295D01B700F8296E /* pizza_2.jpg */,
-				EFB6D35F295D01B700F8296E /* pizza_3.jpg */,
-				EFB6D369295D01B800F8296E /* pizza_4.png */,
-				EFB6D365295D01B800F8296E /* pre-sign-up */,
-				EFB6D36C295D01B800F8296E /* pre-sign-up-image-1.png */,
-				EFB6D36D295D01B800F8296E /* pre-sign-up-image-2.png */,
-				EFB6D36E295D01B800F8296E /* pre-sign-up-image-3.png */,
-				EFB6D36F295D01B800F8296E /* profile_1.jpeg */,
-				EFB6D370295D01B800F8296E /* profile_2.jpeg */,
-				EFB6D359295D01B700F8296E /* profile-setup-background-png.png */,
-				EFB6D379295D01B900F8296E /* rent-a-chef-icon-512x512.png */,
-				EFB6D35B295D01B700F8296E /* salad_1.jpg */,
-				EFB6D371295D01B800F8296E /* sandwich_1.png */,
-				EFB6D368295D01B800F8296E /* sandwich_2.jpg */,
-				EFB6D373295D01B900F8296E /* soup_1.jpg */,
-				EFB6D354295D01B600F8296E /* soup_2.png */,
-				EFB6D357295D01B700F8296E /* src */,
+				EFAA6B5A298F03D9008E1D7F /* assets */,
 				EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */,
 				EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */,
 				EFE4D30F26CB2D6C008924CA /* Karla-ExtraBold.ttf */,
@@ -361,14 +277,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFB6D37D295D01B900F8296E /* src in Resources */,
-				EFB6D384295D01B900F8296E /* chef-profile-sign-up in Resources */,
-				EFB6D389295D01B900F8296E /* img in Resources */,
-				EFB6D38B295D01B900F8296E /* pre-sign-up in Resources */,
-				EFB6D390295D01B900F8296E /* assets in Resources */,
 				EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */,
 				EFE1C415295CC60B000D5122 /* Karla-Bold.ttf in Resources */,
 				EFE1C416295CC60B000D5122 /* Karla-ExtraBold.ttf in Resources */,
+				EFAA6B5B298F03D9008E1D7F /* assets in Resources */,
 				EFE1C417295CC60B000D5122 /* Karla-ExtraBoldItalic.ttf in Resources */,
 				EFE1C418295CC60B000D5122 /* Karla-ExtraLight.ttf in Resources */,
 				EFE1C419295CC60B000D5122 /* Karla-ExtraLightItalic.ttf in Resources */,

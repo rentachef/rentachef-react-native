@@ -34,7 +34,7 @@ import TouchableItem from '../../components/TouchableItem';
 import Colors from '../../theme/colors';
 
 // HomeA Config
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // HomeA Styles
 const styles = StyleSheet.create({

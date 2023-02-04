@@ -40,7 +40,7 @@ const MINUS_ICON = IOS ? 'ios-remove' : 'md-remove';
 const PLUS_ICON = IOS ? 'ios-add' : 'md-add';
 const FAVORITE_ICON = IOS ? 'ios-star' : 'md-star';
 const CLOSE_ICON = IOS ? 'ios-close' : 'md-close';
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // ProductA Styles
 const styles = StyleSheet.create({

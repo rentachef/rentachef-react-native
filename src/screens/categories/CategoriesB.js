@@ -34,6 +34,13 @@ const CARD_WIDTH = (Layout.SCREEN_WIDTH - 2 * 8 - 4 * 8) / 2;
 const CARD_HEIGHT = CARD_WIDTH * 1.08;
 const CARD_BORDER_RADIUS = 6;
 
+let pizza_3 = require('@assets/img/pizza_3.jpg');
+let meat_1 = require('@assets/img/meat_1.jpg');
+let spaghetti_2 = require('@assets/img/spaghetti_2.jpg');
+let soup_1 = require('@assets/img/soup_1.jpg');
+let salad_1 = require('@assets/img/salad_1.jpg');
+let cake_2 = require('@assets/img/cake_2.jpg');
+
 // CategoriesB Styles
 const styles = StyleSheet.create({
   topArea: {flex: 0, backgroundColor: Colors.primaryColor},
@@ -94,37 +101,37 @@ export default class CategoriesB extends Component {
       categories: [
         {
           key: 1,
-          imageUri: require('@assets/img/pizza_3.jpg'),
+          imageUri: pizza_3,
           name: 'Pizza',
           items: 17,
         },
         {
           key: 2,
-          imageUri: require('@assets/img/meat_1.jpg'),
+          imageUri: meat_1,
           name: 'Grill',
           items: 48,
         },
         {
           key: 3,
-          imageUri: require('@assets/img/spaghetti_2.jpg'),
+          imageUri: spaghetti_2,
           name: 'Pasta',
           items: 23,
         },
         {
           key: 4,
-          imageUri: require('@assets/img/soup_1.jpg'),
+          imageUri: soup_1,
           name: 'Soups',
           items: 9,
         },
         {
           key: 5,
-          imageUri: require('@assets/img/salad_1.jpg'),
+          imageUri: salad_1,
           name: 'Salads',
           items: 15,
         },
         {
           key: 6,
-          imageUri: require('@assets/img/cake_2.jpg'),
+          imageUri: cake_2,
           name: 'Dessert',
           items: 26,
         },

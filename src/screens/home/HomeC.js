@@ -31,7 +31,7 @@ import SafeAreaView from '../../components/SafeAreaView';
 import Colors from '../../theme/colors';
 
 // HomeC Config
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // HomeC Styles
 const styles = StyleSheet.create({

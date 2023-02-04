@@ -32,7 +32,7 @@ import SafeAreaView from '../../components/SafeAreaView';
 import Colors from '../../theme/colors';
 
 // HomeB Config
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // HomeB Styles
 const styles = StyleSheet.create({

@@ -11,6 +11,8 @@ import {Chip} from "react-native-elements";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import globalStyles from "../../../theme/global-styles";
 
+let profile_1 = require('@assets/img/profile_1.jpeg');
+
 const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
   const [loading, setLoading] = useState(false)
   const [selectedTip, setSelectedTip] = useState<string | null>()
@@ -57,7 +59,7 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
       <View style={{...styles.screenContainer }}>
         <View style={{ height: '70%', alignItems: 'center', justifyContent: 'space-between' }}>
           <Avatar
-            imageUri={require('@assets/img/profile_1.jpeg')}
+            imageUri={profile_1}
             rounded
             size={80}
           />

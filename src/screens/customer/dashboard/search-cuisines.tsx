@@ -19,7 +19,7 @@ import TouchableItem from "../../../components/TouchableItem";
 import UnderlineTextInput from "../../../components/textinputs/UnderlineTextInput";
 import {Timestamp} from "react-native-reanimated/lib/types/lib/reanimated2";
 import moment from "moment";
-const imgHolder = require('@assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 const recentSearchesMock = ['BBQ', 'Italian', 'Butter chicken']
 

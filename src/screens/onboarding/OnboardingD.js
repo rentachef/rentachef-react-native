@@ -29,10 +29,10 @@ import Colors from '../../theme/colors';
 // OnboardingD Config
 const bgImg = 'https://picsum.photos/id/122/720/1280';
 
-const slide1Img = require('@assets/img/onboarding_1.png');
-const slide2Img = require('@assets/img/onboarding_2.png');
-const slide3Img = require('@assets/img/onboarding_3.png');
-const slide4Img = require('@assets/img/onboarding_4.png');
+let slide1Img = require('@assets/img/onboarding_1.png');
+let slide2Img = require('@assets/img/onboarding_2.png');
+let slide3Img = require('@assets/img/onboarding_3.png');
+let slide4Img = require('@assets/img/onboarding_4.png');
 
 const slides = [
   {
