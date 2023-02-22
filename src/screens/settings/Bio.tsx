@@ -216,7 +216,7 @@ const Bio = inject('stores')(observer((props) => {
   const isValid = () => selectedChips.length > 0
 
   return (
-    <>
+    <View style={styles.container}>
       <SafeAreaView style={styles.container}>
         <ScrollView style={{ opacity: modalIndex !== -1 ? 0.5: 1}}>
           <Subtitle2>Let people know more about your culinary expertise.</Subtitle2>
@@ -386,7 +386,7 @@ const Bio = inject('stores')(observer((props) => {
             />
           </RACBottomSheet>}
       </SafeAreaView>}
-    </>
+    </View>
   )
 }))
 

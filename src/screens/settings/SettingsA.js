@@ -252,97 +252,99 @@ export default class SettingsA extends Component {
     const {notificationsOn} = this.state;
 
     return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar
-          backgroundColor={Colors.statusBarColor}
-          barStyle="dark-content"
-        />
-
-        <SafeAreaView style={styles.contentContainerStyle}>
-          <View style={styles.titleContainer}>
-            <Heading6 style={styles.titleText}>Account</Heading6>
-          </View>
-
-          <TouchableItem useForeground onPress={() => this.props.navigation.navigate('EditProfile')}>
-            <View style={[styles.row, styles.profileContainer]}>
-              <View style={styles.leftSide}>
-                <Avatar
-                  imageUri={profile_1}
-                  rounded
-                  size={60}
-                />
-                <View style={styles.profileInfo}>
-                  <View styles={styles.info}>
-                    <Subtitle1 style={styles.name}>{this.getName()}</Subtitle1>
-                    <Subtitle2 style={styles.email}>
-                      {this.getEmail()}
-                    </Subtitle2>
-                  </View>
-                  <Icon name='chevron-right' size={30} style={styles.iconRight} />
-                </View>
-              </View>
-            </View>
-          </TouchableItem>
-
-          <ContainedButton
-            onPress={() => alert('yay')}
-            title={this.role === 'Cook' ? 'Invite other chefs' : 'Invite your firends, Get $15'}
-            titleColor={Colors.black}
-            titleStyle={{
-              fontWeight: 'bold',
-              letterSpacing: 1
-            }}
-            buttonStyle={{
-              backgroundColor: Colors.primaryColor,
-              marginHorizontal: 20,
-              marginVertical: 10,
-
-            }}
-            socialIconName='gift'
-            color={Colors.white}
-            rounded
+      <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+          <StatusBar
+            backgroundColor={Colors.statusBarColor}
+            barStyle="dark-content"
           />
 
-          <SafeAreaView style={styles.container}>
-            <SectionList
-              nestedScrollEnabled
-              sections={[{ title: 'Account', data: this.menuItems }]}
-              keyExtractor={(item, index) => item + index}
-              renderItem={({ item }) => (
-                item === 'Notifications' ? (
-                  <View style={styles.item}>
-                    <Text style={styles.title}>Notifications</Text>
-                    <SwitchComponent style={{ alignSelf: 'center' }} checked={notificationsOn} onSwitch={v => this.setState({ notificationsOn: v })}/>
-                  </View>
-                  ) : (
-                  <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
-                    <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
-                  </TouchableOpacity>
-                  )
-              )}
-              renderSectionHeader={({ section: { title } }) => (
-                <Text style={styles.header}>{title}</Text>
-              )}
-            />
-          </SafeAreaView>
+          <SafeAreaView style={styles.contentContainerStyle}>
+            <View style={styles.titleContainer}>
+              <Heading6 style={styles.titleText}>Account</Heading6>
+            </View>
 
-          <SafeAreaView style={{...styles.container, marginTop: 20 }}>
-            <SectionList
-              nestedScrollEnabled
-              sections={[{ title: 'Support', data:['Help', 'Log out']}]}
-              keyExtractor={(item, index) => item + index}
-              renderItem={({ item }) => (
-                <TouchableOpacity style={styles.item} onPress={item === 'Log out' && (() => this.logout()) || (() => {})}>
-                  <Text style={styles.title}>{item}</Text>{item !== 'Log out' && <Icon color={Colors.primaryColor} name='chevron-right' size={30} />}
-                </TouchableOpacity>
-              )}
-              renderSectionHeader={({ section: { title } }) => (
-                <Text style={styles.header}>{title}</Text>
-              )}
+            <TouchableItem useForeground onPress={() => this.props.navigation.navigate('EditProfile')}>
+              <View style={[styles.row, styles.profileContainer]}>
+                <View style={styles.leftSide}>
+                  <Avatar
+                    imageUri={profile_1}
+                    rounded
+                    size={60}
+                  />
+                  <View style={styles.profileInfo}>
+                    <View styles={styles.info}>
+                      <Subtitle1 style={styles.name}>{this.getName()}</Subtitle1>
+                      <Subtitle2 style={styles.email}>
+                        {this.getEmail()}
+                      </Subtitle2>
+                    </View>
+                    <Icon name='chevron-right' size={30} style={styles.iconRight} />
+                  </View>
+                </View>
+              </View>
+            </TouchableItem>
+
+            <ContainedButton
+              onPress={() => alert('yay')}
+              title={this.role === 'Cook' ? 'Invite other chefs' : 'Invite your firends, Get $15'}
+              titleColor={Colors.black}
+              titleStyle={{
+                fontWeight: 'bold',
+                letterSpacing: 1
+              }}
+              buttonStyle={{
+                backgroundColor: Colors.primaryColor,
+                marginHorizontal: 20,
+                marginVertical: 10,
+
+              }}
+              socialIconName='gift'
+              color={Colors.white}
+              rounded
             />
+
+            <SafeAreaView style={styles.container}>
+              <SectionList
+                nestedScrollEnabled
+                sections={[{ title: 'Account', data: this.menuItems }]}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ item }) => (
+                  item === 'Notifications' ? (
+                    <View style={styles.item}>
+                      <Text style={styles.title}>Notifications</Text>
+                      <SwitchComponent style={{ alignSelf: 'center' }} checked={notificationsOn} onSwitch={v => this.setState({ notificationsOn: v })}/>
+                    </View>
+                    ) : (
+                    <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
+                      <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                    </TouchableOpacity>
+                    )
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                  <Text style={styles.header}>{title}</Text>
+                )}
+              />
+            </SafeAreaView>
+
+            <SafeAreaView style={{...styles.container, marginTop: 20 }}>
+              <SectionList
+                nestedScrollEnabled
+                sections={[{ title: 'Support', data:['Help', 'Log out']}]}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ item }) => (
+                  <TouchableOpacity style={styles.item} onPress={item === 'Log out' && (() => this.logout()) || (() => {})}>
+                    <Text style={styles.title}>{item}</Text>{item !== 'Log out' && <Icon color={Colors.primaryColor} name='chevron-right' size={30} />}
+                  </TouchableOpacity>
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                  <Text style={styles.header}>{title}</Text>
+                )}
+              />
+            </SafeAreaView>
           </SafeAreaView>
         </SafeAreaView>
-      </SafeAreaView>
+      </View>
     );
   }
 }

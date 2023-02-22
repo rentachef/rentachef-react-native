@@ -230,6 +230,8 @@ export default class SignUpA extends Component {
           this.setState({ loading: false })
           if(includes(err.message, 'Invalid phone number format'))
             notifyError(`Error: ${err.message} Try adding '+country code (eg: +1)'`)
+          else
+            notifyError(err.message)
         }
       })
       } catch (error) {
