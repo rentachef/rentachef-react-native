@@ -31,6 +31,7 @@ import Colors from '../../theme/colors';
 import {inject, observer} from 'mobx-react'
 import ContainedButton from "../../components/buttons/ContainedButton";
 import SwitchComponent from "../components/switch-component";
+import { notifyError, notifyWarn } from 'src/components/toast/toast';
 
 // SettingsA Config
 const isRTL = I18nManager.isRTL;
@@ -191,7 +192,8 @@ export default class SettingsA extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notificationsOn: true
+      notificationsOn: true,
+      deleteAccountCounter: 0
     };
 
     this.role = props.stores.authStore.authInfo.role;
@@ -246,6 +248,25 @@ export default class SettingsA extends Component {
       return this.props.stores.customerSettingsStore.profile?.fullName
     else
       return 'Your Name'
+  }
+
+  deleteAccount = async () => {
+    let { deleteAccountCounter } = this.state
+    if(deleteAccountCounter > 1) {
+      try {
+        await this.props.stores.authStore.deleteAccount()
+        await Auth.deleteUser();
+        this.props.stores.authStore.setUserAuthInfo({}, {})
+        await this.props.stores.authStore.logout()
+      } catch(e) {
+        notifyError(`Error while deleting the account: ${e?.message}`)
+      }
+    }
+    else {
+      deleteAccountCounter++
+      notifyWarn(`Tap ${3 - deleteAccountCounter} more times to delete account`)
+      this.setState({ deleteAccountCounter })
+    }
   }
 
   render() {
@@ -330,9 +351,13 @@ export default class SettingsA extends Component {
             <SafeAreaView style={{...styles.container, marginTop: 20 }}>
               <SectionList
                 nestedScrollEnabled
-                sections={[{ title: 'Support', data:['Help', 'Log out']}]}
+                sections={[{ title: 'Support', data:['Help', 'Log out', 'Delete Account']}]}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => (
+                renderItem={({ item }) => item === 'Delete Account' ? (
+                  <TouchableOpacity style={styles.item} onPress={() => this.deleteAccount()}>
+                    <Text style={{...styles.title, color: Colors.error}}>{item}</Text>
+                  </TouchableOpacity>
+                ) : (
                   <TouchableOpacity style={styles.item} onPress={item === 'Log out' && (() => this.logout()) || (() => {})}>
                     <Text style={styles.title}>{item}</Text>{item !== 'Log out' && <Icon color={Colors.primaryColor} name='chevron-right' size={30} />}
                   </TouchableOpacity>

@@ -280,6 +280,11 @@ export default class ChefApi {
     return await this._post(url, chat)
   }
 
+  async deleteAccount() {
+    const url = `auth/deleteAccount`
+    return await this._delete(url)
+  }
+
   async getUserChats() {
     const url = `chats`
     return await this._get(url)
@@ -304,6 +309,23 @@ export default class ChefApi {
 
   async _post(url: string, data: any)  {
     const response = await this.apisauce.post(url, data)
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) {
+        console.log(problem)
+        return problem
+      }
+    }
+    if(response.status === 204) {
+      return
+    }
+
+    return response
+  }
+
+  async _delete(url: string)  {
+    const response = await this.apisauce.delete(url)
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

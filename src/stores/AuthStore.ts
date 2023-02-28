@@ -188,6 +188,8 @@ class AuthStore {
     this.rootStore.chefApi.logout()
     await AsyncStorage.removeItem('@userId')
   }
+
+  deleteAccount = async () => this.rootStore.chefApi.deleteAccount()
 }
 
 export default AuthStore
