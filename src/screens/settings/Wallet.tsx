@@ -70,8 +70,9 @@ const Wallet = inject('stores')(observer((props) => {
             console.log('value', index)
           }}
           index={modalIndex}
-          size={'90%'}
+          size={'60%'}
           onClose={() => setModalIndex(-1)}
+          enableSwipeClose={true}
         >
           <CustomerCards
             defaultCard={paymentMethods.find(c => c.default)}

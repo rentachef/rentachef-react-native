@@ -87,6 +87,7 @@ export default class ChefProfileSetup extends React.Component<any, any> {
 
 const profileSetupStyles = StyleSheet.create({
   dashboardHeaderContainer: {
+    paddingTop: '13%',
     paddingVertical: 20,
     flex: 1,
     justifyContent: 'flex-start',

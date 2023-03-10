@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {PermissionsAndroid, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
+import {PermissionsAndroid, Platform, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import {BoldHeading, Paragraph, LightText, Text, SmallBoldHeading} from "../../../components/text/CustomText";
 import Colors from "../../../theme/colors";
 import SearchA from "../../search/SearchA";
@@ -13,6 +13,7 @@ import Geocoder from 'react-native-geocoding';
 import {inject, observer} from "mobx-react";
 import {CustomerLocation} from "../../../models/user/CustomerSettings";
 import {forEach, isEmpty} from "lodash";
+import {check, request, PERMISSIONS} from 'react-native-permissions'
 import SetupModal from '../../welcome/Setup';
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
@@ -32,7 +33,7 @@ const validations = {
 
 const requestLocationPermission = async (cb: any) => {
  try {
-    const granted = await PermissionsAndroid.request(
+    const granted = Platform.OS === 'android' ? await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
         title: 'Allow "RentAChef" to use your location',
@@ -41,7 +42,7 @@ const requestLocationPermission = async (cb: any) => {
         buttonNegative: 'Cancel',
         buttonPositive: 'OK',
       },
-    );
+    ) : await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
     console.log('granted', granted);
     if (granted === 'granted') {
       console.log('You can use Geolocation');
@@ -78,6 +79,8 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   
   useEffect(() => {
     console.log('mounting dashboard...')
+    request(PERMISSIONS.IOS.LOCATION_ALWAYS)
+      .then(result => console.log('persmission result', result))
     requestLocationPermission(getCurrentLocation)
   }, [])
 
@@ -109,6 +112,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   const navigate = ({stack, page}) => navigation.navigate(stack, { screen: page })
 
   const getCurrentLocation = () => {
+    console.log('DASHBOARD default location', stores.customerSettingsStore.defaultLocation)
     if(isEmpty(stores.customerSettingsStore.defaultLocation)) {
       console.log('obtaining current location...')
       Geolocation.getCurrentPosition(position => {
@@ -151,8 +155,9 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
               console.log('value', index)
             }}
             index={modalIndex}
-            size={'50%'}
+            size={'70%'}
             onClose={() => setModalIndex(-1)}
+            enableSwipeClose={true}
           >
             <ServiceDetails navigation={navigation} onClose={() => setModalIndex(-1)} />
           </RACBottomSheet>
@@ -165,6 +170,7 @@ export default CustomerDashboard
 
 const styles = StyleSheet.create({
   screenContainer: {
+    paddingTop: '15%',
     flexGrow: 1,
     backgroundColor: Colors.background,
     padding: 20

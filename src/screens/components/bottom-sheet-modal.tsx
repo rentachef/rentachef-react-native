@@ -31,6 +31,8 @@ export function RACBottomSheet(props: {
   children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | (() => React.ReactNode) | React.ReactNode[] | null | undefined;
   onSheetChanges(index: any): void;
   onClose(): void;
+  enableSwipeClose?: boolean;
+  handleSheetClose(): void;
 }) {
   // hooks
   const sheetRef = useRef<BottomSheet>(null);
@@ -67,9 +69,11 @@ export function RACBottomSheet(props: {
   return (
     <BottomSheet
       ref={sheetRef}
+      enablePanDownToClose={props.enableSwipeClose}
       index={props.index}
       snapPoints={snapPoints}
       onChange={handleSheetChange}
+      onClose={() => props.onClose()}
     >
       {props.children}
     </BottomSheet>

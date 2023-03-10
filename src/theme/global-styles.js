@@ -5,7 +5,8 @@ const globalStyles = StyleSheet.create({
   screenContainer: {
     flexGrow: 1,
     backgroundColor: Colors.background,
-    padding: 20
+    padding: 20,
+    paddingTop: '10%',
   },
   screenSubContainer: {
     flexGrow: 1,

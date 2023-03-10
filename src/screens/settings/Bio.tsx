@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
   Image,
+  Platform,
   SafeAreaView,
   ScrollView, StatusBar,
   StyleSheet,
@@ -30,6 +31,7 @@ import TimeZonePicker from "../../components/pickers/TimeZonePicker";
 import {Picker} from "@react-native-picker/picker";
 import globalStyles from "../../theme/global-styles";
 import DishDialog from "./DishDialog";
+import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -222,26 +224,28 @@ const Bio = inject('stores')(observer((props) => {
           <Subtitle2>Let people know more about your culinary expertise.</Subtitle2>
           <View style={styles.item}>
             <Subtitle1>About</Subtitle1>
-            <TextInput
+            <UnderlineTextInput
               placeholder='Tell us about yourself'
               placeholderTextColor={Colors.placeholderTextColor}
-              multiline={true}
+              multiline
               numberOfLines={5}
+              textAlignVertical='top'
               value={bio.about}
               onChangeText={v => setBio({...bio, about: v})}
               style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
               onFocus={() => setFocus(0)}
               onBlur={() => setFocus(undefined)}
-              textAlignVertical='top'
             />
           </View>
           <Divider type='full-bleed' />
           <View style={styles.item}>
             <Subtitle1>Restaurant Affiliations</Subtitle1>
-            <TextInput
+            <UnderlineTextInput
               placeholder='Restaurant Name, City'
               placeholderTextColor={Colors.placeholderTextColor}
               value={bio.affiliations}
+              multiline
+              numberOfLines={2}
               onChangeText={v => setBio({...bio, affiliations: v})}
               style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
               onFocus={() => setFocus(1)}
@@ -366,7 +370,6 @@ const Bio = inject('stores')(observer((props) => {
             />
           </View>
         </ScrollView>
-      </SafeAreaView>
       {modalIndex !== -1 &&
       <SafeAreaView style={{ flex: 1, position: 'absolute', width: '100%', height: '100%' }}>
         {
@@ -375,6 +378,7 @@ const Bio = inject('stores')(observer((props) => {
               console.log('value', index)
             }}
             index={modalIndex}
+            enableSwipeClose={true}
             onClose={() => setModalIndex(-1)}
           >
             <DishDialog
@@ -386,6 +390,7 @@ const Bio = inject('stores')(observer((props) => {
             />
           </RACBottomSheet>}
       </SafeAreaView>}
+      </SafeAreaView>
     </View>
   )
 }))

@@ -9,6 +9,7 @@ import Button from "../../../components/buttons/Button";
 let paymentSetupImage = require('@assets/chef-profile-sign-up/check-graphic.png');
 import { isEmpty } from 'lodash';
 import {notifyError, notifySuccess} from "../../../components/toast/toast";
+import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 
 @inject("stores")
 @observer
@@ -122,7 +123,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
         </View>
         <View style={styles.inputGroup}>
           <Text style={styles.inputGroupItemLabel}>Bank Name</Text>
-          <TextInput
+          <UnderlineTextInput
             autoCapitalize="words"
             placeholder="enter bank name"
             keyboardType={"default"}
@@ -134,7 +135,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
             placeholderTextColor={Colors.placeholderColor}
           />
           <Text style={styles.inputGroupItemLabel}>Account Number</Text>
-          <TextInput
+          <UnderlineTextInput
             autoCapitalize="none"
             placeholder="enter your account number"
             keyboardType={"numeric"}
@@ -147,7 +148,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
             placeholderTextColor={Colors.placeholderColor}
           />
           <Text style={styles.inputGroupItemLabel}>Routing Number</Text>
-          <TextInput
+          <UnderlineTextInput
             autoCapitalize="none"
             placeholder="10 characters"
             keyboardType={"numeric"}
@@ -160,7 +161,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
             placeholderTextColor={Colors.placeholderColor}
           />
           <Text style={styles.inputGroupItemLabel}>Currency</Text>
-          <TextInput
+          <UnderlineTextInput
             autoCapitalize="characters"
             placeholder="USD"
             keyboardType={"default"}
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     flex: 1,
-    marginTop: '40%'
+    marginTop: '30%'
   },
   inputGroupItem: {
     flex: .15,
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
   },
   setupImage: {
     backgroundColor: '#F7F3EF',
-    marginVertical: 20,
+    marginVertical: 10,
     flex: 1
   },
 })

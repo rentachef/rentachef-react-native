@@ -46,6 +46,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
 
   useEffect(() => {
     console.log(booking)
+    console.log('DEFAULT LOCATION', stores.customerSettingsStore.defaultLocation)
   }, [booking])
 
   const checkAvailability = () => {
@@ -68,8 +69,8 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
             <Icon name='map-marker-outline' size={30} style={{ flex: .5, flexBasis: '12%' }}/>
             <View style={{ flexBasis: '65%'}}>
-              <Text style={{ marginVertical: 5}}>{booking.location.address}</Text>
-              <Subtitle2 style={{ marginVertical: 5}}>{booking.location.city}</Subtitle2>
+              <Text style={{ marginVertical: 5}}>{booking.location?.address}</Text>
+              <Subtitle2 style={{ marginVertical: 5}}>{booking.location?.city}</Subtitle2>
             </View>
             <View style={{ alignItems: 'center', flexBasis: '25%' }}>
               <Avatar
@@ -184,8 +185,9 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             console.log('value', index)
           }}
           index={modalIndex}
-          size={'40%'}
+          size={'50%'}
           onClose={() => setModalIndex(-1)}
+          enableSwipeClose={true}
         >
           {modalIndex === 0 &&
             <CheckoutSelect

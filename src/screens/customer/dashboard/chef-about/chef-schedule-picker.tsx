@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {Heading6, Text} from "../../../../components/text/CustomText";
-import {View} from "react-native";
+import {Heading6, SemiBoldHeading, SmallBoldHeading, Text} from "../../../../components/text/CustomText";
+import {Platform, Pressable, View} from "react-native";
 import {Picker} from "@react-native-picker/picker";
 import {DayAndTime, Timing, WeekDayAndTime} from "../../../../models/chef/ChefProfileSetup";
 import {
@@ -11,6 +11,9 @@ import moment from "moment";
 import Button from "../../../../components/buttons/Button";
 import Colors from "../../../../theme/colors";
 import {isDate, isEmpty} from "lodash";
+import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
+import ModalSelector from 'react-native-modal-selector'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
   console.log('chefAvailability', JSON.stringify(chefAvailability.weeklyHours))
@@ -19,6 +22,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
   const [hoursRange, setHoursRange] = useState<Date[]>([])
   const [hourFrom, setHourFrom] = useState<Date>()
   const [hourTo, setHourTo] = useState<Date>()
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false)
 
   useEffect(() => {
     let chefTimings = [].concat.apply([], chefAvailability.weeklyHours?.map((wh: WeekDayAndTime) => _getNextDatesFromWeeklyHours(wh, 4)))
@@ -30,69 +34,123 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
   }, [])
 
   const onSelectedDate = (value: Timing) => {
-    setSelectedTiming(value)
-    console.log('selected', value)
-    setHourFrom(undefined)
-    setHourTo(undefined)
-    setHoursRange(_getDatesByHourRange(value.from, value.to))
+    if(!!value) {
+      setSelectedTiming(value)
+      console.log('selected', value)
+      setHourFrom(undefined)
+      setHourTo(undefined)
+      setHoursRange(_getDatesByHourRange(value.from, value.to))
+    } else
+      setSelectedTiming(value)
   }
-
-  console.log('IS EMPTY', isEmpty(selectedTiming), isEmpty(hourFrom), hourTo)
-
+  
   return (
     <View style={{ flex: 1, margin: 20, marginTop: 5, alignItems: 'center' }}>
       <Heading6>Chef's Schedule</Heading6>
       <View style={{ flex: 1, justifyContent: 'space-between', width: '80%' }}>
         <View style={{ flex: .5,  justifyContent: 'space-between', flexDirection: 'column' }}>
           {timings.length > 0 &&
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: 'space-around' }}>
               <Text>Date</Text>
-              <Picker
-                selectedValue={selectedTiming || undefined}
-                onValueChange={value => onSelectedDate(value)}
-                style={{ backgroundColor: Colors.pickerBackground }}
-              >
-                <Picker.Item label='Choose a date' value={undefined} />
-                {timings.map((t: Timing, i) => (
-                  <Picker.Item key={i} label={moment(t.from).format('dddd DD, MMM')} value={t}/>
-                ))}
-              </Picker>
+              <>
+                {!selectedTiming && 
+                <View>
+                  <ModalSelector
+                      data={timings.map((t: Timing, i) => { return {key: i, value: t, label: moment(t.from).format('dddd DD, MMM')}})}
+                      initValue="Select a booking date"
+                      style={{backgroundColor: Colors.primaryColor, borderRadius: 10}}
+                      selectStyle={{ borderWidth: 0 }}
+                      initValueTextStyle={{color: Colors.primaryText}}
+                      onChange={(option)=> {
+                        setHourFrom(undefined)
+                        setHourTo(undefined)
+                        onSelectedDate(option.value)
+                      }} />
+                </View>}
+                {selectedTiming && 
+                  <SmallBoldHeading 
+                    onPress={() => onSelectedDate(undefined)}
+                    style={{ alignSelf: 'center' }}
+                  >
+                    {moment(selectedTiming.from).format('dddd DD, MMM YYYY')}
+                  </SmallBoldHeading>}
+              </>
             </View>}
             {!!selectedTiming &&
               <View style={{ flex: .3, flexDirection: 'row' }}>
                 <View style={{ flex: .5 }}>
                   <Text>From</Text>
-                  <Picker
-                    selectedValue={hourFrom || undefined}
-                    onValueChange={(value) => {
-                      console.log('hourFrom', value)
-                      setHourFrom(value)
-                      setHourTo(undefined)
-                    }}
-                    style={{ marginRight: 5, backgroundColor: Colors.pickerBackground }}
-                  >
-                    <Picker.Item label='Hour from' value={undefined} />
-                    {hoursRange.filter((d, i) => i !== hoursRange.length - 1).map((d: Date, i: number) => (
-                      <Picker.Item key={i} label={moment(d).utc().format('HH:mm')} value={d}/>
-                    ))}
-                  </Picker>
+                  <>
+                    <View style={{height: 40, width: '90%', alignSelf: 'center'}}>
+                      {!hourFrom &&
+                        <ModalSelector
+                          data={hoursRange.filter((d, i) => i !== hoursRange.length - 1).map((d: Date, i: number) => { return { key: i, label: moment(d).utc().format('HH:mm'), value: d } })}
+                          initValue="Select"
+                          style={{backgroundColor: Colors.primaryColor, borderRadius: 10, top: 15}}
+                          selectStyle={{ borderWidth: 0 }}
+                          initValueTextStyle={{color: Colors.primaryText}}
+                          onChange={(option) => {
+                              console.log('SETTING HOUR FROM', option.value)
+                              setHourFrom(option.value)
+                              setHourTo(undefined)
+                            }
+                          }
+                        />}
+                      {!!hourFrom &&
+                      <TouchableOpacity onPress={() => setHourFrom(undefined)}>
+                        <UnderlineTextInput
+                          autoCapitalize="none"
+                          placeholder="From"
+                          editable={false}
+                          value={moment(hourFrom).utc().format('HH:mm') || ''}
+                          onChangeText={(value) => {
+                            console.log('hourFrom', value)
+                            setHourFrom(value)
+                            setHourTo(undefined)
+                          }}
+                          //style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
+                          placeholderTextColor={Colors.placeholderColor}
+                        />
+                      </TouchableOpacity>}
+                    </View>
+                  </> 
                 </View>
                 {!!hourFrom &&
                   <View style={{ flex: .5 }}>
                     <Text>To</Text>
-                    <Picker
-                      selectedValue={hourTo || undefined}
-                      onValueChange={(value) => {
-                        console.log('hourTo', value)
-                        setHourTo(value)
-                      }}
-                      style={{ marginLeft: 5, backgroundColor: Colors.pickerBackground }}
-                    >
-                      <Picker.Item label='Hour to' value={undefined} />
-                      {hoursRange.filter(hr => hr > hourFrom).map((d: Date, i: number) => (
-                        <Picker.Item key={i} label={moment(d).utc().format('HH:mm')} value={d}/>
-                      ))}
-                    </Picker>
+                    <>
+                        <View style={{ height: 40, width: '90%', alignSelf: 'center'}}>
+                        {!hourTo &&
+                          <ModalSelector
+                            data={hoursRange.filter((d, i) => i !== hoursRange.length - 1).map((d: Date, i: number) => { return { key: i, label: moment(d).utc().format('HH:mm'), value: d } })}
+                            initValue="Select"
+                            style={{backgroundColor: Colors.primaryColor, borderRadius: 10, top: 15}}
+                            selectStyle={{ borderWidth: 0 }}
+                            initValueTextStyle={{color: Colors.primaryText}}
+                            onChange={(option) => {
+                                console.log('SETTING HOUR TO', option.value)
+                                setHourTo(option.value)
+                              }
+                            }
+                          />}
+                        {!!hourTo &&
+                        <TouchableOpacity onPress={() => setHourTo(undefined)}>
+                          <UnderlineTextInput
+                            autoCapitalize="none"
+                            placeholder="To"
+                            editable={false}
+                            onFocus={() => setHourTo(undefined)}
+                            value={moment(hourTo).utc().format('HH:mm') || ''}
+                            onChangeText={(value) => {
+                              console.log('hourTo', value)
+                              setHourTo(value)
+                            }}
+                            //style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
+                            placeholderTextColor={Colors.placeholderColor}
+                          />
+                        </TouchableOpacity>}
+                      </View>
+                    </>
                   </View>}
               </View>}
         </View>

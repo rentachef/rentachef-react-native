@@ -81,6 +81,8 @@ type Props = {
   iconName?: string;
   iconSize?: number;
   iconColor?: string;
+  multiline?: boolean;
+  numberOfLines?: number;
 };
 
 // UnderlineTextInput
@@ -109,7 +111,9 @@ const UnderlineTextInput = ({
   icon,
   iconName,
   iconSize,
-  iconColor
+  iconColor,
+  multiline,
+  numberOfLines
 }: Props) => (
   <View
     style={[
@@ -127,6 +131,7 @@ const UnderlineTextInput = ({
       returnKeyType={returnKeyType}
       editable={editable}
       blurOnSubmit={blurOnSubmit}
+      multiline={multiline}
       onKeyPress={onKeyPress}
       keyboardType={keyboardType}
       autoCapitalize={autoCapitalize}

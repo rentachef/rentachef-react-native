@@ -98,6 +98,10 @@ PODS:
   - hermes-engine (0.8.1)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.180)
+  - Permission-LocationAlways (3.7.3):
+    - RNPermissions
+  - Permission-LocationWhenInUse (3.7.3):
+    - RNPermissions
   - RCT-Folly (2021.04.26.00):
     - boost-for-react-native
     - DoubleConversion
@@ -310,7 +314,7 @@ PODS:
     - React-jsi (= 0.65.3)
     - React-perflogger (= 0.65.3)
   - React-jsinspector (0.65.3)
-  - react-native-date-picker (4.2.6):
+  - react-native-date-picker (4.2.9):
     - React-Core
   - react-native-geolocation-service (5.3.1):
     - React
@@ -411,6 +415,8 @@ PODS:
   - RNDateTimePicker (6.7.1):
     - React-Core
   - RNGestureHandler (1.10.3):
+    - React-Core
+  - RNPermissions (3.7.3):
     - React-Core
   - RNReanimated (2.14.1):
     - DoubleConversion
@@ -517,6 +523,8 @@ DEPENDENCIES:
   - GoogleMaps
   - hermes-engine (~> 0.8.1)
   - libevent (~> 2.1.12)
+  - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways/Permission-LocationAlways.podspec`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse/Permission-LocationWhenInUse.podspec`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -561,6 +569,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -608,6 +617,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  Permission-LocationAlways:
+    :path: "../node_modules/react-native-permissions/ios/LocationAlways/Permission-LocationAlways.podspec"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -692,6 +705,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -728,6 +743,8 @@ SPEC CHECKSUMS:
   hermes-engine: 7dcd1dbd908e6353bd7e4a4add72dba7bf76bf84
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
+  Permission-LocationAlways: c6caacc8e6de360f23a1a1bf31bce9b36f1a7b74
+  Permission-LocationWhenInUse: dfc0a30e7f77976bbbc2735d664e2499dc527195
   RCT-Folly: 0dd9e1eb86348ecab5ba76f910b56f4b5fef3c46
   RCTRequired: 655e18b89b599c17ee55d288359f96d5600c9004
   RCTTypeSafety: 6eb5f6ebeac6a9e448d1c8a802a48a4e8ffce178
@@ -740,7 +757,7 @@ SPEC CHECKSUMS:
   React-jsi: 0ab20c9070bc28cd99a200e826ce7cf46e8f5b26
   React-jsiexecutor: d7540b187f30f45281ece995f19dde143e3afff3
   React-jsinspector: 94bbad998be4efbdac7d6d152677bdd134c1c980
-  react-native-date-picker: 93e43b3084cea595b4d68b1405d6d99849663bd6
+  react-native-date-picker: c063a8967058c58a02d7d0e1d655f0453576fb0d
   react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
   react-native-google-maps: 34517207071d54f3bc23c68752bbec0217bfc79e
   react-native-image-base64: acfe962aa79535d826a2668e66474e85a9ee468d
@@ -770,6 +787,7 @@ SPEC CHECKSUMS:
   RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
   RNDateTimePicker: 1bfe1bd77201b1d69ed0fe0c01b9f40c8bffb264
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNPermissions: 1b0699005a30033d46e61104cbbaa18354260989
   RNReanimated: f1c46b7223b0fe46c4d98bdd7716b8d553a73b07
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 6adc5c52d2488a476248413064b7f2832e639057
@@ -786,6 +804,6 @@ SPEC CHECKSUMS:
   Yoga: 8ae716bf8b654fac1c7be1ac81376041837acb2c
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 306cc79436f139357249eec5bbd4c16df151a3d5
+PODFILE CHECKSUM: 9fa8ea723ed503f5bc8a5ccc505bec63f2d4a5ae
 
 COCOAPODS: 1.11.3

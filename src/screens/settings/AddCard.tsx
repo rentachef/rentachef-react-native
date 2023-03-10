@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View} from "react-native";
+import {Keyboard, View} from "react-native";
 import globalStyles from "../../theme/global-styles";
 import {CardField, useStripe } from "@stripe/stripe-react-native";
 import Colors from "../../theme/colors";
@@ -91,6 +91,8 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
             setValidCard(cardDetails.valid)
             console.log('cardDetails', cardDetails)
             if(cardDetails.valid) {
+              console.log('cardDetails valid')
+              Keyboard.dismiss()
               setNewCard({
                 type: 'Credit Card',
                 cardNumber: cardDetails.values.number?.slice(-4),

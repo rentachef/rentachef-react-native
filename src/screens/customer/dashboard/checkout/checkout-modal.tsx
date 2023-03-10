@@ -34,7 +34,10 @@ const CheckoutModal = ({ navigation, action }) => {
             <View style={{ width: '80%', height: '15%', justifyContent: 'space-around' }}>
                 <Button
                   title='View Booking'
-                  onPress={() => navigation.navigate('CustomerSchedule', { bookingId })}
+                  onPress={() => {
+                    console.log('navigating to booking', bookingId)
+                    navigation.navigate('CustomerSchedule', { bookingId })
+                  }}
                 />
                 {/*<Button
                   title='Message Chef'
