@@ -71,6 +71,7 @@ const ChatList = (inject('stores')((props) => {
   }, [channels])
 
   const onChannelClick = (channel) => {
+    console.log(role)
     props.navigation.navigate(role === 'Cook' ? 'ChefChat' : 'CustomerChat', { channel, userId: props.userId, pubnub })
   }
 

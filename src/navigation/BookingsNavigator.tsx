@@ -17,12 +17,12 @@ const BookingsStack = createStackNavigator()
 function ChefBookingsStack() {
   return (
     <BookingsStack.Navigator>
-      <BookingsStack.Screen name='Bookings' component={Bookings} options={{ title: 'Bookings' }} />
-      <BookingsStack.Screen name='BookingRequest' component={BookingRequest} options={{ title: 'Booking Request' }} />
-      <BookingsStack.Screen name='CustomerBooking' component={CustomerBooking} options={{ title: 'Booking Request' }} />
-      <BookingsStack.Screen name='BookingInvoice' component={BookingInvoice} options={{ title: 'Create Invoice' }} />
-      <BookingsStack.Screen name='BookingInvoiceReceipt' component={BookingInvoice} options={{ title: 'Receipt' }} />
-      <BookingsStack.Screen name='ChefClientRate' component={BookingRateClient} options={{ title: 'Rate the Client' }} />
+      <BookingsStack.Screen name='Bookings' component={Bookings} options={{ headerBackTitle: ' ', title: 'Bookings' }} />
+      <BookingsStack.Screen name='BookingRequest' component={BookingRequest} options={{ headerBackTitle: ' ', title: 'Booking Request' }} />
+      <BookingsStack.Screen name='CustomerBooking' component={CustomerBooking} options={{ headerBackTitle: ' ', title: 'Booking Request' }} />
+      <BookingsStack.Screen name='BookingInvoice' component={BookingInvoice} options={{ headerBackTitle: ' ', title: 'Create Invoice' }} />
+      <BookingsStack.Screen name='BookingInvoiceReceipt' component={BookingInvoice} options={{ headerBackTitle: ' ', title: 'Receipt' }} />
+      <BookingsStack.Screen name='ChefClientRate' component={BookingRateClient} options={{ headerBackTitle: ' ', title: 'Rate the Client' }} />
     </BookingsStack.Navigator>
   )
 }

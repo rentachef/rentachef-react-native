@@ -62,10 +62,10 @@ const ChefDashboardStack = createStackNavigator()
 function ChefDashboardStackScreen() {
   return (
     <ChefDashboardStack.Navigator>
-      <ChefDashboardStack.Screen name="ChefDashboard" component={ChefDashboard} options={{headerShown: false}}/>
-      <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
-      <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
-      <ChefDashboardStack.Screen name="ChefChat" component={Chat} options={{ title: 'Inbox', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
+      <ChefDashboardStack.Screen name="ChefDashboard" component={ChefDashboard} options={{headerBackTitle: ' ', headerShown: false}}/>
+      <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
+      <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
+      <ChefDashboardStack.Screen name="ChefChat" component={Chat} options={{ title: 'Inbox', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
     </ChefDashboardStack.Navigator>
   );
 }

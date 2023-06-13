@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
-    padding: 10
+    padding: 20
   },
   contentContainerStyle: {
     flexGrow: 1,
@@ -273,7 +273,7 @@ export default class SettingsA extends Component {
     const {notificationsOn} = this.state;
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <SafeAreaView style={styles.container}>
           <StatusBar
             backgroundColor={Colors.statusBarColor}
@@ -369,7 +369,7 @@ export default class SettingsA extends Component {
             </SafeAreaView>
           </SafeAreaView>
         </SafeAreaView>
-      </View>
+      </ScrollView>
     );
   }
 }

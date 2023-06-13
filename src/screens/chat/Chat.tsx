@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import Colors from "../../theme/colors";
 import Button from "../../components/buttons/Button";
@@ -30,6 +30,10 @@ const Chat = inject('stores')(({ stores, route }) => {
   useEffect(() => {
     stores.searchStore.saveChatIfNotExists({ channel, consumer, chef })
   }, [])
+
+  useEffect(() => {
+
+  }, [messages])
 
   useEffect(() => {
     // add listener
@@ -87,7 +91,7 @@ const Chat = inject('stores')(({ stores, route }) => {
     console.log('Message payload', publishPayload)
     const res = await pubnubClient.publish(publishPayload);
     publishPayload['timetoken'] = res.timetoken
-    messageList.push(publishPayload)
+    //messageList.push(publishPayload)
     setMessages(messageList)
   }
 
@@ -112,13 +116,14 @@ const Chat = inject('stores')(({ stores, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={{position: 'absolute', left: 0, right: 0, bottom: 0}} behavior="position">
-        <KeyboardAwareScrollView>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            {!isEmpty(messages) && messages.map((message: any, idx) => <ChatMessage key={idx} time={message.timetoken} id={message.uuid || message.timetoken} text={message.message?.description || ''} sender={message.uuid === userId} />)}
-          </ScrollView>
-        </KeyboardAwareScrollView>
-
+      {/*<KeyboardAvoidingView style={{position: 'absolute', left: 0, right: 0, bottom: 0}} behavior="position">*/}
+      <KeyboardAwareScrollView enableOnAndroid={true}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          {!isEmpty(messages) && messages.map((message: any, idx) => <ChatMessage key={idx} time={message.timetoken} id={message.uuid || message.timetoken} text={message.message?.description || ''} sender={message.uuid === userId} />)}
+        </ScrollView>
+        
+      </KeyboardAwareScrollView>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={90}>
         <View style={styles.inline}>
           <TextInput
             style={styles.input}
@@ -140,6 +145,7 @@ const Chat = inject('stores')(({ stores, route }) => {
           />
         </View>
       </KeyboardAvoidingView>
+      {/*</KeyboardAvoidingView>*/}
     </SafeAreaView>
   );
 })

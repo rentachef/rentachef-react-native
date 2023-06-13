@@ -33,16 +33,16 @@ function CustomerDashboardStackScreen() {
   return (
     <CustomerDashboardStack.Navigator>
       <CustomerDashboardStack.Screen name="CustomerDashboard" component={CustomerDashboard} options={{headerShown: false}}/>
-      <CustomerDashboardStack.Screen name="SearchCuisines" component={SearchCuisines} options={{ title: '', headerBackTitle: 'Back'}} />
-      <CustomerDashboardStack.Screen name="AddressSelector" component={ServiceDetailsAddress} options={{ title: '', headerBackTitle: 'Back'}} />
-      <CustomerDashboardStack.Screen name="ScheduleSelector" component={ServiceDetailsSchedule} options={{ title: '', headerBackTitle: 'Back'}} />
-      <CustomerDashboardStack.Screen name="ChefFilters" component={ChefFilters} options={{ title: '', headerBackTitle: 'Back'}} />
-      <CustomerDashboardStack.Screen name="ChefResults" component={ChefResults} options={{ title: '', headerBackTitle: 'Back'}} />
-      <CustomerDashboardStack.Screen name="ChefAbout" component={ChefAbout} options={{ title: '', headerBackTitle: 'Back'}} />
-      <CustomerDashboardStack.Screen name="Checkout" component={Checkout} options={{ title: 'Booking Details', headerBackTitle: 'Back', headerTitleAlign: 'center'}} />
+      <CustomerDashboardStack.Screen name="SearchCuisines" component={SearchCuisines} options={{ title: '', headerBackTitle: ' '}} />
+      <CustomerDashboardStack.Screen name="AddressSelector" component={ServiceDetailsAddress} options={{ title: '', headerBackTitle: ' '}} />
+      <CustomerDashboardStack.Screen name="ScheduleSelector" component={ServiceDetailsSchedule} options={{ title: '', headerBackTitle: ' '}} />
+      <CustomerDashboardStack.Screen name="ChefFilters" component={ChefFilters} options={{ title: '', headerBackTitle: ' '}} />
+      <CustomerDashboardStack.Screen name="ChefResults" component={ChefResults} options={{ title: '', headerBackTitle: ' '}} />
+      <CustomerDashboardStack.Screen name="ChefAbout" component={ChefAbout} options={{ title: '', headerBackTitle: ' '}} />
+      <CustomerDashboardStack.Screen name="Checkout" component={Checkout} options={{ title: 'Booking Details', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
       <CustomerDashboardStack.Screen name="CustomerChat" component={Chat} options={{ 
         title: 'Inbox', 
-        headerBackTitle: 'Back', 
+        headerBackTitle: ' ', 
         headerTitleAlign: 'center'
       }} />
     </CustomerDashboardStack.Navigator>

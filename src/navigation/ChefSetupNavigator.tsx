@@ -12,12 +12,12 @@ const ProfileSetupStack = createStackNavigator()
 function ChefProfileSetupStack() {
   return (
     <ProfileSetupStack.Navigator>
-      <ProfileSetupStack.Screen name='ChefProfileSetup' component={ChefProfileSetup} options={{ headerShown: false }} />
-      <ProfileSetupStack.Screen name='ChefWorkZoneSetup' component={ChefWorkZoneSetup} options={{ title: 'Set up work zone', headerTitleAlign: 'center' }} />
-      <ProfileSetupStack.Screen name='ChefAvailabilitySetup' component={ChefAvailabilitySetup} options={{ title: 'Set up availability', headerTitleAlign: 'center' }} />
-      <ProfileSetupStack.Screen name='ChefPaymentSetup' component={ChefPaymentSetup} options={{ title: 'Link a bank account', headerTitleAlign: 'center' }} />
-      <ProfileSetupStack.Screen name='ChefBackgroundCheckSetup' component={ChefBackgroundCheckSetup} options={{ title: 'Background Check', headerTitleAlign: 'center' }} />
-      <ProfileSetupStack.Screen name='ChefBackgroundPendingApproval' component={ChefBackgroundPendingApproval} options={{ title: 'Pending Approval', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefProfileSetup' component={ChefProfileSetup} options={{ headerBackTitle: ' ', headerShown: false }} />
+      <ProfileSetupStack.Screen name='ChefWorkZoneSetup' component={ChefWorkZoneSetup} options={{ headerBackTitle: ' ', title: 'Set up work zone', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefAvailabilitySetup' component={ChefAvailabilitySetup} options={{ headerBackTitle: ' ', title: 'Set up availability', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefPaymentSetup' component={ChefPaymentSetup} options={{ headerBackTitle: ' ', title: 'Link a bank account', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefBackgroundCheckSetup' component={ChefBackgroundCheckSetup} options={{ headerBackTitle: ' ', title: 'Background Check', headerTitleAlign: 'center' }} />
+      <ProfileSetupStack.Screen name='ChefBackgroundPendingApproval' component={ChefBackgroundPendingApproval} options={{ headerBackTitle: ' ', title: 'Pending Approval', headerTitleAlign: 'center' }} />
     </ProfileSetupStack.Navigator>
   )
 }
