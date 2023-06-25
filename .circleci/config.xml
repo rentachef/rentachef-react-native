@@ -1,0 +1,64 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/RENTCHEF-REACT-NATIVE
+    docker:
+      - image: circleci/node:14.17
+
+    steps:
+      - checkout
+
+      # Step 1: Install Ruby and dependencies
+      - run:
+          name: Install Ruby and Dependencies
+          command: |
+            sudo apt-get update && sudo apt-get install -y ruby-full
+
+      # Step 2: Install CocoaPods
+      - run:
+          name: Install CocoaPods
+          command: |
+            sudo gem install cocoapods
+
+      # Step 3: Install dependencies
+      - run:
+          name: Install Dependencies
+          command: yarn install
+
+      # Step 4: Build the project for iOS
+      - run:
+          name: Build iOS Project
+          command: |
+            cd ios
+            pod install
+            cd ..
+            yarn ios:build
+
+      # Step 5: Build the project for Android
+      - run:
+          name: Build Android Project
+          command: yarn android:build
+
+      # Step 6: Run tests (if applicable)
+      - run:
+          name: Run Tests
+          command: yarn test
+
+      # Step 7: Generate build artifacts
+      - run:
+          name: Generate Build Artifacts
+          command: yarn generate-artifacts
+
+      # Step 8: Deploy to TestFlight using fastlane (iOS only, adjust the command as per your configuration)
+      - run:
+          name: Deploy to TestFlight
+          command: |
+            cd ios
+            fastlane beta
+            cd ..
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
