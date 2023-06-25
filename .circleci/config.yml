@@ -18,6 +18,7 @@ jobs:
           name: Build iOS Project
           command: |
             cd ios
+            gem install cocoapods
             pod install
             cd ..
             yarn ios:build
