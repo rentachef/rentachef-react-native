@@ -15,7 +15,7 @@ jobs:
           name: Build iOS app
           command: |
             cd ios
-            xcodebuild -workspace rentachef-react-native.xcworkspace -scheme rentachef-react-native -destination 'platform=iOS Simulator,name=iPhone 11' build
+            xcodebuild -workspace rentachef.xcworkspace -scheme rentachef -destination 'platform=iOS Simulator,name=iPhone 11' build
 workflows:
   build_and_deploy:
     jobs:
