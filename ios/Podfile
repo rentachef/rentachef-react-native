@@ -39,6 +39,8 @@ target 'rentachef' do
 
   pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
 
+  config = use_native_modules!
+
     use_react_native!(
         :path => config[:reactNativePath],
         # to enable hermes on iOS, change `false` to `true` and then install pods
@@ -50,7 +52,6 @@ target 'rentachef' do
     # Pods for testing
   end
 
-  config = use_native_modules!
 
   # Enables Flipper.
   #
