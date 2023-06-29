@@ -10,7 +10,7 @@ jobs:
           name: Install dependencies
           command: |
             yarn install
-            cd ios && arch -x86_64 pod install && cd ..
+            cd ios &&  pod install && cd ..
       - run:
           name: Build iOS app
           command: |
