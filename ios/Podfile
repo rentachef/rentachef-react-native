@@ -47,10 +47,7 @@ target 'rentachef' do
         :hermes_enabled => false
       )
 
-  target 'rentachefTests' do
-    inherit! :complete
-    # Pods for testing
-  end
+
 
 
   # Enables Flipper.
