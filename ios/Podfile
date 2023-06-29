@@ -63,11 +63,4 @@ target 'rentachef' do
   end
 end
 
-target 'rentachef-tvOS' do
-  # Pods for rentachef-tvOS
 
-  target 'rentachef-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end
