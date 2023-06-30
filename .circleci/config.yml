@@ -10,7 +10,7 @@ jobs:
           name: Install dependencies
           command: |
             yarn install
-            cd ios && pod repo update &&  pod install && ls  /Users/distiller/rentachef-react-native/node_modules/react-native/third-party-podspecs && cd ..
+            cd ios && pod repo update &&  pod install --repo-update &&  && cd ..
       - run:
           name: Build iOS app
           command: |
