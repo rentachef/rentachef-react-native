@@ -10,7 +10,7 @@ jobs:
           name: Install dependencies
           command: |
             yarn install
-            cd ios && pod repo update &&  pod install && cd ..
+            cd ios && pod repo update && brew uninstall cocoapods && gem install cocoapods -v 1.7.5 &&  pod install && cd ..
       - run:
           name: Build iOS app
           command: |
