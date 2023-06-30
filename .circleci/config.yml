@@ -15,7 +15,7 @@ jobs:
           name: Build iOS app
           command: |
             cd ios
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release build PROVISIONING_PROFILE_SPECIFIER="Xcode Managed Profile" DEVELOPMENT_TEAM="Junaid Pasha"
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release build PROVISIONING_PROFILE_SPECIFIER="Xcode Managed Profile" CODE_SIGN_IDENTITY="Q69U7468QY" DEVELOPMENT_TEAM="Junaid Pasha"
 workflows:
   build_and_deploy:
     jobs:
