@@ -15,7 +15,7 @@ jobs:
           name: Build iOS app
           command: |
             cd ios
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef -destination generic/platform=iOS
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef -destination  -configuration Release
 workflows:
   build_and_deploy:
     jobs:
