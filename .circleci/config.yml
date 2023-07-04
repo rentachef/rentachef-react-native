@@ -25,12 +25,12 @@ jobs:
           
       - run:
           name: Build iOS app
-          command: |
-             gem install fastlane -NV
-             fastlane build
           # command: |
-          #   cd ios
-          #   xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release 
+          #    gem install fastlane -NV
+          #    fastlane build
+          command: |
+            cd ios
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release 
 workflows:
   build_and_deploy:
     jobs:
