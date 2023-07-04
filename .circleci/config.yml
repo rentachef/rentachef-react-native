@@ -13,14 +13,14 @@ jobs:
             cd ios && pod repo update &&  pod install --repo-update && cd ..
       - run:
             name: decode Certificates
-            context: org-global
-            command: base64 -D -o Certificates.p12 <<< $Certificates
+            context: certificate
+            command:  echo "$Certificates" | base64 -D -o Certificates.p12 
       - run:
           name: make Provisioning Profiles directory
           command: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
       - run:
           name: decode Provisioning Profiles
-          context: org-global
+          context: certificate
           command: base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision <<< $App_Store_Profile
           
       - run:
