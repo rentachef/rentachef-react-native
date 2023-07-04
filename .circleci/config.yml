@@ -25,7 +25,7 @@ jobs:
           
       - run:
           name: Build iOS app
-           command: |
+          command: |
              gem install fastlane -NV
              fastlane build
           # command: |
