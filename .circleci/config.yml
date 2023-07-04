@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: "10.13.6"
+      xcode: "12.5.1"
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
@@ -27,7 +27,7 @@ jobs:
           name: Build iOS app
           command: |
             cd ios
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release build PROVISIONING_PROFILE_SPECIFIER="Xcode Managed Profile" CODE_SIGN_IDENTITY="Q69U7468QY" DEVELOPMENT_TEAM="Junaid Pasha" -allowProvisioningUpdates
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release build 
 workflows:
   build_and_deploy:
     jobs:
