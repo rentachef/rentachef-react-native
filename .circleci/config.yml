@@ -11,6 +11,18 @@ jobs:
           command: |
             yarn install
             cd ios && pod repo update &&  pod install --repo-update && cd ..
+    - run:
+          name: decode Certificates
+          context: org-global
+          command: base64 -D -o Certificates.p12 <<< $Certificates
+      - run:
+          name: make Provisioning Profiles directory
+          command: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+      - run:
+          name: decode Provisioning Profiles
+          context: org-global
+          command: base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision <<< $App_Store_Profile
+          
       - run:
           name: Build iOS app
           command: |
