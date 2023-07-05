@@ -25,7 +25,7 @@ jobs:
           name: decode Provisioning Profiles
           context: certificate
           command: |
-             echo "$App_Store_Profile" | base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
+             base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision \<<< $App_Store_Profile
              cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
              grep -a UUID ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
              
