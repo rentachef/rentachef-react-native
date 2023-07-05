@@ -36,7 +36,7 @@ jobs:
           #    fastlane build
           command: |
             cd ios
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release PROVISIONING_PROFILE_SPECIFIER="Xcode Managed Profile"
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -allowProvisioningUpdates
 workflows:
   build_and_deploy:
     jobs:
