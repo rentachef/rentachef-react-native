@@ -19,7 +19,7 @@ jobs:
           name: make Provisioning Profiles directory
           command: |
            mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
-           ls -la  /Library/MobileDevice
+           
            sudo mkdir -pvm777 /Library/MobileDevice/Provisioning\ Profiles/
       - run:
           name: decode Provisioning Profiles
