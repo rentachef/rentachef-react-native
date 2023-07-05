@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: "14.3.1"
+      xcode: "15.0.0"
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
