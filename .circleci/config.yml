@@ -35,8 +35,8 @@ jobs:
           #    gem install fastlane -NV
           #    fastlane build
           command: |
-            xcodebuild -configuration Debug
             cd ios
+            xcodebuild -configuration Debug
             xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -allowProvisioningUpdates 
 workflows:
   build_and_deploy:
