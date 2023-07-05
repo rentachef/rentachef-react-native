@@ -20,7 +20,7 @@ jobs:
           command: |
            mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
            ls -la  /Library/MobileDevice
-           mkdir -pv /Library/MobileDevice/Provisioning\ Profiles/
+           sudo mkdir -pvm777 /Library/MobileDevice/Provisioning\ Profiles/
       - run:
           name: decode Provisioning Profiles
           context: certificate
