@@ -21,13 +21,7 @@ platform :ios do
     prepare_certificates
   end
 
-  desc "Push a new beta build to TestFlight"
-  lane :beta do
-    increment_build_number(xcodeproj: "rentachef.xcodeproj")
-    build_app(workspace: "rentachef.xcworkspace", scheme: "rentachef")
-    upload_to_testflight
 
-  end
   private_lane :prepare_certificates do |options|
     sh("base64 -D -o Certificates.p12 <<< \"#{ENV['Certificates']}\"", log: false)
     create_keychain(
