@@ -22,9 +22,7 @@ jobs:
           name: decode Provisioning Profiles
           context: certificate
           command: |
-             echo "$App_Store_Profile" | base64 -D -o  ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
-             chmod 777 /Library/MobileDevice/
-             cp -r ~/Library/MobileDevice /Library/MobileDevice/
+             echo "$App_Store_Profile" | base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
              ls -la /Library/MobileDevice/
           
       - run:
