@@ -23,8 +23,9 @@ jobs:
           context: certificate
           command: |
              echo "$App_Store_Profile" | base64 -D -o  ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
-             cp -r ~/Library/MobileDevice/ /Library/MobileDevice/
-             ls -la /Library/Developer/XcodeServer/ProvisioningProfiles
+             chmod 777 /Library/MobileDevice/
+             cp -r ~/Library/MobileDevice /Library/MobileDevice/
+             ls -la /Library/MobileDevice/
           
       - run:
           name: Build iOS app
