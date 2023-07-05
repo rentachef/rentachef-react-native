@@ -27,6 +27,7 @@ jobs:
           command: |
              echo "$App_Store_Profile" | base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
              cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
+             cat ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision | grep UUID
              
           
       - run:
