@@ -23,6 +23,7 @@ jobs:
           context: certificate
           command: |
              echo "$App_Store_Profile" | base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
+             cp ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision
              ls -la ~/Library/MobileDevice/Provisioning\ Profiles/
           
       - run:
