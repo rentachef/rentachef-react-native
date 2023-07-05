@@ -19,13 +19,13 @@ jobs:
           name: make Provisioning Profiles directory
           command: |
            mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+           ls -la  /Library/MobileDevice
            mkdir -pv /Library/MobileDevice/Provisioning\ Profiles/
       - run:
           name: decode Provisioning Profiles
           context: certificate
           command: |
              echo "$App_Store_Profile" | base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
-             ls -la  /Library/MobileDevice
              cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
              
           
