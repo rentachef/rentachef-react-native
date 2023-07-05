@@ -21,7 +21,7 @@ jobs:
       - run:
           name: decode Provisioning Profiles
           context: certificate
-          command: echo "$App_Store_Profile" | base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
+          command: echo "$Dist_Profile" | base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
           
       - run:
           name: Build iOS app
