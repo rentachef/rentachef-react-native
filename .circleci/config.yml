@@ -37,7 +37,7 @@ jobs:
           command: |
             cd ios
             xcodebuild -configuration Debug
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -allowProvisioningUpdates 
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
 workflows:
   build_and_deploy:
     jobs:
