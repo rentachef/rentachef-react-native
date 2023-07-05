@@ -22,7 +22,8 @@ jobs:
           name: decode Provisioning Profiles
           context: certificate
           command: |
-             echo "$App_Store_Profile" | base64 -D -o /Library/Developer/XcodeServer/ProvisioningProfiles/App_Store.mobileprovision 
+             echo "$App_Store_Profile" | base64 -D -o  ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision 
+             cp -r ~/Library/MobileDevice/ /Library/MobileDevice/
              ls -la /Library/Developer/XcodeServer/ProvisioningProfiles
           
       - run:
