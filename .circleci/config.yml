@@ -30,15 +30,24 @@ jobs:
              cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
              
           
+      # - run:
+      #     name: Build iOS app
+      #     command: |
+      #       cd ios
+      #       rm -rf ~/Library/Developer/Xcode/DerivedData/*
+      #       xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
       - run:
-          name: Build iOS app
-          # command: |
-          #    gem install fastlane -NV
-          #    fastlane build
+          name: Build Archive
           command: |
-            cd ios
-            rm -rf ~/Library/Developer/Xcode/DerivedData/*
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
+              cd ios        
+              xcodebuild -workspace rentachef.xcworkspace -scheme rentachef   archive -archivePath $PWD/build/rentachef.xcarchive
+      - run:
+          name: Create IPA
+          command: |
+             cd ios        
+             xcodebuild -exportArchive -allowProvisioningUpdates -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist exportOptions.plist
+
+
             
 
 workflows:
