@@ -33,6 +33,7 @@ local.properties
 #
 node_modules/
 npm-debug.log
+package-lock.json
 yarn-error.log
 
 # BUCK
@@ -76,4 +77,5 @@ amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
+android/app/*
 .secret-*

@@ -121,7 +121,16 @@ const UnderlinePasswordInput = ({
     />
     <View style={styles.toggleContainer}>
       {toggleVisible && (
-        <Icon color={iconColor} name={iconName} size={iconSize}/>
+        <TouchableOpacity activeOpacity={0.9} onPress={onTogglePress}>
+          <Text
+            style={[
+              styles.toggleText,
+              inputTextColor && {color: inputTextColor},
+            ]}>
+            {toggleText}
+          </Text>
+        </TouchableOpacity>
+        /*<Icon color={iconColor} name={iconName} size={iconSize}/>*/
       )}
     </View>
   </View>

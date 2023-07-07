@@ -22,7 +22,7 @@ import Colors from '../../theme/colors';
 import Layout from '../../theme/layout';
 
 // WelcomeD Config
-const headerImg = require('../../assets/img/welcome_2.jpg');
+const headerImg = require('@assets/img/welcome_2.jpg');
 
 // WelcomeD Styles
 const styles = StyleSheet.create({

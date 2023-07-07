@@ -139,7 +139,7 @@ const themes = {
     // primary color
     primaryColor: '#FFC534',
     primaryColorDark: '#FBB12B',
-    primaryColorLight: '#00e78c',
+    primaryColorLight: '#FFC534B2',
     onPrimaryColor: '#fff',
 
     // accent color, triad
@@ -192,7 +192,86 @@ const themes = {
     white: '#fff',
 
     //border color
-    borderColor: '#DDE2ED'
+    borderColor: '#DDE2ED',
+
+    //disabled color
+    disabled: '#F3F6FB',
+
+    //switch colors
+    thumbColorOn: '#fff',
+    thumbColorOff: '#fafafa',
+
+    //picker colors
+    pickerBackground: '#F7F7FA'
+  },
+  rentAChefDark: {
+    // primary color
+    primaryColor: '#FFC534',
+    primaryColorDark: '#FBB12B',
+    primaryColorLight: '#FFC534B2',
+    onPrimaryColor: '#fff',
+
+    // accent color, triad
+    accentColor: '#0069b9',
+    onAccentColor: '#fff',
+
+    // secondary color, primary color split
+    secondaryColor: '#4A515F',
+    onSecondaryColor: '#fff',
+
+    // tertiary color, secondary color intermediately related
+    tertiaryColor: '#ffa400',
+    onTertiaryColor: '#fff',
+
+    // status bar color
+    statusBarColor: '#fff',
+
+    // gradient colors
+    primaryGradientColor: '#00b970',
+    secondaryGradientColor: '#00b9a7',
+
+    // overlay color
+    overlayColor: '#b90039',
+
+    // text color
+    primaryText: '#1C2331',
+    secondaryText: '#8891A3',
+    disabledText: 'rgba(0, 0, 0, 0.38)',
+    
+    placeholderColor: '#A7AFBF',
+
+    // background, surface
+    background: '#fff',
+    backgroundDark: '#DDE2ED',
+    backgroundMedium: '#EAEDF3',
+    backgroundLight: '#F3F6FB',
+
+    onBackground: '#212121',
+    surface: '#fff',
+    onSurface: '#757575',
+
+    //system
+    error: '#F23548',
+    warn: '#F9945A',
+    success: '#33AC2E',
+
+
+    onError: '#fff',
+    black: '#010203',
+    white: '#fff',
+
+    //border color
+    borderColor: '#DDE2ED',
+
+    //disabled color
+    disabled: '#F3F6FB',
+
+    //switch colors
+    thumbColorOn: '#fff',
+    thumbColorOff: '#fafafa',
+
+    //picker colors
+    pickerBackground: '#F7F7FA'
   }
 };
 

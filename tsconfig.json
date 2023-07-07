@@ -7,10 +7,15 @@
     "isolatedModules": true,
     "jsx": "react",
     "lib": ["es6"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
     "target": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["src/assets/*"]
+    }
     //"typeRoots" : ["node_modules/@types", "src/types"]
   },
   "exclude": [

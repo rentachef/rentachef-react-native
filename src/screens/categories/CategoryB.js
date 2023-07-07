@@ -22,6 +22,10 @@ import ProductCard from '../../components/cards/ProductCard';
 // import colors
 import Colors from '../../theme/colors';
 
+let sandwich_2 = require('@assets/img/sandwich_2.jpg');
+let pizza_1 = require('@assets/img/pizza_1.jpg');
+let cake_1 = require('@assets/img/cake_1.jpg');
+
 // CategoryB Config
 
 // CategoryB Styles
@@ -43,39 +47,39 @@ export default class CategoryB extends Component {
     this.state = {
       products: [
         {
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: sandwich_2,
           name: 'Subway sandwich',
           price: 8.49,
           quantity: 0,
           discountPercentage: 10,
         },
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: pizza_1,
           name: 'Pizza Margarita 35cm',
           price: 10.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: cake_1,
           name: 'Chocolate cake',
           price: 4.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img//sandwich_2.jpg'),
+          imageUri: sandwich_2,
           name: 'Subway sandwich',
           price: 8.49,
           quantity: 0,
           discountPercentage: 10,
         },
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: pizza_1,
           name: 'Pizza Margarita 35cm',
           price: 10.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: cake_1,
           name: 'Chocolate cake',
           price: 4.99,
           quantity: 0,

@@ -12,22 +12,26 @@ import {
   I18nManager,
   Platform,
   SafeAreaView,
-  ScrollView,
+  ScrollView, SectionList,
   StatusBar,
   StyleSheet,
   Switch,
+  TouchableOpacity,
   View,
 } from 'react-native';
-
+import {Text} from '../../components/text/CustomText';
 // import components
 import Avatar from '../../components/avatar/Avatar';
-import Divider from '../../components/divider/Divider';
-import Icon from '../../components/icon/Icon';
 import {Heading6, Subtitle1, Subtitle2} from '../../components/text/CustomText';
 import TouchableItem from '../../components/TouchableItem';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Auth } from 'aws-amplify'
 // import colors
 import Colors from '../../theme/colors';
+import {inject, observer} from 'mobx-react'
+import ContainedButton from "../../components/buttons/ContainedButton";
+import SwitchComponent from "../components/switch-component";
+import { notifyError, notifyWarn } from 'src/components/toast/toast';
 
 // SettingsA Config
 const isRTL = I18nManager.isRTL;
@@ -47,13 +51,16 @@ const ABOUT_ICON = IOS
   : 'md-information-circle-outline';
 const LOGOUT_ICON = IOS ? 'ios-log-out' : 'md-log-out';
 
+let profile_1 = require('@assets/img/profile_1.jpeg');
 // SettingsA Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+    padding: 20
   },
   contentContainerStyle: {
+    flexGrow: 1,
     paddingBottom: 16,
   },
   titleContainer: {
@@ -77,16 +84,18 @@ const styles = StyleSheet.create({
   leftSide: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   profileInfo: {
     paddingLeft: 16,
+    flex: 1
   },
   name: {
+    top: 15,
     fontWeight: '500',
-    textAlign: 'left',
   },
   email: {
+    top: 15,
     paddingVertical: 2,
   },
   mediumText: {
@@ -102,6 +111,12 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
+  iconRight: {
+    alignSelf: 'flex-end',
+    bottom: 20,
+    alignItems: 'center',
+    color: Colors.primaryColor
+  },
   extraDataContainer: {
     top: -8,
     marginLeft: DIVIDER_MARGIN_LEFT,
@@ -111,6 +126,25 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   logout: {color: Colors.secondaryColor},
+  item: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.backgroundMedium,
+    paddingVertical: 15
+  },
+  header: {
+    color: Colors.secondaryColor,
+    fontSize: 12,
+    alignItems: 'flex-start',
+    backgroundColor: "#fff"
+  },
+  title: {
+    alignSelf: 'center',
+    paddingTop: 5,
+    fontSize: 14
+  }
 });
 
 // SettingsA Props
@@ -150,12 +184,20 @@ const Setting = ({icon, title, onPress, extraData}: Props) => (
 );
 
 // SetingsA
+@inject('stores')
+@observer
 export default class SettingsA extends Component {
+  menuItems = [];
+  role = '';
   constructor(props) {
     super(props);
     this.state = {
       notificationsOn: true,
+      deleteAccountCounter: 0
     };
+
+    this.role = props.stores.authStore.authInfo.role;
+    this.menuItems = this.role === 'Cook' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
   }
 
   navigateTo = screen => () => {
@@ -175,157 +217,159 @@ export default class SettingsA extends Component {
       'Are you sure you want to logout?',
       [
         {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-        {text: 'OK', onPress: () => {}},
+        {text: 'OK', onPress: async () => {
+          try {
+            await Auth.signOut();
+            this.props.stores.authStore.setUserAuthInfo({}, {})
+            await this.props.stores.authStore.logout()
+          } catch (error) {
+            console.log('error signing out: ', error);
+          }
+        }},
       ],
       {cancelable: false},
     );
   };
 
+  getEmail = () => {
+    if(!!this.props.stores.authStore.authInfo.attributes?.email)
+      return this.props.stores.authStore.authInfo.attributes?.email
+    if(this.role === 'Cook' && !!this.props.stores.chefSettingsStore.profile?.email)
+      return this.props.stores.chefSettingsStore.profile?.email
+    if(this.role === 'Consumer' && !!this.props.stores.customerSettingsStore.profile?.email)
+      return this.props.stores.customerSettingsStore.profile?.email
+  }
+
+  getName = () => {
+    console.log(this.role, !!this.props.stores.customerSettingsStore.profile?.fullName)
+    if(this.role === 'Cook' && !!this.props.stores.chefSettingsStore.profile?.fullName)
+      return this.props.stores.chefSettingsStore.profile?.fullName
+    if(this.role === 'Consumer' && !!this.props.stores.customerSettingsStore.profile?.fullName)
+      return this.props.stores.customerSettingsStore.profile?.fullName
+    else
+      return 'Your Name'
+  }
+
+  deleteAccount = async () => {
+    let { deleteAccountCounter } = this.state
+    if(deleteAccountCounter > 1) {
+      try {
+        await this.props.stores.authStore.deleteAccount()
+        await Auth.deleteUser();
+        this.props.stores.authStore.setUserAuthInfo({}, {})
+        await this.props.stores.authStore.logout()
+      } catch(e) {
+        notifyError(`Error while deleting the account: ${e?.message}`)
+      }
+    }
+    else {
+      deleteAccountCounter++
+      notifyWarn(`Tap ${3 - deleteAccountCounter} more times to delete account`)
+      this.setState({ deleteAccountCounter })
+    }
+  }
+
   render() {
     const {notificationsOn} = this.state;
 
     return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar
-          backgroundColor={Colors.statusBarColor}
-          barStyle="dark-content"
-        />
+      <ScrollView style={styles.container}>
+        <SafeAreaView style={styles.container}>
+          <StatusBar
+            backgroundColor={Colors.statusBarColor}
+            barStyle="dark-content"
+          />
 
-        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
-          <View style={styles.titleContainer}>
-            <Heading6 style={styles.titleText}>Settings</Heading6>
-          </View>
-
-          <TouchableItem useForeground onPress={this.navigateTo('EditProfile')}>
-            <View style={[styles.row, styles.profileContainer]}>
-              <View style={styles.leftSide}>
-                <Avatar
-                  imageUri={require('../../assets/img/profile_1.jpeg')}
-                  rounded
-                  size={60}
-                />
-                <View style={styles.profileInfo}>
-                  <Subtitle1 style={styles.name}>Kristin Evans</Subtitle1>
-                  <Subtitle2 style={styles.email}>
-                    kristin.evans@gmail.com
-                  </Subtitle2>
-                </View>
-              </View>
+          <SafeAreaView style={styles.contentContainerStyle}>
+            <View style={styles.titleContainer}>
+              <Heading6 style={styles.titleText}>Account</Heading6>
             </View>
-          </TouchableItem>
 
-          <Divider />
-
-          <Setting
-            onPress={this.navigateTo('DeliveryAddress')}
-            icon={ADDRESS_ICON}
-            title="Delivery Address"
-            extraData={
-              <View>
-                <Subtitle2 style={styles.extraData}>
-                  1600 Pennsylvania Avenue
-                </Subtitle2>
-                <Subtitle2 style={styles.extraData}>
-                  Washington DC, USA
-                </Subtitle2>
-              </View>
-            }
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <Setting
-            onPress={this.navigateTo('PaymentMethod')}
-            icon={PAYMENT_ICON}
-            title="Payment Method"
-            extraData={
-              <View>
-                <Subtitle2 style={styles.extraData}>Visa MasterCard</Subtitle2>
-                <Subtitle2 style={styles.extraData}>
-                  xxxx xxxx xxxx 3456
-                </Subtitle2>
-              </View>
-            }
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <TouchableItem onPress={this.navigateTo('Notifications')}>
-            <View style={[styles.row, styles.setting]}>
-              <View style={styles.leftSide}>
-                <View style={styles.iconContainer}>
-                  {notificationsOn ? (
-                    <Icon
-                      name={NOTIFICATION_ICON}
-                      size={24}
-                      color={Colors.primaryColor}
-                    />
-                  ) : (
-                    <Icon
-                      name={NOTIFICATION_OFF_ICON}
-                      size={24}
-                      color={Colors.primaryColor}
-                    />
-                  )}
-                </View>
-                <Subtitle1 style={styles.mediumText}>Notifications</Subtitle1>
-              </View>
-
-              {/*
-                FIX: when android:supportsRtl="true" not added to AndroidManifest.xml
-                <View style={isRTL && {transform: [{scaleX: -1}]}}> 
-              */}
-              <View>
-                <Switch
-                  trackColor={{
-                    true: IOS && Colors.primaryColor,
-                  }}
-                  thumbColor={IOS ? Colors.onPrimaryColor : Colors.primaryColor}
-                  onValueChange={this.toggleNotifications}
-                  value={notificationsOn}
-                />
-              </View>
-            </View>
-          </TouchableItem>
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <Setting
-            onPress={this.navigateTo('Orders')}
-            icon={ORDERS_ICON}
-            title="My Orders"
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <Setting
-            onPress={this.navigateTo('TermsConditions')}
-            icon={TERMS_ICON}
-            title="Terms and Conditions"
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <Setting
-            onPress={this.navigateTo('AboutUs')}
-            icon={ABOUT_ICON}
-            title="About Us"
-          />
-          <Divider type="inset" marginLeft={DIVIDER_MARGIN_LEFT} />
-
-          <TouchableItem onPress={this.logout}>
-            <View style={[styles.row, styles.setting]}>
-              <View style={styles.leftSide}>
-                <View style={styles.iconContainer}>
-                  <Icon
-                    name={LOGOUT_ICON}
-                    size={24}
-                    color={Colors.secondaryColor}
+            <TouchableItem useForeground onPress={() => this.props.navigation.navigate('EditProfile')}>
+              <View style={[styles.row, styles.profileContainer]}>
+                <View style={styles.leftSide}>
+                  <Avatar
+                    imageUri={profile_1}
+                    rounded
+                    size={60}
                   />
+                  <View style={styles.profileInfo}>
+                    <View styles={styles.info}>
+                      <Subtitle1 style={styles.name}>{this.getName()}</Subtitle1>
+                      <Subtitle2 style={styles.email}>
+                        {this.getEmail()}
+                      </Subtitle2>
+                    </View>
+                    <Icon name='chevron-right' size={30} style={styles.iconRight} />
+                  </View>
                 </View>
-                <Subtitle1 style={[styles.logout, styles.mediumText]}>
-                  Logout
-                </Subtitle1>
               </View>
-            </View>
-          </TouchableItem>
-        </ScrollView>
-      </SafeAreaView>
+            </TouchableItem>
+
+            <ContainedButton
+              onPress={() => alert('yay')}
+              title={this.role === 'Cook' ? 'Invite other chefs' : 'Invite your firends, Get $15'}
+              titleColor={Colors.black}
+              titleStyle={{
+                fontWeight: 'bold',
+                letterSpacing: 1
+              }}
+              buttonStyle={{
+                backgroundColor: Colors.primaryColor,
+                marginHorizontal: 20,
+                marginVertical: 10,
+
+              }}
+              socialIconName='gift'
+              color={Colors.white}
+              rounded
+            />
+
+            <SafeAreaView style={styles.container}>
+              <SectionList
+                nestedScrollEnabled
+                sections={[{ title: 'Account', data: this.menuItems }]}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ item }) => (
+                  item === 'Notifications' ? (
+                    <View style={styles.item}>
+                      <Text style={styles.title}>Notifications</Text>
+                      <SwitchComponent style={{ alignSelf: 'center' }} checked={notificationsOn} onSwitch={v => this.setState({ notificationsOn: v })}/>
+                    </View>
+                    ) : (
+                    <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
+                      <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                    </TouchableOpacity>
+                    )
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                  <Text style={styles.header}>{title}</Text>
+                )}
+              />
+            </SafeAreaView>
+
+            <SafeAreaView style={{...styles.container, marginTop: 20 }}>
+              <SectionList
+                nestedScrollEnabled
+                sections={[{ title: 'Support', data:['Help', 'Log out', 'Delete Account']}]}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ item }) => item === 'Delete Account' ? (
+                  <TouchableOpacity style={styles.item} onPress={() => this.deleteAccount()}>
+                    <Text style={{...styles.title, color: Colors.error}}>{item}</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.item} onPress={item === 'Log out' && (() => this.logout()) || (() => {})}>
+                    <Text style={styles.title}>{item}</Text>{item !== 'Log out' && <Icon color={Colors.primaryColor} name='chevron-right' size={30} />}
+                  </TouchableOpacity>
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                  <Text style={styles.header}>{title}</Text>
+                )}
+              />
+            </SafeAreaView>
+          </SafeAreaView>
+        </SafeAreaView>
+      </ScrollView>
     );
   }
 }

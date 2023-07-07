@@ -62,7 +62,7 @@ export default class FavoritesB extends Component {
       products: [
         {
           id: 'product1',
-          imageUri: require('../../assets/img/pizza_3.jpg'),
+          imageUri: require('@assets/img/pizza_3.jpg'),
           name: 'Pizza One',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
@@ -71,7 +71,7 @@ export default class FavoritesB extends Component {
         },
         {
           id: 'product2',
-          imageUri: require('../../assets/img/barbecue_1.jpg'),
+          imageUri: require('@assets/img/barbecue_1.jpg'),
           name: 'Beef',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
@@ -80,7 +80,7 @@ export default class FavoritesB extends Component {
         },
         {
           id: 'product3',
-          imageUri: require('../../assets/img/spaghetti_1.jpg'),
+          imageUri: require('@assets/img/spaghetti_1.jpg'),
           name: 'Fettuccine Pasta',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',

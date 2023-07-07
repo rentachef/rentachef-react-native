@@ -11,29 +11,32 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1B2C3E54879784546EC61B77 /* libPods-rentachef.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 930A1036039D2A78FFED6B28 /* libPods-rentachef.a */; };
-		E440A64B26A3FE9700E8F3B4 /* Karla-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A63D26A3FE9600E8F3B4 /* Karla-Regular.ttf */; };
-		E440A64C26A3FE9700E8F3B4 /* Karla-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A63E26A3FE9700E8F3B4 /* Karla-ExtraLightItalic.ttf */; };
-		E440A64D26A3FE9700E8F3B4 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A63F26A3FE9700E8F3B4 /* Karla-Bold.ttf */; };
-		E440A64E26A3FE9700E8F3B4 /* Karla-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64026A3FE9700E8F3B4 /* Karla-Italic.ttf */; };
-		E440A64F26A3FE9700E8F3B4 /* Karla-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64126A3FE9700E8F3B4 /* Karla-Light.ttf */; };
-		E440A65026A3FE9700E8F3B4 /* Karla-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64226A3FE9700E8F3B4 /* Karla-BoldItalic.ttf */; };
-		E440A65126A3FE9700E8F3B4 /* Karla-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64326A3FE9700E8F3B4 /* Karla-SemiBoldItalic.ttf */; };
-		E440A65226A3FE9700E8F3B4 /* Karla-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64426A3FE9700E8F3B4 /* Karla-MediumItalic.ttf */; };
-		E440A65326A3FE9700E8F3B4 /* Karla-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64526A3FE9700E8F3B4 /* Karla-SemiBold.ttf */; };
-		E440A65426A3FE9700E8F3B4 /* Karla-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64626A3FE9700E8F3B4 /* Karla-LightItalic.ttf */; };
-		E440A65526A3FE9700E8F3B4 /* Karla-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64726A3FE9700E8F3B4 /* Karla-Medium.ttf */; };
-		E440A65626A3FE9700E8F3B4 /* Karla-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64826A3FE9700E8F3B4 /* Karla-ExtraBold.ttf */; };
-		E440A65726A3FE9700E8F3B4 /* Karla-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64926A3FE9700E8F3B4 /* Karla-ExtraLight.ttf */; };
-		E440A65826A3FE9700E8F3B4 /* Karla-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E440A64A26A3FE9700E8F3B4 /* Karla-ExtraBoldItalic.ttf */; };
+		6319B23F59677EDFBD1E1655 /* libPods-rentachef.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A455754329CEFCA668D7CE /* libPods-rentachef.a */; };
+		B21124EDFAAF64F22465F2BA /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		EF43A9FB26D70BB60070E130 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */; };
+		EFAA6B5B298F03D9008E1D7F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = EFAA6B5A298F03D9008E1D7F /* assets */; };
+		EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		EFE1C415295CC60B000D5122 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */; };
+		EFE1C416295CC60B000D5122 /* Karla-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30F26CB2D6C008924CA /* Karla-ExtraBold.ttf */; };
+		EFE1C417295CC60B000D5122 /* Karla-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30B26CB2D6C008924CA /* Karla-ExtraBoldItalic.ttf */; };
+		EFE1C418295CC60B000D5122 /* Karla-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30826CB2D6C008924CA /* Karla-ExtraLight.ttf */; };
+		EFE1C419295CC60B000D5122 /* Karla-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30C26CB2D6C008924CA /* Karla-ExtraLightItalic.ttf */; };
+		EFE1C41A295CC60B000D5122 /* Karla-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30526CB2D6C008924CA /* Karla-Italic.ttf */; };
+		EFE1C41B295CC60B000D5122 /* Karla-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D31026CB2D6C008924CA /* Karla-Light.ttf */; };
+		EFE1C41C295CC60B000D5122 /* Karla-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30626CB2D6C008924CA /* Karla-LightItalic.ttf */; };
+		EFE1C41D295CC60B000D5122 /* Karla-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30D26CB2D6C008924CA /* Karla-Medium.ttf */; };
+		EFE1C41E295CC60B000D5122 /* Karla-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30926CB2D6C008924CA /* Karla-MediumItalic.ttf */; };
+		EFE1C41F295CC60B000D5122 /* Karla-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30E26CB2D6C008924CA /* Karla-Regular.ttf */; };
+		EFE1C420295CC60B000D5122 /* Karla-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30726CB2D6C008924CA /* Karla-SemiBold.ttf */; };
+		EFE1C421295CC60B000D5122 /* Karla-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFE4D30A26CB2D6C008924CA /* Karla-SemiBoldItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0029968125C941BA990796B2 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* rentachefTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rentachefTests.m; sourceTree = "<group>"; };
-		04BD3332AE92DC8F26D63F59 /* Pods-rentachef-rentachefTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-rentachefTests.debug.xcconfig"; path = "Target Support Files/Pods-rentachef-rentachefTests/Pods-rentachef-rentachefTests.debug.xcconfig"; sourceTree = "<group>"; };
-		0D9F5E355309329A68BAEE60 /* Pods-rentachef-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOSTests/Pods-rentachef-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		0BFDD362A0B54AA2B2401C5D /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* rentachef.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rentachef.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rentachef/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = rentachef/AppDelegate.m; sourceTree = "<group>"; };
@@ -41,32 +44,41 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = rentachef/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rentachef/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rentachef/main.m; sourceTree = "<group>"; };
-		65D264B9DE8FFEC4213C61DD /* Pods-rentachef.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.release.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.release.xcconfig"; sourceTree = "<group>"; };
-		666FA9F8AE296B66CEF31D56 /* Pods-rentachef-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOS/Pods-rentachef-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		708039BCD853C7124EFD3996 /* Pods-rentachef-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOSTests/Pods-rentachef-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		930A1036039D2A78FFED6B28 /* libPods-rentachef.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC7A5F2B3DBD9A766703D6C6 /* libPods-rentachef-rentachefTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef-rentachefTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0D0AB4CE6E1E3F9FAB615C5 /* Pods-rentachef.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.debug.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.debug.xcconfig"; sourceTree = "<group>"; };
-		C38BA5F7F31AA780D2778A8F /* Pods-rentachef-rentachefTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-rentachefTests.release.xcconfig"; path = "Target Support Files/Pods-rentachef-rentachefTests/Pods-rentachef-rentachefTests.release.xcconfig"; sourceTree = "<group>"; };
-		CFCE477C59C3C02063854D04 /* libPods-rentachef-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2CC21E62A8878EC573608DB /* libPods-rentachef-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E440A63D26A3FE9600E8F3B4 /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Regular.ttf"; path = "../src/theme/fonts/Karla-Regular.ttf"; sourceTree = "<group>"; };
-		E440A63E26A3FE9700E8F3B4 /* Karla-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraLightItalic.ttf"; path = "../src/theme/fonts/Karla-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		E440A63F26A3FE9700E8F3B4 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Bold.ttf"; path = "../src/theme/fonts/Karla-Bold.ttf"; sourceTree = "<group>"; };
-		E440A64026A3FE9700E8F3B4 /* Karla-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Italic.ttf"; path = "../src/theme/fonts/Karla-Italic.ttf"; sourceTree = "<group>"; };
-		E440A64126A3FE9700E8F3B4 /* Karla-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Light.ttf"; path = "../src/theme/fonts/Karla-Light.ttf"; sourceTree = "<group>"; };
-		E440A64226A3FE9700E8F3B4 /* Karla-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-BoldItalic.ttf"; path = "../src/theme/fonts/Karla-BoldItalic.ttf"; sourceTree = "<group>"; };
-		E440A64326A3FE9700E8F3B4 /* Karla-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-SemiBoldItalic.ttf"; path = "../src/theme/fonts/Karla-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		E440A64426A3FE9700E8F3B4 /* Karla-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-MediumItalic.ttf"; path = "../src/theme/fonts/Karla-MediumItalic.ttf"; sourceTree = "<group>"; };
-		E440A64526A3FE9700E8F3B4 /* Karla-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-SemiBold.ttf"; path = "../src/theme/fonts/Karla-SemiBold.ttf"; sourceTree = "<group>"; };
-		E440A64626A3FE9700E8F3B4 /* Karla-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-LightItalic.ttf"; path = "../src/theme/fonts/Karla-LightItalic.ttf"; sourceTree = "<group>"; };
-		E440A64726A3FE9700E8F3B4 /* Karla-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Medium.ttf"; path = "../src/theme/fonts/Karla-Medium.ttf"; sourceTree = "<group>"; };
-		E440A64826A3FE9700E8F3B4 /* Karla-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraBold.ttf"; path = "../src/theme/fonts/Karla-ExtraBold.ttf"; sourceTree = "<group>"; };
-		E440A64926A3FE9700E8F3B4 /* Karla-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraLight.ttf"; path = "../src/theme/fonts/Karla-ExtraLight.ttf"; sourceTree = "<group>"; };
-		E440A64A26A3FE9700E8F3B4 /* Karla-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraBoldItalic.ttf"; path = "../src/theme/fonts/Karla-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		EC48957140D9293A51400CDF /* Pods-rentachef-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef-tvOS.release.xcconfig"; path = "Target Support Files/Pods-rentachef-tvOS/Pods-rentachef-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		1B5D4A2A63A341A0973BEF3B /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		228DE1BEFDF24893AD047F92 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		32AA444A7486151FD5BC9B20 /* Pods-rentachef.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.debug.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.debug.xcconfig"; sourceTree = "<group>"; };
+		37D30F1F2425BBD2A126B553 /* Pods-rentachef.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.release.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.release.xcconfig"; sourceTree = "<group>"; };
+		3ED0D9C627F64F42810046F8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		4C0601934CCB4091A22B55D8 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		5052F4EA194645CFB167CDD4 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		60A455754329CEFCA668D7CE /* libPods-rentachef.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		713DC339D86B47CE840A54C7 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		770DFC09A9F94B448F071B89 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		809455A672AC4567850ABB19 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		89C642C454464CB6904BE298 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		A7957B51D22E467D8AB3ACF8 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		B3F13D0CDBF4443BA6DB83AD /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		BE263BAB9FD64A219C54AD75 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		CFA1E989270444C18AE40844 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EF8349A6270E56C500A646C7 /* rentachef.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rentachef.entitlements; path = rentachef/rentachef.entitlements; sourceTree = "<group>"; };
+		EFAA6B5A298F03D9008E1D7F /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../src/assets; sourceTree = "<group>"; };
+		EFE4D30526CB2D6C008924CA /* Karla-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Italic.ttf"; path = "../src/theme/fonts/Karla-Italic.ttf"; sourceTree = "<group>"; };
+		EFE4D30626CB2D6C008924CA /* Karla-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-LightItalic.ttf"; path = "../src/theme/fonts/Karla-LightItalic.ttf"; sourceTree = "<group>"; };
+		EFE4D30726CB2D6C008924CA /* Karla-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-SemiBold.ttf"; path = "../src/theme/fonts/Karla-SemiBold.ttf"; sourceTree = "<group>"; };
+		EFE4D30826CB2D6C008924CA /* Karla-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraLight.ttf"; path = "../src/theme/fonts/Karla-ExtraLight.ttf"; sourceTree = "<group>"; };
+		EFE4D30926CB2D6C008924CA /* Karla-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-MediumItalic.ttf"; path = "../src/theme/fonts/Karla-MediumItalic.ttf"; sourceTree = "<group>"; };
+		EFE4D30A26CB2D6C008924CA /* Karla-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-SemiBoldItalic.ttf"; path = "../src/theme/fonts/Karla-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		EFE4D30B26CB2D6C008924CA /* Karla-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraBoldItalic.ttf"; path = "../src/theme/fonts/Karla-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		EFE4D30C26CB2D6C008924CA /* Karla-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraLightItalic.ttf"; path = "../src/theme/fonts/Karla-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		EFE4D30D26CB2D6C008924CA /* Karla-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Medium.ttf"; path = "../src/theme/fonts/Karla-Medium.ttf"; sourceTree = "<group>"; };
+		EFE4D30E26CB2D6C008924CA /* Karla-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Regular.ttf"; path = "../src/theme/fonts/Karla-Regular.ttf"; sourceTree = "<group>"; };
+		EFE4D30F26CB2D6C008924CA /* Karla-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-ExtraBold.ttf"; path = "../src/theme/fonts/Karla-ExtraBold.ttf"; sourceTree = "<group>"; };
+		EFE4D31026CB2D6C008924CA /* Karla-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Light.ttf"; path = "../src/theme/fonts/Karla-Light.ttf"; sourceTree = "<group>"; };
+		EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Karla-Bold.ttf"; path = "../src/theme/fonts/Karla-Bold.ttf"; sourceTree = "<group>"; };
+		F2F791FC8ADE4D55A5EEB6AE /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +86,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B2C3E54879784546EC61B77 /* libPods-rentachef.a in Frameworks */,
+				B21124EDFAAF64F22465F2BA /* (null) in Frameworks */,
+				6319B23F59677EDFBD1E1655 /* libPods-rentachef.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,9 +111,33 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		079404505AC545DDB8A1B660 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0BFDD362A0B54AA2B2401C5D /* AntDesign.ttf */,
+				3ED0D9C627F64F42810046F8 /* Entypo.ttf */,
+				5052F4EA194645CFB167CDD4 /* EvilIcons.ttf */,
+				0029968125C941BA990796B2 /* Feather.ttf */,
+				A7957B51D22E467D8AB3ACF8 /* FontAwesome.ttf */,
+				713DC339D86B47CE840A54C7 /* FontAwesome5_Brands.ttf */,
+				89C642C454464CB6904BE298 /* FontAwesome5_Regular.ttf */,
+				809455A672AC4567850ABB19 /* FontAwesome5_Solid.ttf */,
+				770DFC09A9F94B448F071B89 /* Fontisto.ttf */,
+				4C0601934CCB4091A22B55D8 /* Foundation.ttf */,
+				F2F791FC8ADE4D55A5EEB6AE /* Ionicons.ttf */,
+				CFA1E989270444C18AE40844 /* MaterialCommunityIcons.ttf */,
+				BE263BAB9FD64A219C54AD75 /* MaterialIcons.ttf */,
+				1B5D4A2A63A341A0973BEF3B /* Octicons.ttf */,
+				B3F13D0CDBF4443BA6DB83AD /* SimpleLineIcons.ttf */,
+				228DE1BEFDF24893AD047F92 /* Zocial.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* rentachef */ = {
 			isa = PBXGroup;
 			children = (
+				EF8349A6270E56C500A646C7 /* rentachef.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -117,10 +154,7 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				930A1036039D2A78FFED6B28 /* libPods-rentachef.a */,
-				BC7A5F2B3DBD9A766703D6C6 /* libPods-rentachef-rentachefTests.a */,
-				CFCE477C59C3C02063854D04 /* libPods-rentachef-tvOS.a */,
-				D2CC21E62A8878EC573608DB /* libPods-rentachef-tvOSTests.a */,
+				60A455754329CEFCA668D7CE /* libPods-rentachef.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -135,26 +169,28 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				E440A63F26A3FE9700E8F3B4 /* Karla-Bold.ttf */,
-				E440A64226A3FE9700E8F3B4 /* Karla-BoldItalic.ttf */,
-				E440A64826A3FE9700E8F3B4 /* Karla-ExtraBold.ttf */,
-				E440A64A26A3FE9700E8F3B4 /* Karla-ExtraBoldItalic.ttf */,
-				E440A64926A3FE9700E8F3B4 /* Karla-ExtraLight.ttf */,
-				E440A63E26A3FE9700E8F3B4 /* Karla-ExtraLightItalic.ttf */,
-				E440A64026A3FE9700E8F3B4 /* Karla-Italic.ttf */,
-				E440A64126A3FE9700E8F3B4 /* Karla-Light.ttf */,
-				E440A64626A3FE9700E8F3B4 /* Karla-LightItalic.ttf */,
-				E440A64726A3FE9700E8F3B4 /* Karla-Medium.ttf */,
-				E440A64426A3FE9700E8F3B4 /* Karla-MediumItalic.ttf */,
-				E440A63D26A3FE9600E8F3B4 /* Karla-Regular.ttf */,
-				E440A64526A3FE9700E8F3B4 /* Karla-SemiBold.ttf */,
-				E440A64326A3FE9700E8F3B4 /* Karla-SemiBoldItalic.ttf */,
+				EFAA6B5A298F03D9008E1D7F /* assets */,
+				EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */,
+				EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */,
+				EFE4D30F26CB2D6C008924CA /* Karla-ExtraBold.ttf */,
+				EFE4D30B26CB2D6C008924CA /* Karla-ExtraBoldItalic.ttf */,
+				EFE4D30826CB2D6C008924CA /* Karla-ExtraLight.ttf */,
+				EFE4D30C26CB2D6C008924CA /* Karla-ExtraLightItalic.ttf */,
+				EFE4D30526CB2D6C008924CA /* Karla-Italic.ttf */,
+				EFE4D31026CB2D6C008924CA /* Karla-Light.ttf */,
+				EFE4D30626CB2D6C008924CA /* Karla-LightItalic.ttf */,
+				EFE4D30D26CB2D6C008924CA /* Karla-Medium.ttf */,
+				EFE4D30926CB2D6C008924CA /* Karla-MediumItalic.ttf */,
+				EFE4D30E26CB2D6C008924CA /* Karla-Regular.ttf */,
+				EFE4D30726CB2D6C008924CA /* Karla-SemiBold.ttf */,
+				EFE4D30A26CB2D6C008924CA /* Karla-SemiBoldItalic.ttf */,
 				13B07FAE1A68108700A75B9A /* rentachef */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* rentachefTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				8D2B6FA88F0B739A31E8CC4D /* Pods */,
+				079404505AC545DDB8A1B660 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -172,14 +208,8 @@
 		8D2B6FA88F0B739A31E8CC4D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C0D0AB4CE6E1E3F9FAB615C5 /* Pods-rentachef.debug.xcconfig */,
-				65D264B9DE8FFEC4213C61DD /* Pods-rentachef.release.xcconfig */,
-				04BD3332AE92DC8F26D63F59 /* Pods-rentachef-rentachefTests.debug.xcconfig */,
-				C38BA5F7F31AA780D2778A8F /* Pods-rentachef-rentachefTests.release.xcconfig */,
-				666FA9F8AE296B66CEF31D56 /* Pods-rentachef-tvOS.debug.xcconfig */,
-				EC48957140D9293A51400CDF /* Pods-rentachef-tvOS.release.xcconfig */,
-				708039BCD853C7124EFD3996 /* Pods-rentachef-tvOSTests.debug.xcconfig */,
-				0D9F5E355309329A68BAEE60 /* Pods-rentachef-tvOSTests.release.xcconfig */,
+				32AA444A7486151FD5BC9B20 /* Pods-rentachef.debug.xcconfig */,
+				37D30F1F2425BBD2A126B553 /* Pods-rentachef.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -191,13 +221,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "rentachef" */;
 			buildPhases = (
-				9B66F4C626BA3260936F320A /* [CP] Check Pods Manifest.lock */,
+				F9BE81D2BBB29DA1922DDB3D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				952FE5D374B68EF5FAE1F98B /* [CP] Copy Pods Resources */,
+				B9A7CF9D7A672C4DAE6B6207 /* [CP] Embed Pods Frameworks */,
+				FBB759E3778F4B4CB77692DA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,11 +245,12 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 89459Y543U;
 						LastSwiftMigration = 1120;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -245,20 +277,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E440A64B26A3FE9700E8F3B4 /* Karla-Regular.ttf in Resources */,
-				E440A64C26A3FE9700E8F3B4 /* Karla-ExtraLightItalic.ttf in Resources */,
-				E440A64D26A3FE9700E8F3B4 /* Karla-Bold.ttf in Resources */,
-				E440A64E26A3FE9700E8F3B4 /* Karla-Italic.ttf in Resources */,
-				E440A64F26A3FE9700E8F3B4 /* Karla-Light.ttf in Resources */,
-				E440A65026A3FE9700E8F3B4 /* Karla-BoldItalic.ttf in Resources */,
-				E440A65126A3FE9700E8F3B4 /* Karla-SemiBoldItalic.ttf in Resources */,
-				E440A65226A3FE9700E8F3B4 /* Karla-MediumItalic.ttf in Resources */,
-				E440A65326A3FE9700E8F3B4 /* Karla-SemiBold.ttf in Resources */,
-				E440A65426A3FE9700E8F3B4 /* Karla-LightItalic.ttf in Resources */,
-				E440A65526A3FE9700E8F3B4 /* Karla-Medium.ttf in Resources */,
-				E440A65626A3FE9700E8F3B4 /* Karla-ExtraBold.ttf in Resources */,
-				E440A65726A3FE9700E8F3B4 /* Karla-ExtraLight.ttf in Resources */,
-				E440A65826A3FE9700E8F3B4 /* Karla-ExtraBoldItalic.ttf in Resources */,
+				EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */,
+				EFE1C415295CC60B000D5122 /* Karla-Bold.ttf in Resources */,
+				EFE1C416295CC60B000D5122 /* Karla-ExtraBold.ttf in Resources */,
+				EFAA6B5B298F03D9008E1D7F /* assets in Resources */,
+				EFE1C417295CC60B000D5122 /* Karla-ExtraBoldItalic.ttf in Resources */,
+				EFE1C418295CC60B000D5122 /* Karla-ExtraLight.ttf in Resources */,
+				EFE1C419295CC60B000D5122 /* Karla-ExtraLightItalic.ttf in Resources */,
+				EFE1C41A295CC60B000D5122 /* Karla-Italic.ttf in Resources */,
+				EFE1C41B295CC60B000D5122 /* Karla-Light.ttf in Resources */,
+				EFE1C41C295CC60B000D5122 /* Karla-LightItalic.ttf in Resources */,
+				EFE1C41D295CC60B000D5122 /* Karla-Medium.ttf in Resources */,
+				EFE1C41E295CC60B000D5122 /* Karla-MediumItalic.ttf in Resources */,
+				EFE1C41F295CC60B000D5122 /* Karla-Regular.ttf in Resources */,
+				EFE1C420295CC60B000D5122 /* Karla-SemiBold.ttf in Resources */,
+				EFE1C421295CC60B000D5122 /* Karla-SemiBoldItalic.ttf in Resources */,
+				EF43A9FB26D70BB60070E130 /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
@@ -279,57 +313,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "cd $PROJECT_DIR/..\necho \"echoing node which \" \nwhich node\necho \"echoing PROJECT DIR \"\necho $PROJECT_DIR\nexport NODE_BINARY=node\n./node_modules/react-native/scripts/react-native-xcode.sh index.js\n";
 		};
-		952FE5D374B68EF5FAE1F98B /* [CP] Copy Pods Resources */ = {
+		B9A7CF9D7A672C4DAE6B6207 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-resources.sh",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/hermes.framework/hermes",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9B66F4C626BA3260936F320A /* [CP] Check Pods Manifest.lock */ = {
+		F9BE81D2BBB29DA1922DDB3D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -349,6 +357,74 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FBB759E3778F4B4CB77692DA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeCore/StripeCore.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeFinancialConnections/StripeFinancialConnections.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePaymentSheet/StripePaymentSheet.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePayments/StripePayments.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePayments/Stripe3DS2.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePaymentsUI/StripePaymentsUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeUICore/StripeUICore.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeCore.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeFinancialConnections.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentSheet.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePayments.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe3DS2.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentsUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeUICore.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -399,27 +475,31 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0D0AB4CE6E1E3F9FAB615C5 /* Pods-rentachef.debug.xcconfig */;
+			baseConfigurationReference = 32AA444A7486151FD5BC9B20 /* Pods-rentachef.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_ENTITLEMENTS = rentachef/rentachef.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 13;
+				DEVELOPMENT_TEAM = 89459Y543U;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
+					"HAVE_GOOGLE_MAPS=1",
 				);
 				INFOPLIST_FILE = rentachef/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "foodapp-junaid-test";
+				PRODUCT_BUNDLE_IDENTIFIER = rentachefapp;
 				PRODUCT_NAME = rentachef;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -430,22 +510,31 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 65D264B9DE8FFEC4213C61DD /* Pods-rentachef.release.xcconfig */;
+			baseConfigurationReference = 37D30F1F2425BBD2A126B553 /* Pods-rentachef.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_ENTITLEMENTS = rentachef/rentachef.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 13;
+				DEVELOPMENT_TEAM = 89459Y543U;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"HAVE_GOOGLE_MAPS=1",
+				);
 				INFOPLIST_FILE = rentachef/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "foodapp-junaid-test";
+				PRODUCT_BUNDLE_IDENTIFIER = rentachefapp;
 				PRODUCT_NAME = rentachef;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -476,6 +565,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -485,6 +575,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -500,13 +591,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -536,6 +623,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -545,6 +633,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -553,13 +642,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
+				"LIBRARY_SEARCH_PATHS[arch=*]" = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

@@ -32,7 +32,7 @@ import SafeAreaView from '../../components/SafeAreaView';
 import Colors from '../../theme/colors';
 
 // HomeB Config
-const imgHolder = require('../../assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // HomeB Styles
 const styles = StyleSheet.create({
@@ -103,33 +103,33 @@ export default class HomeB extends Component {
       categories: [
         {
           key: 1,
-          imageUri: require('../../assets/img/pizza_3.jpg'),
+          imageUri: require('@assets/img/pizza_3.jpg'),
           name: 'Pizza',
         },
         {
           key: 2,
-          imageUri: require('../../assets/img/meat_1.jpg'),
+          imageUri: require('@assets/img/meat_1.jpg'),
           name: 'Grill',
         },
         {
           key: 3,
-          imageUri: require('../../assets/img/spaghetti_2.jpg'),
+          imageUri: require('@assets/img/spaghetti_2.jpg'),
           name: 'Pasta',
         },
         {
           key: 4,
-          imageUri: require('../../assets/img/soup_1.jpg'),
+          imageUri: require('@assets/img/soup_1.jpg'),
           name: 'Soups',
         },
         {
           key: 5,
-          imageUri: require('../../assets/img/salad_1.jpg'),
+          imageUri: require('@assets/img/salad_1.jpg'),
           name: 'Salads',
         },
       ],
       products: [
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: require('@assets/img/pizza_1.jpg'),
           name: 'Pizza Margarita 35cm',
           price: 10.99,
           description:
@@ -137,7 +137,7 @@ export default class HomeB extends Component {
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: require('@assets/img/sandwich_2.jpg'),
           name: 'Subway Sandwich',
           price: 8.49,
           description:
@@ -145,14 +145,14 @@ export default class HomeB extends Component {
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: require('@assets/img/cake_1.jpg'),
           name: 'Chocolate Cake',
           price: 4.99,
           description: 'Cake flavored with melted chocolate, cocoa powder',
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/soup_1.jpg'),
+          imageUri: require('@assets/img/soup_1.jpg'),
           name: 'Roasted Carrot Soup',
           price: 11.99,
           description:

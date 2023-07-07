@@ -1,0 +1,47 @@
+version: 2.1
+jobs:
+  build:
+    macos:
+      xcode: "15.0.0"
+    working_directory: ~/rentachef-react-native
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            rm -rf ~/Library/Developer/Xcode/DerivedData/*
+            yarn install
+            cd ios && pod repo update &&  pod install --repo-update && cd ..
+      - run:
+            name: decode Certificates
+            context: certificate
+            command:  echo "$Certificates" | base64 -D -o Certificates.p12 
+      - run:
+          name: make Provisioning Profiles directory
+          command: |
+           mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+           
+           sudo mkdir -pvm777 /Library/MobileDevice/Provisioning\ Profiles/
+      - run:
+          name: decode Provisioning Profiles
+          context: certificate
+          command: |
+             base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision \<<< $App_Store_Profile
+             cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
+             
+          
+      - run:
+          name: Build iOS app
+          # command: |
+          #    gem install fastlane -NV
+          #    fastlane build
+          command: |
+            cd ios
+            rm -rf ~/Library/Developer/Xcode/DerivedData/*
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
+            
+
+workflows:
+  build_and_deploy:
+    jobs:
+      - build

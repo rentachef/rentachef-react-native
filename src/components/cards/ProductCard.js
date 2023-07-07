@@ -40,7 +40,7 @@ const MINUS_ICON = IOS ? 'ios-remove' : 'md-remove';
 const PLUS_ICON = IOS ? 'ios-add' : 'md-add';
 const DELETE_ICON = IOS ? 'ios-close' : 'md-close';
 
-const imgHolder = require('../../assets/img/imgholder.png');
+const imgHolder = require('@assets/img/imgholder.png');
 
 // ProductCard Styles
 const styles = StyleSheet.create({

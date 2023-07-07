@@ -136,6 +136,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 200
         versionName "2.0.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -167,10 +168,14 @@ android {
     }
 
     packagingOptions {
-        pickFirst "lib/armeabi-v7a/libc++_shared.so"
-        pickFirst "lib/arm64-v8a/libc++_shared.so"
-        pickFirst "lib/x86/libc++_shared.so"
-        pickFirst "lib/x86_64/libc++_shared.so"
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/x86/libfbjni.so'
+        pickFirst 'lib/x86_64/libfbjni.so'
+        pickFirst 'lib/armeabi-v7a/libfbjni.so'
+        pickFirst 'lib/arm64-v8a/libfbjni.so'
     }
 
     // applicationVariants are e.g. debug, release
@@ -192,9 +197,18 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "com.facebook.react:react-native:0.65.3"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    //OkHttp
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+    implementation ("androidx.appcompat:appcompat:1.3.1") {
+        version {
+            strictly '1.3.1'
+        }
+    }
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
@@ -216,6 +230,28 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation project(':react-native-splash-screen')
+}
+
+allprojects {
+    repositories {
+       exclusiveContent {
+           filter {
+                includeGroup "com.facebook.react"
+           }
+           forRepository {
+               maven {
+                    url "$rootDir/../node_modules/react-native/android"
+               }
+           }
+       }
+    }
+    configurations.all {
+        resolutionStrategy {
+            force "com.facebook.react:react-native:0.65.3"  //<-- please change here
+        }
+    }
 }
 
 // Run this once to be able to run the application with BUCK
@@ -229,6 +265,11 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 
 project.ext.vectoricons = [
     iconFontNames: [ 'MaterialCommunityIcons.ttf', 'Ionicons.ttf', 'FontAwesome.ttf' ] // Name of the font files you want to copy
+]
+
+project.ext.react = [
+    entryFile: "index.js",
+    enableHermes: false, // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

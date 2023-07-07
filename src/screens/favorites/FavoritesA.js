@@ -29,6 +29,9 @@ import Colors from '../../theme/colors';
 const isRTL = I18nManager.isRTL;
 const EMPTY_STATE_ICON = 'star-outline';
 
+let sandwich_2 = require('@assets/img/sandwich_2.jpg')
+let pizza_1 = require('@assets/img/pizza_1.jpg')
+let cake_1 = require('@assets/img/cake_1.jpg')
 // FavoritesA Styles
 const styles = StyleSheet.create({
   container: {
@@ -72,7 +75,7 @@ export default class FavoritesA extends Component {
       products: [
         {
           id: 'product1',
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: sandwich_2,
           name: 'Subway sandwich',
           price: 8.49,
           quantity: 0,
@@ -80,14 +83,14 @@ export default class FavoritesA extends Component {
         },
         {
           id: 'product2',
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: pizza_1,
           name: 'Pizza Margarita 35cm',
           quantity: 0,
           price: 10.99,
         },
         {
           id: 'product3',
-          imageUri: require('../../assets/img/cake_1.jpg'),
+          imageUri: cake_1,
           name: 'Chocolate cake',
           quantity: 0,
           price: 4.99,

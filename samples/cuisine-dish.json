@@ -1,0 +1,11 @@
+//Cuisine example
+{
+  "key": "italian",
+  "label": "Italian"
+},
+
+//Dish example
+{
+  "key": "pepperoni_pizza",
+  "label" "Pepperoni Pizza"
+}

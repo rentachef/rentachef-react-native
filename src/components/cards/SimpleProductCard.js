@@ -21,7 +21,7 @@ import Layout from '../../theme/layout';
 
 // SimpleProductCard Config
 const ITEM_WIDTH = Layout.SCREEN_WIDTH;
-const imgHolder = require('../../assets/img/imgholder.png');
+let imgHolder = require('@assets/img/imgholder.png');
 
 // SimpleProductCard Styles
 const styles = StyleSheet.create({

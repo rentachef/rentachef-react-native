@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 // UnderlineTextInput Props
 type Props = {
   onRef: () => {};
-  onChangeText: () => {};
+  onChangeText: () => void;
   onFocus: () => {};
   inputFocused: boolean;
   onSubmitEditing: () => {};
@@ -68,6 +68,7 @@ type Props = {
   autoCapitalize: 'none' | 'sentences' | 'words' | 'characters';
   maxLength: number;
   placeholder: string;
+  editable: boolean;
   placeholderTextColor: string;
   value: string;
   inputTextColor: string;
@@ -80,6 +81,8 @@ type Props = {
   iconName?: string;
   iconSize?: number;
   iconColor?: string;
+  multiline?: boolean;
+  numberOfLines?: number;
 };
 
 // UnderlineTextInput
@@ -96,6 +99,7 @@ const UnderlineTextInput = ({
   autoCapitalize = 'none',
   maxLength,
   placeholder,
+  editable,
   placeholderTextColor = '#A7AFBF',
   value,
   inputTextColor,
@@ -107,7 +111,9 @@ const UnderlineTextInput = ({
   icon,
   iconName,
   iconSize,
-  iconColor
+  iconColor,
+  multiline,
+  numberOfLines
 }: Props) => (
   <View
     style={[
@@ -123,7 +129,9 @@ const UnderlineTextInput = ({
       inputFocused={inputFocused}
       onSubmitEditing={onSubmitEditing}
       returnKeyType={returnKeyType}
+      editable={editable}
       blurOnSubmit={blurOnSubmit}
+      multiline={multiline}
       onKeyPress={onKeyPress}
       keyboardType={keyboardType}
       autoCapitalize={autoCapitalize}

@@ -30,6 +30,7 @@ import Settings from '../screens/settings/SettingsB';
 
 // import colors
 import Colors from '../theme/colors';
+import Bookings from "../screens/chef/bookings/bookings";
 
 // HomeNavigator Config
 
@@ -75,7 +76,7 @@ function HomeNavigator() {
         },
       }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="Bookings" component={Bookings} />
       <Tab.Screen
         name="Cart"
         component={Cart}

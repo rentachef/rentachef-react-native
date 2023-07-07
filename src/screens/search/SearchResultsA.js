@@ -15,6 +15,11 @@ import ActionProductCardHorizontal from '../../components/cards/ActionProductCar
 // import colors
 import Colors from '../../theme/colors';
 
+let pizzaImage = require('@assets/img/pizza_3.jpg');
+let meat_1 = require('@assets/img/meat_1.jpg');
+let pizza_1 = require('@assets/img/pizza_1.jpg');
+let sandwich_2 = require('@assets/img/sandwich_2.jpg');
+let spaghetti_2 = require('@assets/img/spaghetti_2.jpg')
 // SearchResultsA Config
 
 // SearchResultsA Styles
@@ -37,32 +42,32 @@ export default class SearchResultsA extends Component {
     this.state = {
       products: [
         {
-          imageUri: require('../../assets/img/pizza_3.jpg'),
+          imageUri: pizzaImage,
           name: 'Pizza Margherita 35cm',
           price: 8.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/meat_1.jpg'),
+          imageUri: meat_1,
           name: 'Grilled Meat',
           price: 10.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/pizza_1.jpg'),
+          imageUri: pizza_1,
           name: 'Pizza Napolitana',
           price: 8.99,
           quantity: 0,
         },
         {
-          imageUri: require('../../assets/img/sandwich_2.jpg'),
+          imageUri: sandwich_2,
           name: 'Subway sandwich',
           price: 8.49,
           quantity: 0,
           discountPercentage: 10,
         },
         {
-          imageUri: require('../../assets/img/spaghetti_2.jpg'),
+          imageUri: spaghetti_2,
           name: 'Spaghetti',
           price: 7.99,
           quantity: 0,

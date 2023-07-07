@@ -7,7 +7,7 @@
 
 // import dependencies
 import React from 'react';
-import {Platform} from 'react-native';
+import {ActivityIndicator, Platform} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -86,29 +86,94 @@ const SAVE_ICON = Platform.OS === 'ios' ? 'ios-checkmark' : 'md-checkmark';
 
 // create stack navigator
 const Stack = createStackNavigator();
-
-//import { withAuthenticator } from 'aws-amplify-react-native';
+const AuthStack = createStackNavigator();
+import Authenticator from 'aws-amplify-react-native';
+import ChefNavigator from "./ChefNavigator"
+import ChefSetupNavigator from "./ChefSetupNavigator"
+import PreSignUp from "../screens/signup/pre-sign-up"
+import CustomerNavigator from "./CustomerNavigator";
+import {inject} from "mobx-react";
 //import SignUp from 'aws-amplify-react-native';
 
 // MainNavigatorA
-function MainNavigatorA() {
+const MainNavigatorA = inject('stores')((props) => {
+  console.log('props', props.stores.authStore.authInfo)
+  const { userId } = props.stores.authStore.authInfo
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          cardOverlayEnabled: false,
-          headerStyle: {
-            elevation: 1,
-            shadowOpacity: 0,
-          },
-          headerBackTitleVisible: false,
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerTintColor: Colors.onBackground,
-          headerTitleAlign: 'center',
-        }}>
-        {/*<Stack.Screen
+    //<Authenticator>
+      <NavigationContainer>
+        {/*{props.authState === 'initializing' ? <ActivityIndicator size={'medium'}/> : null}*/}
+        {(userId === '' || userId === undefined) ? <AuthStack.Navigator screenOptions={{headerShown: true}}>
+          <Stack.Screen
+            name="PreSignUp"
+            override={'PreSignUp'}
+            component={PreSignUp}
+            options={{
+              title: 'Get Started',
+              headerStyle: {
+                elevation: 0,
+                shadowOpacity: 0,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            override={'SignUp'} //Overriding AWS default components with custom components
+            component={SignUp}
+            options={{
+              title: 'Create Account',
+              headerStyle: {
+                elevation: 0,
+                shadowOpacity: 0,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="SignIn"
+            override={'SignIn'} //Overriding AWS default components with custom components
+            component={SignIn}
+            options={{
+              title: 'Sign In',
+              headerStyle: {
+                elevation: 0,
+                shadowOpacity: 0,
+              },
+            }}
+          />
+          {/*<SignUp/>*/}
+          <Stack.Screen
+            name="Verification"
+            component={Verification}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={{
+              headerStyle: {
+                elevation: 0,
+                shadowOpacity: 0,
+              },
+              title: 'Forgot Password?',
+            }}
+          />
+        </AuthStack.Navigator> : <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            cardOverlayEnabled: false,
+            headerStyle: {
+              elevation: 1,
+              shadowOpacity: 0,
+            },
+            headerBackTitleVisible: false,
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTintColor: Colors.onBackground,
+            headerTitleAlign: 'center',
+          }}>
+          {/*<Stack.Screen
           name="Onboarding"
           component={Onboarding}
           options={{headerShown: false}}
@@ -118,181 +183,147 @@ function MainNavigatorA() {
           component={Welcome}
           options={{headerShown: false}}
         />*/}
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{
-            title: 'Create Account',
-            headerStyle: {
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-          }}
-        />
-        {/*<SignUp/>*/}
-        <Stack.Screen
-          name="Verification"
-          component={Verification}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{
-            title: 'Sign In',
-            headerStyle: {
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={{
-            headerStyle: {
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-            title: 'Forgot Password?',
-          }}
-        />
-        <Stack.Screen
-          name="TermsConditions"
-          component={TermsConditions}
-          options={{
-            title: 'Terms and Conditions',
-          }}
-        />
-        <Stack.Screen
-          name="HomeNavigator"
-          component={HomeNavigator}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Categories"
-          component={Categories}
-          options={{
-            title: 'All Categories',
-          }}
-        />
-        <Stack.Screen
-          name="Category"
-          component={Category}
-          options={{
-            title: 'Pizza',
-          }}
-        />
-        <Stack.Screen
-          name="Product"
-          component={Product}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="SearchResults"
-          component={SearchResults}
-          options={{
-            title: 'Search Results',
-          }}
-        />
-        <Stack.Screen
-          name="Checkout"
-          component={Checkout}
-          options={{
-            title: 'Checkout',
-            headerStyle: {
-              elevation: 0,
-              shadowOpacity: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="EditProfile"
-          component={EditProfile}
-          options={({navigation}) => ({
-            title: 'Edit Profile',
-            headerRight: () => (
-              <HeaderIconButton
-                onPress={() => navigation.goBack()}
-                name={SAVE_ICON}
-                color={Colors.primaryColor}
-              />
-            ),
-          })}
-        />
-        <Stack.Screen
-          name="DeliveryAddress"
-          component={DeliveryAddress}
-          options={({navigation}) => ({
-            title: 'Delivery Address',
-            headerRight: () => (
-              <HeaderIconButton
-                onPress={() => navigation.goBack()}
-                name={SAVE_ICON}
-                color={Colors.primaryColor}
-              />
-            ),
-          })}
-        />
-        <Stack.Screen
-          name="AddAddress"
-          component={AddAddress}
-          options={{
-            title: 'Add New Address',
-          }}
-        />
-        <Stack.Screen
-          name="EditAddress"
-          component={EditAddress}
-          options={{
-            title: 'Edit Address',
-          }}
-        />
-        <Stack.Screen
-          name="PaymentMethod"
-          component={PaymentMethod}
-          options={({navigation}) => ({
-            title: 'Payment Method',
-            headerRight: () => (
-              <HeaderIconButton
-                onPress={() => navigation.goBack()}
-                name={SAVE_ICON}
-                color={Colors.primaryColor}
-              />
-            ),
-          })}
-        />
-        <Stack.Screen
-          name="AddCreditCard"
-          component={AddCreditCard}
-          options={{
-            title: 'Add Credit Card',
-          }}
-        />
-        <Stack.Screen
-          name="Notifications"
-          component={Notifications}
-          options={{
-            title: 'Notifications',
-          }}
-        />
-        <Stack.Screen
-          name="Orders"
-          component={Orders}
-          options={{
-            title: 'My Orders',
-          }}
-        />
-        <Stack.Screen
-          name="AboutUs"
-          component={AboutUs}
-          options={{
-            title: 'About Us',
-          }}
-        />
-      </Stack.Navigator>
+
+          <Stack.Screen
+            name="Home"
+            //component={ChefNavigator}
+            component={props.stores.authStore.authInfo.role === 'Consumer' ? CustomerNavigator : ChefNavigator}
+            options={{headerShown: false}}
+            screenOptions={{headerShown: false}}
+          />
+
+          <Stack.Screen
+            name="TermsConditions"
+            component={TermsConditions}
+            options={{
+              title: 'Terms and Conditions',
+            }}
+          />
+          <Stack.Screen
+            name="Categories"
+            component={Categories}
+            options={{
+              title: 'All Categories',
+            }}
+          />
+          <Stack.Screen
+            name="Category"
+            component={Category}
+            options={{
+              title: 'Pizza',
+            }}
+          />
+          <Stack.Screen
+            name="Product"
+            component={Product}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SearchResults"
+            component={SearchResults}
+            options={{
+              title: 'Search Results',
+            }}
+          />
+          <Stack.Screen
+            name="Checkout"
+            component={Checkout}
+            options={{
+              title: 'Checkout',
+              headerStyle: {
+                elevation: 0,
+                shadowOpacity: 0,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="EditProfile"
+            component={EditProfile}
+            options={({navigation}) => ({
+              title: 'Edit Profile',
+              headerRight: () => (
+                <HeaderIconButton
+                  onPress={() => navigation.goBack()}
+                  name={SAVE_ICON}
+                  color={Colors.primaryColor}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="DeliveryAddress"
+            component={DeliveryAddress}
+            options={({navigation}) => ({
+              title: 'Delivery Address',
+              headerRight: () => (
+                <HeaderIconButton
+                  onPress={() => navigation.goBack()}
+                  name={SAVE_ICON}
+                  color={Colors.primaryColor}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="AddAddress"
+            component={AddAddress}
+            options={{
+              title: 'Add New Address',
+            }}
+          />
+          <Stack.Screen
+            name="EditAddress"
+            component={EditAddress}
+            options={{
+              title: 'Edit Address',
+            }}
+          />
+          <Stack.Screen
+            name="PaymentMethod"
+            component={PaymentMethod}
+            options={({navigation}) => ({
+              title: 'Payment Method',
+              headerRight: () => (
+                <HeaderIconButton
+                  onPress={() => navigation.goBack()}
+                  name={SAVE_ICON}
+                  color={Colors.primaryColor}
+                />
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="AddCreditCard"
+            component={AddCreditCard}
+            options={{
+              title: 'Add Credit Card',
+            }}
+          />
+          <Stack.Screen
+            name="Notifications"
+            component={Notifications}
+            options={{
+              title: 'Notifications',
+            }}
+          />
+          <Stack.Screen
+            name="Orders"
+            component={Orders}
+            options={{
+              title: 'My Orders',
+            }}
+          />
+          <Stack.Screen
+            name="AboutUs"
+            component={AboutUs}
+            options={{
+              title: 'About Us',
+            }}
+          />
+        </Stack.Navigator>}
+
     </NavigationContainer>
   );
-}
+})
 
 export default MainNavigatorA;

@@ -1,0 +1,26 @@
+{
+  "id": 1,
+  "photo": "http://myImage.png",
+  "name": "Jenny Wilson",
+  "verified": true,
+  "hourRate": 50,
+  "scoring": 4.8,
+  "reviews": 4,
+  "cuisines": [{
+    "key": "american",
+    "label": "American"
+  },{
+    "key": "french",
+    "label": "French"
+  },{
+    "key": "mexican",
+    "label": "Mexican"
+  }],
+  "dishes": [{
+    "key": "pepperoni_pizza",
+    "label": "Pepperoni Pizza"
+  },{
+    "key": "tacos",
+    "label": "Tacos"
+  }]
+}

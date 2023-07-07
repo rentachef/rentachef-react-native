@@ -1,0 +1,34 @@
+{
+  "clientName": "Kristin Watson",
+  "photo": "http://myPhoto.png",
+  "address": "2972 Westheimer Rd",
+  "dateTime": "2022-08-01T13:00:00.000Z",
+  "status": "Completed", //one of 'Pending' | 'Completed' | 'Cancelled' | 'Confirmed'
+  "diners": 4,
+  "cuisine": {
+    "key": "italian",
+    "label": "Italian"
+  },
+  "paymentMethod": {
+    "creditCard": {
+      "cardNumber": 9867,
+      "cardBrand": "visa"
+    },
+    "payPal": null, //TODO
+    "applePay": null //TODO
+  },
+  "notes": "Chicken Carbonara\n Red Velvet Cake\n Ceaser Salad\n ---\nWe have induction stove and oven.",
+  "chargeDetails": {
+    "hoursWorked": 3,
+    "chefHourlyRate": 50,
+    "gst_hst": 4.99,
+    "serviceFee": 2.99,
+    "tip": 5.00,
+    "total": 162.98
+  },
+  "chef": {
+    "id": "as727as5da5s",
+    "name": "Jenny Wilson",
+    "hourlyRate": 50
+  }
+}

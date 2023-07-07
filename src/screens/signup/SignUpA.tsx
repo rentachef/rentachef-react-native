@@ -32,6 +32,8 @@ import { observer, inject } from 'mobx-react';
 
 import {notifyMessage} from '../../utils/getImgSource';
 import Logo from "../components/logo";
+import { notifyError } from '../../components/toast/toast';
+import { includes } from 'lodash';
 
 // SignUpA Config
 const PLACEHOLDER_TEXT_COLOR = 'rgba(0, 0, 0, 0.4)';
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
 });
 
 // SignUpA
-@inject('store')
+@inject('stores')
 @observer
 export default class SignUpA extends Component {
   constructor(props: {} | Readonly<{}>) {
@@ -115,6 +117,7 @@ export default class SignUpA extends Component {
       password: '',
       passwordFocused: false,
       secureTextEntry: true,
+      loading: false
     };
   }
 
@@ -173,63 +176,75 @@ export default class SignUpA extends Component {
   };
 
   createAccount = async () => {
-    // const { email, phone, password } = this.state;
-    this.props.store.authStore.setUserAuthInfo(this.props.store.authStore.authInfo, {username: this.state.email});
-
+    const { email, phone, password } = this.state;
 
     try {
-      const { user } = await Auth.signUp({
-        username: this.state.email,
-        password: this.state.password,
-        attributes: {
-          email: this.state.email,          // optional
-          phone_number: this.state.phone,   // optional - E.164 number convention
-          // other custom attributes
+      this.setState({ loading: true }, async () => {
+        const userInfo = {
+          username: email,
+          password: password,
+          attributes: {
+            email: email,          // optional
+            phone_number: phone,   // optional - E.164 number convention
+            // other custom attributes
+          }
+        };
+        try {
+
+          const { user } = await Auth.signUp(userInfo);
+          this.props.stores.authStore.setUserAuthInfo({ ...userInfo, role: this.props.route.params.role }, user);
+          //Success user JSON after signup
+          // {
+          //   "username": "arun.tummala12@gmail.com",
+          //   "pool": {
+          //   "userPoolId": "us-east-1_lIuuH6J2w",
+          //     "clientId": "3j00jcfrjm71vnjhaieuj4r76n",
+          //     "client": {
+          //     "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
+          //       "fetchOptions": {}
+          //   },
+          //   "advancedSecurityDataCollectionFlag": true
+          // },
+          //   "Session": null,
+          //   "client": {
+          //   "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
+          //     "fetchOptions": {}
+          // },
+          //   "signInUserSession": null,
+          //   "authenticationFlowType": "USER_SRP_AUTH",
+          //   "keyPrefix": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n",
+          //   "userDataKey": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n.arun.tummala12@gmail.com.userData"
+          // }
+          if(user) {
+            this.setState(
+              {
+                emailFocused: false,
+                phoneFocused: false,
+                passwordFocused: false,
+                loading: false
+              },
+              this.navigateTo('Verification'),
+            );
+          }
+        } catch(err) {
+          this.setState({ loading: false })
+          if(includes(err.message, 'Invalid phone number format'))
+            notifyError(`Error: ${err.message} Try adding '+country code (eg: +1)'`)
+          else
+            notifyError(err.message)
         }
-      });
-      console.log(user);
-      //Success user JSON after signup
-      // {
-      //   "username": "arun.tummala12@gmail.com",
-      //   "pool": {
-      //   "userPoolId": "us-east-1_lIuuH6J2w",
-      //     "clientId": "3j00jcfrjm71vnjhaieuj4r76n",
-      //     "client": {
-      //     "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
-      //       "fetchOptions": {}
-      //   },
-      //   "advancedSecurityDataCollectionFlag": true
-      // },
-      //   "Session": null,
-      //   "client": {
-      //   "endpoint": "https://cognito-idp.us-east-1.amazonaws.com/",
-      //     "fetchOptions": {}
-      // },
-      //   "signInUserSession": null,
-      //   "authenticationFlowType": "USER_SRP_AUTH",
-      //   "keyPrefix": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n",
-      //   "userDataKey": "CognitoIdentityServiceProvider.3j00jcfrjm71vnjhaieuj4r76n.arun.tummala12@gmail.com.userData"
-      // }
-      if(user) {
-        this.setState(
-          {
-            emailFocused: false,
-            phoneFocused: false,
-            passwordFocused: false,
-          },
-          this.navigateTo('Verification'),
-        );
+      })
+      } catch (error) {
+        //TODO: password error handling for
+        //{
+        //     "code": "InvalidPasswordException",
+        //     "name": "InvalidPasswordException",
+        //     "message": "Password did not conform with policy: Password must have uppercase characters"
+        // }
+        this.setState({ loading: false })
+        console.log('error signing up:', error);
+        notifyError('Error: ' + error.message);
       }
-    } catch (error) {
-      //TODO: password error handling for
-      //{
-      //     "code": "InvalidPasswordException",
-      //     "name": "InvalidPasswordException",
-      //     "message": "Password did not conform with policy: Password must have uppercase characters"
-      // }
-      console.log('error signing up:', error);
-      notifyMessage('Error', error.message);
-    }
 
   };
 
@@ -247,7 +262,7 @@ export default class SignUpA extends Component {
       passwordFocused,
       secureTextEntry,
     } = this.state;
-    console.log('this.props.store', this.props.store)
+
     return (
       <SafeAreaView style={styles.screenContainer}>
         <StatusBar
@@ -284,6 +299,8 @@ export default class SignUpA extends Component {
                 iconSize={26}
               />
 
+              {/*TODO ADD NAME*/}
+
               <UnderlineTextInput
                 onRef={r => {
                   this.phone = r;
@@ -295,7 +312,7 @@ export default class SignUpA extends Component {
                 returnKeyType="next"
                 blurOnSubmit={false}
                 keyboardType="phone-pad"
-                placeholder="Phone Number"
+                placeholder="Phone Number (+19999999999)"
                 placeholderTextColor={PLACEHOLDER_TEXT_COLOR}
                 inputTextColor={INPUT_TEXT_COLOR}
                 borderColor={INPUT_BORDER_COLOR}
@@ -333,6 +350,7 @@ export default class SignUpA extends Component {
                 <Button
                   onPress={this.createAccount}
                   title={'Create Account'}
+                  loading={this.state.loading}
                 />
               </View>
 
