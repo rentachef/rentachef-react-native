@@ -40,7 +40,7 @@ jobs:
           name: Build Archive
           command: |
               cd ios        
-              xcodebuild -workspace rentachef.xcworkspace -scheme rentachef   archive -archivePath $PWD/build/rentachef.xcarchive
+              xcodebuild -workspace rentachef.xcworkspace -scheme rentachef   archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
       - run:
           name: Create IPA
           command: |
