@@ -6,10 +6,10 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>rentachef</string>
-	<key>CFBundleIconName</key>
-	<string>AppIcon</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -42,7 +42,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Used for bookings</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used for Chef&apos;s profile setup</string>
+	<string>Used for Chef's profile setup</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
