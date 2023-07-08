@@ -39,6 +39,8 @@ jobs:
       - run:
           name: Build Archive
           command: |
+              mkdir certificates
+              cert --output_path certificates
               cd ios        
               xcodebuild -workspace rentachef.xcworkspace -scheme rentachef   archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
       - run:
