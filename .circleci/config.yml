@@ -22,7 +22,7 @@ jobs:
                security set-keychain-settings -lut 21600  ~/Library/Keychains/mykeychain.keychain-db
                security default-keychain -s  ~/Library/Keychains/mykeychain.keychain-db
                security unlock-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
-               security import  -P "CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k ~/Library/Keychains/login.keychain-db
+               security import ./certificate.p12  -A -t cert -f pkcs12 -k ~/Library/Keychains/login.keychain-db
 
 
 
