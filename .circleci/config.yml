@@ -22,7 +22,7 @@ jobs:
                security set-keychain-settings -lut 21600 mykeychain.keychain
                security default-keychain -s mykeychain.keychain
                security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain
-               security import Certificates.p12  -P "$CERTIFICATE_PASSWORD" -f pkcs12 -k mykeychain.keychain
+               security import Certificates.p12  -f pkcs12 -k mykeychain.keychain
 
 
 
