@@ -18,11 +18,11 @@ jobs:
             command: |
                echo -n "$Certificates" | base64 -D -o certificate.p12
                echo -n "$App_Store_Profile" | base64 -D -o App_Store.mobileprovision
-               security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
-               security set-keychain-settings -lut 21600 mykeychain.keychain-db
-               security default-keychain -s mykeychain.keychain-db
-               security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
-               security import certificate.p12 -P  "$CERTIFICATE_PASSWORD"  -k mykeychain.keychain-db
+               security create-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
+               security set-keychain-settings -lut 21600  ~/Library/Keychains/mykeychain.keychain-db
+               security default-keychain -s  ~/Library/Keychains/mykeychain.keychain-db
+               security unlock-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
+               security import certificate.p12 -P  "$CERTIFICATE_PASSWORD"  -k  ~/Library/Keychains/mykeychain.keychain-db
 
 
 
