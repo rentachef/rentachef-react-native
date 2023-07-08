@@ -39,7 +39,7 @@ jobs:
           name: Create IPA
           command: |
              cd ios        
-             xcodebuild -exportArchive -allowProvisioningUpdates -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist exportOptions.plist
+             xcodebuild -exportArchive -allowProvisioningUpdates -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist
 
 
             
