@@ -16,13 +16,13 @@ jobs:
             name: prepare provisioning profile
             context: certificate
             command: |
-               echo -n "$Certificates" | base64 -D -o Certificates.p12 
+               echo -n "$Certificates" | base64 -D -o certificate.p12
                echo -n "$App_Store_Profile" | base64 -D -o App_Store.mobileprovision 
                security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain
                security set-keychain-settings -lut 21600 mykeychain.keychain
                security default-keychain -s mykeychain.keychain
                security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain
-               security import Certificates.p12  -f pkcs12 -k mykeychain.keychain
+               security import certificate.p12  -f pkcs12 -k mykeychain.keychain
 
 
 
