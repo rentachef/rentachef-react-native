@@ -13,21 +13,21 @@ jobs:
             yarn install
             cd ios && pod repo update &&  pod install --repo-update && cd ..
       - run:
-            name: decode Certificates
+            name: prepare provisioning profile
             context: certificate
-            command:  echo "$Certificates" | base64 -D -o Certificates.p12 
-      - run:
-          name: make Provisioning Profiles directory
-          command: |
-           mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
-           
-           sudo mkdir -pvm777 /Library/MobileDevice/Provisioning\ Profiles/
-      - run:
-          name: decode Provisioning Profiles
-          context: certificate
-          command: |
-             base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision \<<< $App_Store_Profile
-             cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
+            command: |
+               echo -n "$Certificates" | base64 -D -o Certificates.p12 
+               echo -n "$App_Store_Profile" | base64 -D -o App_Store.mobileprovision 
+               security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain
+               security set-keychain-settings -lut 21600 mykeychain.keychain
+               security default-keychain -s mykeychain.keychain
+               security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain
+               security import $Certificates.p12  -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k mykeychain.keychain
+               security list-keychain -d user -s mykeychain.keychain
+               mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+               sudo mkdir -pvm777 /Library/MobileDevice/Provisioning\ Profiles/
+               cp App_Store.mobileprovision  ~/Library/MobileDevice/Provisioning\ Profiles/
+
              
           
       # - run:
