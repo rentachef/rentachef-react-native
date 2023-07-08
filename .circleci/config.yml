@@ -22,6 +22,8 @@ jobs:
                security set-keychain-settings -lut 21600 mykeychain.keychain
                security default-keychain -s mykeychain.keychain
                security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain
+               security import Certificates.p12  -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k mykeychain.keychain
+
 
 
              
@@ -35,8 +37,6 @@ jobs:
       - run:
           name: Build Archive
           command: |
-              mkdir certificates
-              cert --output_path certificates
               cd ios        
               xcodebuild -workspace rentachef.xcworkspace -scheme rentachef   archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
       - run:
