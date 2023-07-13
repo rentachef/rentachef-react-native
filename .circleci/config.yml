@@ -44,12 +44,12 @@ jobs:
 
              
           
-      # - run:
-      #     name: Build iOS app
-      #     command: |
-      #       cd ios
-      #       rm -rf ~/Library/Developer/Xcode/DerivedData/*
-      #       xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef  -archivePath $PWD/build/rentachef.xcarchive  -configuration Release -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
+      - run:
+          name: Build iOS app
+          command: |
+            cd ios
+            rm -rf ~/Library/Developer/Xcode/DerivedData/*
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef  -archivePath $PWD/build/rentachef.xcarchive  -configuration Release -derivedDataPath ./DerivedData clean
 
       - run:
           name: Create IPA
