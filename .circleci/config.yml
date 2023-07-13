@@ -36,8 +36,8 @@ jobs:
           #    gem install fastlane -NV
           #    fastlane build
           command: |
+            npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
             cd ios
-            rm -rf ~/Library/Developer/Xcode/DerivedData/*
             xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
             
 
