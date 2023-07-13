@@ -38,7 +38,7 @@ jobs:
           command: |
             cd ios
             rm -rf ~/Library/Developer/Xcode/DerivedData/*
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -derivedDataPath ~/Library/Developer/Xcode/DerivedData/* clean -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -xcconfig exclue.xcconfig -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
             
 
 workflows:
