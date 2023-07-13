@@ -12,17 +12,17 @@ jobs:
             rm -rf ~/Library/Developer/Xcode/DerivedData/*
             yarn install
             cd ios && pod repo update &&  pod install --repo-update && cd ..
-      # - run:
-      #       name: prepare provisioning profile
-      #       context: certificate
-      #       command: |
-      #          echo -n "$Certificates" | base64 -D -o certificate.p12
-      #          echo -n "$App_Store_Profile" | base64 -D -o App_Store.mobileprovision
-      #          security create-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
-      #          security set-keychain-settings -lut 21600  ~/Library/Keychains/mykeychain.keychain-db
-      #          security default-keychain -s  ~/Library/Keychains/mykeychain.keychain-db
-      #          security unlock-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
-      #          security import ./certificate.p12  -A -t cert -f pkcs12 -k ~/Library/Keychains/login.keychain-db
+      - run:
+            name: prepare provisioning profile
+            context: certificate
+            command: |
+               echo -n "$Certificates" | base64 -D -o certificate.p12
+               echo -n "$App_Store_Profile" | base64 -D -o App_Store.mobileprovision
+               security create-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
+               security set-keychain-settings -lut 21600  ~/Library/Keychains/mykeychain.keychain-db
+               security default-keychain -s  ~/Library/Keychains/mykeychain.keychain-db
+               security unlock-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
+               security import ./certificate.p12  -A -t cert -f pkcs12 -k ~/Library/Keychains/login.keychain-db
 
 
 
