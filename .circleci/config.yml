@@ -3,6 +3,7 @@ jobs:
   build:
     macos:
       xcode: "14.2.0"
+    resource_class: macos.m1.large.gen1
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
