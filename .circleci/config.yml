@@ -2,13 +2,15 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: "15.0.0"
+      xcode: "14.2.0"
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
+             uname -m
+             uname -p
             yarn install
             cd ios && pod repo update &&  pod install --repo-update && cd ..
             export NODE_OPTIONS=--openssl-legacy-provider
