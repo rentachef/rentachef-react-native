@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: "14.0.1"
+      xcode: "14.3.1"
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
@@ -35,9 +35,10 @@ jobs:
           # command: |
           #    gem install fastlane -NV
           #    fastlane build
+          # npm install aws-amplify
+          # npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios/
           command: |
-            npm install aws-amplify
-            npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios/
+
             cd ios
             xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
             
