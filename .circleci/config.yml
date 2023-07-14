@@ -44,12 +44,15 @@ jobs:
             sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
             cd ios
             export NODE_OPTIONS=--openssl-legacy-provider
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -archivePath $PWD/build/rentachef.xcarchive  -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release   -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" build
             ls $PWD/build/
       - run:
-          name: Create IPA
+            
+      - run:
+          name: Create archive and IPA
           command: |
-             cd ios        
+             cd ios  
+             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive
              xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist            
 
 workflows:
