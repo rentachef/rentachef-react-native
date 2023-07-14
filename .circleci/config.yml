@@ -10,7 +10,6 @@ jobs:
           name: Install dependencies
           command: |
             rm -rf ~/Library/Developer/Xcode/DerivedData/*
-            yarn install
             cd ios && pod repo update &&  pod install --repo-update && cd ..
       - run:
             name: decode Certificates
