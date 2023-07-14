@@ -38,7 +38,7 @@ jobs:
           # npm install aws-amplify
           # npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios/
           command: |
-
+            yarn add patch-package postinstall-postinstall
             cd ios
             xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
             
