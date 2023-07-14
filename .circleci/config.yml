@@ -44,9 +44,13 @@ jobs:
           command: |
             sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
             cd ios
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -archivePath $PWD/build/rentachef.xcarchive  -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
             ls $PWD/build/
-            
+      - run:
+          name: Create IPA
+          command: |
+             cd ios        
+             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist            
 
 workflows:
   build_and_deploy:
