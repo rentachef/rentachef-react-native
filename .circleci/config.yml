@@ -43,6 +43,8 @@ jobs:
           command: |
             sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
             cd ios
+            nvm install 16
+            nvm use 16
             xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -archivePath $PWD/build/rentachef.xcarchive  -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
             ls $PWD/build/
       - run:
