@@ -9,7 +9,6 @@
     "ios-device": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle",
     "start": "react-native start",
     "test": "jest",
-    "postinstall": "patch-package",
     "lint": "eslint ."
   },
   "dependencies": {
