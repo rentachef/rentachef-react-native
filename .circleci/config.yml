@@ -12,7 +12,7 @@ jobs:
             yarn install
             cd ios && pod repo update &&  pod install --repo-update && cd ..
             export NODE_OPTIONS=--openssl-legacy-provider
-            yarn add aws-amplify
+            npm install aws-amplify
             npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
       - run:
             name: decode Certificates
