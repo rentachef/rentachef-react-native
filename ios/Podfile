@@ -1,5 +1,6 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+rn_maps_path = '../node_modules/react-native-maps'
 
 platform :ios, '13.0'
 
@@ -37,6 +38,9 @@ target 'rentachef' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
 
   config = use_native_modules!
 
