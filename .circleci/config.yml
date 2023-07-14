@@ -39,6 +39,7 @@ jobs:
           # npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios/
           command: |
             sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
+            export NODE_OPTIONS=--openssl-legacy-provider
             cd ios
             xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO"
             
