@@ -3,7 +3,7 @@ jobs:
   build:
     macos:
       xcode: "14.2.0"
-    resource_class: macos-m1.free
+    # resource_class: macos-m1.free
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
@@ -19,8 +19,8 @@ jobs:
             name: decode Certificates
             context: certificate
             command:  |
-              base64 -D -o Certificates.p12 \<<<  $Certificates 
-              openssl pkcs12 -in Certificates.p12 -nokeys -info -passin pass:$CERTIFICATE_PASSWORD
+              base64 -D -o Certificates.cer \<<<  $cert
+              base64 -D -o private.key \<<<  $Ckey
               base64 -D -o App_Store.mobileprovision \<<< $App_Store_Profile
 
       - run:
@@ -36,7 +36,8 @@ jobs:
              security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
              security set-keychain-settings -lut 21600 mykeychain.keychain-db
              security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db 
-             security import Certificates.p12  -P $CERTIFICATE_PASSWORD -A -t cert -f pkcs12 -k mykeychain.keychain-db -T /usr/bin/codesign
+             security import Certificates.cer  -P $CERTIFICATE_PASSWORD -A -t cert -f pkcs12 -k mykeychain.keychain-db -T /usr/bin/codesign
+             security import private.key  -P $CERTIFICATE_PASSWORD -A -t cert -f pkcs12 -k mykeychain.keychain-db -T /usr/bin/codesign
              cp -r App_Store.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
              
           
