@@ -7,18 +7,21 @@ jobs:
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            yarn add @gorhom/portal
-            yarn install 
-            cd ios && pod repo update &&  pod install --repo-update && cd ..
-            export NODE_OPTIONS=--openssl-legacy-provider
-            npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       yarn add @gorhom/portal
+      #       yarn install 
+      #       cd ios && pod repo update &&  pod install --repo-update && cd ..
+      #       export NODE_OPTIONS=--openssl-legacy-provider
+      #       npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
       - run:
             name: decode Certificates
             context: certificate
-            command:  echo "$Certificates" | base64 -D -o Certificates.p12 
+            command:  |
+              echo "$Certificates" | base64 -D -o Certificates.p12 
+              base64 -D -o App_Store.mobileprovision \<<< $App_Store_Profile
+
       - run:
           name: make Provisioning Profiles directory
           command: |
@@ -29,25 +32,27 @@ jobs:
           name: decode Provisioning Profiles
           context: certificate
           command: |
-             base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision \<<< $App_Store_Profile
-             cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
+             security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
+             security set-keychain-settings -lut 21600 mykeychain.keychain-db
+             security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
+             cp -r App_Store.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
              
           
-      - run:
-          name: Build iOS app
-          command: |
-            sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
-            cd ios
-            export NODE_OPTIONS=--openssl-legacy-provider
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release   -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" build
+      # - run:
+      #     name: Build iOS app
+      #     command: |
+      #       sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
+      #       cd ios
+      #       export NODE_OPTIONS=--openssl-legacy-provider
+      #       xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release   -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" build
             
-      - run:
-          name: Create archive and IPA
-          command: |
-             cd ios  
-             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
-             ls $PWD/build/
-             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates        
+      # - run:
+      #     name: Create archive and IPA
+      #     command: |
+      #        cd ios  
+      #        xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
+      #        ls $PWD/build/
+      #        xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates        
 
 workflows:
   build_and_deploy:
