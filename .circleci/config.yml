@@ -19,7 +19,8 @@ jobs:
             name: decode Certificates
             context: certificate
             command:  |
-              echo "$Certificates" | base64 -D -o Certificates.p12 
+              base64 -D -o Certificates.p12 \<<<  $Certificates 
+              cat Certificates.p12 
               base64 -D -o App_Store.mobileprovision \<<< $App_Store_Profile
 
       - run:
