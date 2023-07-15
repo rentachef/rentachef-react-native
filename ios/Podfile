@@ -63,6 +63,13 @@ target 'rentachef' do
     permissions_path = '../node_modules/react-native-permissions/ios'
     pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
     pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
+    def fix_config(config)
+        # https://github.com/CocoaPods/CocoaPods/issues/8891
+        if config.build_settings['DEVELOPMENT_TEAM'].nil?
+          config.build_settings['DEVELOPMENT_TEAM'] = '89459Y543U'
+        end
+    end
+      
     post_install do |installer|
       react_native_post_install(installer)
       installer.pods_project.targets.each do |target|
@@ -70,33 +77,17 @@ target 'rentachef' do
               config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
               config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
               config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = 'arm64'
+              fix_config(config)
               #config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '-DDONT_AUTOINSTALL_REANIMATED'
             end
             case target.name
             when 'RCT-Folly'
               target.build_configurations.each do |config|
                 config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+                fix_config(config)
               end
             end
           end
     end
-    def fix_config(config)
-        # https://github.com/CocoaPods/CocoaPods/issues/8891
-        if config.build_settings['DEVELOPMENT_TEAM'].nil?
-          config.build_settings['DEVELOPMENT_TEAM'] = '89459Y543U'
-        end
-      end
-      
-      post_install do |installer|
-        installer.generated_projects.each do |project|
-          project.build_configurations.each do |config|
-              fix_config(config)
-          end
-          project.targets.each do |target|
-            target.build_configurations.each do |config|
-              fix_config(config)
-            end
-          end
-        end
-      end
+
 end
