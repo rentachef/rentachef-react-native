@@ -64,16 +64,6 @@ target 'rentachef' do
     pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
     pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
     post_install do |installer|
-      installer.generated_projects.each do |project|
-        project.targets.each do |target|
-            target.build_configurations.each do |config|
-                config.build_settings["DEVELOPMENT_TEAM"] = "89459Y543U"
-             end
-        end
-      end
-    end
-    
-    post_install do |installer|
       react_native_post_install(installer)
       installer.pods_project.targets.each do |target|
             target.build_configurations.each do |config|
@@ -90,4 +80,23 @@ target 'rentachef' do
             end
           end
     end
+    def fix_config(config)
+        # https://github.com/CocoaPods/CocoaPods/issues/8891
+        if config.build_settings['DEVELOPMENT_TEAM'].nil?
+          config.build_settings['DEVELOPMENT_TEAM'] = '89459Y543U'
+        end
+      end
+      
+      post_install do |installer|
+        installer.generated_projects.each do |project|
+          project.build_configurations.each do |config|
+              fix_config(config)
+          end
+          project.targets.each do |target|
+            target.build_configurations.each do |config|
+              fix_config(config)
+            end
+          end
+        end
+      end
 end
