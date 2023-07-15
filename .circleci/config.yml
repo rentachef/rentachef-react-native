@@ -20,7 +20,7 @@ jobs:
             context: certificate
             command:  |
               base64 -D -o Certificates.p12 \<<<  $Certificates 
-              openssl pkcs12 -in Certificates.p12 -nokeys -info -pass pass:$CERTIFICATE_PASSWORD
+              openssl pkcs12 -in Certificates.p12 -nokeys -info -passin pass:$CERTIFICATE_PASSWORD
               base64 -D -o App_Store.mobileprovision \<<< $App_Store_Profile
 
       - run:
