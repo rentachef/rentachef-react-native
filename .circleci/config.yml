@@ -50,9 +50,9 @@ jobs:
           name: Create archive and IPA
           command: |
              cd ios  
-             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive
+             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
              ls $PWD/build/
-             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist            
+             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates        
 
 workflows:
   build_and_deploy:
