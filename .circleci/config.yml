@@ -29,30 +29,32 @@ jobs:
           name: decode Provisioning Profiles
           context: certificate
           command: |
+             security create-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/mykeychain.keychain-db
+             security set-keychain-settings -lut 21600 ~/Library/Keychains/mykeychain.keychain-db
+             security default-keychain -s  ~/Library/Keychains/mykeychain.keychain-db
+             security unlock-keychain -p "$KEYCHAIN_PASSWORD"  ~/Library/Keychains/mykeychain.keychain-db
+             security add-trusted-cert -d -r trustRoot -k ~/Library/Keychains/mykeychain.keychain-db Certificates.p12 
+             security list-keychain -d user -s ~/Library/Keychains/mykeychain.keychain-db
              base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision \<<< $App_Store_Profile
+             security list-keychain
              cp -r ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision  /Library/MobileDevice/Provisioning\ Profiles/
              
           
-      - run:
-          name: Build iOS app
-          # command: |
-          #    gem install fastlane -NV
-          #    fastlane build
-          # npm install aws-amplify
-          # npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios/
-          command: |
-            sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
-            cd ios
-            export NODE_OPTIONS=--openssl-legacy-provider
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release   -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" build
+      # - run:
+      #     name: Build iOS app
+      #     command: |
+      #       sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
+      #       cd ios
+      #       export NODE_OPTIONS=--openssl-legacy-provider
+      #       xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release   -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" build
             
-      - run:
-          name: Create archive and IPA
-          command: |
-             cd ios  
-             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
-             ls $PWD/build/
-             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates        
+      # - run:
+      #     name: Create archive and IPA
+      #     command: |
+      #        cd ios  
+      #        xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
+      #        ls $PWD/build/
+      #        xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates        
 
 workflows:
   build_and_deploy:
