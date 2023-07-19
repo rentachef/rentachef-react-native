@@ -37,6 +37,7 @@ jobs:
              brew update && brew upgrade
              brew install openssl
              brew link --force openssl
+             brew unlink openssl@3 && brew link openssl@3
              openssl version
              security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
              security set-keychain-settings -lut 21600 mykeychain.keychain-db
