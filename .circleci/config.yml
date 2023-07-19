@@ -34,7 +34,8 @@ jobs:
           context: certificate
           command: |
              openssl version
-             brew uninstall openssl
+             sudo chmod -R 777 /usr/bin/openssl
+             yes | sudo rm -rf /usr/bin/openssl
              brew update && brew upgrade
              brew install openssl
              brew link --force openssl
