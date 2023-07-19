@@ -34,6 +34,7 @@ jobs:
           context: certificate
           command: |
              openssl version
+             sudo rm /usr/bin/openssl
              brew update && brew upgrade
              brew install openssl
              brew link --force openssl
