@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: "14.2.0"
+      xcode: "15.0.0"
     # resource_class: macos-m1.free
     working_directory: ~/rentachef-react-native
     steps:
@@ -33,11 +33,6 @@ jobs:
           context: certificate
           command: |
              openssl version
-             brew install openssl@3
-             brew unlink openssl@3 && brew link openssl@3
-             mkdir /usr/bin/openssl-new
-             sudo ln -s /usr/local/Cellar/openssl/3.1.1_1/bin/openssl /usr/bin/openssl-new
-             openssl version -a
              security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
              security set-keychain-settings -lut 21600 mykeychain.keychain-db
              security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db 
