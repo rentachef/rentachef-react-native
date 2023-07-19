@@ -35,7 +35,8 @@ jobs:
              openssl version
              brew install openssl@3
              brew unlink openssl@3 && brew link openssl@3
-             openssl3 version
+             openssl version
+             which openssl
              security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
              security set-keychain-settings -lut 21600 mykeychain.keychain-db
              security unlock-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db 
