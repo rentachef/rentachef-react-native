@@ -33,7 +33,7 @@ jobs:
           context: certificate
           command: |
              openssl version
-             sudo rm /usr/bin/openssl
+             yes | sudo rm /usr/bin/openssl
              sudo mount -o remount,rw /
              brew install openssl
              brew link --force  openssl@3
