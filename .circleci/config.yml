@@ -33,7 +33,7 @@ jobs:
           context: certificate
           command: |
              openssl version
-             brew install openssl
+             brew install openssl@3
              brew unlink openssl@3 && brew link openssl@3
              openssl3 version
              security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
