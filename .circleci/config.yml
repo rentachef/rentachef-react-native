@@ -35,7 +35,8 @@ jobs:
              openssl version
              brew install openssl@3
              brew unlink openssl@3 && brew link openssl@3
-             export PATH=$(brew --prefix openssl)/bin:$PATH in ~/.bash_profile
+             
+             ln -s /usr/local/opt/openssl@3/bin/openssl /usr/local/bin/openssl
              openssl version
              which openssl
              security create-keychain -p "$KEYCHAIN_PASSWORD" mykeychain.keychain-db
