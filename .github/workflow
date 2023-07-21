@@ -54,17 +54,3 @@ jobs:
              export NODE_OPTIONS=--openssl-legacy-provider
              npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
 
-      - name: build archive
-        run: |
-           cd ios
-           export NODE_OPTIONS=--openssl-legacy-provider
-           xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release   -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" build
-
-      - name: export ipa
-        run: |
-             cd ios  
-             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
-             ls $PWD/build/
-             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates            
-
-
