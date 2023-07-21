@@ -47,7 +47,7 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles          
       - name: Install dependencies
-        command: |
+        run: |
              yarn add @gorhom/portal
              npm install 
              cd ios && pod repo update &&  pod install --repo-update && cd ..
