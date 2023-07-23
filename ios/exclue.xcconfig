@@ -1,0 +1,1 @@
+EXCLUDED_SOURCE_FOLDER_PATHS = $(HOME)/Library/Developer/Xcode/DerivedData
