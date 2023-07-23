@@ -8,8 +8,8 @@
 // import dependencies
 import React from 'react';
 import {Platform, StyleSheet} from 'react-native';
-import Ionicon from 'react-native-vector-icons/dist/Ionicons';
-import * as Unicons from '@iconscout/react-native-unicons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+//import * as Unicons from '@iconscout/react-native-unicons';
 
 // import colors
 import Colors from '../../theme/colors';
@@ -40,13 +40,16 @@ const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE, style}: Props) => {
 
   switch (name) {
     case 'email':
-      return (<Unicons.UilEnvelope color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
+      //return (<Unicons.UilEnvelope color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
+      return <IonIcon name='mail' size={20} />
     case 'eyeSlash':
-      return (<Unicons.UilEyeSlash color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
+      //return (<Unicons.UilEyeSlash color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
+      return <IonIcon name='ios-eye' size={20} />
     case 'phone':
-      return (<Unicons.UilPhone color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
+      //return (<Unicons.UilPhone color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
+      return <IonIcon name='md-phone-portrait' size={20} />
     default:
-      return (<Ionicon
+      return (<IonIcon
         name={name}
         color={color}
         size={iconSize}

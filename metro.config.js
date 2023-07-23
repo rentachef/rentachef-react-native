@@ -4,8 +4,12 @@
  *
  * @format
  */
+const path = require('path');
 
 module.exports = {
+  resolver: {
+    assetRegistryPath: [path.resolve(__dirname, 'src', 'assets')]
+  },
   transformer: {
     getTransformOptions: async () => ({
       transform: {
