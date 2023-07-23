@@ -65,4 +65,4 @@ jobs:
              cd ios  
              xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
              ls $PWD/build/
-             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates            
+             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates 	-authenticationKeyID $(APPLE_ID_KEY_ID)	-authenticationKeyIssuerID $(APPLE_ID_ISSUER_ID)           
