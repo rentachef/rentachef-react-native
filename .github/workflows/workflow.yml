@@ -61,8 +61,11 @@ jobs:
            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration Release   -xcconfig exclue.xcconfig -quiet -allowProvisioningUpdates CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED="NO" build
 
       - name: export ipa
+        env:
+          APPLE_ID_KEY_ID: ${{ secrets.APPLE_ID_KEY_ID }}
+          APPLE_ID_ISSUER_ID : ${{ secrets.APPLE_ID_ISSUER_ID  }}
         run: |
              cd ios  
-             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates
+             xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates -authenticationKeyID $APPLE_ID_KEY_ID	-authenticationKeyIssuerID $APPLE_ID_ISSUER_ID   
              ls $PWD/build/
-             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates 	-authenticationKeyID $(APPLE_ID_KEY_ID)	-authenticationKeyIssuerID $(APPLE_ID_ISSUER_ID)           
+             xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates 	-authenticationKeyID $APPLE_ID_KEY_ID	-authenticationKeyIssuerID $APPLE_ID_ISSUER_ID          
