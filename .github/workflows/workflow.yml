@@ -1,8 +1,9 @@
-name: "Build iOS"
+name: "Build iOS app"
 on:
   # manual trigger but change to any supported event
   # see addl: https://www.andrewhoog.com/post/how-to-build-react-native-android-app-with-github-actions/#3-run-build-workflow
-  workflow_dispatch:
+  push:
+    branches: [ images-working-ios ]
 
 jobs:
   build_with_signing:
@@ -48,7 +49,7 @@ jobs:
       - name: Install dependencies
         run: |
              yarn add @gorhom/portal
-             npm install 
+             yarn install 
              cd ios && pod repo update &&  pod install --repo-update && cd ..
              export NODE_OPTIONS=--openssl-legacy-provider
              npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
