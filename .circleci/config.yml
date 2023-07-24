@@ -16,30 +16,34 @@ jobs:
             cd ios && pod repo update && arch -x86_64 pod install --repo-update && cd ..
             export NODE_OPTIONS=--openssl-legacy-provider
       # Add a step to decode the provisioning profile
-      - run:
-          name: Decode Provisioning Profile
-          command: |
-            base64 -D -i .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision -o AppStore.mobileprovision
-            plutil -convert xml1 AppStore.mobileprovision
-      # Add a step to convert the decoded provisioning profile to a .plist file
-      - run:
-          name: Convert Provisioning Profile to plist
-          command: security cms -D -i AppStore.mobileprovision > AppStore.plist
-      # Add a step to decode the .p12 certificate
-      - run:
-          name: Decode Certificate
-          command: base64 -D -i .circleci/certs/certificate.p12 -o Certificate.p12
+      # - run:
+      #     name: Decode Provisioning Profile
+      #     command: |
+      #       base64 -D -i .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision -o AppStore.mobileprovision
+      #       plutil -convert xml1 AppStore.mobileprovision
+            
+      # # Add a step to convert the decoded provisioning profile to a .plist file
+      # - run:
+      #     name: Convert Provisioning Profile to plist
+      #     command: security cms -D -i AppStore.mobileprovision > AppStore.plist
+      # # Add a step to decode the .p12 certificate
+      # - run:
+      #     name: Decode Certificate
+      #     command: base64 -D -i .circleci/certs/certificate.p12 -o Certificate.p12
       # Set up code signing (You should replace the placeholders with your actual values)
       - run:
           name: Set Up Code Signing
           command: |
-            cd .circleci/certs
-            security create-keychain -p $KEYCHAIN_PASSWORD ios-build.keychain
-            security import Certificate.p12 -k ~/Library/Keychains/ios-build.keychain -P $CERTIFICATE_PASSWORD -T /usr/bin/codesign
-            cd ..
-            cd profiles
-            security import AppStore.mobileprovision -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
-            security list-keychains -s ios-build.keychain
+            echo "create keychain"
+            security create-keychain -p $KEYCHAIN_PASSWORD ~/Library/Keychains/ios-build.keychain
+            security set-keychain-settings -lut 21600 ~/Library/Keychains/ios-build.keychain
+            security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/ios-build.keychain
+            echo "import certificate"
+            security import .circleci/certscertificate.p12 -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+            security list-keychain -d user -s ~/Library/Keychains/ios-build.keychain
+            echo "copy profile"
+            mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+            cp .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles    
             security default-keychain -s ios-build.keychain          
       - run:
           name: Build iOS app
