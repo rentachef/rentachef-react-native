@@ -12,9 +12,9 @@ jobs:
           command: |
             yarn add @gorhom/portal
             yarn install 
-            cd ios && pod repo update &&  pod install --repo-update && cd ..
-            export NODE_OPTIONS=--openssl-legacy-provider
             npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
+            cd ios && pod repo update && arch -x86_64 pod install --repo-update && cd ..
+            export NODE_OPTIONS=--openssl-legacy-provider
       - run:
             name: decode Certificates
             context: certificate
