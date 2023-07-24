@@ -13,7 +13,7 @@ jobs:
             yarn add @gorhom/portal
             yarn install 
             npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
-            cd ios && pod repo update && arch -x86_64 pod install --repo-update && cd ..
+            cd ios && pod repo update && pod install --repo-update && cd ..
             export NODE_OPTIONS=--openssl-legacy-provider
       # Add a step to decode the provisioning profile
       # - run:
