@@ -39,7 +39,7 @@ jobs:
             security set-keychain-settings -lut 21600 ~/Library/Keychains/ios-build.keychain
             security unlock-keychain -p "$KEYCHAIN_PASSWORD" ~/Library/Keychains/ios-build.keychain
             echo "import certificate"
-            security import .circleci/certscertificate.p12 -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+            security import .circleci/certs/certificate.p12 -P "$CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
             security list-keychain -d user -s ~/Library/Keychains/ios-build.keychain
             echo "copy profile"
             mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
