@@ -15,16 +15,24 @@ jobs:
             npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
             cd ios && pod repo update && arch -x86_64 pod install --repo-update && cd ..
             export NODE_OPTIONS=--openssl-legacy-provider
+      # Add a step to decode the provisioning profile
+      - run:
+          name: Decode Provisioning Profile
+          command: base64 -D -i .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision -o AppStore.mobileprovision
+      # Add a step to decode the .p12 certificate
+      - run:
+          name: Decode Certificate
+          command: base64 -D -i .circleci/certs/certificate.p12 -o Certificate.p12
       # Set up code signing (You should replace the placeholders with your actual values)
       - run:
           name: Set Up Code Signing
           command: |
             cd .circleci/certs
             security create-keychain -p $KEYCHAIN_PASSWORD ios-build.keychain
-            security import certificate.p12 -k ~/Library/Keychains/ios-build.keychain -P $CERTIFICATE_PASSWORD -T /usr/bin/codesign
+            security import Certificate.p12 -k ~/Library/Keychains/ios-build.keychain -P $CERTIFICATE_PASSWORD -T /usr/bin/codesign
             cd ..
             cd profiles
-            security import RAC_Labs_Rentachef__AppStore.mobileprovision -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+            security import AppStore.mobileprovision -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
             security list-keychains -s ios-build.keychain
             security default-keychain -s ios-build.keychain          
       - run:
