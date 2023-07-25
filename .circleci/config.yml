@@ -47,6 +47,11 @@ jobs:
             cp .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles    
             security default-keychain -s ios-build.keychain          
       - run:
+           name: Set ruby version to 2.7.4
+           command: |
+                rvm install 2.7.4
+                echo . $(rvm 2.7.4 do rvm env --path) >> $BASH_ENV
+      - run:
           name: Build iOS app
           command: |
             sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
