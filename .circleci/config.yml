@@ -52,7 +52,9 @@ jobs:
             sed -i '' 's/hadOverflow() |/ hadOverflow() ||/' /Users/distiller/rentachef-react-native/node_modules/react-native/ReactCommon/yoga/yoga/Yoga.cpp
             cd ios
             export NODE_OPTIONS=--openssl-legacy-provider
-            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration  Debug  -xcconfig exclue.xcconfig   -archivePath build/rentachef.xcarchive archive -allowProvisioningUpdates CODE_SIGN_IDENTITY="iPhone Distribution" PROVISIONING_PROFILE=$PROV_PROFILE_APPLE_STORE_UUID build
+            pod deintegrate
+            arch -x86_64 pod install 
+            xcodebuild  -workspace rentachef.xcworkspace -scheme rentachef   -configuration  Release  -xcconfig exclude.xcconfig   -archivePath build/rentachef.xcarchive archive -allowProvisioningUpdates CODE_SIGN_IDENTITY="iPhone Distribution" PROVISIONING_PROFILE=$PROV_PROFILE_APPLE_STORE_UUID build
       - run:
           name: Create archive and IPA
           command: |
