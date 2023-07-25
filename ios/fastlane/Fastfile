@@ -27,8 +27,11 @@ platform :ios do
       clean: true)
     
     end
+    lane: release_findmybuddy_to_testflight do
+
       # Build your app
-  build_ipa
+      build_ipa
+    end
   end
 
 
