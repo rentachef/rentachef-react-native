@@ -10,6 +10,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            xcode-select --install
+            sudo gem install -n /usr/local/bin fastlane --verbose
             yarn add @gorhom/portal
             yarn install 
             npm install -g ios-deploy
