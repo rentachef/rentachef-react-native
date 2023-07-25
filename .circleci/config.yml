@@ -11,6 +11,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo gem install -n /usr/local/bin fastlane --verbose
+            brew update && brew upgrade ruby-build
             yarn install 
             cd ios && pod repo update &&  pod install && cd ..
 
