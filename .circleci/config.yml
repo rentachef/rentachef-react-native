@@ -19,6 +19,8 @@ jobs:
             npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
             cd ios && pod repo update && arch -x86_64 pod install && cd ..
             export NODE_OPTIONS=--openssl-legacy-provider
+      - run: builld with fastlane
+        command: fastlane release_findmybuddy_to_testflight
       # Add a step to decode the provisioning profile
       # - run:
       #     name: Decode Provisioning Profile
@@ -49,8 +51,7 @@ jobs:
       #       mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
       #       cp .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles    
       #       security default-keychain -s ios-build.keychain          
-        - run: builld with fastlane
-          command: fastlane release_findmybuddy_to_testflight
+
 
       # - run:
       #     name: Build iOS app
