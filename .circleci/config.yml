@@ -59,6 +59,7 @@ jobs:
           name: Create archive and IPA
           command: |
              cd ios  
+             pod install
              xcodebuild -workspace rentachef.xcworkspace -scheme rentachef  -configuration Release archive -archivePath $PWD/build/rentachef.xcarchive -allowProvisioningUpdates $APPLE_ID_KEY_ID	-authenticationKeyIssuerID $APPLE_ID_ISSUER_ID
              ls $PWD/build/
              xcodebuild -exportArchive -archivePath $PWD/build/rentachef.xcarchive -exportPath Release -exportOptionsPlist rentachef/Info.plist  -allowProvisioningUpdates    $APPLE_ID_KEY_ID	-authenticationKeyIssuerID $APPLE_ID_ISSUER_ID    
