@@ -6,10 +6,11 @@ jobs:
     # resource_class: macos-m1.free
     working_directory: ~/rentachef-react-native
     steps:
+      - macos/switch-ruby:
+        version: "3.0.5"
       - run:
           name: Install Ruby 2.7.4
           command: rbenv install 2.7.4
-      - checkout
       - run:
           name: Install dependencies
           command: |
