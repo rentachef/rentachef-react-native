@@ -32,7 +32,7 @@ jobs:
           # export NODE_OPTIONS=--openssl-legacy-provider
       - run: 
          name: builld with fastlane
-         command: fastlane release_rentachef_to_testflight
+         command: bundle exec fastlane release_rentachef_to_testflight
       # Add a step to decode the provisioning profile
       # - run:
       #     name: Decode Provisioning Profile
