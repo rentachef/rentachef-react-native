@@ -18,7 +18,7 @@ jobs:
           command: |
             sudo gem update --system
             sudo gem install bundle
-            bundle update --bundler
+           # bundle update --bundler
             sudo gem install -n /usr/local/bin fastlane --verbose
             brew update && brew upgrade ruby-build
             yarn install 
@@ -30,8 +30,25 @@ jobs:
           # brew update && brew upgrade ruby-build
           # npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
           # export NODE_OPTIONS=--openssl-legacy-provider
+      # Add a step to decode the provisioning profile
+      # - run:
+      #     name: Decode Provisioning Profile
+      #     command: |
+      #       base64 -D -i .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision -o AppStore.mobileprovision
+      #       plutil -convert xml1 AppStore.mobileprovision
+            
+      # # Add a step to convert the decoded provisioning profile to a .plist file
+      # - run:
+      #     name: Convert Provisioning Profile to plist
+      #     command: security cms -D -i AppStore.mobileprovision > AppStore.plist
+      # # Add a step to decode the .p12 certificate
+      # - run:
+      #     name: Decode Certificate
+      #     command: base64 -D -i .circleci/certs/certificate.p12 -o Certificate.p12
+      
+      # Fastlane
       - run: 
-         name: builld with fastlane
+         name: Build with Fastlane
          command: |
             cd ios
             fastlane release_rentachef_to_testflight
