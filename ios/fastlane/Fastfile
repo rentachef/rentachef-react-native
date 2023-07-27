@@ -25,10 +25,11 @@ platform :ios do
       duration: 1200, # optional (maximum 1200)
       in_house: false # optional but may be required if using match/sigh
     )
-  
+
     # Automatically loads Actions.lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
     pilot
   end
+
   lane :build_ipa do
     install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/circleci/profiles/RAC_Labs_Rentachef.mobileprovision") # This will install provision profiles at run time if needed when you run the fastlane lane
     gym(
@@ -36,15 +37,15 @@ platform :ios do
       scheme: "rentachef",
       output_directory: "/Users/distiller/rentachef-react-native",
       output_name: "renta.ipa",
-      clean: true)
-    
-    end
-    lane: release_rentachef_to_testflight do
-
-      # Build your app
-      build_ipa
-    end
+      clean: true
+    )
   end
+
+  lane :release_rentachef_to_testflight do
+    # Build your app
+    build_ipa
+  end
+end
 
 
 
