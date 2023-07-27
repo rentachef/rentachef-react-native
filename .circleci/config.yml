@@ -7,9 +7,9 @@ jobs:
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
-      - run:
-          name: Install Ruby 2.7.4
-          command: rbenv install 2.7.4
+      #- run:
+      #    name: Install Ruby 2.7.4
+      #    command: rbenv install 2.7.4
       - run:
           name: Set Ruby Version
           command: rbenv global 3.0.5 && rbenv rehash
