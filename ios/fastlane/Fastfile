@@ -32,6 +32,10 @@ platform :ios do
 
   lane :build_ipa do
     install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef.mobileprovision") # This will install provision profiles at run time if needed when you run the fastlane lane
+    import_certificate(
+      certificate_path: "../.circleci/certs/certificate.p12",
+      certificate_password: "rac2023"
+    )
     gym(
       workspace: "rentachef.xcworkspace",
       scheme: "rentachef",
