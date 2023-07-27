@@ -16,11 +16,13 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo gem install -n /usr/local/bin fastlane --verbose
+            sudo gem update --system
             sudo gem install bundle
+            bundle update --bundler
+            sudo gem install -n /usr/local/bin fastlane --verbose
             brew update && brew upgrade ruby-build
             yarn install 
-            cd /Users/distiller/rentachef-react-native/ios && pod repo update &&  pod install && cd ..
+            cd ios && pod repo update &&  pod install && cd ..
 
           # yarn add @gorhom/portal
           # yarn install 
