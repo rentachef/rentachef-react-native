@@ -7,9 +7,9 @@ jobs:
     working_directory: ~/rentachef-react-native
     steps:
       - checkout
-      #- run:
-      #    name: Install Ruby 2.7.4
-      #    command: rbenv install 2.7.4
+      - run:
+          name: Install Ruby 2.7.4
+          command: rbenv install 2.7.4
       - run:
           name: Set Ruby Version
           command: rbenv global 3.0.5 && rbenv rehash
@@ -30,25 +30,8 @@ jobs:
           # brew update && brew upgrade ruby-build
           # npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
           # export NODE_OPTIONS=--openssl-legacy-provider
-      # Add a step to decode the provisioning profile
-      # - run:
-      #     name: Decode Provisioning Profile
-      #     command: |
-      #       base64 -D -i .circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision -o AppStore.mobileprovision
-      #       plutil -convert xml1 AppStore.mobileprovision
-            
-      # # Add a step to convert the decoded provisioning profile to a .plist file
-      # - run:
-      #     name: Convert Provisioning Profile to plist
-      #     command: security cms -D -i AppStore.mobileprovision > AppStore.plist
-      # # Add a step to decode the .p12 certificate
-      # - run:
-      #     name: Decode Certificate
-      #     command: base64 -D -i .circleci/certs/certificate.p12 -o Certificate.p12
-      
-      # Fastlane
       - run: 
-         name: Build with Fastlane
+         name: builld with fastlane
          command: |
             cd ios
             fastlane release_rentachef_to_testflight
