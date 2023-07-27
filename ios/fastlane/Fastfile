@@ -27,7 +27,7 @@ platform :ios do
       clean: true)
     
     end
-    lane: release_findmybuddy_to_testflight do
+    lane: release_rentachef_to_testflight do
 
       # Build your app
       build_ipa
