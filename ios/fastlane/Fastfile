@@ -16,31 +16,10 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Install Profiles and Build My App"
-  lane :build_ipa do
-    install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef.mobileprovision") # This will install provision profiles at run time if needed when you run the fastlane lane
-    create_keychain(
-      name: "rentachef_keychain",
-      password: "rac2023",
-      default_keychain: true,
-      unlock: true,
-      timeout: 3600
-    )
-    import_certificate(
-      certificate_path: "/Users/distiller/rentachef-react-native/.circleci/certs/certificate.p12",
-      certificate_password: "rac2023",
-      keychain_name: "rentachef_keychain"
-    )
-    gym(
-      workspace: "rentachef.xcworkspace",
-      scheme: "rentachef",
-      output_directory: "/Users/distiller/rentachef-react-native",
-      output_name: "renta.ipa",
-      clean: true
-    )
-  end
-
+  desc "Release to AppStore"
   lane :release do
+    match(type: "appstore")
+    gym("rentachef")
     app_store_connect_api_key(
       key_id: "M9TJ4K9P8Y",
       issuer_id: "69a6de73-f7c5-47e3-e053-5b8c7c11a4d1",
@@ -53,11 +32,9 @@ platform :ios do
     pilot
   end
 
-  
-
   lane :release_rentachef_to_testflight do
     # Build your app
-    build_ipa
+    release
   end
 end
 
