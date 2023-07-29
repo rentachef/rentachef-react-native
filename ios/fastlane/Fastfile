@@ -34,14 +34,14 @@ platform :ios do
       scheme: "rentachef",
       output_directory: "./ios",
       output_name: "rentachef.ipa",
+      include_bitcode: false,
+      clean: true,
       export_options({
          method: "app-store",
          provisioningProfiles: {
            "com.raclabs.rentachef" => "match AppStore com.raclabs.rentachef",
               }
-      })
-      include_bitcode: false,
-      clean: true)
+      }))
     
     end
 
