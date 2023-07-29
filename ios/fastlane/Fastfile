@@ -33,13 +33,29 @@ platform :ios do
        in_house: false # detecting this via ASC private key not currently supported
      )
    end
-
+    desc " Build My App"
+    lane :build_ipa do
+      gym(
+        workspace: "rentachef.xcworkspace",
+        scheme: "rentachef",
+        output_directory: "./ios",
+        output_name: "rentachef.ipa",
+        include_bitcode: false,
+        clean: true,
+        export_options: {
+           method: "app-store",
+           provisioningProfiles: {
+             "com.raclabs.rentachef" => "match AppStore com.raclabs.rentachef",
+                }
+        }
+      )
+      end
 
   lane :release_rentachef_to_testflight do
     # Build your app
     signing
     increment_build_number
-    gym
+    build_ipa
   end
 end
 
