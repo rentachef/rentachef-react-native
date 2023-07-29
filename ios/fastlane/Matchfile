@@ -3,8 +3,6 @@ git_url("https://github.com/rentachef/rentachef-react-native.git")
 storage_mode("git")
 
 type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
-cert_path("/Users/distiller/rentachef-react-native/.circleci/certs/distribution.cer")
-cert_key_path("/Users/distiller/rentachef-react-native/.circleci/certificate.p12")
 git_branch("circleci_with_code_signing_step")
 
 # app_identifier(["com.raclabs.rentachef"])
