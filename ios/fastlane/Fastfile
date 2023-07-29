@@ -39,7 +39,7 @@ platform :ios do
          provisioningProfiles: {
            "com.raclabs.rentachef" => "match AppStore com.raclabs.rentachef",
               }
-      }),
+      })
       include_bitcode: false,
       clean: true)
     
