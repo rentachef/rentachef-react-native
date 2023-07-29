@@ -16,9 +16,9 @@
 default_platform(:ios)
 
 platform :ios do
- desc "Install Profiles and Build My App"
+  desc "Install Profiles and Build My App"
   lane :build_ipa do
-    install_provisioning_profile(path: "./.circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision") # This will install provision profiles at run time if needed when you run the fastlane lane
+    install_provisioning_profile(path: "./.circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision") 
     gym(
       workspace: "rentachef.xcworkspace",
       scheme: "rentachef",
@@ -29,31 +29,10 @@ platform :ios do
       clean: true)
     
     end
-    desc: "Releae rentachef App to TestFlight"
-    lane: release_rentachef_to_testflight do
-      # Build your app
-      build_ipa
-  end
-
-  desc "Release to AppStore"
-  lane :release do
-    match(type: "appstore")
-    gym("rentachef")
-    app_store_connect_api_key(
-      key_id: "M9TJ4K9P8Y",
-      issuer_id: "69a6de73-f7c5-47e3-e053-5b8c7c11a4d1",
-      key_filepath: "./AuthKey_M9TJ4K9P8Y.p8",
-      duration: 1200, # optional (maximum 1200)
-      in_house: false # optional but may be required if using match/sigh
-    )
-
-    # Automatically loads Actions.lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
-    pilot
-  end
 
   lane :release_rentachef_to_testflight do
     # Build your app
-    release
+    build_ipa
   end
 end
 
