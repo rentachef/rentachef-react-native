@@ -33,6 +33,7 @@ jobs:
          name: Build with fastlane
          command: |
             cd ios
+            sudo xcode-select -s /Applications/Xcode-14.2.app
             fastlane release_rentachef_to_testflight
       # Add a step to decode the provisioning profile
       # - run:
