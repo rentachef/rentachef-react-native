@@ -16,6 +16,16 @@
 default_platform(:ios)
 
 platform :ios do
+  desc “Sync signing”
+   lane :signing do
+   
+   sync_code_signing 
+   mapping = Actions.lane_context[
+   SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
+   ]
+   update_code_signing_settings()
+   end
+
   desc "Install Profiles and Build My App"
   lane :build_ipa do
     install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision") 
