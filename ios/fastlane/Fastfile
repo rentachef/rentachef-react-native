@@ -34,7 +34,12 @@ platform :ios do
       scheme: "rentachef",
       output_directory: "./ios",
       output_name: "rentachef.ipa",
-      export_method: "app-store",
+      export_options({
+         method: "app-store",
+         provisioningProfiles: {
+           "com.raclabs.rentachef" => "match AppStore com.raclabs.rentachef",
+              }
+      }),
       include_bitcode: false,
       clean: true)
     
@@ -42,6 +47,7 @@ platform :ios do
 
   lane :release_rentachef_to_testflight do
     # Build your app
+    signing
     build_ipa
   end
 end
