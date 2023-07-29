@@ -53,7 +53,7 @@ platform :ios do
 
   lane :release_rentachef_to_testflight do
     # Build your app
-    signing
+    sync_certificates
     increment_build_number
     build_ipa
   end
