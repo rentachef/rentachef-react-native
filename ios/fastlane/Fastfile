@@ -18,7 +18,7 @@ default_platform(:ios)
 platform :ios do
   desc "Install Profiles and Build My App"
   lane :build_ipa do
-    install_provisioning_profile(path: "./.circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision") 
+    install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef__AppStore.mobileprovision") 
     gym(
       workspace: "rentachef.xcworkspace",
       scheme: "rentachef",
