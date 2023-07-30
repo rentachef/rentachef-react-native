@@ -18,7 +18,7 @@ default_platform(:ios)
 platform :ios do
    desc “Sync signing”
     lane :sync_certificates do
-    match({readonly: false, type: "adhock"})
+    match({readonly: false, type: "adhoc"})
     update_code_signing_settings()
     end
 
