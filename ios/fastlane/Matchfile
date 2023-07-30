@@ -1,4 +1,4 @@
-git_url("https://github.com/rentachef/ios_certificates_profiles.git")
+git_url("https://github.com/rentachef/rentachef-react-native.git")
 
 storage_mode("git")
 
