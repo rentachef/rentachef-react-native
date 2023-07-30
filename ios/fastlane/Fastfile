@@ -17,7 +17,7 @@ default_platform(:ios)
 
 platform :ios do
    desc “Sync signing”
-    lane :signing do
+    lane :sync_certificates do
     app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
     sync_code_signing 
     mapping = Actions.lane_context[
