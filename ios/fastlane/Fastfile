@@ -19,7 +19,7 @@ platform :ios do
   desc "Sync certificates"
    lane :sync_certificates do
      #read-only disables match from overriding the existing certificates.
-     match({readonly: true, type: "appstore"})
+     match({readonly: false, type: "appstore"})
    end
 
 
