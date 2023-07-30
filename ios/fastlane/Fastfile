@@ -16,40 +16,16 @@
 default_platform(:ios)
 
 platform :ios do
- desc "Installs signing certificate in the keychain and downloads provisioning profiles from App Store Connect"
- lane :sync_certificates do |options|
-   team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
-   api_key = lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
-
-   keychain_name = "signing"
-   keychain_password = "temp"
-
-   delete_keychain(
-     name: keychain_name
-   ) if File.exist? File.expand_path("~/Library/Keychains/#{keychain_name}-db")
-
-   create_keychain(
-     name: keychain_name,
-     password: keychain_password,
-     default_keychain: true,
-     unlock: true,
-     timeout: 3600
-   )
-
-   import_certificate(
-     certificate_path: "/Users/distiller/rentachef-react-native/.circleci/certs/certificate.p12",
-     certificate_password: "rac2023",
-     keychain_name: keychain_name,
-     keychain_password: keychain_password
-   )
-
-   # fetches and installs provisioning profiles from ASC
+   desc “Sync signing”
+    lane :signing do
+    app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
     sync_code_signing 
-     mapping = Actions.lane_context[
-     SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
-     ]
-
- end
+    mapping = Actions.lane_context[
+    SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
+    ]
+    match({readonly: false, type: "adhock"})
+    update_code_signing_settings()
+    end
 
 
    desc "Load ASC API Key information to use in subsequent lanes"
@@ -63,7 +39,6 @@ platform :ios do
    end
     desc " Build My App"
     lane :build_ipa do
-    install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef.mobileprovision") 
       gym(
         workspace: "rentachef.xcworkspace",
         scheme: "rentachef",
@@ -73,7 +48,9 @@ platform :ios do
         clean: true,
         export_options: {
            method: "app-store",
-
+           provisioningProfiles: {
+           "com.raclabs.rentachef" => "match Development com.raclabs.rentachef",
+              }
         }
       )
       end
