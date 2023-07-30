@@ -18,8 +18,13 @@ default_platform(:ios)
 platform :ios do
   desc "Sync certificates"
    lane :sync_certificates do
+     sync_code_signing 
+      mapping = Actions.lane_context[
+      SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
+      ]
      #read-only disables match from overriding the existing certificates.
      match({readonly: true, type: "appstore"})
+     update_code_signing_settings()
    end
 
 
