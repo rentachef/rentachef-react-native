@@ -48,8 +48,7 @@ platform :ios do
      mapping = Actions.lane_context[
      SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
      ]
-    #read-only disables match from overriding the existing certificates.
-    match({readonly: true, type: "appstore"})
+
  end
 
 
