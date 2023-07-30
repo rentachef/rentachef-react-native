@@ -49,7 +49,7 @@ platform :ios do
         export_options: {
            method: "app-store",
            provisioningProfiles: {
-             "com.raclabs.rentachef" => "match AppStore com.raclabs.rentachef",
+             "com.raclabs.rentachef" => "RAC Labs Rentachef - AppStore",
                 }
         }
       )
