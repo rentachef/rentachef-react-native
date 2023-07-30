@@ -19,6 +19,7 @@ platform :ios do
   desc "Sync certificates"
    lane :sync_certificates do
      app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+     setup_circle_ci
      sync_code_signing 
       mapping = Actions.lane_context[
       SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
