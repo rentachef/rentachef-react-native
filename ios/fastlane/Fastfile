@@ -63,10 +63,6 @@ platform :ios do
    end
     desc " Build My App"
     lane :build_ipa do
-    cert(
-      cert_path: "/Users/distiller/rentachef-react-native/.circleci/certs/certificate.p12",
-      cert_password: "rac2023"
-    )
       gym(
         workspace: "rentachef.xcworkspace",
         scheme: "rentachef",
@@ -77,7 +73,7 @@ platform :ios do
         export_options: {
            method: "app-store",
            provisioningProfiles: {
-             "com.raclabs.rentachef" => "RAC Labs Rentachef - AppStore",
+             "com.raclabs.rentachef" => "RAC Labs Rentachef",
                 }
         }
       )
