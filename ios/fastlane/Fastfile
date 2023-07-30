@@ -64,6 +64,7 @@ platform :ios do
    end
     desc " Build My App"
     lane :build_ipa do
+    install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef.mobileprovision") 
       gym(
         workspace: "rentachef.xcworkspace",
         scheme: "rentachef",
@@ -73,9 +74,7 @@ platform :ios do
         clean: true,
         export_options: {
            method: "app-store",
-           provisioningProfiles: {
-             "com.raclabs.rentachef" => "RAC Labs Rentachef",
-                }
+
         }
       )
       end
