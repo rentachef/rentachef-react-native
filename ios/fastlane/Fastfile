@@ -37,7 +37,7 @@ platform :ios do
       )
    
       import_certificate(
-        certificate_path: "/Users/distiller/rentachef-react-native/.circleci/certs/certificate.p12",
+        certificate_path: "/Users/distiller/rentachef-react-native/.circleci/certs/raclabs.p12",
         certificate_password: "rac2023",
         keychain_name: keychain_name,
         keychain_password: keychain_password
