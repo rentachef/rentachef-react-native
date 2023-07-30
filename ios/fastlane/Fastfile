@@ -29,7 +29,6 @@ platform :ios do
        key_id: "M9TJ4K9P8Y",
        issuer_id: "69a6de73-f7c5-47e3-e053-5b8c7c11a4d1",
        key_filepath: "./fastlane/AuthKey_M9TJ4K9P8Y.p8",
-       is_key_content_base64: true,
        in_house: false # detecting this via ASC private key not currently supported
      )
    end
