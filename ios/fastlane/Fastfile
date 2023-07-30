@@ -18,11 +18,6 @@ default_platform(:ios)
 platform :ios do
    desc “Sync signing”
     lane :sync_certificates do
-    app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
-    sync_code_signing 
-    mapping = Actions.lane_context[
-    SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
-    ]
     match({readonly: false, type: "adhock"})
     update_code_signing_settings()
     end
