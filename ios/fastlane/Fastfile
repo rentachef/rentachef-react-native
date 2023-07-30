@@ -18,8 +18,36 @@ default_platform(:ios)
 platform :ios do
    desc “Sync signing”
     lane :sync_certificates do
-    match({readonly: true, type: "adhoc"})
-    update_code_signing_settings()
+      team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+      api_key = lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+   
+      keychain_name = "signing"
+      keychain_password = "temp"
+   
+      delete_keychain(
+        name: keychain_name
+      ) if File.exist? File.expand_path("~/Library/Keychains/#{keychain_name}-db")
+   
+      create_keychain(
+        name: keychain_name,
+        password: keychain_password,
+        default_keychain: true,
+        unlock: true,
+        timeout: 3600
+      )
+   
+      import_certificate(
+        certificate_path: "/Users/distiller/rentachef-react-native/.circleci/certs/certificate.p12",
+        certificate_password: "rac2023"
+        keychain_name: keychain_name,
+        keychain_password: keychain_password
+      )
+
+     sigh(
+        adhoc: options[:adhoc],
+        api_key: api_key,
+        readonly: true
+      )
     end
 
 
