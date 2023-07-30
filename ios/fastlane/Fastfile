@@ -62,6 +62,7 @@ platform :ios do
    end
     desc " Build My App"
     lane :build_ipa do |options|
+      install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef.mobileprovision") 
       sync_certificates
       increment_build_number
       gym(
@@ -70,14 +71,7 @@ platform :ios do
         output_directory: "fastlane/builds",
         output_name: "rentachef.ipa",
         include_bitcode: false,
-        clean: true,
-        export_options: {
-           method: "app-store",
-           provisioningProfiles: {
-           "com.raclabs.rentachef" => "RAC Labs Rentachef",
-              }
-        }
-      )
+        clean: true
       end
 
   lane :release_rentachef_to_testflight do
