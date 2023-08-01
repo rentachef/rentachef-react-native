@@ -44,7 +44,7 @@ platform :ios do
       )
 
      sigh(
-        adhoc: options[:adhoc],
+        adhoc: options[:appstore],
         api_key: api_key,
         readonly: true
       )
@@ -62,7 +62,6 @@ platform :ios do
    end
     desc " Build My App"
     lane :build_ipa do |options|
-      install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef.mobileprovision") 
       sync_certificates
       increment_build_number
       gym(
