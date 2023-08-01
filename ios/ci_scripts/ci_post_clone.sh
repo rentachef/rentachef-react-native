@@ -15,7 +15,7 @@ brew install node@16 cocoapods fastlane vips pipenv
 echo 'export PATH="/usr/local/opt/node@16/bin:$PATH"' >> ~/.zshrc
 
 # Install yarn and pods dependencies.
-ls && cd .. && npm install && npm run ios-device
+ls && cd .. && cd .. && npm install && npm run ios-device
 # If you're using Flutter or Swift 
 # just install pods by "pod install" command 
 ls && cd ios && yarn && pod install
