@@ -14,7 +14,7 @@ brew install yarn cocoapods fastlane
 # Install yarn and pods dependencies.
 # If you're using Flutter or Swift 
 # just install pods by "pod install" command 
-ls && cd ios && yarn && pod install
+ls && cd .. && yarn && pod install
 
 echo "🎯 Stage: Post-clone is done .... "
 
