@@ -9,7 +9,7 @@ set -e
 set -x
 
 # Install dependencies using Homebrew. This is MUST! Do not delete.
-brew install yarn cocoapods fastlane
+brew install node yarn cocoapods fastlane
 
 # Install yarn and pods dependencies.
 # If you're using Flutter or Swift 
