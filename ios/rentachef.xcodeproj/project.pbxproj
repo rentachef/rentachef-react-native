@@ -12,7 +12,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		27B318F02A6CE61C00CC56BB /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		73F12C9F943F293313BA127B /* libPods-rentachef.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D43191A908EE18C11A83C895 /* libPods-rentachef.a */; };
-		B21124EDFAAF64F22465F2BA /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		B21124EDFAAF64F22465F2BA /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		EF43A9FB26D70BB60070E130 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */; };
 		EFAA6B5B298F03D9008E1D7F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = EFAA6B5A298F03D9008E1D7F /* assets */; };
 		EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
@@ -86,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B21124EDFAAF64F22465F2BA /* (null) in Frameworks */,
+				B21124EDFAAF64F22465F2BA /* BuildFile in Frameworks */,
 				73F12C9F943F293313BA127B /* libPods-rentachef.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -698,6 +698,7 @@
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA4953371D798D92D4E57355 /* Pods-rentachef.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -766,6 +767,7 @@
 		};
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F772FA621069E39FB7F7EF9 /* Pods-rentachef.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
