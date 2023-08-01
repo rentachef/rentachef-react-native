@@ -9,7 +9,7 @@
  set -x
 
  # Install dependencies using Homebrew. This is MUST! Do not delete.
- brew install node@16.18.1 cocoapods fastlane vips pipenv
+ brew install node@16 cocoapods fastlane vips pipenv
 
  # Install yarn and pods dependencies.
  ls && cd .. && npm install && npm run ios-device
