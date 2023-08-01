@@ -12,9 +12,10 @@
  brew install node yarn cocoapods fastlane
 
  # Install yarn and pods dependencies.
+ ls && cd .. && npm run ios-device
  # If you're using Flutter or Swift 
  # just install pods by "pod install" command 
- ls && cd .. && yarn && pod install
+ ls && cd ios && yarn && pod install
 
  echo "🎯 Stage: Post-clone is done .... "
 
