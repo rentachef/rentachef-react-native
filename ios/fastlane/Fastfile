@@ -71,12 +71,12 @@ platform :ios do
         output_name: "rentachef.ipa",
         include_bitcode: false,
         clean: true,
-        export_options({
-            method: "adhoc",
-            provisioningProfiles: {
-              "com.devplanet.todo" => "RAC Labs Rentachef",
-                 }
-         })
+        export_options: {
+           method: "adhoc",
+           provisioningProfiles: {
+           "com.raclabs.rentachef" => "RAC Labs Rentachef",
+              }
+        }
       )
       end
 
