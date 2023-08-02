@@ -86,5 +86,7 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Rentachef needs access to camera so the chefs can upload pictures of their meals and for the clients to upload documentation</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Rentachef needs access to gallery so the chefs can upload pictures of their meals and for the clientes to upload documentation</string>
 </dict>
 </plist>
