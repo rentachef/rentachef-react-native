@@ -44,7 +44,7 @@ platform :ios do
       )
 
      sigh(
-        adhoc: options[:appstore],
+        adhoc: options[:adhoc],
         api_key: api_key,
         readonly: true
       )
@@ -70,7 +70,13 @@ platform :ios do
         output_directory: "fastlane/builds",
         output_name: "rentachef.ipa",
         include_bitcode: false,
-        clean: true
+        clean: true,
+        export_options({
+            method: "adhoc",
+            provisioningProfiles: {
+              "com.devplanet.todo" => "RAC Labs Rentachef",
+                 }
+         })
       )
       end
 
