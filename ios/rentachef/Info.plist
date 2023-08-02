@@ -40,9 +40,11 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Used for bookings</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used for Chef's profile setup</string>
+	<string>Rentachef needs Location access to find the nearest chefs to cook their meals</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Rentachef needs Location to store a chefs location so the clients can find the nearest one to cook their meals</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Rentachef needs Location to connect nearest chefs to clients</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
