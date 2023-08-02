@@ -17,17 +17,37 @@ default_platform(:ios)
 platform :ios do
    desc “Sync signing”
     lane :sync_certificates do |options|
-    sync_code_signing 
-    mapping = Actions.lane_context[
-    SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING
-    ]
-    update_code_signing_settings(
-     use_automatic_signing: false,
-     code_sign_identity: "iPhone Distribution",
-     bundle_identifier: "com.raclabs.rentachef",
-     profile_name: "RAC Labs Rentachef",
-    )
+      team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+      api_key = lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+   
+      keychain_name = "signing"
+      keychain_password = "temp"
+   
+      delete_keychain(
+        name: keychain_name
+      ) if File.exist? File.expand_path("~/Library/Keychains/#{keychain_name}-db")
+   
+      create_keychain(
+        name: keychain_name,
+        password: keychain_password,
+        default_keychain: true,
+        unlock: true,
+        timeout: 3600
+      )
+   
+      import_certificate(
+        certificate_path: "/Users/distiller/rentachef-react-native/.circleci/certs/raclabs.p12",
+        certificate_password: "rac2023",
+        keychain_name: keychain_name,
+        keychain_password: keychain_password
+      )
+     sigh(
+        adhoc: options[:development],
+        api_key: api_key,
+        readonly: true
+      )
     end
+
 
 
    desc "Load ASC API Key information to use in subsequent lanes"
@@ -43,6 +63,13 @@ platform :ios do
     lane :build_ipa do |options|
       sync_certificates
       increment_build_number
+      update_code_signing_settings(
+         use_automatic_signing: false,
+         targets: ["main-target"], # specify which targets to update code signing settings for
+         code_sign_identity: "Apple Distribution", # replace with name of code signing identity if different
+         bundle_identifier: "com.raclabs.rentachef",
+         profile_name: "RAC Labs Rentachef",
+       )
       gym(
         workspace: "rentachef.xcworkspace",
         scheme: "rentachef",
