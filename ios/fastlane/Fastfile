@@ -42,7 +42,7 @@ platform :ios do
         keychain_password: keychain_password
       )
      sigh(
-        adhoc: false,
+        development: true,
         api_key: api_key,
         readonly: true,
       )
