@@ -42,10 +42,9 @@ platform :ios do
         keychain_password: keychain_password
       )
      sigh(
-        adhoc: options[:development],
+        adhoc: false,
         api_key: api_key,
         readonly: true,
-        development : true
       )
     end
 
