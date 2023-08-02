@@ -33,6 +33,8 @@ jobs:
          name: Build with fastlane
          command: |
             cd ios
+            curl https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer -o AppleWWDRCAG3.cer
+            sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain AppleWWDRCAG3.cer
             export MATCH_PASSWORD="rac2023"
             sudo xcode-select -s /Applications/Xcode-14.2.app
             fastlane release_rentachef_to_testflight
