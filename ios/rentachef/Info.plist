@@ -44,7 +44,9 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Rentachef needs Location to store a chefs location so the clients can find the nearest one to cook their meals</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Rentachef needs Location to connect nearest chefs to clients</string>
+	<string>Rentachef needs Location access to connect nearest chefs to clients</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Rentachef needs Location access to connect nearest chefs to clients</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
