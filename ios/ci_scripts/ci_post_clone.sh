@@ -8,6 +8,7 @@ set -e
 # debug log
 set -x
 
+export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
 # Install dependencies using Homebrew. This is MUST! Do not delete.
 brew install node yarn cocoapods fastlane react-native-cli
 brew link node
