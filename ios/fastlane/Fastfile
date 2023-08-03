@@ -47,7 +47,7 @@ platform :ios do
       increment_build_number
       update_code_signing_settings(
          use_automatic_signing: false,
-         targets: ["main-target"], # specify which targets to update code signing settings for
+         targets: ["rentachef"], # specify which targets to update code signing settings for
          code_sign_identity: "Apple Distribution", # replace with name of code signing identity if different
          bundle_identifier: "com.raclabs.rentachef",
          profile_name: "RAC Labs Rentachef",
