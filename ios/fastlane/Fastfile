@@ -26,11 +26,7 @@ platform :ios do
         certificate_password: "rac2023",
         keychain_name: "/Users/distiller/Library/Keychains/login.keychain-db"
       )
-     sigh(
-        development: true,
-        api_key: api_key,
-        readonly: true,
-      )
+
     end
 
 
@@ -46,6 +42,7 @@ platform :ios do
    end
     desc " Build My App"
     lane :build_ipa do |options|
+      install_provisioning_profile(path: "/Users/distiller/rentachef-react-native/.circleci/profiles/RAC_Labs_Rentachef.mobileprovision") 
       sync_certificates
       increment_build_number
       update_code_signing_settings(
