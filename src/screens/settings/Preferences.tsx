@@ -91,7 +91,7 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
                   type='outline'
                   buttonStyle={[{ borderColor: Colors.placeholderColor, marginVertical: 5 }, selectedDays.some((it: any) => it.key === item.key) && { backgroundColor: Colors.primaryColor}]}
                   containerStyle={{ margin: 2 }}
-                  titleStyle={{ color: Colors.secondaryColor }}
+                  titleStyle={{ color: selectedDays.some((it: any) => it.key === item.key) ? Colors.background : Colors.primaryText }}
                 />
               ))}
             </View>
@@ -107,7 +107,7 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
                   type='outline'
                   buttonStyle={[{borderColor: Colors.placeholderColor, width: 100}, dayTime?.key === dt.key ? {backgroundColor: Colors.primaryColor} : {}]}
                   containerStyle={{margin: 2}}
-                  titleStyle={{color: Colors.secondaryColor}}
+                  titleStyle={{ color: dayTime?.key === dt.key ? Colors.background : Colors.primaryText }}
                 />))}
             </View>
           </View>
@@ -122,7 +122,7 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
                   type='outline'
                   buttonStyle={[{ borderColor: Colors.placeholderColor}, selectedCuisines.some((it: any) => it._id === item._id) && { backgroundColor: Colors.primaryColor}]}
                   containerStyle={{ margin: 2 }}
-                  titleStyle={{ color: Colors.secondaryColor }}
+                  titleStyle={{ color: selectedCuisines.some((it: any) => it._id === item._id) ? Colors.background : Colors.primaryText }}
                 />
               ))}
             </View>
@@ -131,11 +131,11 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
         <View style={{...globalStyles.buttonContainer, justifyContent: 'flex-end', bottom: 0 }}>
           <Button
             title='Save'
-            buttonStyle={{ backgroundColor: Colors.secondaryColor }}
+            buttonStyle={{ backgroundColor: Colors.primaryColor }}
             titleColor={Colors.background}
             onPress={saveChanges}
             loading={loading}
-            loadingColor={Colors.primaryColor}
+            loadingColor={Colors.background}
           />
         </View>
       </View>

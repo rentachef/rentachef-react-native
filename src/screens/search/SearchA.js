@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: Colors.backgroundDark,
+    borderColor: Colors.backgroundLight,
     borderRadius: 8
   },
   searchFilter: {
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: Colors.backgroundDark,
+    borderColor: Colors.backgroundLight,
+    color: Colors.primaryText,
     borderRadius: 8
   },
   categoriesList: {

@@ -24,6 +24,16 @@ import Chat from "../screens/chat/Chat";
 import ChatList from "../screens/chat/ChatList";
 import HeaderIconButton from "../components/navigation/HeaderIconButton";
 
+const stackStyles = {
+  headerStyle: {
+    backgroundColor: Colors.background
+  }, 
+  headerTitleStyle: {
+    color: Colors.primaryText
+  },
+  headerTintColor: Colors.primaryColor
+}
+
 // create bottom tab navigator
 const Tab = createBottomTabNavigator();
 
@@ -32,18 +42,19 @@ const CustomerDashboardStack = createStackNavigator()
 function CustomerDashboardStackScreen() {
   return (
     <CustomerDashboardStack.Navigator>
-      <CustomerDashboardStack.Screen name="CustomerDashboard" component={CustomerDashboard} options={{headerShown: false}}/>
-      <CustomerDashboardStack.Screen name="SearchCuisines" component={SearchCuisines} options={{ title: '', headerBackTitle: ' '}} />
-      <CustomerDashboardStack.Screen name="AddressSelector" component={ServiceDetailsAddress} options={{ title: '', headerBackTitle: ' '}} />
-      <CustomerDashboardStack.Screen name="ScheduleSelector" component={ServiceDetailsSchedule} options={{ title: '', headerBackTitle: ' '}} />
-      <CustomerDashboardStack.Screen name="ChefFilters" component={ChefFilters} options={{ title: '', headerBackTitle: ' '}} />
-      <CustomerDashboardStack.Screen name="ChefResults" component={ChefResults} options={{ title: '', headerBackTitle: ' '}} />
-      <CustomerDashboardStack.Screen name="ChefAbout" component={ChefAbout} options={{ title: '', headerBackTitle: ' '}} />
-      <CustomerDashboardStack.Screen name="Checkout" component={Checkout} options={{ title: 'Booking Details', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
+      <CustomerDashboardStack.Screen name="CustomerDashboard" component={CustomerDashboard} options={{headerShown: false, ...stackStyles}}/>
+      <CustomerDashboardStack.Screen name="SearchCuisines" component={SearchCuisines} options={{ title: '', headerBackTitle: ' ', ...stackStyles}} />
+      <CustomerDashboardStack.Screen name="AddressSelector" component={ServiceDetailsAddress} options={{ title: '', headerBackTitle: ' ', ...stackStyles}} />
+      <CustomerDashboardStack.Screen name="ScheduleSelector" component={ServiceDetailsSchedule} options={{ title: '', headerBackTitle: ' ', ...stackStyles}} />
+      <CustomerDashboardStack.Screen name="ChefFilters" component={ChefFilters} options={{ title: '', headerBackTitle: ' ', ...stackStyles}} />
+      <CustomerDashboardStack.Screen name="ChefResults" component={ChefResults} options={{ title: '', headerBackTitle: ' ', ...stackStyles}} />
+      <CustomerDashboardStack.Screen name="ChefAbout" component={ChefAbout} options={{ title: '', headerBackTitle: ' ', ...stackStyles}} />
+      <CustomerDashboardStack.Screen name="Checkout" component={Checkout} options={{ title: 'Booking Details', headerBackTitle: ' ', headerTitleAlign: 'center', ...stackStyles}} />
       <CustomerDashboardStack.Screen name="CustomerChat" component={Chat} options={{ 
         title: 'Inbox', 
         headerBackTitle: ' ', 
-        headerTitleAlign: 'center'
+        headerTitleAlign: 'center',
+        ...stackStyles
       }} />
     </CustomerDashboardStack.Navigator>
   );

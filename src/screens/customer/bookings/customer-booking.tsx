@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
+import {Platform, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import globalStyles from "../../../theme/global-styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../../../theme/colors";
@@ -26,8 +26,10 @@ import {ListItem} from "react-native-elements";
 import CustomerCards from "../../settings/CustomerCards";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import {inject} from "mobx-react";
+import BookingNotes from 'src/screens/chef/bookings/booking-notes';
+import { KeyboardAvoidingView } from 'react-native';
 
-const formatName = (name: string) => `${name.split(' ')[0]} ${name.split(' ')[1][0]}.`
+const formatName = (name: string) => name.split(' ').length > 1 ? `${name.split(' ')[0]} ${name.split(' ')[1][0]}.` : name
 
 const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
   const [booking, setBooking] = useState(route.params.booking)
@@ -41,7 +43,8 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
 
   useEffect(() => {
     if(booking.status === 'Confirmed') {
-      if(moment(booking.dateTime).diff(moment(), 'hours') > 24)
+      console.log(moment().diff(moment(booking.createdAt), 'hours'))
+      if(moment().diff(moment(booking.createdAt), 'hours') > 24)
         setCancellationFee(true)
       
       stores.searchStore.getChefHourlyRate(booking.chefId)
@@ -65,7 +68,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             <Text style={{ color: _getColorByStatus(booking.status), top: 5 }}>● {booking.status}</Text>
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-            <Icon name='map-marker-outline' size={30} style={{ flex: .5, flexBasis: '12%' }}/>
+            <Icon name='map-marker-outline' size={30} color={Colors.secondaryText} style={{ flex: .5, flexBasis: '12%' }}/>
             <View style={{ flexBasis: '65%'}}>
               <Text style={{ marginVertical: 5}}>{booking.location.address}</Text>
               <Subtitle2 style={{ marginVertical: 5}}>{booking.location.city}</Subtitle2>
@@ -80,45 +83,31 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 50, marginTop: -10 }}>
-            <Icon name='calendar-outline' size={30} />
+            <Icon name='calendar-outline' color={Colors.secondaryText} size={30} />
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
               <Text style={{ marginVertical: 5, marginHorizontal: 15 }}>{moment(booking.dateTime).format('ddd, MMM D, HH:mm A')}</Text>
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 50 }}>
-            <Icon name='account-multiple-outline' size={30} />
+            <Icon name='account-multiple-outline' color={Colors.secondaryText} size={30} />
             <View style={{ flex: 1, height: 30, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
               <Text style={{ marginLeft: 20, marginVertical: 5 }}>Guests</Text>
               <HeadlineBold>{booking.diners}</HeadlineBold>
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 35 }}>
-            <Icon name='silverware-fork-knife' size={30} />
+            <Icon name='silverware-fork-knife' color={Colors.secondaryText} size={30} />
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
               <Text style={{ marginLeft: 20, marginVertical: 5 }}>Cuisine</Text>
               <HeadlineBold>{booking.cuisine.label}</HeadlineBold>
             </View>
           </View>
-          <View>
-            <ListItem.Accordion
-              containerStyle={{ paddingHorizontal: 0, paddingBottom: 5 }}
-              isExpanded={showNotes}
-              onPress={() => setShowNotes(!showNotes)}
-              content={
-                <>
-                  <ListItem.Content>
-                    <Text>Notes</Text>
-                  </ListItem.Content>
-                </>
-              }
-            >
-              <ListItem>
-                <ListItem.Content>
-                  <Text>{booking.notes}</Text>
-                </ListItem.Content>
-              </ListItem>
-            </ListItem.Accordion>
-          </View>
+          <TouchableOpacity onPress={() => setModalIndex(1)}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
+              <Text>Notes</Text>
+              <Icon name='chevron-right' size={30} style={{ paddingHorizontal: 0 }} color={Colors.secondaryText}/>
+            </View>
+          </TouchableOpacity>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           {booking.status === 'Completed' &&
           <>
@@ -155,11 +144,11 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             <>
               <View style={{ paddingHorizontal: 30 }}>
                 <View style={{ flex: .5, marginVertical: 10 }}>
-                  <Button
+                  {/*<Button
                     onPress={() => {}}
                     title='Edit Booking'
-                    color={Colors.backgroundMedium}
-                  />
+                    color={Colors.backgroundLight}
+                  />*/}
                 </View>
                 <View style={{ flex: .5, marginVertical: 10 }}>
                   <Button
@@ -171,7 +160,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                       chef: { id: booking.chefId, name: booking.chefName }
                     })}
                     title={`Message ${formatName(role === 'Cook' ? booking.clientName : booking.chefName)}`}
-                    color={Colors.backgroundMedium}
+                    color={Colors.backgroundLight}
                   />
                 </View>
                 <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
@@ -221,10 +210,10 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
       <SafeAreaView style={{ flex: 1, position: 'absolute', width: '100%', height: '100%'}}>
         <RACBottomSheet
           index={modalIndex}
-          size={'35%'}
+          size={modalIndex === 1 ? '80%' : '35%'}
           onClose={() => setModalIndex(-1)}
         >
-          <View style={{ flex: 1, margin: 32, justifyContent: 'space-between' }}>
+          {modalIndex === 0 ? <View style={{ flex: 1, margin: 32, justifyContent: 'space-between' }}>
             <Heading6>Are you sure you want to cancel?</Heading6>
             {cancellationFee && <LightText>You are cancelling 24 hours after booking. You will be charged a 10% cancellation fee.</LightText>}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -243,8 +232,17 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                 }}
               />
             </View>
-          </View>
-        </RACBottomSheet>
+          </View> : 
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={90}>
+              <BookingNotes disabled={['Cancelled', 'Completed'].includes(booking.status)} value={booking.notes} onDone={(notes: string) => {
+                console.log(notes, booking.notes, notes !== booking.notes)
+                if(!!notes && notes !== booking.notes && ['Pending', 'Confirmed'].includes(booking.status))
+                  stores.bookingsStore.updateBooking(booking._id, { notes })
+                setModalIndex(-1)
+              }} />
+            </KeyboardAvoidingView>}
+        </RACBottomSheet> 
       </SafeAreaView>}
     </>
   )

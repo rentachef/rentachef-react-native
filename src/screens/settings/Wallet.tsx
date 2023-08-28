@@ -48,7 +48,7 @@ const Wallet = inject('stores')(observer((props) => {
                  <TouchableOpacity style={styles.item} onPress={() => setModalIndex(0)}>
                    <Icon style={{marginHorizontal: 10}} color={Colors.secondaryText} name='credit-card-outline' size={30}/>
                    <View style={styles.leftTitleContainer}>
-                     <FAIcon name={selectedCard?.cardBrand} size={30}/>
+                     <FAIcon name={selectedCard?.cardBrand} color={Colors.secondaryText} size={30}/>
                      <Text
                        style={styles.titleBold}>{selectedCard?.type === 'Credit Card' ? '●●●●' : selectedCard?.type} {selectedCard?.cardNumber}</Text>
                    </View>

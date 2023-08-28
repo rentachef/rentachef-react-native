@@ -74,7 +74,7 @@ const ReviewsList = (props: any) => {
                 </View>
                 <View style={{flex: .35, alignItems: 'flex-start',  flexDirection: 'row' }}>
                   <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-                    <SmallBoldText style={{color: '#333333'}}>"{r.review}"</SmallBoldText>
+                    <SmallBoldText style={{color: Colors.secondaryText}}>"{r.review}"</SmallBoldText>
                   </View>
                 </View>
                 <View style={{flex: .3, alignItems: 'flex-start',  flexDirection: 'row', marginTop: 3 }}>
@@ -115,16 +115,16 @@ export default function Reviews({ route }) {
   const buttons = ['Day', 'Week', 'Month', 'Year']
 
   return (
-    <>
+    <View style={{flex: 1, backgroundColor: Colors.background}}>
       <ButtonGroup
         onPress={setSelectedIndex}
         buttonStyle={{
-          backgroundColor: Colors.disabled
+          backgroundColor: Colors.background
         }}
         selectedIndex={selectedIndex}
         buttons={buttons}
-        containerStyle={{height: 40, borderRadius: 8}}
-        selectedButtonStyle={{backgroundColor: Colors.primary, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
+        containerStyle={{height: 40, marginVertical: 10, borderRadius: 8, backgroundColor: Colors.background}}
+        selectedButtonStyle={{backgroundColor: Colors.primaryColor, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
         selectedTextStyle={{color: Colors.primaryText}}
         textStyle={{color: Colors.secondaryText, fontWeight: 'bold'}}
       />
@@ -132,6 +132,6 @@ export default function Reviews({ route }) {
       {selectedIndex === 1 &&  <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).week() === moment().week())} dayText={`Week ${moment().week()} ${moment().year()}`}/>}
       {selectedIndex === 2 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).month() === moment().month())} dayText={moment().format('MMMM YYYY')}/>}
       {selectedIndex === 3 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).year() === moment().year())} dayText={moment().format('YYYY')}/>}
-    </>
+    </View>
   );
 }

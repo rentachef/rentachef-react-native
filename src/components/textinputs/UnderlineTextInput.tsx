@@ -113,7 +113,8 @@ const UnderlineTextInput = ({
   iconSize,
   iconColor,
   multiline,
-  numberOfLines
+  numberOfLines,
+  textAlignVertical
 }: Props) => (
   <View
     style={[
@@ -134,14 +135,16 @@ const UnderlineTextInput = ({
       multiline={multiline}
       onKeyPress={onKeyPress}
       keyboardType={keyboardType}
+      numberOfLines={numberOfLines}
       autoCapitalize={autoCapitalize}
       maxLength={maxLength}
       placeholder={placeholder}
       placeholderTextColor={placeholderTextColor}
       value={value}
       secureTextEntry={secureTextEntry}
+      textAlignVertical={textAlignVertical}
       style={[
-        styles.textInput,
+        {...styles.textInput, height: multiline ? undefined : styles.textInput.height},
         inputTextColor && {color: inputTextColor},
         inputStyle,
       ]}

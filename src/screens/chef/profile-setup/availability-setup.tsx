@@ -156,7 +156,7 @@ export default class ChefAvailability extends React.Component<any, any> {
     const { selectedIndex, timeZone, modalView, modalIndex, selectedDate, timeForDay, calendarDates, dateOverrides, loading } = this.state
 
     return (
-      <View style={{flex: 1, backgroundColor: '#FFFFFF', padding: 5, height: '99%'}}>
+      <View style={{flex: 1, backgroundColor: Colors.background, padding: 5, height: '99%'}}>
         <View style={{flex: 8, opacity: this.state.modalIndex !== -1 ? 0.5: 1}}>
           <Subtitle2 style={{alignItems: 'center', padding: 10, textAlign: 'center'}}>Set typical weekly hours && add overrides for specific dates</Subtitle2>
           <ButtonGroup
@@ -166,8 +166,8 @@ export default class ChefAvailability extends React.Component<any, any> {
             }}
             selectedIndex={selectedIndex}
             buttons={buttons}
-            containerStyle={{height: 40, borderRadius: 10}}
-            selectedButtonStyle={{backgroundColor: Colors.primary, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
+            containerStyle={{height: 40, borderRadius: 10, backgroundColor: Colors.background}}
+            selectedButtonStyle={{backgroundColor: Colors.primaryColor, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
             selectedTextStyle={{color: Colors.primaryText}}
             textStyle={{color: Colors.secondaryText, fontWeight: 'bold'}}
           />
@@ -187,22 +187,27 @@ export default class ChefAvailability extends React.Component<any, any> {
                   markedDates={calendarDates}
                   theme={{
                     todayTextColor: Colors.primaryColor,
-                    arrowColor: Colors.primaryColor
+                    arrowColor: Colors.primaryColor,
+                    calendarBackground: Colors.backgroundLight,
+                    monthTextColor: Colors.primaryText,
+                    dayTextColor: Colors.primaryText,
+                    textDisabledColor: Colors.secondaryText
                   }}
                 />
-                <ScrollView style={{flex: 2 }}>
-                  <Text style={{ width: '100%', marginLeft: 20 }}>Availability for specific dates</Text>
-                  {dateOverrides.map((dov: DayAndTime, i: number) => (
-                    <DateSelection key={i} date={dov.day} onDelete={() => this.deleteDateOverride(dov.day)} time={this.getTime(dov.timing)}/>)
-                  )}
-                </ScrollView>
+                {dateOverrides.length > 0 &&
+                  <ScrollView style={{flex: 2 }}>
+                    <Text style={{ width: '100%', marginLeft: 20, marginTop: 10 }}>Availability for specific dates</Text>
+                    {dateOverrides.map((dov: DayAndTime, i: number) => (
+                      <DateSelection key={i} date={dov.day} onDelete={() => this.deleteDateOverride(dov.day)} time={this.getTime(dov.timing)}/>)
+                    )}
+                  </ScrollView>}
               </View>
           )}
         </View>
         <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'center' }}>
-          <Icon name='earth' size={20} style={{ marginRight: 5 }}/>
+          <Icon name='earth' size={20} style={{ marginRight: 5, color: Colors.primaryText }}/>
           <LinkButton
-            titleStyle={{ color: 'black' }}
+            titleStyle={{ color: Colors.primaryText }}
             onPress={() => this.showTzModal()}
             title={timeZone}
           />
@@ -214,6 +219,7 @@ export default class ChefAvailability extends React.Component<any, any> {
               title='Save'
               disabled={!this.isValid() || loading}
               loading={loading}
+              loadingColor={Colors.background}
             />
           </View>
         </View>

@@ -5,6 +5,7 @@ import BottomSheet, {
   BottomSheetModalProvider, BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import Button from "../../components/buttons/Button";
+import Colors from '../../theme/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +13,6 @@ const styles = StyleSheet.create({
     //maxHeight: 200,
     padding: 24,
     justifyContent: 'center',
-    backgroundColor: 'white',
     borderWidth: 1
   },
   contentContainer: {
@@ -69,9 +69,12 @@ export function RACBottomSheet(props: {
   return (
     <BottomSheet
       ref={sheetRef}
-      enablePanDownToClose={props.enableSwipeClose}
+      enablePanDownToClose={true}
       index={props.index}
       snapPoints={snapPoints}
+      backgroundStyle={{ backgroundColor: Colors.background }}
+      keyboardBehavior='interactive'
+      keyboardBlurBehavior='restore'
       onChange={handleSheetChange}
       onClose={() => props.onClose()}
     >

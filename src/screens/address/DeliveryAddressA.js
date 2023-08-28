@@ -15,7 +15,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import ActionButton from 'react-native-action-button';
+//import ActionButton from 'react-native-action-button';
 
 // import components
 import Icon from '../../components/icon/Icon';
@@ -268,7 +268,7 @@ export default class DeliveryAddressA extends Component {
             contentContainerStyle={styles.addressList}
           />
 
-          <ActionButton
+          {/*<ActionButton
             buttonColor={Colors.accentColor}
             onPress={this.handleFabPress}
             offsetX={20}
@@ -299,7 +299,7 @@ export default class DeliveryAddressA extends Component {
                 color={Colors.onTertiaryColor}
               />
             </ActionButton.Item>
-          </ActionButton>
+          </ActionButton>*/}
         </View>
       </SafeAreaView>
     );

@@ -50,7 +50,7 @@ export default class PreSignUp extends Component {
   _renderItem({item,index}){
     return (
       <View style={{
-        backgroundColor:'transparent',
+        backgroundColor: Colors.background,
         alignItems: "center",
         justifyContent: 'center',
         padding: 0,
@@ -97,7 +97,7 @@ export default class PreSignUp extends Component {
 
   render () {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: Colors.background}}>
         <View style={{ flex: .7, flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
           <View style={{flex: 1}}>
             <Carousel
@@ -113,7 +113,7 @@ export default class PreSignUp extends Component {
             <Pagination
               dotsLength={this.state.carouselItems.length}
               activeDotIndex={this.state.activeSlide}
-              containerStyle={{ backgroundColor: 'transparent', padding: 0, marginTop: -40 }}
+              containerStyle={{ backgroundColor: Colors.background, padding: 0, marginTop: -40 }}
               dotStyle={{
                 width: 10,
                 height: 10,
@@ -126,14 +126,14 @@ export default class PreSignUp extends Component {
                 height: 10,
                 borderRadius: 5,
                 marginHorizontal: 8,
-                backgroundColor: Colors.disabled
+                backgroundColor: Colors.secondaryColor
               }}
               inactiveDotOpacity={0.4}
               inactiveDotScale={0.6}
             />
           </View>
       </View>
-        <View style={{flex: .3, flexDirection: 'column', padding: 5}}>
+        <View style={{flex: .3, flexDirection: 'column', padding: 5, backgroundColor: Colors.background}}>
           <View style={{flex: .33}}>{this.returnContentForSlide()}</View>
           <View style={{flex: .33, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <Button onPress={this.navigateTo('SignUp', 'Cook')} buttonStyle={{flex: .4, backgroundColor: Colors.secondaryColor, marginRight: 20}} title={'Join as a chef'} titleColor={'white'}/>

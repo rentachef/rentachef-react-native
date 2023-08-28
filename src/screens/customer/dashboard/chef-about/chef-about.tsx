@@ -115,15 +115,17 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
               title='Continue'
               buttonStyle={{ padding: 10, backgroundColor: Colors.primaryColor, alignSelf: 'stretch' }}
               onPress={
-                () => navigation.navigate('Checkout', { chef: {
-                  userId: chef.userId,
-                  name: chef.settings.profile.fullName,
-                  availability: chef.availability,
-                  photo: chef.photo,
-                  hourlyRate: chef.hourlyRate,
-                  cuisines: chef.settings.bio.cuisines,
-                  specialties: chef.settings.bio.specialties
-                }})}
+                () => {
+                  console.log('choosed chef', chef.settings.profile)
+                  navigation.navigate('Checkout', { chef: {
+                    userId: chef.userId,
+                    name: chef.settings.profile.fullName,
+                    availability: chef.availability,
+                    photo: chef.photo,
+                    hourlyRate: chef.hourlyRate,
+                    cuisines: chef.settings.bio.cuisines,
+                    specialties: chef.settings.bio.specialties
+                  }})}}
             />
           </View>
         </View>

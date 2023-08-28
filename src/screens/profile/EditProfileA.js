@@ -11,7 +11,7 @@ import {
   Platform,
   SafeAreaView, ScrollView,
   StatusBar,
-  StyleSheet, Text, TextInput,
+  StyleSheet, TextInput,
   View,
 } from 'react-native';
 import Color from 'color';
@@ -20,7 +20,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 // import components
 import Avatar from '../../components/avatar/Avatar';
 import Icon from '../../components/icon/Icon';
-import {Subtitle2} from '../../components/text/CustomText';
+import {Subtitle2, Text} from '../../components/text/CustomText';
 import TouchableItem from '../../components/TouchableItem';
 import PhoneTextInput from "../../components/text/PhoneTextInput";
 
@@ -92,11 +92,11 @@ const styles = StyleSheet.create({
     flex: .15,
     height: 50,
     paddingHorizontal: 20,
-    borderColor: Colors.backgroundDark,
+    borderColor: Colors.backgroundLight,
     borderWidth: 2,
     borderRadius: 12,
     margin: 5,
-    color: 'black',
+    color: Colors.primaryText,
   },
   inputGroupItemFocused: {
     borderColor: Colors.primaryColor,
@@ -284,6 +284,7 @@ export default class EditProfileA extends Component {
             title='Save'
             disabled={!this.isValid() || this.state.loading}
             loading={this.state.loading}
+            loadingColor={Colors.background}
           />
         </View>
       </ScrollView>

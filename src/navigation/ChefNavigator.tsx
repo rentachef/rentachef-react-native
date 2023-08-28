@@ -54,6 +54,16 @@ type Props = {
   size: number,
 };
 
+const stackStyles = {
+  headerStyle: {
+    backgroundColor: Colors.background
+  }, 
+  headerTitleStyle: {
+    color: Colors.primaryText
+  },
+  headerTintColor: Colors.primaryColor
+}
+
 // create bottom tab navigator
 const Tab = createBottomTabNavigator();
 
@@ -62,10 +72,10 @@ const ChefDashboardStack = createStackNavigator()
 function ChefDashboardStackScreen() {
   return (
     <ChefDashboardStack.Navigator>
-      <ChefDashboardStack.Screen name="ChefDashboard" component={ChefDashboard} options={{headerBackTitle: ' ', headerShown: false}}/>
-      <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
-      <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
-      <ChefDashboardStack.Screen name="ChefChat" component={Chat} options={{ title: 'Inbox', headerBackTitle: ' ', headerTitleAlign: 'center'}} />
+      <ChefDashboardStack.Screen name="ChefDashboard" component={ChefDashboard} options={{headerBackTitle: ' ', headerShown: false, ...stackStyles}}/>
+      <ChefDashboardStack.Screen name="ChefEarnings" component={Earnings} options={{title: 'Earnings', headerBackTitle: ' ', headerTitleAlign: 'center', ...stackStyles}} />
+      <ChefDashboardStack.Screen name="ChefReviews" component={Reviews} options={{title: 'Reviews', headerBackTitle: ' ', headerTitleAlign: 'center', ...stackStyles}} />
+      <ChefDashboardStack.Screen name="ChefChat" component={Chat} options={{ title: 'Inbox', headerBackTitle: ' ', headerTitleAlign: 'center', ...stackStyles}} />
     </ChefDashboardStack.Navigator>
   );
 }

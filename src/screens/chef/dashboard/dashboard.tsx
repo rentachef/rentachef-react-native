@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
+import {View, StyleSheet, Dimensions, TouchableOpacity, Platform} from 'react-native'
 import CardContainer from "../../../components/cards/CardContainer";
 import {
   Text,
@@ -22,21 +22,21 @@ import {sumBy} from "lodash";
 
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
-    marginTop: 50,
-    marginBottom: 10,
+    paddingTop: Platform.OS === 'ios' ? '10%' : 0,
+    paddingBottom: 10,
     flex: .1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    backgroundColor: Colors.background
   },
   dashboardContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.background,
     alignItems: 'center'
   },
   cardContainer: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'center'
   }
 })
@@ -90,27 +90,27 @@ export default class ChefDashboard extends React.Component<any, any> {
     console.log('DATA:', JSON.stringify(data))
 
     const chartConfig = {
-        backgroundColor: '#ffffff',
-        backgroundGradientFrom: '#ffffff',
-        backgroundGradientTo: '#ffffff',
-        color: (opacity = 1) => '#FBB12B',
-        labelColor: (opacity = 1) => '#4A515F',
+        backgroundColor: Colors.backgroundLight,
+        backgroundGradientFrom: Colors.backgroundLight,
+        backgroundGradientTo: Colors.backgroundLight,
+        color: (opacity = 1) => Colors.secondaryText,
+        labelColor: (opacity = 1) => Colors.secondaryText,
         style: {
           borderRadius: 100
         },
         strokeWidth: 1, // optional, default 3
         barPercentage: .75,
         useShadowColorFromDataset: false, // optional
-        fillShadowGradient: "#FBB12B",
+        fillShadowGradient: Colors.secondaryText,
         fillShadowGradientOpacity: 1,
         propsForBackgroundLines: {
-          stroke: '#4a515f',
+          stroke: Colors.secondaryText,
           strokeDasharray: '',
           strokeWidth: '.20'
         }
       }
       return (
-        <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+        <View style={{flex: 1, backgroundColor: Colors.background}}>
           <View style={dashboardStyles.dashboardHeaderContainer}>
             <SemiBoldHeading>{`Hi ${this.props.stores?.chefSettingsStore.profile?.fullName?.split(' ')[0] || ''}!`}</SemiBoldHeading>
             <Text>Here is what's going on today</Text>
@@ -147,7 +147,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                     onPress={() => this.navigateTo("ChefEarnings")}
                     style={{alignSelf: 'flex-end' , flex: 1}}
                   >
-                    <Text style={{justifyContent:'flex-end', alignSelf: 'flex-end', color: Colors.primaryColor}}>View All</Text>
+                    {/*<Text style={{justifyContent:'flex-end', alignSelf: 'flex-end', color: Colors.primaryColor}}>View All</Text>*/}
                   </TouchableOpacity>
                 </View>
                 <View style={{alignItems: 'center', flex: 1}}>
@@ -199,12 +199,12 @@ export default class ChefDashboard extends React.Component<any, any> {
                 title={'Ratings and Reviews'}
                 style={dashboardStyles.cardContainer}
               >
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                  <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background}}>
+                  <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: Colors.background}}>
                     <Icon color={'#FBB12B'} name={'star'} size={25}/>
                     <SmallBoldHeading>{this.calculateAverageStars()}</SmallBoldHeading>
                   </View>
-                  <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={{flex: 2, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background}}>
                     <LightText>{reviews.length || 0} Reviews</LightText>
                   </View>
                 </View>

@@ -9,9 +9,9 @@ const CameraButton = ({text, onPress}) => {
       buttonStyle={styles.cameraButton}
       onPress={onPress}
       title={text}
-      titleStyle={{ paddingLeft: 10, color: Colors.black, alignSelf: 'center' }}
+      titleStyle={{ paddingLeft: 10, color: Colors.primaryText, alignSelf: 'center' }}
       socialIconName='camera'
-      iconStyle={{ marginLeft: 20 }}
+      iconStyle={{ marginLeft: 20, color: Colors.primaryText }}
     />
   )
 }
@@ -23,9 +23,9 @@ const styles = StyleSheet.create({
     width: 150,
     height: 70,
     alignSelf: 'center',
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundLight,
     borderWidth: 2,
-    borderColor: Colors.disabled
+    borderColor: Colors.backgroundLight
   }
 })
 

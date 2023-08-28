@@ -1,13 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {Platform, SafeAreaView, ScrollView, StyleSheet, TextInput, View, TouchableOpacity, KeyboardAvoidingView, FlatList} from "react-native";
 import Colors from "../../theme/colors";
 import Button from "../../components/buttons/Button";
-import { KeyboardAvoidingView } from "react-native";
 import ChatMessage from "./ChatMessage";
 import {isEmpty} from "lodash";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import Pubnub from "pubnub";
 import { inject } from "mobx-react";
+import {AutoScrollFlatList} from "react-native-autoscroll-flatlist";
 
 const Chat = inject('stores')(({ stores, route }) => {
   const [messages, setMessages] = useState([]);
@@ -20,20 +20,18 @@ const Chat = inject('stores')(({ stores, route }) => {
     presenceTimeout: 122
   }))
   let { userId, channel, consumer, chef } = route.params
+  const flatlistRef = useRef<FlatList<ChatMessage>>(null);
 
   const showMessage = (msg: any) => {
-    console.log(msg, userId)
-    if(msg.publisher !== userId)
-      setMessages((messages) => [...messages, msg]);
+    console.log('MESSAGE RECEIVED', msg, userId)
+    setMessages((messages) => [...messages, msg]);
   };
 
   useEffect(() => {
     stores.searchStore.saveChatIfNotExists({ channel, consumer, chef })
+    console.log('scrolling to end...')
+    flatlistRef.current?.scrollToEnd();
   }, [])
-
-  useEffect(() => {
-
-  }, [messages])
 
   useEffect(() => {
     // add listener
@@ -77,27 +75,24 @@ const Chat = inject('stores')(({ stores, route }) => {
 
   // publish message
   const publishMessage = async (message: string) => {
-    console.log('sending message...')
-    let messageList = [...messages]
     // With the right payload, you can publish a message, add a reaction to a message,
     // send a push notification, or send a small payload called a signal.
     const publishPayload = {
       channel: channel,
       message: {
-        description: message
+        description: message,
+        publisher: userId
       },
       uuid: userId
     };
-    console.log('Message payload', publishPayload)
+    console.log('SENDING MESSAGE', publishPayload)
     const res = await pubnubClient.publish(publishPayload);
-    publishPayload['timetoken'] = res.timetoken
     //messageList.push(publishPayload)
-    setMessages(messageList)
+    //setMessages(messageList)
   }
 
   useEffect(() => {
     // subscribe to a channel
-
     pubnubClient.subscribe({
       channels: [channel],
       restore: true,
@@ -116,11 +111,19 @@ const Chat = inject('stores')(({ stores, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*<KeyboardAvoidingView style={{position: 'absolute', left: 0, right: 0, bottom: 0}} behavior="position">*/}
       <KeyboardAwareScrollView enableOnAndroid={true}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          {!isEmpty(messages) && messages.map((message: any, idx) => <ChatMessage key={idx} time={message.timetoken} id={message.uuid || message.timetoken} text={message.message?.description || ''} sender={message.uuid === userId} />)}
-        </ScrollView>
+        <View style={{ flex: 1 }}>
+          {!isEmpty(messages) &&
+            <AutoScrollFlatList
+              data={messages}
+              threshold={20}
+              renderItem={({ item, index }) => (
+                <ChatMessage key={index} time={item.timetoken} id={item.uuid || item.timetoken} text={item.message?.description || ''} sender={item.message?.publisher === userId} />
+              )}
+            />
+          }
+          {/*!isEmpty(messages) && messages.map((message: any, idx) => <ChatMessage key={idx} time={message.timetoken} id={message.uuid || message.timetoken} text={message.message?.description || ''} sender={message.message?.publisher === userId} />)*/}
+        </View>
         
       </KeyboardAwareScrollView>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={90}>
@@ -130,7 +133,7 @@ const Chat = inject('stores')(({ stores, route }) => {
             onChangeText={setText}
             value={text}
             // value={this.state.email}
-            placeholderTextColor='white'
+            placeholderTextColor={Colors.secondaryText}
             underlineColorAndroid='transparent'
           />
           <Button
@@ -145,7 +148,6 @@ const Chat = inject('stores')(({ stores, route }) => {
           />
         </View>
       </KeyboardAvoidingView>
-      {/*</KeyboardAvoidingView>*/}
     </SafeAreaView>
   );
 })
@@ -170,10 +172,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 45,
     paddingHorizontal: 20,
-    borderColor: Colors.backgroundDark,
+    borderColor: Colors.backgroundLight,
     borderWidth: 2,
     borderRadius: 12,
     margin: 5,
-    color: 'black',
+    color: Colors.primaryText,
   },
 })

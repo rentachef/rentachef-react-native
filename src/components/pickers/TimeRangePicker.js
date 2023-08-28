@@ -22,8 +22,8 @@ const TimeRangePicker = ({ selected, onCancel, onSelect, isValid }) => {
         onPress={(i) => setIndex(i)}
         selectedIndex={index}
         buttons={buttons}
-        containerStyle={{margin: 0, height: 40, borderRadius: 10}}
-        selectedButtonStyle={{backgroundColor: Colors.primary, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
+        containerStyle={{margin: 0, height: 40, borderRadius: 10, backgroundColor: Colors.background}}
+        selectedButtonStyle={{backgroundColor: Colors.primaryColor, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
         selectedTextStyle={{color: Colors.primaryText}}
         textStyle={{color: Colors .secondaryText}}
       />
@@ -43,7 +43,7 @@ const TimeRangePicker = ({ selected, onCancel, onSelect, isValid }) => {
       </View>
       <View style={styles.buttonContainerOutlined}>
         <LinkButton
-          titleStyle={{ color: 'black' }}
+          titleStyle={{ color: Colors.secondaryText }}
           onPress={() => onCancel()}
           title='Cancel'
         />

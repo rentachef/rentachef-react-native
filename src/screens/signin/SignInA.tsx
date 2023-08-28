@@ -11,7 +11,6 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -31,12 +30,13 @@ import {makeObservable, observable} from "mobx";
 import {inject, observer} from "mobx-react";
 import Logo from "../components/logo";
 import {notifyError} from "../../components/toast/toast";
+import { Text } from 'src/components/text/CustomText';
 
 // SignInA Config
-const PLACEHOLDER_TEXT_COLOR = 'rgba(0, 0, 0, 0.4)';
-const INPUT_TEXT_COLOR = 'rgba(0, 0, 0, 0.87)';
-const INPUT_BORDER_COLOR = 'rgba(0, 0, 0, 0.2)';
-const INPUT_FOCUSED_BORDER_COLOR = '#000';
+const PLACEHOLDER_TEXT_COLOR = Colors.placeholderTextColor;
+const INPUT_TEXT_COLOR = Colors.primaryText;
+const INPUT_BORDER_COLOR = Colors.backgroundLight;
+const INPUT_FOCUSED_BORDER_COLOR = Colors.primaryColor;
 
 // SignInA Styles
 const styles = StyleSheet.create({
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'space-between',
+    backgroundColor: Colors.background
   },
   form: {
     paddingHorizontal: Layout.LARGE_PADDING,
@@ -74,7 +75,6 @@ const styles = StyleSheet.create({
   orText: {
     top: -2,
     paddingHorizontal: 8,
-    color: PLACEHOLDER_TEXT_COLOR,
   },
   buttonsGroup: {
     paddingTop: 23,
@@ -262,6 +262,7 @@ export default class SignInA extends Component {
                   onPress={() => this.signIn()}
                   title={'Sign in'.toUpperCase()}
                   loading={this.state.loading}
+                  loadingColor={Colors.background}
                 />
               </View>
 
@@ -285,7 +286,7 @@ export default class SignInA extends Component {
                   onPress={() => console.log("navigate accordingly")}
                   color="#3b5998"
                   socialIconName="facebook-square"
-                  iconColor={Colors.white}
+                  iconColor={Colors.primaryText}
                   title={'Sign in with Facebook'.toUpperCase()}
                 />
                 <View style={styles.vSpacer} />
@@ -293,7 +294,7 @@ export default class SignInA extends Component {
                   onPress={() => console.log("navigate accordingly")}
                   color="#db4437"
                   socialIconName="google"
-                  iconColor={Colors.white}
+                  iconColor={Colors.primaryText}
                   title={'Sign in with Google'.toUpperCase()}
                 />
               </View>

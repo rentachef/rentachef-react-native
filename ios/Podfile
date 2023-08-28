@@ -4,6 +4,7 @@ rn_maps_path = '../node_modules/react-native-maps'
 
 platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
+production = ENV["PRODUCTION"] == "1"
 
 target 'rentachef' do
   # Pods for rentachef
@@ -51,8 +52,10 @@ target 'rentachef' do
   use_react_native!(
       :path => config[:reactNativePath],
       # to enable hermes on iOS, change `false` to `true` and then install pods
+      :production => production,
       :hermes_enabled => flags[:hermes_enabled],
       :fabric_enabled => flags[:fabric_enabled],
+      :flipper_configuration => FlipperConfiguration.enabled,
       # An absolute path to your application root.
       :app_path => "#{Pod::Config.instance.installation_root}/.."
     )
@@ -64,7 +67,7 @@ target 'rentachef' do
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    use_flipper!()
+    #use_flipper!()
     pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
 
     permissions_path = '../node_modules/react-native-permissions/ios'

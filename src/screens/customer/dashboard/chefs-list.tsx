@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
   cardContainer: {
     borderRadius: 10,
     height: 100,
-    marginHorizontal: 0
+    marginHorizontal: 0,
+    backgroundColor: Colors.backgroundLight,
+    borderColor: Colors.backgroundLight
   },
   cardWrapper: {
     flexDirection: 'row'

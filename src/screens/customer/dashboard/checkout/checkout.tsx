@@ -21,10 +21,11 @@ import BookingRequest from "../../../../models/BookingRequest";
 import {isEmpty} from "lodash";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 
-const formatName = (name: string) => `${name.split(' ')[0]} ${name.split(' ')[1][0]}.`
+const formatName = (name: string) => name.split(' ').length > 1 ? `${name.split(' ')[0]} ${name.split(' ')[1][0]}.` : name
 
 const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
   const { chef } = route.params
+
   const [booking, setBooking] = useState<BookingRequest>({
     chefId: chef.userId,
     chefName: chef.name,
@@ -67,7 +68,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             <LightText>Don’t worry, you won’t be billed until your service is complete</LightText>
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-            <Icon name='map-marker-outline' size={30} style={{ flex: .5, flexBasis: '12%' }}/>
+            <Icon name='map-marker-outline' size={30} color={Colors.secondaryText} style={{ flex: .5, flexBasis: '12%' }}/>
             <View style={{ flexBasis: '65%'}}>
               <Text style={{ marginVertical: 5}}>{booking.location?.address}</Text>
               <Subtitle2 style={{ marginVertical: 5}}>{booking.location?.city}</Subtitle2>
@@ -82,7 +83,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 50, marginTop: -10 }}>
-            <Icon name='calendar-outline' size={30} />
+            <Icon name='calendar-outline' size={30} color={Colors.secondaryText}/>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
               <Text style={{ marginVertical: 5, marginHorizontal: 15 }}>
                 {!!booking.dateTime ? moment(booking.dateTime).format('ddd, MMM D, HH:mm A') : `Depends on Chef's availability` }
@@ -90,7 +91,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 50 }}>
-            <Icon name='account-multiple-outline' size={30} />
+            <Icon name='account-multiple-outline' size={30} color={Colors.secondaryText}/>
             <View style={{ flex: 1, height: 30, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
               <Text style={{ marginLeft: 20, marginVertical: 5 }}>Guests</Text>
               <Counter
@@ -103,7 +104,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             </View>
           </View>
           <View style={{ flexDirection: 'row', height: 35 }}>
-            <Icon name='silverware-fork-knife' size={30} />
+            <Icon name='silverware-fork-knife' size={30} color={Colors.secondaryText}/>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%', alignItems: 'center'}}>
               <Text style={{ marginLeft: 20, marginVertical: 5 }}>Cuisine</Text>
               <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => setModalIndex(0)}>
@@ -114,7 +115,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
           </View>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <View style={{ flexDirection: 'row', height: 35 }}>
-            <Icon name='food' size={30} />
+            <Icon name='food' size={30} color={Colors.secondaryText}/>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%', alignItems: 'center'}}>
               <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dish</Text>
               <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => setModalIndex(3)} disabled={isEmpty(booking.cuisine)}>
@@ -130,7 +131,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
               <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => setModalIndex(1)}>
                 {!!booking.paymentMethod ?
                   <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                    <FAIcon name={booking?.paymentMethod.cardBrand} size={20}/>
+                    <FAIcon name={booking?.paymentMethod.cardBrand} color={Colors.secondaryText} size={20}/>
                     <Text style={{ color: Colors.primaryText, margin: 5 }}>
                       {booking?.paymentMethod.cardNumber}
                     </Text>
@@ -164,6 +165,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             <Button
               title='Check Availability'
               onPress={checkAvailability}
+              titleColor={Colors.background}
               disabled={isEmpty(booking.cuisine) || isEmpty(booking.dish) || isEmpty(booking.paymentMethod)}
             />}
           {!!booking.dateTime &&
@@ -177,7 +179,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             />}
         </View>
       </View>
-      {showModal && <CheckoutModal navigation={navigation} action={book}/>}
+      {showModal && <CheckoutModal navigation={navigation} action={book} onClose={() => setShowModal(false)}/>}
       {modalIndex !== -1 &&
       <SafeAreaView style={{ flex: 2, position: 'absolute', width: '100%', height: '100%'}}>
         <RACBottomSheet

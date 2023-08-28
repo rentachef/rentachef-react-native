@@ -95,6 +95,15 @@ import CustomerNavigator from "./CustomerNavigator";
 import {inject} from "mobx-react";
 //import SignUp from 'aws-amplify-react-native';
 
+const stackStyles = {
+  headerStyle: {
+    backgroundColor: Colors.background
+  }, 
+  headerTitleStyle: {
+    color: Colors.primaryText
+  }
+}
+
 // MainNavigatorA
 const MainNavigatorA = inject('stores')((props) => {
   console.log('props', props.stores.authStore.authInfo)
@@ -111,10 +120,9 @@ const MainNavigatorA = inject('stores')((props) => {
             component={PreSignUp}
             options={{
               title: 'Get Started',
-              headerStyle: {
-                elevation: 0,
-                shadowOpacity: 0,
-              },
+              headerShown: false,
+              headerBackTitle: ' ',
+              ...stackStyles
             }}
           />
           <Stack.Screen
@@ -127,6 +135,7 @@ const MainNavigatorA = inject('stores')((props) => {
                 elevation: 0,
                 shadowOpacity: 0,
               },
+              ...stackStyles
             }}
           />
           <Stack.Screen
@@ -135,10 +144,8 @@ const MainNavigatorA = inject('stores')((props) => {
             component={SignIn}
             options={{
               title: 'Sign In',
-              headerStyle: {
-                elevation: 0,
-                shadowOpacity: 0,
-              },
+              headerBackTitle: ' ',
+              ...stackStyles
             }}
           />
           {/*<SignUp/>*/}
@@ -156,6 +163,7 @@ const MainNavigatorA = inject('stores')((props) => {
                 shadowOpacity: 0,
               },
               title: 'Forgot Password?',
+              ...stackStyles
             }}
           />
         </AuthStack.Navigator> : <Stack.Navigator
@@ -188,7 +196,7 @@ const MainNavigatorA = inject('stores')((props) => {
             name="Home"
             //component={ChefNavigator}
             component={props.stores.authStore.authInfo.role === 'Consumer' ? CustomerNavigator : ChefNavigator}
-            options={{headerShown: false}}
+            options={{headerShown: false, ...stackStyles}}
             screenOptions={{headerShown: false}}
           />
 
@@ -197,6 +205,7 @@ const MainNavigatorA = inject('stores')((props) => {
             component={TermsConditions}
             options={{
               title: 'Terms and Conditions',
+              ...stackStyles
             }}
           />
           <Stack.Screen
@@ -204,6 +213,7 @@ const MainNavigatorA = inject('stores')((props) => {
             component={Categories}
             options={{
               title: 'All Categories',
+              ...stackStyles
             }}
           />
           <Stack.Screen
