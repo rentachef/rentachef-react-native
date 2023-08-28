@@ -12,7 +12,7 @@ export function ChefMapView({latitude, longitude, radius}: any) {
   return (
     <View>
       <MapView
-          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          //provider={PROVIDER_GOOGLE} // remove if not using Google Maps
           style={{
             ...StyleSheet.absoluteFillObject,
             height: Dimensions.get("window").height*.3

@@ -28,8 +28,8 @@ const ChefBio = ({ data }) => {
             title={s.label}
             type='outline'
             containerStyle={{ margin: 4 }}
-            buttonStyle={{ borderColor: Colors.backgroundMedium }}
-            titleStyle={{ color: Colors.secondaryColor }}
+            buttonStyle={{ borderColor: Colors.primaryText }}
+            titleStyle={{ color: Colors.primaryText }}
           />
         ))}
       </View>
@@ -54,9 +54,9 @@ const ChefBio = ({ data }) => {
             key={c.key}
             title={c.label}
             type='outline'
-            buttonStyle={{ borderColor: Colors.backgroundMedium }}
+            buttonStyle={{ borderColor: Colors.primaryText }}
             containerStyle={{ margin: 4 }}
-            titleStyle={{ color: Colors.secondaryColor }}
+            titleStyle={{ color: Colors.primaryText }}
           />
         ))}
       </View>

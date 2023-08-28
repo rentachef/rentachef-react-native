@@ -34,6 +34,7 @@ import TimeRangePicker from "../../../components/pickers/TimeRangePicker";
 import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import {isEmpty} from "lodash";
 import moment from "moment";
+import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -90,11 +91,16 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       loading: false
     }
 
-    console.log('pickupDetails from Store', props.stores.chefProfileStore.pickupDetails)
-    reaction(
-      () => this._location, (newLocation) => {
-        console.log("newLocation", newLocation)
-      })
+    try {
+      console.log('pickupDetails from Store', props.stores.chefProfileStore.pickupDetails)
+      reaction(
+        () => this._location, (newLocation) => {
+          console.log("newLocation", newLocation)
+        })
+    } catch(err) {
+      console.log('ERROR WORKZONE SETUP', err)
+    }
+
   }
 
   setRadius = (value: number) => {
@@ -104,6 +110,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
 
   componentDidMount() {
     this._mounted = true;
+    console.log('Workzone mounted!')
     // If you supply a coordinate prop, we won't try to track location automatically
     if (this.props.coordinate) {
       return;
@@ -117,9 +124,12 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
           this.watchLocation();
         }
       });
-    } else {
+    } else if(Platform.OS === "ios") {
+      console.log('asking for geolocation authorization ios')
+      // your code using Geolocation and asking for authorisation with
+      Geolocation.requestAuthorization("whenInUse");
+    } else
       this.watchLocation();
-    }
     Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
   }
   watchLocation() {
@@ -207,14 +217,15 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
     const { radius, radiusState, focus, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch, loading } = this.state;
     const { latitude, longitude } = this.state.myPosition
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: '#FFFFFF'}}>
+      <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: Colors.background}}>
         <View style={{ margin: 10 }}>
-          <TextInput
+          <UnderlineTextInput
             autoCapitalize="none"
             placeholder="enter your city or postal code"
             keyboardType={"default"}
             onFocus={() => this.setState({ focus: 1 })}
             onBlur={() => this.setState({ focus: 0 })}
+            borderColor={Colors.backgroundLight}
             style={[workZoneSetupStyles.inputGroupItem, focus === 1 && workZoneSetupStyles.inputGroupItemFocused]}
             placeholderTextColor={Colors.placeholderColor}
             onSubmitEditing={(e) => {
@@ -313,6 +324,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
             onPress={() => this.saveData()}
             title='Save'
             loading={loading}
+            loadingColor={Colors.background}
           />
         </View>
         {modalIndex !== -1 &&

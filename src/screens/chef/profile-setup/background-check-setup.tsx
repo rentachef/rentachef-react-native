@@ -1,5 +1,5 @@
 import React, {useState, useRef, useCallback, useEffect} from 'react'
-import {SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View, Image} from "react-native";
+import {SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View, Image, TouchableWithoutFeedback, Keyboard} from "react-native";
 import Colors from "../../../theme/colors";
 import {Subtitle2} from "../../../components/text/CustomText";
 import CameraButton from "../../../components/buttons/CameraButton";
@@ -12,6 +12,7 @@ import {inject, observer} from "mobx-react";
 import {isEmpty} from "lodash";
 import _getBase64 from "../../../utils/imageConverter";
 import {Text} from '../../../components/text/CustomText';
+import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -68,122 +69,134 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   const saveChanges = async () => {
     const { legalName, socialNumber, idFrontUri, idBackUri } = backgroundCheck
 
-    setLoading(true)
-    try {
-      await props.stores.chefProfileStore.saveChefBackgroundCheck({
-        legalName,
-        socialNumber: Number(socialNumber),
-        idFrontUri: await _getBase64(idFrontUri),
-        idBackUri: await _getBase64(idBackUri),
-        approved: false
-      }).then(res => {
-        if(res === 'SUCCESS')
-          notifySuccess('Background Check saved!')
-        else
-          notifyError(`Error: ${res}`)
-
-        setLoading(false)
-      })
-    } catch(e) {
-      console.log('Error saving background check', e)
-      notifyError(`Error please contact support: ${e.message}`)
+    if(isValid()) {
+      setLoading(true)
+      try {
+        await props.stores.chefProfileStore.saveChefBackgroundCheck({
+          legalName,
+          socialNumber: Number(socialNumber),
+          idFrontUri: await _getBase64(idFrontUri),
+          idBackUri: await _getBase64(idBackUri),
+          approved: false
+        }).then(res => {
+          if(res === 'SUCCESS')
+            notifySuccess('Background Check saved!')
+          else
+            notifyError(`Error: ${res}`)
+  
+          setLoading(false)
+        })
+      } catch(e) {
+        console.log('Error saving background check', e)
+        notifyError(`Error please contact support: ${e.message}`)
+      }
+    } else {
+      notifyError('Please complete all fields')
     }
+
   }
 
   const isValid = () => {
-    console.log(backgroundCheck)
-    return Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
+    let valid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
+    console.log('isValid', valid, backgroundCheck)
+    return valid
   }
 
   return (
-    <View style={styles.screenContainer}>
-      <View style={styles.wrapper}>
-        <Subtitle2>To keep our platform safe, you have to pass the mandatory background check.  Please read our Terms of Use and Privacy Notice</Subtitle2>
-      </View>
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputGroupItemLabel}>Legal Name</Text>
-        <TextInput
-          autoCapitalize="words"
-          placeholder="enter name matching your photo ID"
-          placeholderTextColor={Colors.placeholderColor}
-          keyboardType={"default"}
-          value={backgroundCheck.legalName}
-          onChangeText={(value: string) => setBackgroundCheck({...backgroundCheck, legalName: value})}
-          onFocus={() => setFocus(0) }
-          onBlur={() => setFocus(undefined)}
-          style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
-        />
-        <Text style={styles.inputGroupItemLabel}>SSN / SIN</Text>
-        <TextInput
-          autoCapitalize='words'
-          placeholder='XXX-XX-XXXX'
-          placeholderTextColor={Colors.placeholderColor}
-          keyboardType={"number-pad"}
-          value={backgroundCheck.socialNumber}
-          onChangeText={(value: string) => setBackgroundCheck({...backgroundCheck, socialNumber: value})}
-          maxLength={9}
-          onFocus={() => setFocus(1) }
-          onBlur={() => setFocus(undefined)}
-          style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
-        />
-        <Text style={styles.inputGroupItemLabel}>Driving License</Text>
-        <Subtitle2 style={{ padding: 10 }}>Capture both front and back images of your driving license.  Ensure that the photos are clear.</Subtitle2>
-        <View style={styles.buttonsContainer}>
-          {!!backgroundCheck.idFrontUri ? (
-            <View style={styles.pictureView}>
-              <Image source={{ uri: backgroundCheck.idFrontUri }} style={styles.picture}/>
-              <Icon name='close-circle' size={30} color={Colors.borderColor} style={styles.pictureIcon} onPress={() => onPhotoDelete('idFrontUri')}/>
-            </View>) :
-          <CameraButton onPress={() => {
-            setShowCamera(true)
-            setButtonChoice('idFrontUri')
-          }} text='Front'/>}
-          {!!backgroundCheck.idBackUri ? (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.screenContainer}>
+
+        <View style={styles.wrapper}>
+          <Subtitle2>To keep our platform safe, you have to pass the mandatory background check.  Please read our Terms of Use and Privacy Notice</Subtitle2>
+        </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.inputGroupItemLabel}>Legal Name</Text>
+          <UnderlineTextInput
+            autoCapitalize="words"
+            placeholder="enter name matching your photo ID"
+            placeholderTextColor={Colors.placeholderColor}
+            keyboardType={"default"}
+            value={backgroundCheck.legalName}
+            borderColor={Colors.backgroundLight}
+            onChangeText={(value: string) => setBackgroundCheck({...backgroundCheck, legalName: value})}
+            onFocus={() => setFocus(0) }
+            onBlur={() => setFocus(undefined)}
+            style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
+          />
+          <Text style={styles.inputGroupItemLabel}>SSN / SIN</Text>
+          <UnderlineTextInput
+            autoCapitalize='words'
+            placeholder='XXX-XX-XXXX'
+            placeholderTextColor={Colors.placeholderColor}
+            keyboardType={"number-pad"}
+            value={backgroundCheck.socialNumber}
+            borderColor={Colors.backgroundLight}
+            onChangeText={(value: string) => setBackgroundCheck({...backgroundCheck, socialNumber: value})}
+            maxLength={9}
+            onFocus={() => setFocus(1) }
+            onBlur={() => setFocus(undefined)}
+            style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
+          />
+          <Text style={styles.inputGroupItemLabel}>Driving License</Text>
+          <Subtitle2 style={{ padding: 10 }}>Capture both front and back images of your driving license.  Ensure that the photos are clear.</Subtitle2>
+          <View style={styles.buttonsContainer}>
+            {!!backgroundCheck.idFrontUri ? (
               <View style={styles.pictureView}>
-                <Image source={{ uri: backgroundCheck.idBackUri }} style={styles.picture}/>
-                <Icon name='close-circle' size={30} color={Colors.borderColor} style={styles.pictureIcon} onPress={() => onPhotoDelete('idBackUri')}/>
+                <Image source={{ uri: backgroundCheck.idFrontUri }} style={styles.picture}/>
+                <Icon name='close-circle' size={30} color={Colors.backgroundLight} style={styles.pictureIcon} onPress={() => onPhotoDelete('idFrontUri')}/>
               </View>) :
             <CameraButton onPress={() => {
-          setShowCamera(true)
-          setButtonChoice('idBackUri')
-        }} text='Back' />}
+              setShowCamera(true)
+              setButtonChoice('idFrontUri')
+            }} text='Front'/>}
+            {!!backgroundCheck.idBackUri ? (
+                <View style={styles.pictureView}>
+                  <Image source={{ uri: backgroundCheck.idBackUri }} style={styles.picture}/>
+                  <Icon name='close-circle' size={30} color={Colors.backgroundLight} style={styles.pictureIcon} onPress={() => onPhotoDelete('idBackUri')}/>
+                </View>) :
+              <CameraButton onPress={() => {
+            setShowCamera(true)
+            setButtonChoice('idBackUri')
+          }} text='Back' />}
+          </View>
+          {showCamera && (
+            <SafeAreaView style={{flex: 1, position: 'absolute', width: '100%', height: '100%'}}>
+              <RACBottomSheet
+                onSheetChanges={(index: any) => {
+                  console.log('value', index)
+                }}
+                index={showCamera ? 1 : -1}
+                onClose={() => setShowCamera(false)}
+              >
+                <View>
+                  <TouchableOpacity style={styles.launchItem} onPress={() => onButtonPressed('camera')}>
+                    <Text>Open Camera</Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity style={styles.launchItem} onPress={() => onButtonPressed('gallery')}>
+                    <Text>Open Gallery</Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity style={styles.launchItem} onPress={() => setShowCamera(false)}>
+                    <Text>Cancel</Text>
+                  </TouchableOpacity></View>
+              </RACBottomSheet>
+            </SafeAreaView>
+            )}
         </View>
-        {showCamera && (
-          <SafeAreaView style={{flex: 1, position: 'absolute', width: '100%', height: '100%'}}>
-            <RACBottomSheet
-              onSheetChanges={(index: any) => {
-                console.log('value', index)
-              }}
-              index={showCamera ? 1 : -1}
-              onClose={() => setShowCamera(false)}
-            >
-              <View>
-                <TouchableOpacity style={styles.launchItem} onPress={() => onButtonPressed('camera')}>
-                  <Text>Open Camera</Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <TouchableOpacity style={styles.launchItem} onPress={() => onButtonPressed('gallery')}>
-                  <Text>Open Gallery</Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <TouchableOpacity style={styles.launchItem} onPress={() => setShowCamera(false)}>
-                  <Text>Cancel</Text>
-                </TouchableOpacity></View>
-            </RACBottomSheet>
-          </SafeAreaView>
-          )}
+        <View style={styles.buttonContainer}>
+          <Button
+            disabled={!isValid || loading}
+            onPress={() => saveChanges()}
+            title='Submit'
+            loading={loading}
+            loadingColor={Colors.background}
+          />
+        </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          disabled={!isValid || loading}
-          onPress={() => saveChanges()}
-          title='Submit'
-          loading={loading}
-        />
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   )
 }))
 

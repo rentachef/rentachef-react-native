@@ -88,8 +88,8 @@ const ChatList = (inject('stores')((props) => {
         }}
         selectedIndex={selectedIndex}
         buttons={buttons}
-        containerStyle={{height: 40, marginVertical: 20, borderRadius: 8}}
-        selectedButtonStyle={{backgroundColor: Colors.primary, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
+        containerStyle={{height: 40, marginVertical: 20, borderRadius: 8, backgroundColor: Colors.background}}
+        selectedButtonStyle={{backgroundColor: Colors.primaryColor, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
         selectedTextStyle={{color: Colors.primaryText}}
         textStyle={{color: Colors.secondaryText, fontWeight: 'bold'}}
       />
@@ -134,6 +134,12 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 8,
     width: '100%'
+  },
+  title: {
+    color: Colors.primaryText
+  },
+  icon: {
+    color: Colors.primaryColor
   },
   cardPhoto: {
     flexBasis: '10%'

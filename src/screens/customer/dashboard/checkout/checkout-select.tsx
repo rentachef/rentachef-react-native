@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {Heading6} from "../../../../components/text/CustomText";
+import {Heading6, Text} from "../../../../components/text/CustomText";
 import {Picker} from "@react-native-picker/picker";
-import {SafeAreaView, ScrollView, SectionList, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {SafeAreaView, ScrollView, SectionList, StatusBar, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Cuisine} from "../../../../models/chef/ChefSettings";
 import globalStyles from "../../../../theme/global-styles";
 import Button from "../../../../components/buttons/Button";

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, TouchableOpacity, ScrollView, TextInput, StyleSheet} from 'react-native';
 import {Text} from '../../../components/text/CustomText';
 import SwitchComponent from '../../components/switch-component';
+import Colors from '../../../theme/colors';
 
 const styles = StyleSheet.create({
   textInputDisabled: {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     borderColor: '#e8edf5',
     borderRadius: 8,
     margin: 20,
-    color: 'black'
+    color: Colors.primaryText
   }
 });
 

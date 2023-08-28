@@ -142,6 +142,7 @@ const BookingInvoice = inject('stores')(({ navigation, route, stores }) => {
               title='Submit'
               disabled={loading}
               loading={loading}
+              loadingColor={Colors.background}
               onPress={onCompleted}
             />
           )}

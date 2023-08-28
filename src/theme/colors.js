@@ -3,138 +3,6 @@ import config from '../config';
 
 // Color Themes
 const themes = {
-  jade: {
-    // primary color
-    primaryColor: '#00b970',
-    primaryColorDark: '#00945a',
-    primaryColorLight: '#00e78c',
-    onPrimaryColor: '#fff',
-
-    // accent color, triad
-    accentColor: '#0069b9',
-    onAccentColor: '#fff',
-
-    // secondary color, primary color split
-    secondaryColor: '#b90039',
-    onSecondaryColor: '#fff',
-
-    // tertiary color, secondary color intermediately related
-    tertiaryColor: '#ffa400',
-    onTertiaryColor: '#fff',
-
-    // status bar color
-    statusBarColor: '#fff',
-
-    // gradient colors
-    primaryGradientColor: '#00b970',
-    secondaryGradientColor: '#00b9a7',
-
-    // overlay color
-    overlayColor: '#b90039',
-
-    // text color
-    primaryText: '#010203',
-    secondaryText: '#5d5d5d',
-    disabledText: 'rgba(0, 0, 0, 0.38)',
-
-    // background, surface
-    background: '#fff',
-    onBackground: '#212121',
-    surface: '#fff',
-    onSurface: '#757575',
-    error: '#cd040b',
-    onError: '#fff',
-    black: '#010203',
-    white: '#fff'
-  },
-  redOrange: {
-    // primary color
-    primaryColor: '#e8500e',
-    primaryColorDark: '#de4701',
-    primaryColorLight: '#f35919',
-    onPrimaryColor: '#fff',
-
-    // accent color
-    accentColor: '#0069b9',
-    onAccentColor: '#fff',
-
-    // secondary color
-    secondaryColor: '#00b970', // '#239d19'
-    onSecondaryColor: '#fff',
-
-    // tertiary color, secondary color intermediately related
-    tertiaryColor: '#66033c',
-    onTertiaryColor: '#fff',
-
-    // status bar color
-    statusBarColor: '#fff',
-
-    // gradient colors
-    primaryGradientColor: '#e8500e',
-    secondaryGradientColor: '#e25822',
-
-    // overlay color
-    overlayColor: '#f35919',
-
-    // text color
-    primaryText: '#010203',
-    secondaryText: '#5d5d5d',
-    disabledText: 'rgba(0, 0, 0, 0.38)',
-
-    // background, surface
-    background: '#fff',
-    onBackground: '#212121',
-    surface: '#fff',
-    onSurface: '#757575',
-    error: '#cd040b',
-    onError: '#fff',
-    black: '#010203',
-    white: '#fff'
-  },
-  blueberry: {
-    // primary color
-    primaryColor: '#4f86f7',
-    primaryColorDark: '#115bf4',
-    primaryColorLight: '#9dbcfb',
-    onPrimaryColor: '#fff',
-
-    // accent color
-    accentColor: '#01ad95',
-    onAccentColor: '#fff',
-
-    // secondary color, primary color split
-    secondaryColor: '#83d076', // '#fac04c'
-    onSecondaryColor: '#fff',
-
-    // tertiary color, secondary color intermediately related
-    tertiaryColor: '#de5246', // '#e0115f'
-    onTertiaryColor: '#fff',
-
-    // status bar color
-    statusBarColor: '#eeeeee',
-
-    // gradient colors
-    primaryGradientColor: '#4f86f7',
-    secondaryGradientColor: '#47b8ff',
-
-    // overlay color
-    overlayColor: '#9dbcfb',
-
-    // text color
-    primaryText: 'rgba(0, 0, 0, 0.87)',
-    secondaryText: 'rgba(0, 0, 0, 0.54)',
-    disabledText: 'rgba(0, 0, 0, 0.38)',
-
-    // background, surface
-    background: '#fff',
-    onBackground: '#212121',
-    surface: '#fff',
-    onSurface: '#757575',
-    error: '#cd040b',
-    onError: '#fff',
-    black: '#000',
-    white: '#fff'
-  },
   rentAChef: {
     // primary color
     primaryColor: '#FFC534',
@@ -209,69 +77,68 @@ const themes = {
     primaryColor: '#FFC534',
     primaryColorDark: '#FBB12B',
     primaryColorLight: '#FFC534B2',
-    onPrimaryColor: '#fff',
+    onPrimaryColor: '#111',
 
     // accent color, triad
     accentColor: '#0069b9',
-    onAccentColor: '#fff',
+    onAccentColor: '#111',
 
     // secondary color, primary color split
-    secondaryColor: '#4A515F',
-    onSecondaryColor: '#fff',
+    secondaryColor: '#BFC2CE',
+    onSecondaryColor: '#111',
 
     // tertiary color, secondary color intermediately related
-    tertiaryColor: '#ffa400',
-    onTertiaryColor: '#fff',
+    tertiaryColor: '#FF8B00',
+    onTertiaryColor: '#111',
 
     // status bar color
-    statusBarColor: '#fff',
+    statusBarColor: '#111',
 
     // gradient colors
     primaryGradientColor: '#00b970',
     secondaryGradientColor: '#00b9a7',
 
     // overlay color
-    overlayColor: '#b90039',
+    overlayColor: '#FFB7CC',
 
     // text color
-    primaryText: '#1C2331',
-    secondaryText: '#8891A3',
-    disabledText: 'rgba(0, 0, 0, 0.38)',
+    primaryText: 'white',
+    secondaryText: '#A0A6B2',
+    disabledText: 'rgba(255, 255, 255, 0.38)',
     
-    placeholderColor: '#A7AFBF',
+    placeholderColor: '#6B727F',
 
     // background, surface
-    background: '#fff',
-    backgroundDark: '#DDE2ED',
-    backgroundMedium: '#EAEDF3',
-    backgroundLight: '#F3F6FB',
+    background: '#1C2331',
+    backgroundDark: '#141A26',
+    backgroundMedium: '#10161F',
+    backgroundLight: '#3C444F',
 
-    onBackground: '#212121',
-    surface: '#fff',
-    onSurface: '#757575',
+    onBackground: '#fff',
+    surface: '#1C2331',
+    onSurface: '#A0A6B2',
 
     //system
     error: '#F23548',
     warn: '#F9945A',
     success: '#33AC2E',
 
-
     onError: '#fff',
     black: '#010203',
-    white: '#fff',
+    white: '#1C2331',
 
     //border color
-    borderColor: '#DDE2ED',
+    borderColor: '#1C2331',
 
     //disabled color
-    disabled: '#F3F6FB',
+    disabled: '#0B0E13',
 
     //switch colors
-    thumbColorOn: '#fff',
-    thumbColorOff: '#fafafa',
+    thumbColorOn: '#1C2331',
+    thumbColorOff: '#3C444F',
 
     //picker colors
-    pickerBackground: '#F7F7FA'
+    pickerBackground: '#141A26'
   }
 };
 

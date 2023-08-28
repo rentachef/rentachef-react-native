@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Colors from '../../theme/colors';
-import {StyleSheet, View, Text, SectionList, StatusBar, SafeAreaView, TouchableOpacity} from "react-native";
+import {StyleSheet, View, SectionList, StatusBar, SafeAreaView, TouchableOpacity} from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Text } from '../text/CustomText';
 
 const timezones = [{
   title: 'Change Timezone',
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
     marginBottom: 20,
-    backgroundColor: "#fff"
+    backgroundColor: Colors.background
   },
   title: {
     fontSize: 15,

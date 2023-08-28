@@ -118,6 +118,7 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
             onPress={onSave}
             disabled={Object.values(newCard).some(v => isEmpty(v?.toString())) || !validCard || loading}
             loading={loading}
+            loadingColor={Colors.background}
           />
         </View>
       </View>

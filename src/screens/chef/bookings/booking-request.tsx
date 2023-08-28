@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import {SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
-import {ButtonGroup, Card} from "react-native-elements";
+import {ButtonGroup, Card, ListItem} from "react-native-elements";
 import {useState} from "react";
 import {inject, observer} from "mobx-react";
 import Avatar from '../../../components/avatar/Avatar';
@@ -22,6 +22,7 @@ import BookingNotes from "./booking-notes";
 import {notifyError, notifyWarn} from "../../../components/toast/toast";
 import moment from "moment";
 import { ConsoleLogger } from "@aws-amplify/core";
+import { confirmSetupIntent } from "@stripe/stripe-react-native";
 
 let profile_1 = require('@assets/img/profile_1.jpeg');
 
@@ -65,6 +66,7 @@ interface Coordinates {
 const BookingRequest = inject('stores')(observer((props)  => {
   const [currentPosition, setCurrentPosition] = useState<Coordinates>({})
   const [modalIndex, setModalIndex] = useState(-1)
+  const [showNotes, setShowNotes] = useState(false)
   const { booking } = props.route.params
   const { hourlyRate } = props.stores.chefProfileStore
 
@@ -113,7 +115,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
           <Heading6 style={{ marginVertical: 5, marginHorizontal: 20 }}>{booking.consumerName}</Heading6>
         </View>
         <View style={{ flexDirection: 'row', marginVertical: 20, width: '60%' }}>
-          <Icon name='map-marker-outline' size={30} style={{ flex: .5, flexBasis: '20%' }}/>
+          <Icon name='map-marker-outline' size={30} color={Colors.secondaryText} style={{ flex: .5, flexBasis: '20%' }}/>
           <View style={{ flexBasis: '80%'}}>
             <Text style={{ marginVertical: 5}}>{booking.location.address}</Text>
             <Subtitle2 style={{ marginVertical: 5}}>{booking.location.city}</Subtitle2>
@@ -122,38 +124,56 @@ const BookingRequest = inject('stores')(observer((props)  => {
           </View>
         </View>
         <View style={{ flex: 1, flexDirection: 'row', height: 50 }}>
-          <Icon name='calendar-outline' size={30} />
+          <Icon name='calendar-outline' size={30} color={Colors.secondaryText}/>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
             <Text style={{ marginVertical: 5, marginHorizontal: 15 }}>{booking.dateTime.toDateString()}</Text>
           </View>
         </View>
         <View style={{ flexDirection: 'row', height: 50 }}>
-          <Icon name='account-multiple-outline' size={30} />
+          <Icon name='account-multiple-outline' size={30} color={Colors.secondaryText}/>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
             <Text style={{ marginLeft: 20, marginVertical: 5 }}>Guests</Text>
             <Text style={{ margin: 5 }}>{booking.diners}</Text>
           </View>
         </View>
         <View style={{ flexDirection: 'row', height: 50 }}>
-          <Icon name='silverware-fork-knife' size={30} />
+          <Icon name='silverware-fork-knife' size={30} color={Colors.secondaryText}/>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
             <Text style={{ marginLeft: 20, marginVertical: 5 }}>Cuisine</Text>
             <Text style={{ margin: 5 }}>{booking.cuisine.label}</Text>
           </View>
         </View>
         <View style={{ flexDirection: 'row', height: 50 }}>
-          <Icon name='food' size={30} />
+          <Icon name='food' size={30} color={Colors.secondaryText}/>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
             <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dish</Text>
             <Text style={{ margin: 5 }}>{booking.dish.label}</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={() => setModalIndex(1)}>
+        <View>
+            <ListItem.Accordion
+              containerStyle={{ paddingHorizontal: 0, paddingBottom: 5, backgroundColor: Colors.background }}
+              isExpanded={showNotes}
+              onPress={() => setShowNotes(!showNotes)}
+              content={
+                <ListItem.Content>
+                  <Text>Notes</Text>
+                </ListItem.Content>
+              }
+            >
+              <ListItem containerStyle={{ borderColor: Colors.backgroundLight, borderWidth: 1, backgroundColor: Colors.background}}>
+                <ListItem.Content style={{ backgroundColor: Colors.background }}>
+                  <Text>{booking.notes}</Text>
+                </ListItem.Content>
+              </ListItem>
+            </ListItem.Accordion>
+          </View>
+        {/*<TouchableOpacity onPress={() => setModalIndex(1)}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
             <Text>Notes</Text>
-            <Icon name='chevron-right' size={30} style={{ paddingHorizontal: 0 }}/>
+            <Icon name='chevron-right' size={30} style={{ paddingHorizontal: 0 }} color={Colors.secondaryText}/>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
           {!(booking.status === 'Completed') && 
@@ -215,9 +235,9 @@ const BookingRequest = inject('stores')(observer((props)  => {
             <View style={{ flex: .5, marginVertical: 10 }}>
               <Button
                 onPress={() => {
-                  if(moment(booking.dateTime) > moment().add(booking.estimate, 'hours'))
+                  /*if(moment(booking.dateTime) > moment().add(booking.estimate, 'hours'))
                     notifyWarn('You cannot complete a Booking until is done')
-                  else
+                  else*/
                     props.navigation.navigate('BookingInvoice', { booking })}
                 }
                 title='Mark as Completed'
@@ -248,7 +268,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
             index={modalIndex}
             onClose={() => setModalIndex(-1)}
           >
-            {modalIndex === 0 ? <ConfirmBooking onConfirm={confirmBooking} /> : <BookingNotes value={booking.notes} onDone={() => setModalIndex(-1)} />}
+            <ConfirmBooking onConfirm={confirmBooking} />
           </RACBottomSheet>
       </SafeAreaView>}
     </ScrollView>

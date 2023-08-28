@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import globalStyles from "../../../../theme/global-styles";
 import Button from "../../../../components/buttons/Button";
 
-const CheckoutModal = ({ navigation, action }) => {
+const CheckoutModal = ({ navigation, action, onClose }) => {
   const [loading, setLoading] = useState(true)
   const [bookingId, setBookingId] = useState()
 
@@ -36,7 +36,9 @@ const CheckoutModal = ({ navigation, action }) => {
                   title='View Booking'
                   onPress={() => {
                     console.log('navigating to booking', bookingId)
+                    console.log(navigation)
                     navigation.navigate('CustomerSchedule', { bookingId })
+                    onClose()
                   }}
                 />
                 {/*<Button

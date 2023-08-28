@@ -351,6 +351,7 @@ export default class SignUpA extends Component {
                   onPress={this.createAccount}
                   title={'Create Account'}
                   loading={this.state.loading}
+                  loadingColor={Colors.background}
                 />
               </View>
 

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.placeholderColor
   },
   button: {
-    backgroundColor: Colors.backgroundMedium,
+    backgroundColor: Colors.primaryColor,
     marginHorizontal: 20,
     marginVertical: 20,
     borderRadius: 6,
@@ -230,6 +230,7 @@ const Bio = inject('stores')(observer((props) => {
               multiline
               numberOfLines={5}
               textAlignVertical='top'
+              borderColor={Colors.backgroundLight}
               value={bio.about}
               onChangeText={v => setBio({...bio, about: v})}
               style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
@@ -246,6 +247,7 @@ const Bio = inject('stores')(observer((props) => {
               value={bio.affiliations}
               multiline
               numberOfLines={2}
+              borderColor={Colors.backgroundLight}
               onChangeText={v => setBio({...bio, affiliations: v})}
               style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
               onFocus={() => setFocus(1)}
@@ -262,9 +264,9 @@ const Bio = inject('stores')(observer((props) => {
                   title={item.label}
                   onPress={() => onSelectChip(item._id)}
                   type='outline'
-                  buttonStyle={[{ borderColor: Colors.placeholderColor}, selectedChips.some((it: string) => it === item._id) && { backgroundColor: Colors.primaryColor}]}
+                  buttonStyle={[{ borderColor: Colors.placeholderColor}, selectedChips.some((it: string) => it === item._id) && { backgroundColor: Colors.primaryColor }]}
                   containerStyle={{ margin: 2 }}
-                  titleStyle={{ color: Colors.secondaryColor }}
+                  titleStyle={{ color: selectedChips.some((it: string) => it === item._id) ? Colors.background : Colors.secondaryColor }}
                 />
               ))}
             </View>
@@ -282,7 +284,7 @@ const Bio = inject('stores')(observer((props) => {
                   name: "plus",
                   type: "font-awesome",
                   size: 20,
-                  color: Colors.secondaryColor,
+                  color: Colors.primaryText,
                 }}
                 iconRight
                 buttonStyle={{ borderColor: Colors.placeholderColor, backgroundColor: Colors.primaryColor}}
@@ -367,6 +369,7 @@ const Bio = inject('stores')(observer((props) => {
               title='Save'
               disabled={!isValid() || loading}
               loading={loading}
+              loadingColor={Colors.background}
             />
           </View>
         </ScrollView>

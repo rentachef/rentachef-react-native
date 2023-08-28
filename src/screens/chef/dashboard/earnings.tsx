@@ -74,7 +74,7 @@ function Day(props) {
   )
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.backgroundColor }}>
+    <View style={{ flex: 1, backgroundColor: Colors.background }}>
       <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', padding: 20, backgroundColor: '#ffffff', opacity: showSortModal ? 0.5: 1 }}>
         <TouchableOpacity onPress={() => {
           console.log("onPress setSortModal")

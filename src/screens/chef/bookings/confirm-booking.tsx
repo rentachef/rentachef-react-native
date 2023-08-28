@@ -16,7 +16,7 @@ const ConfirmBooking = (props) => {
       <Subtitle2>Select the number of hours you will need to complete the service. We’ll use this estimate to avoid schedule conflicts. </Subtitle2>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', top: 10 }}>
         <View style={{ flexDirection: 'row' }}>
-          <Icon name='clock-outline' size={26} />
+          <Icon name='clock-outline' size={26} color={Colors.secondaryText}/>
           <Text style={{ marginVertical: 4, marginLeft: 10, color: Colors.primaryText }}>Time Estimate</Text>
         </View>
         <Counter

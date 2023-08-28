@@ -10,6 +10,11 @@ import Divider from "../../../components/divider/Divider";
 import {Chip} from "react-native-elements";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import globalStyles from "../../../theme/global-styles";
+import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
+import {Appearance} from 'react-native';
+import { notifyWarn } from 'src/components/toast/toast';
+
+const colorScheme = Appearance.getColorScheme();
 
 let profile_1 = require('@assets/img/profile_1.jpeg');
 
@@ -22,7 +27,8 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
   const [review, setReview] = useState({
     reviewerName: role === 'Cook' ? stores.chefSettingsStore.profile?.fullName : stores.customerSettingsStore.profile?.fullName ,
     reviewerId: stores.authStore.authInfo.userId,
-    stars: 1
+    stars: 1,
+    review: ''
   })
   const { chef } = route?.params
   const { total } = route?.params
@@ -78,12 +84,14 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
             startingValue={1}
             minValue={1}
             ratingColor={Colors.primaryColor}
+            tintColor={colorScheme === 'dark' ? Colors.background : undefined}
           />
-          <TextInput
+          <UnderlineTextInput
             placeholder='Write a review...'
             placeholderTextColor={Colors.placeholderTextColor}
             multiline={true}
-            numberOfLines={8}
+            numberOfLines={7}
+            borderColor={Colors.backgroundLight}
             style={styles.textArea}
             value={review?.review || ''}
             onChangeText={v => setReview({ ...review, review: v})}
@@ -133,16 +141,20 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
           <Button
             onPress={() => {
-              setLoading(true)
-              addReview({
-                chefId: chef.id,
-                review,
-                tip: totalTip,
-                bookingId
-              })
+              if(review.review?.length > 0) {
+                setLoading(true)
+                addReview({
+                  chefId: chef.id,
+                  review,
+                  tip: totalTip,
+                  bookingId
+                })
+              } else 
+                notifyWarn('Please write a review')
             }}
             title='Done'
             loading={loading}
+            loadingColor={Colors.background}
             disabled={loading}
             color={Colors.primaryColor}
           />

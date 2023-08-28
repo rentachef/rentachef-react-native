@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, TextInput, View, Image} from 'react-native'
+import {StyleSheet, TextInput, View, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import {Text} from '../../../components/text/CustomText';
 import {inject, observer} from "mobx-react";
 import {Subtitle2} from "../../../components/text/CustomText";
@@ -22,7 +22,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
           bankName: '',
           accountNumber: '',
           routingNumber: '',
-          currency: ''
+          currency: 'USD'
       },
       loading: false
     }
@@ -113,76 +113,88 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
     const { focus, bankAccount, loading } = this.state;
 
     return (
-      <View style={styles.screenContainer}>
-        <View style={styles.wrapper}>
-          <Icon style={styles.icon} name='bank' size={25} />
-          <Subtitle2>Connect your checkings account to receive deposits directly in your account</Subtitle2>
-        </View>
-        <View style={styles.wrapper}>
-          <Image source={paymentSetupImage} style={styles.setupImage} />
-        </View>
-        <View style={styles.inputGroup}>
-          <Text style={styles.inputGroupItemLabel}>Bank Name</Text>
-          <UnderlineTextInput
-            autoCapitalize="words"
-            placeholder="enter bank name"
-            keyboardType={"default"}
-            value={bankAccount.bankName}
-            onChangeText={value => this.handleChange(value, 'bankName')}
-            onFocus={() => this.setState({ focus: 0 })}
-            onBlur={() => this.setState({ focus: undefined })}
-            style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
-            placeholderTextColor={Colors.placeholderColor}
-          />
-          <Text style={styles.inputGroupItemLabel}>Account Number</Text>
-          <UnderlineTextInput
-            autoCapitalize="none"
-            placeholder="enter your account number"
-            keyboardType={"numeric"}
-            value={bankAccount.accountNumber}
-            onChangeText={value => this.handleChange(value, 'accountNumber')}
-            onFocus={() => this.setState({ focus: 1 })}
-            onBlur={() => this.setState({ focus: undefined })}
-            maxLength={12}
-            style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
-            placeholderTextColor={Colors.placeholderColor}
-          />
-          <Text style={styles.inputGroupItemLabel}>Routing Number</Text>
-          <UnderlineTextInput
-            autoCapitalize="none"
-            placeholder="10 characters"
-            keyboardType={"numeric"}
-            value={bankAccount.routingNumber}
-            onChangeText={value => this.handleChange(value, 'routingNumber')}
-            onFocus={() => this.setState({ focus: 2 })}
-            onBlur={() => this.setState({ focus: undefined })}
-            maxLength={10}
-            style={[styles.inputGroupItem, focus === 2 && styles.inputGroupItemFocused]}
-            placeholderTextColor={Colors.placeholderColor}
-          />
-          <Text style={styles.inputGroupItemLabel}>Currency</Text>
-          <UnderlineTextInput
-            autoCapitalize="characters"
-            placeholder="USD"
-            keyboardType={"default"}
-            value={bankAccount.currency}
-            onChangeText={value => this.handleChange(value, 'currency')}
-            onFocus={() => this.setState({ focus: 3 })}
-            onBlur={() => this.setState({ focus: undefined })}
-            maxLength={3}
-            style={[styles.inputGroupItem, focus === 3 && styles.inputGroupItemFocused]}
-            placeholderTextColor={Colors.placeholderColor}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => this.saveChanges()}
-            title='Save'
-            disabled={!this.isValid() || loading}
-            loading={loading}
-          />
-        </View>
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.screenContainer}
+          keyboardVerticalOffset={120}
+        >
+          <View style={styles.wrapper}>
+            <Icon style={styles.icon} name='bank' size={25} />
+            <Subtitle2>Connect your checkings account to receive deposits directly in your account</Subtitle2>
+          </View>
+          <View style={styles.wrapper}>
+            <Image source={paymentSetupImage} style={styles.setupImage} />
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputGroupItemLabel}>Bank Name</Text>
+            <UnderlineTextInput
+              autoCapitalize="words"
+              placeholder="enter bank name"
+              keyboardType={"default"}
+              borderColor={Colors.backgroundLight}
+              value={bankAccount.bankName}
+              onChangeText={value => this.handleChange(value, 'bankName')}
+              onFocus={() => this.setState({ focus: 0 })}
+              onBlur={() => this.setState({ focus: undefined })}
+              style={[styles.inputGroupItem, focus === 0 && styles.inputGroupItemFocused]}
+              placeholderTextColor={Colors.placeholderColor}
+            />
+            <Text style={styles.inputGroupItemLabel}>Account Number</Text>
+            <UnderlineTextInput
+              autoCapitalize="none"
+              placeholder="enter your account number"
+              keyboardType={"numeric"}
+              borderColor={Colors.backgroundLight}
+              value={bankAccount.accountNumber}
+              onChangeText={value => this.handleChange(value, 'accountNumber')}
+              onFocus={() => this.setState({ focus: 1 })}
+              onBlur={() => this.setState({ focus: undefined })}
+              maxLength={12}
+              style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
+              placeholderTextColor={Colors.placeholderColor}
+            />
+            <Text style={styles.inputGroupItemLabel}>Routing Number</Text>
+            <UnderlineTextInput
+              autoCapitalize="none"
+              placeholder="10 characters"
+              keyboardType={"numeric"}
+              borderColor={Colors.backgroundLight}
+              value={bankAccount.routingNumber}
+              onChangeText={value => this.handleChange(value, 'routingNumber')}
+              onFocus={() => this.setState({ focus: 2 })}
+              onBlur={() => this.setState({ focus: undefined })}
+              maxLength={10}
+              style={[styles.inputGroupItem, focus === 2 && styles.inputGroupItemFocused]}
+              placeholderTextColor={Colors.placeholderColor}
+            />
+            <Text style={styles.inputGroupItemLabel}>Currency</Text>
+            <UnderlineTextInput
+              autoCapitalize="characters"
+              placeholder="USD"
+              keyboardType={"default"}
+              borderColor={Colors.backgroundLight}
+              value={bankAccount.currency}
+              editable={false}
+              onChangeText={value => this.handleChange(value, 'currency')}
+              onFocus={() => this.setState({ focus: 3 })}
+              onBlur={() => this.setState({ focus: undefined })}
+              maxLength={3}
+              style={[styles.inputGroupItem, focus === 3 && styles.inputGroupItemFocused]}
+              placeholderTextColor={Colors.placeholderColor}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              onPress={() => this.saveChanges()}
+              title='Save'
+              disabled={!this.isValid() || loading}
+              loading={loading}
+              loadingColor={Colors.background}
+            />
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     )
   }
 }
@@ -202,7 +214,7 @@ const styles = StyleSheet.create({
     flex: .15,
     height: 40,
     paddingHorizontal: 20,
-    borderColor: Colors.backgroundDark,
+    borderColor: Colors.backgroundLight,
     borderWidth: 2,
     borderRadius: 12,
     margin: 5,
@@ -232,7 +244,12 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 24,
     backgroundColor: Colors.background,
-    alignSelf: 'flex-end'
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    marginLeft: '5%',
+    marginBottom: '3%'
   },
   setupImage: {
     backgroundColor: '#F7F3EF',

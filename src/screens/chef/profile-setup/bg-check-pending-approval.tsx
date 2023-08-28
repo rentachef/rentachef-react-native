@@ -15,7 +15,7 @@ const ChefBackgroundPendingApproval = () => {
         <Icon name='file-eye' size={130} color={Colors.primaryColor}/>
         <SmallBoldHeading style={styles.smallBoldHeading}>We’re evaluating your profile</SmallBoldHeading>
         <Subtitle2 style={styles.subtitle}>You will be notified via email after the decision has been made.</Subtitle2>
-        <Button buttonStyle={styles.buttonStyle} small titleColor={Colors.primaryText} title={'Get Help'} borderColor={Colors.backgroundDark} outlined />
+        <Button buttonStyle={styles.buttonStyle} small titleColor={Colors.primaryText} title={'Get Help'} borderColor={Colors.backgroundLight} outlined />
       </View>
     </View>
   )

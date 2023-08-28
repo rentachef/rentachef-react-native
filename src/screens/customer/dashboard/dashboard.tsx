@@ -157,7 +157,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
             index={modalIndex}
             size={'70%'}
             onClose={() => setModalIndex(-1)}
-            enableSwipeClose={true}
+            enableSwipeClose
           >
             <ServiceDetails navigation={navigation} onClose={() => setModalIndex(-1)} />
           </RACBottomSheet>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   dashboardContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.background,
     justifyContent: 'center'
   }
 })

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
-    padding: 20
+    padding: Platform.OS === 'ios' ? 20 : 10
   },
   contentContainerStyle: {
     flexGrow: 1,
@@ -131,19 +131,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.backgroundMedium,
+    borderBottomColor: Colors.secondaryColor,
     paddingVertical: 15
   },
   header: {
-    color: Colors.secondaryColor,
+    color: Colors.secondaryText,
     fontSize: 12,
     alignItems: 'flex-start',
-    backgroundColor: "#fff"
+    backgroundColor: Colors.backgroundColor
   },
   title: {
     alignSelf: 'center',
     paddingTop: 5,
-    fontSize: 14
+    fontSize: 14,
+    color: Colors.primaryText
   }
 });
 
@@ -274,7 +275,7 @@ export default class SettingsA extends Component {
 
     return (
       <ScrollView style={styles.container}>
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView>
           <StatusBar
             backgroundColor={Colors.statusBarColor}
             barStyle="dark-content"
@@ -321,7 +322,7 @@ export default class SettingsA extends Component {
 
               }}
               socialIconName='gift'
-              color={Colors.white}
+              color={Colors.background}
               rounded
             />
 

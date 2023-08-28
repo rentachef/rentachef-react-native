@@ -73,7 +73,7 @@ const Bookings = inject('stores')(observer((props) => {
           ))}
         {bookings.length === 0 &&
           <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
-            <Icon name='notebook' size={30} />
+            <Icon name='notebook' size={30} color={Colors.secondaryText} />
             <HeadlineBold>You have no bookings yet...</HeadlineBold>
           </View>
         }
@@ -87,16 +87,17 @@ export default Bookings
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.background,
     padding: 5,
     height: '99%',
   },
   btnGroupContainer: {
     height: 40,
-    borderRadius: 10
+    borderRadius: 10,
+    backgroundColor: Colors.background
   },
   btnGroupSelectedBtn: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.primaryColor,
     borderWidth: 2,
     borderRadius: 10,
     borderColor: Colors.disabled
@@ -108,7 +109,9 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     borderRadius: 10,
-    height: 120
+    height: 120,
+    backgroundColor: Colors.backgroundLight,
+    borderColor: Colors.backgroundLight
   },
   cardWrapper: {
     flexDirection: 'row'
@@ -133,6 +136,6 @@ const styles = StyleSheet.create({
   },
   cardText: {
     flex: 1,
-    color: Colors.secondaryColor
+    color: Colors.primaryText
   }
 })

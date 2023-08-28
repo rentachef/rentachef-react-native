@@ -10,6 +10,7 @@ import {isEmpty} from "lodash";
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import DropDownPicker from 'react-native-dropdown-picker';
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
+import { Platform } from 'react-native';
 
 const DishDialog = ({ cuisines, onSubmit }) => {
   const [cuisine, setCuisine] = useState()
@@ -17,13 +18,18 @@ const DishDialog = ({ cuisines, onSubmit }) => {
   const [open, setOpen] = useState(false)
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, marginBottom: 30, marginHorizontal: 30, alignItems: 'center', justifyContent: 'space-between' }}>
+    <View 
+      style={{ flex: 1, marginBottom: 30, marginHorizontal: 30, alignItems: 'center', justifyContent: 'space-between' }}
+    >
       <Heading6>Add Dish</Heading6>
       <DropDownPicker
         value={cuisine || null}
         onPress={() => setOpen(!open)}
         open={open}
-        style={{ width: '100%', backgroundColor: Colors.pickerBackground, margin: 'auto' }}
+        dropDownContainerStyle={{ backgroundColor: Colors.backgroundLight}}
+        style={{ width: '100%', backgroundColor: Colors.background, borderColor: Colors.backgroundLight, margin: 'auto' }}
+        tickIconStyle={{ backgroundColor: Colors.primaryColor, borderRadius: 30}}
+        textStyle={{ color: Colors.primaryText}}
         setValue={(v) => {
           setCuisine(v)
           setOpen(false)
@@ -42,6 +48,7 @@ const DishDialog = ({ cuisines, onSubmit }) => {
       <UnderlineTextInput
         placeholder='Dish name'
         placeholderTextColor={Colors.placeholderTextColor}
+        borderColor={Colors.backgroundLight}
         value={dish?.label || ''}
         onChangeText={v => setDish(isEmpty(v) ? undefined : {key: v, label: v})}a
         style={styles.inputGroupItem}
@@ -56,7 +63,7 @@ const DishDialog = ({ cuisines, onSubmit }) => {
           disabled={isEmpty(cuisine) || isEmpty(dish)}
         />
       </View>
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 
