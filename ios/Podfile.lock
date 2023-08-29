@@ -450,7 +450,7 @@ PODS:
     - React-RCTImage
   - RNSVG (12.5.1):
     - React-Core
-  - RNVectorIcons (8.1.0):
+  - RNVectorIcons (9.2.0):
     - React-Core
   - SocketRocket (0.6.1)
   - Stripe (23.3.4):
@@ -796,7 +796,7 @@ SPEC CHECKSUMS:
   RNReanimated: c6f8f70e96dd6ca21b65aef9b3e4efe4965db905
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
-  RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
+  RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Stripe: 7393b16fe555d4a68e6555044e7b57eff11ae547
   stripe-react-native: 34fe3aa10a5caf2a5d9ff0d7bcc7ad31c6881d24
