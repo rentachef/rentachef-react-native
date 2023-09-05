@@ -55,7 +55,7 @@ const CheckoutSelect = inject('stores')(({ data, title, selected, onSelect, item
           renderSectionFooter={() =>
             itemsType === 'paymentMethod' ?
                 <TouchableOpacity style={{ ...styles.item, flexDirection: 'row', justifyContent: 'flex-start', borderBottomWidth: 0 }} onPress={() => console.log('add payment method')}>
-                  <Icon name='plus' size={25} />
+                  <Icon name='plus' size={25} color={Colors.primaryColor} />
                   <Text style={{ alignSelf: 'center', marginLeft: 10 }}>Add Payment Method</Text>
                 </TouchableOpacity> : <></>}
         />

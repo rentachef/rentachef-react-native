@@ -98,17 +98,25 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
         </ScrollView>
         <View style={{ height: 60, marginVertical: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{ flex: .25 }}>
-            <Icon name='message-text-outline' size={25} style={{
+            {<Icon name='message-text-outline' size={25} style={{
               padding: 8,
-              margin: 5,
+              marginVertical: 5,
+              marginRight: 10,
               flex: .8,
               alignSelf: 'center',
               lineHeight: 30,
               borderWidth: 1,
-              backgroundColor: Colors.backgroundMedium,
-              borderColor: Colors.backgroundMedium,
+              color: Colors.secondaryText,
+              backgroundColor: Colors.backgroundLight,
+              borderColor: Colors.backgroundLight,
               borderRadius: 8
-            }} onPress={() => console.log('asd') }/>
+            }} onPress={() => navigation.navigate('CustomerChat', {
+              channel: `inbox.${chef.userId}.${stores.authStore.authInfo.userId}`,
+              userId: stores.authStore.authInfo.userId, 
+              pubnub: undefined,
+              consumer: { id: stores.authStore.authInfo.userId, name: stores.customerSettingsStore.profile.fullName},
+              chef: { id: chef.userId, name: chef.settings.profile.fullName }
+            }) }/>}
           </View>
           <View style={{ flex: 1.5 }}>
             <Button

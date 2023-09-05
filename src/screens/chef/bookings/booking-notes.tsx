@@ -23,7 +23,7 @@ const BookingNotes = ({ disabled, value, onDone }) => {
           borderColor={Colors.backgroundLight}
           value={notes}
           onChangeText={text => setNotes(text)}
-          style={globalStyles.inputGroupItem}
+          style={{...globalStyles.inputGroupItem, height: 100}}
           textAlignVertical='top'
         />
       </KeyboardAvoidingView>
