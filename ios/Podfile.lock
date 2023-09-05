@@ -402,7 +402,7 @@ PODS:
     - React-jsi (= 0.69.12)
     - React-logger (= 0.69.12)
     - React-perflogger (= 0.69.12)
-  - rn-fetch-blob (0.12.0):
+  - rn-fetch-blob (0.13.0-beta.2):
     - React-Core
   - RNAWSCognito (5.2.14):
     - React-Core
@@ -785,7 +785,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: c9cd9f21bbcb3b9c6deedbb66f13e373f57dd795
   React-runtimeexecutor: ea78653fbc68bd6f2d3f5e7e311bc5a9dc8bfeca
   ReactCommon: f4bb9e5209ea5c3c6ab25e100895119e58d6e50a
-  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  rn-fetch-blob: d469adb2e1d17f9d02ceb2b7bdd35ae5bd5db66b
   RNAWSCognito: bbfdc784e906e3837d4d996c17ffed19356afc19
   RNCAsyncStorage: 7f8e2221400b54dd85ca18461ff983c46317d500
   RNCMaskedView: f127cd9652acfa31b91dcff613e07ba18b774db6

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {SafeAreaView, StyleSheet, TextInput, View} from "react-native";
+import {Keyboard, KeyboardAvoidingView, SafeAreaView, StyleSheet, TextInput, TouchableWithoutFeedback, View} from "react-native";
 import Colors from "../../../theme/colors";
 import Avatar from "../../../components/avatar/Avatar";
 import {BoldHeading, Heading6, HeadlineBold, Text, Subtitle2} from "../../../components/text/CustomText";
@@ -31,6 +31,7 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
     review: ''
   })
   const { chef } = route?.params
+  const { consumer } = route?.params
   const { total } = route?.params
   const { bookingId } = route?.params
 
@@ -56,12 +57,14 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
         navigation.goBack()
       })
       .catch(err => {
+        console.log('error when adding review')
         setLoading(false)
         console.log(JSON.stringify(err))
       })
 
   return (
-    <>
+    <KeyboardAvoidingView keyboardVerticalOffset={90} behavior={Platform.OS === 'ios' ? 'padding' : 'position'}>
+      <>
       <View style={{...styles.screenContainer }}>
         <View style={{ height: '70%', alignItems: 'center', justifyContent: 'space-between' }}>
           <Avatar
@@ -144,7 +147,7 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
               if(review.review?.length > 0) {
                 setLoading(true)
                 addReview({
-                  chefId: chef.id,
+                  chefId: chef ? chef.id : consumer.id,
                   review,
                   tip: totalTip,
                   bookingId
@@ -208,7 +211,8 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
             </>
           </RACBottomSheet>
         </SafeAreaView>}
-    </>
+      </>
+    </KeyboardAvoidingView>
   )
 })
 

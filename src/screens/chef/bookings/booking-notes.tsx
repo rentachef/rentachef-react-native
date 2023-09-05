@@ -31,7 +31,7 @@ const BookingNotes = ({ disabled, value, onDone }) => {
         <Button
           title='Done'
           disabled={disabled}
-          buttonStyle={{ backgroundColor: Colors.secondaryColor }}
+          buttonStyle={{ backgroundColor: Colors.secondaryColor, marginTop: 10 }}
           titleColor={Colors.background}
           onPress={() => onDone(notes)}
         />

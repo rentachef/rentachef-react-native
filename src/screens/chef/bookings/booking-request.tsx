@@ -66,8 +66,8 @@ interface Coordinates {
 const BookingRequest = inject('stores')(observer((props)  => {
   const [currentPosition, setCurrentPosition] = useState<Coordinates>({})
   const [modalIndex, setModalIndex] = useState(-1)
+  const [booking, setBooking] = useState(props.route.params.booking)
   const [showNotes, setShowNotes] = useState(false)
-  const { booking } = props.route.params
   const { hourlyRate } = props.stores.chefProfileStore
 
   console.log('booking', booking)
@@ -78,10 +78,12 @@ const BookingRequest = inject('stores')(observer((props)  => {
   }, [])
 
   const confirmBooking = (estimate: number) => {
+    console.log('confirmando booking', estimate)
     props.stores.bookingsStore.updateBooking(booking._id, { status: 'Confirmed', estimate })
       .then( _ => {
         booking.status = 'Confirmed';
         booking.estimate = estimate;
+        setBooking(booking)
         setModalIndex(-1)
       })
       .catch(err => {

@@ -134,7 +134,7 @@ const BookingInvoice = inject('stores')(({ navigation, route, stores }) => {
             />
             <Button
               title='Rate the Client'
-              onPress={() => navigation.navigate('ChefClientRate', { name: booking.consumerName, id: booking.consumerId, total: Number(total) })}
+              onPress={() => navigation.navigate('ChefClientRate', { name: booking.consumerName, id: booking.consumerId, total: Number(total), consumer: { id: booking.consumerId} })}
               color={Colors.backgroundMedium}
             />
           </View>) : (

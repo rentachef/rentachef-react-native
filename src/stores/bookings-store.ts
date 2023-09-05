@@ -73,6 +73,7 @@ class BookingsStore {
 
   addReview = async (data: any) => {
     const result = await this.rootStore.chefApi.setBookingReview(data)
+    console.log('booking review response', result)
     if(result.ok)
       return result.data
     else {

@@ -102,7 +102,7 @@ const ChatList = (inject('stores')((props) => {
       }
       {selectedIndex === 0 && channels.length === 0 && !loading &&
         <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
-          <Icon name='chat' size={30} />
+          <Icon name='chat' size={30} color={Colors.secondaryText} />
           <HeadlineBold>You have no chats yet...</HeadlineBold>
         </View>
       }
@@ -113,7 +113,7 @@ const ChatList = (inject('stores')((props) => {
       }
       {selectedIndex === 1 && notifications.length === 0 &&
         <View style={{...styles.screenContainer, alignItems: 'center', justifyContent: 'center', marginTop: '60%' }}>
-          <Icon name='bell' size={30} />
+          <Icon name='bell' size={30} color={Colors.secondaryText} />
           <HeadlineBold>You have no notifications...</HeadlineBold>
         </View>
       }
