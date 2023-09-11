@@ -102,7 +102,7 @@ const ReviewsList = (props: any) => {
             </RACBottomSheet> : null }
       </View> :
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.background }}>
-        <Icon name='note-text' size={30} />
+        <Icon name='note-text' size={30} color={Colors.secondaryText}/>
         <HeadlineBold>No reviews here...</HeadlineBold>
       </View>}
     </>

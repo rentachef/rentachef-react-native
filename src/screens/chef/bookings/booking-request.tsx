@@ -237,9 +237,9 @@ const BookingRequest = inject('stores')(observer((props)  => {
             <View style={{ flex: .5, marginVertical: 10 }}>
               <Button
                 onPress={() => {
-                  /*if(moment(booking.dateTime) > moment().add(booking.estimate, 'hours'))
+                  if(moment() < moment(booking.dateTime))
                     notifyWarn('You cannot complete a Booking until is done')
-                  else*/
+                  else
                     props.navigation.navigate('BookingInvoice', { booking })}
                 }
                 title='Mark as Completed'

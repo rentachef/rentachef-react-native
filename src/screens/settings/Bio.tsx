@@ -32,6 +32,7 @@ import {Picker} from "@react-native-picker/picker";
 import globalStyles from "../../theme/global-styles";
 import DishDialog from "./DishDialog";
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -156,11 +157,39 @@ const Bio = inject('stores')(observer((props) => {
     let photos = [...specialtiesPhotos]
     if(!data.didCancel) {
       if(data?.assets) {
-        photos.push({
-          id: photos.length + 1,
-          url: data.assets[0].uri
-        });
-        setSpecialtiesPhotos([...photos])
+        ImageResizer.createResizedImage(
+          data.assets[0].uri,
+          data.assets[0].width / 2,
+          data.assets[0].height / 2,
+          'JPEG',
+          40,
+          0,
+          null,
+          false,
+          {
+            mode: 'contain',
+            onlyScaleDown: true
+          }
+        )
+          .then((response) => {
+            console.log('resize done', response)
+            // response.uri is the URI of the new image that can now be displayed, uploaded...
+            // response.path is the path of the new image
+            // response.name is the name of the new image with the extension
+            // response.size is the size of the new image
+            photos.push({
+              id: photos.length + 1,
+              url: response.uri
+            });
+            setSpecialtiesPhotos([...photos])
+          })
+          .catch((err) => {
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+            console.log('ERROR!', err)
+            //setShowCamera(false)
+            //throw err
+          });
       }
     }
   }
@@ -199,6 +228,8 @@ const Bio = inject('stores')(observer((props) => {
         photosUris,
         specialties
       }
+
+      console.log('saving changes', changes)
 
       await props.stores.chefSettingsStore.saveChefBio(changes)
       setLoading(false)

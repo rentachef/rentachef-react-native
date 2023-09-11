@@ -113,7 +113,7 @@ export default class ChefDashboard extends React.Component<any, any> {
         <View style={{flex: 1, backgroundColor: Colors.background}}>
           <View style={dashboardStyles.dashboardHeaderContainer}>
             <SemiBoldHeading>{`Hi ${this.props.stores?.chefSettingsStore.profile?.fullName?.split(' ')[0] || ''}!`}</SemiBoldHeading>
-            <Text>Here is what's going on today</Text>
+            {/*<Text>Here is what's going on today</Text>*/}
           </View>
           <View style={dashboardStyles.dashboardContainer}>
             {/*<View style={{marginVertical: 10, marginBottom: 10, flex: .3 }}>
