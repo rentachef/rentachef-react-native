@@ -13,6 +13,7 @@ import {isEmpty} from "lodash";
 import _getBase64 from "../../../utils/imageConverter";
 import {Text} from '../../../components/text/CustomText';
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -56,12 +57,43 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
       .then((data: ImagePickerResponse) => {
         console.log(data)
         if(!data.didCancel) {
-          setShowCamera(false)
-          //@ts-ignore
-          setBackgroundCheck({...backgroundCheck, [buttonChoice]: data.assets[0].uri})
+          ImageResizer.createResizedImage(
+            data.assets[0].uri,
+            data.assets[0].width / 1.5,
+            data.assets[0].height / 1.5,
+            'JPEG',
+            80,
+            0,
+            null,
+            false,
+            {
+              mode: 'contain',
+              onlyScaleDown: true
+            }
+          )
+            .then((response) => {
+              console.log('resize done', response)
+              // response.uri is the URI of the new image that can now be displayed, uploaded...
+              // response.path is the path of the new image
+              // response.name is the name of the new image with the extension
+              // response.size is the size of the new image
+              setShowCamera(false)
+              //@ts-ignorer
+              setBackgroundCheck({...backgroundCheck, [buttonChoice]: response.uri})
+            })
+            .catch((err) => {
+              // Oops, something went wrong. Check that the filename is correct and
+              // inspect err to get more details.
+              console.log('ERROR!', err)
+              //setShowCamera(false)
+              //throw err
+            });
         }
       })
-      .catch(err => notifyError(err.message))
+      .catch(err => {
+        console.log('error', err)
+        notifyError(err.message)
+      })
   }
 
   const onPhotoDelete = (choice: string) => setBackgroundCheck({...backgroundCheck, [choice]: '' })

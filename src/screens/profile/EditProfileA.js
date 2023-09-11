@@ -205,7 +205,7 @@ export default class EditProfileA extends Component {
             <View style={styles.inputGroup}>
               <Text style={styles.inputGroupItemLabel}>Name</Text>
               <TextInput
-                autoCapitalize="none"
+                autoCapitalize="words"
                 placeholder="Full Name"
                 keyboardType={"default"}
                 onFocus={() => this.setState({ focus: 0 })}

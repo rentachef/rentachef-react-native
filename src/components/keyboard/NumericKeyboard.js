@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
   number: {
     fontWeight: '300',
     fontSize: 24,
-    color: Colors.black,
+    color: Colors.primaryText,
   },
   actionButtonTitle: {
     padding: 12,
     fontWeight: '500',
     fontSize: 13,
-    color: Colors.black,
+    color: Colors.primaryText,
   },
 });
 
@@ -116,7 +116,7 @@ const NumericKeyboard = ({actionButtonTitle, onPress = () => {}}: Props) => (
       <Icon
         name={BACKSPACE_ICON}
         size={24}
-        color={Colors.black}
+        color={Colors.secondaryText}
         // style={isRTL && {transform: [{scaleX: -1}]}}
       />
     </TouchableOpacity>

@@ -36,10 +36,10 @@ import { notifyError } from '../../components/toast/toast';
 import { includes } from 'lodash';
 
 // SignUpA Config
-const PLACEHOLDER_TEXT_COLOR = 'rgba(0, 0, 0, 0.4)';
-const INPUT_TEXT_COLOR = 'rgba(0, 0, 0, 0.87)';
-const INPUT_BORDER_COLOR = 'rgba(0, 0, 0, 0.2)';
-const INPUT_FOCUSED_BORDER_COLOR = '#000';
+const PLACEHOLDER_TEXT_COLOR = Colors.secondaryText;
+const INPUT_TEXT_COLOR = Colors.primaryText;
+const INPUT_BORDER_COLOR = Colors.backgroundLight;
+const INPUT_FOCUSED_BORDER_COLOR = Colors.primaryColor;
 
 // SignUpA Styles
 const styles = StyleSheet.create({
@@ -293,10 +293,10 @@ export default class SignUpA extends Component {
                 borderColor={INPUT_BORDER_COLOR}
                 focusedBorderColor={INPUT_FOCUSED_BORDER_COLOR}
                 inputContainerStyle={styles.inputContainer}
-                icon
+                icon={true}
                 iconName={'email'}
-                iconColor={'#A7AFBF'}
-                iconSize={26}
+                iconColor={Colors.secondaryColor}
+                iconSize={22}
               />
 
               {/*TODO ADD NAME*/}
@@ -318,10 +318,10 @@ export default class SignUpA extends Component {
                 borderColor={INPUT_BORDER_COLOR}
                 focusedBorderColor={INPUT_FOCUSED_BORDER_COLOR}
                 inputContainerStyle={styles.inputContainer}
-                icon
+                icon={true}
                 iconName={'phone'}
-                iconColor={'#A7AFBF'}
-                iconSize={26}
+                iconColor={Colors.secondaryColor}
+                iconSize={22}
               />
 
               <UnderlinePasswordInput
@@ -341,9 +341,6 @@ export default class SignUpA extends Component {
                 toggleVisible={true}
                 toggleText={secureTextEntry ? 'Show' : 'Hide'}
                 onTogglePress={this.onTogglePress}
-                iconName={'eyeSlash'}
-                iconColor={'#A7AFBF'}
-                iconSize={26}
               />
 
               <View style={styles.buttonContainer}>

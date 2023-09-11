@@ -15,7 +15,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../theme/colors';
 
 // Icon Config
-const ICON_COLOR = Colors.black;
+const ICON_COLOR = Colors.secondaryText;
 const ICON_SIZE = 88;
 
 // Icon Styles
@@ -41,13 +41,13 @@ const Icon = ({color = ICON_COLOR, name, size = ICON_SIZE, style}: Props) => {
   switch (name) {
     case 'email':
       //return (<Unicons.UilEnvelope color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
-      return <IonIcon name='mail' size={20} />
+      return <IonIcon name='mail' size={size} color={color}/>
     case 'eyeSlash':
       //return (<Unicons.UilEyeSlash color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
-      return <IonIcon name='ios-eye' size={20} />
+      return <IonIcon name='ios-eye' size={size} color={color}/>
     case 'phone':
       //return (<Unicons.UilPhone color={color} size={iconSize} style={[{height: iconSize, width: iconSize}, styles.icon,]}/>)
-      return <IonIcon name='md-phone-portrait' size={20} />
+      return <IonIcon name='md-phone-portrait' size={size} color={color}/>
     default:
       return (<IonIcon
         name={name}

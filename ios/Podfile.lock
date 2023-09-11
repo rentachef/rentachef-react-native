@@ -326,6 +326,8 @@ PODS:
     - React
   - react-native-image-picker (4.10.3):
     - React-Core
+  - react-native-image-resizer (3.0.7):
+    - React-Core
   - react-native-maps (0.30.2):
     - React-Core
   - react-native-netinfo (6.2.1):
@@ -547,6 +549,7 @@ DEPENDENCIES:
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-base64 (from `../node_modules/react-native-image-base64`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-image-resizer (from `../node_modules/@bam.tech/react-native-image-resizer`)"
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -662,6 +665,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-base64"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-image-resizer:
+    :path: "../node_modules/@bam.tech/react-native-image-resizer"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
@@ -768,6 +773,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 4fa56492c7f4323edfa4574a2e5ca3eaa71dc62f
   react-native-image-base64: acfe962aa79535d826a2668e66474e85a9ee468d
   react-native-image-picker: 433f17b9d7147bfe38c10d89eab718dd707afc60
+  react-native-image-resizer: cdc353d2b88e7d0dfc4aa3c5f1d380c538029836
   react-native-maps: df7b9fca1b1c8d356fadbf5b8a63a5f8cf32fc73
   react-native-netinfo: 877946c7b4eb85a639cf1ea31333dadc2be999a1
   react-native-pager-view: fc311e95f8ba2b710deae6cb0a21f2102fb49d99
