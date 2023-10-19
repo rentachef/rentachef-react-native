@@ -17,19 +17,25 @@ class BookingsStore {
       this.rootStore.chefApi.getChefBookings().then((r: any) => {
         console.log("recieved chef bookings", r.data)
         this.setBookings(r?.data)
-        return r
+        return r?.data.sort(function(a: any, b: any) {
+          return b.dateTime - a.dateTime;
+        })
       })
     else
       this.rootStore.chefApi.getConsumerBookings().then((r: any) => {
         console.log("received consumer bookings", JSON.stringify(r.data))
         this.setBookings(r?.data)
-        return r
+        return r?.data.sort(function(a: any, b: any) {
+          return b.dateTime - a.dateTime;
+        })
       })
   }
 
   retrieveBookings = () => {
     return this.bookings.map((cb: ChefBooking) => {
       return {...cb, dateTime: new Date(cb.dateTime)}
+    }).sort(function(a: any, b: any) {
+      return b.dateTime - a.dateTime;
     })
   }
 

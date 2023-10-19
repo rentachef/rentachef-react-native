@@ -302,7 +302,7 @@ export default class SignUpB extends Component {
                 onPress={this.navigateTo('TermsConditions')}>
                 <View style={styles.footer}>
                   <Text style={styles.footerText}>
-                    By registering, you accepts our
+                    By registering, you accept our
                   </Text>
                   <View style={styles.termsContainer}>
                     <Text style={[styles.footerText, styles.footerLink]}>

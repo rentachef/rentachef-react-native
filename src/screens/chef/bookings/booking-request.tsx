@@ -246,15 +246,19 @@ const BookingRequest = inject('stores')(observer((props)  => {
                 color={Colors.primaryColor}
               />
             </View>}
-          <View style={{ flex: .5, marginVertical: 10 }}>
-            <Button
-              onPress={() => {}}
-              outlined
-              title='Forfeit Booking'
-              borderColor={Colors.error}
-              titleColor={Colors.error}
-            />
-          </View>
+          {(booking.status !== 'Completed' && booking.status !== 'Cancelled') &&
+            <View style={{ flex: .5, marginVertical: 10 }}>
+              <Button
+                onPress={() => {
+                  props.stores.bookingsStore.updateBooking(booking._id, { status: 'Cancelled' })
+                  props.navigation.goBack()
+                }}
+                outlined
+                title='Forfeit Booking'
+                borderColor={Colors.error}
+                titleColor={Colors.error}
+              />
+            </View>}
           <TouchableOpacity style={{ flex: 1, alignSelf: 'center', margin: 10 }}>
             <Text style={{ color: Colors.secondaryColor }}>Get Help</Text>
           </TouchableOpacity>

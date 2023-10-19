@@ -63,7 +63,7 @@ export default class ChefAvailability extends React.Component<any, any> {
     if(wh) {
       return this.getTime(wh.timing);
     } else
-      return 'Not setted'
+      return 'Not Set'
   }
 
   getTime = (timing: Timing) => `${timing.from.toLocaleTimeString([], timeFormat)} - ${timing.to.toLocaleTimeString('en-US', timeFormat)}`;
@@ -158,7 +158,7 @@ export default class ChefAvailability extends React.Component<any, any> {
     return (
       <View style={{flex: 1, backgroundColor: Colors.background, padding: 5, height: '99%'}}>
         <View style={{flex: 8, opacity: this.state.modalIndex !== -1 ? 0.5: 1}}>
-          <Subtitle2 style={{alignItems: 'center', padding: 10, textAlign: 'center'}}>Set typical weekly hours && add overrides for specific dates</Subtitle2>
+          <Subtitle2 style={{alignItems: 'center', padding: 10, textAlign: 'center'}}>{'Set typical weekly hours and add overrides for\n specific dates'}</Subtitle2>
           <ButtonGroup
             onPress={this.updateIndex}
             buttonStyle={{

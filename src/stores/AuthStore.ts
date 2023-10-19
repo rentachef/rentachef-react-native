@@ -184,6 +184,11 @@ class AuthStore {
       return 'REGISTRATION_FAILED'
   }
 
+  refreshPassword = async (email, newPass) => {
+    console.log('refreshing password...', email, newPass)
+    return await this.rootStore.chefApi.refreshPassword(email, newPass)
+  }
+
   @action logout = async () => {
     this.rootStore.chefApi.logout()
     await AsyncStorage.removeItem('@userId')

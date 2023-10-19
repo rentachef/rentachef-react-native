@@ -121,7 +121,7 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
         >
           <View style={styles.wrapper}>
             <Icon style={styles.icon} name='bank' size={25} />
-            <Subtitle2>Connect your checkings account to receive deposits directly in your account</Subtitle2>
+            <Subtitle2 style={{ padding: 5, paddingRight: 10 }}>Connect your account to receive deposits directly in your account</Subtitle2>
           </View>
           <View style={styles.wrapper}>
             <Image source={paymentSetupImage} style={styles.setupImage} />

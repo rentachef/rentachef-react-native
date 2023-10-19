@@ -155,7 +155,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
               console.log('value', index)
             }}
             index={modalIndex}
-            size={'70%'}
+            size={'80%'}
             onClose={() => setModalIndex(-1)}
             enableSwipeClose
           >

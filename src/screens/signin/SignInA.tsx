@@ -29,14 +29,16 @@ import Layout from '../../theme/layout';
 import {makeObservable, observable} from "mobx";
 import {inject, observer} from "mobx-react";
 import Logo from "../components/logo";
-import {notifyError} from "../../components/toast/toast";
+import {notifyError, notifySuccess} from "../../components/toast/toast";
 import { Text } from 'src/components/text/CustomText';
+import { isEmpty } from 'lodash';
 
 // SignInA Config
 const PLACEHOLDER_TEXT_COLOR = Colors.placeholderTextColor;
 const INPUT_TEXT_COLOR = Colors.primaryText;
 const INPUT_BORDER_COLOR = Colors.backgroundLight;
 const INPUT_FOCUSED_BORDER_COLOR = Colors.primaryColor;
+const INPUT_ERROR_COLOR = Colors.error
 
 // SignInA Styles
 const styles = StyleSheet.create({
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   },
   contentContainerStyle: {flex: 1},
   content: {
-    flex: 1,
+    flex: .8,
     justifyContent: 'space-between',
     backgroundColor: Colors.background
   },
@@ -116,7 +118,11 @@ export default class SignInA extends Component {
       passwordFocused: false,
       secureTextEntry: true,
       inputModalVisible: false,
-      loading: false
+      inputModalNewPasswordVisible: false,
+      loading: false,
+      emailError: false,
+      otp: '',
+      refreshPasswordError: ''
     };
   }
 
@@ -125,6 +131,20 @@ export default class SignInA extends Component {
       email: text.trim(),
     });
   };
+
+  validate = (text) => {
+    console.log(text);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(text) === false) {
+      console.log("Email is Not Correct");
+      this.setState({ email: text.trim(), emailError: true })
+      return false;
+    }
+    else {
+      this.setState({ email: text.trim(), emailError: false })
+      console.log("Email is Correct");
+    }
+  }
 
   emailFocus = () => {
    this.setState({
@@ -195,6 +215,39 @@ export default class SignInA extends Component {
     })
   };
 
+  forgotPassword = async () => {
+    Auth.forgotPassword(this.state.email).then((value)=>{
+      this.setState({ inputModalNewPasswordVisible: true, inputModalVisible: false })
+    }).catch((error)=>{
+      console.log('error refreshing password', error)
+      notifyError(error.message)
+    })
+  };
+
+  forgotPasswordSubmit = (otp, newPassword) => {
+    console.log('sending otp and newPass', otp, newPassword)
+    Auth.forgotPasswordSubmit(this.state.email,otp,newPassword)
+      .then(value => {
+        console.log('response', value)
+        if(value === 'SUCCESS') {
+          notifySuccess(value)
+          this.props.stores.authStore.refreshPassword(this.state.email, newPassword)
+            .then(res => {
+              console.log('res', res)
+              this.setState({ inputModalNewPasswordVisible: false })
+            })
+            .catch(error => {
+              this.setState({ refreshPasswordError: error.message })
+            })
+        } else
+          this.setState({ refreshPasswordError: value })
+      })
+      .catch(err => {
+        console.log('error', err?.message)
+        this.setState({ refreshPasswordError: err?.message })
+      })
+  }
+
   render() {
     const {
       email,
@@ -203,6 +256,7 @@ export default class SignInA extends Component {
       passwordFocused,
       secureTextEntry,
       inputModalVisible,
+      inputModalNewPasswordVisible
     } = this.state;
 
     return (
@@ -222,7 +276,7 @@ export default class SignInA extends Component {
                 onRef={r => {
                   this.email = r;
                 }}
-                onChangeText={this.emailChange}
+                onChangeText={this.validate}
                 onFocus={this.emailFocus}
                 inputFocused={emailFocused}
                 onSubmitEditing={this.focusOn(this.password)}
@@ -232,8 +286,8 @@ export default class SignInA extends Component {
                 placeholder="E-mail or phone number"
                 placeholderTextColor={PLACEHOLDER_TEXT_COLOR}
                 inputTextColor={INPUT_TEXT_COLOR}
-                borderColor={INPUT_BORDER_COLOR}
-                focusedBorderColor={INPUT_FOCUSED_BORDER_COLOR}
+                borderColor={this.state.emailError ? INPUT_ERROR_COLOR : INPUT_BORDER_COLOR}
+                focusedBorderColor={this.state.emailError ? INPUT_ERROR_COLOR : INPUT_FOCUSED_BORDER_COLOR}
                 inputContainerStyle={styles.inputContainer}
               />
 
@@ -261,6 +315,7 @@ export default class SignInA extends Component {
                 <Button
                   onPress={() => this.signIn()}
                   title={'Sign in'.toUpperCase()}
+                  disabled={this.state.emailError || isEmpty(this.state.email) || isEmpty(this.state.password)}
                   loading={this.state.loading}
                   loadingColor={Colors.background}
                 />
@@ -269,13 +324,16 @@ export default class SignInA extends Component {
               <View style={styles.forgotPassword}>
                 <Text
                   // onPress={this.showInputModal(true)}
-                  onPress={() => console.log("navigate accordingly")}
+                  onPress={() => {
+                    if(!isEmpty(this.state.email) && !this.state.emailError)
+                      this.setState({ inputModalVisible: true })
+                  }}
                   style={styles.forgotPasswordText}>
                   Forgot password?
                 </Text>
               </View>
 
-              <View style={styles.separator}>
+              {/*<View style={styles.separator}>
                 <View style={styles.line} />
                 <Text style={styles.orText}>or</Text>
                 <View style={styles.line} />
@@ -297,14 +355,14 @@ export default class SignInA extends Component {
                   iconColor={Colors.primaryText}
                   title={'Sign in with Google'.toUpperCase()}
                 />
-              </View>
+              </View> */}
             </View>
 
             <TouchableWithoutFeedback
               onPress={() => this.navigateTo('TermsConditions')}>
               <View style={styles.footer}>
                 <Text style={styles.footerText}>
-                  By signing in, you accepts our
+                  By signing in, you accept our
                 </Text>
                 <View style={styles.termsContainer}>
                   <Text style={[styles.footerText, styles.footerLink]}>
@@ -324,14 +382,29 @@ export default class SignInA extends Component {
         <InputModal
           title="Forgot password?"
           message="Enter your e-mail address to reset password"
-          inputDefaultValue={email}
+          step={1}
+          inputDefaultValue={this.state.email}
           inputPlaceholder="E-mail address"
           inputKeyboardType="email-address"
+          onButtonPress={this.forgotPassword}
           onRequestClose={this.showInputModal(false)}
           buttonTitle={'Reset password'.toUpperCase()}
           onClosePress={this.showInputModal(false)}
           visible={inputModalVisible}
         />
+
+        <InputModal
+          title="Password Reset"
+          message="Enter the code you've received in your e-mail address"
+          step={2}
+          inputDefaultValue={''}
+          onButtonPress={(otp, newPass) => this.forgotPasswordSubmit(otp, newPass)}
+          onRequestClose={() => this.setState({inputModalNewPasswordVisible: false})}
+          buttonTitle={'Confirm new Password'.toUpperCase()}
+          onClosePress={() => this.setState({inputModalNewPasswordVisible: false})}
+          error={this.state.refreshPasswordError}
+          visible={inputModalNewPasswordVisible}
+            />
       </SafeAreaView>
     );
   }

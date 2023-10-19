@@ -290,6 +290,11 @@ export default class ChefApi {
     return await this._get(url)
   }
 
+  async refreshPassword(email: string, newPass: string) {
+    const url = `auth/refreshPassword`
+    return await this._put(url, { account: email, newPassword: newPass })
+  }
+
   async _get(url: string)  {
     const response = await this.apisauce.get(url)
 

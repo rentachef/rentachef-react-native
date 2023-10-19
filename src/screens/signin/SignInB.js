@@ -277,7 +277,7 @@ export default class SignInB extends Component {
                 onPress={this.navigateTo('TermsConditions')}>
                 <View style={styles.footer}>
                   <Text style={styles.footerText}>
-                    By signing in, you accepts our
+                    By signing in, you accept our
                   </Text>
                   <View style={styles.termsContainer}>
                     <Text style={[styles.footerText, styles.footerLink]}>

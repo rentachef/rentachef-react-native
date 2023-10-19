@@ -6,7 +6,7 @@
  */
 
 // import dependencies
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Modal,
@@ -26,6 +26,8 @@ import LinkButton from '../buttons/LinkButton';
 // import colors, layout
 import Colors from '../../theme/colors';
 import Layout from '../../theme/layout';
+import { isEmpty } from 'lodash';
+import { Subtitle2 } from '../text/CustomText';
 
 // InputModal Config
 const IOS = Platform.OS === 'ios';
@@ -104,16 +106,27 @@ type Props = {
 const InputModal = ({
   message,
   onRequestClose,
+  step,
   title,
   inputDefaultValue,
   inputPlaceholder,
   inputKeyboardType,
+  error,
   buttonTitle,
   onButtonPress,
   onClosePress,
   statusBarColor = 'rgba(0, 0, 0, 0.52)',
   visible = false,
-}: Props) => (
+}: Props) => {
+  const [otp, setOtp] = useState('')
+  const [newPass, setNewPass] = useState('')
+
+  useEffect(() => {
+    setOtp(''),
+    setNewPass('')
+  }, [step])
+
+  return (
   <Modal
     animationType="none"
     transparent
@@ -131,23 +144,63 @@ const InputModal = ({
                 <Text style={styles.message}>{message}</Text>
               )}
 
-              <View style={styles.inputContainer}>
-                <TextInput
-                  autoCapitalize="none"
-                  defaultValue={inputDefaultValue}
-                  placeholder={inputPlaceholder}
-                  keyboardType={inputKeyboardType}
-                  style={styles.textInput}
-                />
-              </View>
+              {step === 1 && (
+                <>
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      autoCapitalize="none"
+                      defaultValue={inputDefaultValue}
+                      placeholder={inputPlaceholder}
+                      keyboardType={inputKeyboardType}
+                      style={styles.textInput}
+                    />
+                  </View>
 
-              <View style={styles.buttonContainer}>
-                <Button
-                  onPress={onButtonPress}
-                  title={buttonTitle}
-                  buttonStyle={styles.button}
-                />
-              </View>
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      onPress={onButtonPress}
+                      disabled={isEmpty(inputDefaultValue)}
+                      title={buttonTitle}
+                      buttonStyle={styles.button}
+                    />
+                  </View>
+                </>)}
+
+              {step === 2 && (
+                <>
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      autoCapitalize="none"
+                      defaultValue={otp}
+                      placeholder={'Code'}
+                      onChangeText={setOtp}
+                      keyboardType={inputKeyboardType}
+                      style={styles.textInput}
+                    />
+                  </View>
+
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      autoCapitalize="none"
+                      defaultValue={newPass}
+                      placeholder={'New Password'}
+                      onChangeText={setNewPass}
+                      keyboardType={inputKeyboardType}
+                      style={styles.textInput}
+                    />
+                    {!isEmpty(error) && <Subtitle2 style={{ color: Colors.error }}>{error}</Subtitle2>}
+                  </View>
+
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      onPress={() => onButtonPress(otp, newPass)}
+                      disabled={isEmpty(otp) || isEmpty(newPass)}
+                      title={buttonTitle}
+                      buttonStyle={styles.button}
+                    />
+                  </View>
+                </>
+              )}
 
               <LinkButton
                 onPress={onClosePress}
@@ -159,6 +212,6 @@ const InputModal = ({
       </View>
     </TouchableWithoutFeedback>
   </Modal>
-);
+)};
 
 export default InputModal;
