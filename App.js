@@ -8,7 +8,7 @@
 // import dependencies
 import 'react-native-gesture-handler'
 import React from 'react'
-import {LogBox, AppState} from 'react-native'
+import {LogBox, AppState, PermissionsAndroid, Platform} from 'react-native'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {enableScreens} from 'react-native-screens'
 import rootStore from './src/stores'
@@ -20,6 +20,8 @@ import userChefConfig from './src/config/user-chef-config'
 import { Authenticator, AmplifyTheme } from 'aws-amplify-react-native'
 import {inject, observer} from 'mobx-react'
 import SplashScreen from 'react-native-splash-screen'
+import PushNotificationIOS from 'react-native';
+var PushNotification = require('react-native-push-notification');
 
 const MySectionHeader = Object.assign({}, AmplifyTheme.button, { backgroundColor: 'pink' })
 const MyTheme = Object.assign({}, AmplifyTheme, {
@@ -179,6 +181,8 @@ import SignInA from "./src/screens/signin/SignInA"
 import SignUpA from "./src/screens/signup/SignUpA"
 import {action, computed, makeAutoObservable, makeObservable, observable} from "mobx"
 import {initStripe, StripeProvider} from '@stripe/stripe-react-native';
+import PubNub from 'pubnub'
+import { PERMISSIONS, request } from 'react-native-permissions'
 
 const MySignInComponent = inject("stores")(observer(props => props.children(props)))
 // APP
@@ -205,7 +209,55 @@ class App extends React.Component {
     })
     this._isUserLoggedIn = false
     this._authState = 'initialazing'
+
+    console.log('asking for notifications permission')
+    if (Platform.OS === 'android') {
+      request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS)
+        .then(granted => {
+          console.log('push notifications permission:', granted)
+        })
+    }
+
+    this.pubnub = new PubNub({
+      publishKey: "pub-c-5a77543b-8b6d-414c-9b82-6d21b4ff90c2",
+      subscribeKey: "sub-c-b2c54a47-f40e-4ea6-96a7-eaa5af67251d",
+      uuid: 'asd',
+    });
+    
+    PushNotification.configure({
+      onRegister: function(token) {
+        console.log('TOKEN:', token)
+        rootStore.authStore.setDeviceToken(token.token)
+        this.pubnub.push.addChannels({
+          channels: ['rac-pn'],
+          device: token.token,
+          pushGateway: token.os === 'ios' ? 'apns' : 'gcm'
+        });
+      }.bind(this),
+
+      onNotification: function(notification) {
+        console.log('NOTIFICATION:', notification) 
+        //{"channelId": "fcm_fallback_notification_channel", "color": null, "data": {}, "finish": [Function finish], "foreground": true, "id": "1023885985", "message": "text2", "priority": "high", "smallIcon": "ic_notification", "sound": null, "tag": "campaign_collapse_key_1352020673273667292", "title": "RAC Test", "userInteraction": false, "visibility": "private"}
+      },
+      senderID: '418334842572'
+    })
+    
+    this.pubnub.addListener({
+      message: this.handleMessage, // Function to handle received messages
+    });
+
+    this.pubnub.subscribe({
+      channels: ['rac-pn'], // Replace with your channel names
+      withPresence: true,
+    });
+      // ANDROID: GCM or FCM Sender ID
+      //senderID: "418334842572",
   }
+
+  handleMessage = (message) => {
+    console.log('Received message:', message);
+    // Handle received messages
+  };
 
   async componentDidMount() {
     const storageKey = userChefConfig.SELECTED_APP_USER
@@ -220,6 +272,7 @@ class App extends React.Component {
 
   componentWillUnmount() {
     AppState.removeEventListener("change", this._handleAppStateChange)
+    this.pubnub.unsubscribeAll();
   }
 
   async _checkAuthState() {
@@ -228,6 +281,7 @@ class App extends React.Component {
       console.log(' User is signed in in APP');
       console.log('The user is', user);
       this._authState = 'loggedIn'
+      this.pubnub.setUUID(rootStore.authStore.authInfo)
     } catch (err) {
       console.log(' User is not signed in');
 

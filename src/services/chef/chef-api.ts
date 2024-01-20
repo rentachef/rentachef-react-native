@@ -12,6 +12,8 @@ import {
 import {Bio, Profile} from "../../models/chef/ChefSettings";
 import {CustomerLocation, PaymentMethod, Preferences} from "../../models/user/CustomerSettings";
 import BookingRequest from "../../models/BookingRequest";
+import { PERMISSIONS, check } from "react-native-permissions";
+import { Platform } from "react-native";
 
 export default class ChefApi {
   /**
@@ -24,6 +26,7 @@ export default class ChefApi {
    */
   config: ApiConfig
 
+  deviceToken: string
   /**
    * Creates the api.
    *
@@ -105,6 +108,10 @@ export default class ChefApi {
     this.apisauce.setHeader('Authorization', `Bearer ${token}`)
   }
 
+  setDeviceToken(token: string) {
+    this.deviceToken = token
+  }
+
   setBasic(token: string) {
     delete this.apisauce.headers['Authorization']
     this.apisauce.setHeader('Authorization', `Basic ${token}`)
@@ -152,7 +159,7 @@ export default class ChefApi {
 
   async loginToApi(email: string, password: string) {
     const url = 'auth/login'
-    const response = await this.apisauce.post(url, { email, password })
+    const response = await this.apisauce.post(url, { email, password, deviceToken: this.deviceToken })
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
