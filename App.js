@@ -209,14 +209,7 @@ class App extends React.Component {
     })
     this._isUserLoggedIn = false
     this._authState = 'initialazing'
-
-    console.log('asking for notifications permission')
-    if (Platform.OS === 'android') {
-      request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS)
-        .then(granted => {
-          console.log('push notifications permission:', granted)
-        })
-    }
+    this.deviceToken = ''
 
     this.pubnub = new PubNub({
       publishKey: "pub-c-5a77543b-8b6d-414c-9b82-6d21b4ff90c2",
@@ -227,7 +220,7 @@ class App extends React.Component {
     PushNotification.configure({
       onRegister: function(token) {
         console.log('TOKEN:', token)
-        rootStore.authStore.setDeviceToken(token.token)
+        this.deviceToken = token.token
         this.pubnub.push.addChannels({
           channels: ['rac-pn'],
           device: token.token,
@@ -267,7 +260,8 @@ class App extends React.Component {
     //Orientation.lockToPortrait()
     await this._checkAuthState()
     SplashScreen.hide()
-
+    console.log('BEFORE SETTING DEVICE TOKEN')
+    rootStore.authStore.setDeviceToken(this.deviceToken)
   }
 
   componentWillUnmount() {

@@ -25,8 +25,6 @@ export default class ChefApi {
    * Configurable options.
    */
   config: ApiConfig
-
-  deviceToken: string
   /**
    * Creates the api.
    *
@@ -108,8 +106,9 @@ export default class ChefApi {
     this.apisauce.setHeader('Authorization', `Bearer ${token}`)
   }
 
-  setDeviceToken(token: string) {
-    this.deviceToken = token
+  async saveDeviceToken(token: string) {
+    const url = '/users/deviceToken'
+    await this._post(url, { token })
   }
 
   setBasic(token: string) {
@@ -159,7 +158,7 @@ export default class ChefApi {
 
   async loginToApi(email: string, password: string) {
     const url = 'auth/login'
-    const response = await this.apisauce.post(url, { email, password, deviceToken: this.deviceToken })
+    const response = await this.apisauce.post(url, { email, password })
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

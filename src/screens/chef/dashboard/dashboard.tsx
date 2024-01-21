@@ -19,6 +19,7 @@ import {inject, observer} from 'mobx-react'
 import ChefEarning from "../../../models/chef/ChefDashboard";
 import moment from "moment";
 import {sumBy} from "lodash";
+import { PERMISSIONS, request, requestNotifications } from 'react-native-permissions';
 
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
@@ -41,6 +42,17 @@ const dashboardStyles = StyleSheet.create({
   }
 })
 
+const requestPermissions = async () => {
+  console.log('asking for location permission', Platform.OS)
+  let locationResult = await request(Platform.OS === 'android' ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS)
+  console.log('location persmission result:', locationResult)
+  console.log('asking for notifications permission', Platform.OS)
+  let pushNotifsResult = await requestNotifications(['alert', 'sound'])
+  console.log('notifications permission result:', pushNotifsResult)
+
+  return { locationResult, pushNotifsResult }
+}
+
 @inject('stores')
 @observer
 export default class ChefDashboard extends React.Component<any, any> {
@@ -56,6 +68,14 @@ export default class ChefDashboard extends React.Component<any, any> {
   }
 
   componentDidMount() {
+    console.log('asking for notifications permission')
+    requestPermissions()
+      .then(result => {
+        console.log(result)
+        if(result.pushNotifsResult.status === 'granted')
+          this.props.stores.authStore.saveDeviceToken()
+      })
+
     this.props.stores.chefDashboardStore.getChefReviews()
       .then(reviews => {
         this.setState({ reviews })

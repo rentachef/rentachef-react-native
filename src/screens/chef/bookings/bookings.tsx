@@ -60,7 +60,7 @@ const Bookings = inject('stores')(observer((props) => {
                 </View>
                 <View style={styles.cardContent}>
                   <Text style={styles.cardTitle}>{role === 'Cook' ? cb.consumerName : cb.chefName}</Text>
-                  <Text style={styles.cardText}><Icon name='map-marker-outline' size={17}/>{cb.location.address}</Text>
+                  <Text style={styles.cardText}><Icon name='map-marker-outline' size={17}/>{cb.location?.address || 'NO ADDRESS'}</Text>
                   <Text style={styles.cardText}><Icon name='calendar-outline' size={17}/>{cb.dateTime.toDateString()}</Text>
                   <Text style={{...styles.cardText, color: _getColorByStatus(cb.status)}}>● {cb.status}</Text>
                 </View>

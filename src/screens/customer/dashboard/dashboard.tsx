@@ -13,7 +13,7 @@ import Geocoder from 'react-native-geocoding';
 import {inject, observer} from "mobx-react";
 import {CustomerLocation} from "../../../models/user/CustomerSettings";
 import {forEach, isEmpty} from "lodash";
-import {check, request, PERMISSIONS} from 'react-native-permissions'
+import {check, request, PERMISSIONS, requestNotifications} from 'react-native-permissions'
 import SetupModal from '../../welcome/Setup';
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
@@ -31,7 +31,7 @@ const validations = {
   ]
 }
 
-const requestLocationPermission = async (cb: any) => {
+/*const requestLocationPermission = async (cb: any) => {
  try {
     const granted = Platform.OS === 'android' ? await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -55,7 +55,18 @@ const requestLocationPermission = async (cb: any) => {
   } catch (err) {
     return false;
   }
-};
+};*/
+
+const requestPermissions = async () => {
+  console.log('asking for location permission', Platform.OS)
+  let locationResult = await request(Platform.OS === 'android' ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS)
+  console.log('location persmission result:', locationResult)
+  console.log('asking for notifications permission', Platform.OS)
+  let pushNotifsResult = await requestNotifications(['alert', 'sound'])
+  console.log('notifications permission result:', pushNotifsResult)
+
+  return { locationResult, pushNotifsResult }
+}
 
 const getFormattedAddress = (address_components: any) => {
   console.log('formatting', address_components)
@@ -79,9 +90,13 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   
   useEffect(() => {
     console.log('mounting dashboard...')
-    request(PERMISSIONS.IOS.LOCATION_ALWAYS)
-      .then(result => console.log('persmission result', result))
-    requestLocationPermission(getCurrentLocation)
+    console.log('asking for permissions')
+    requestPermissions()
+      .then(result => {
+        console.log(result)
+        if(result.pushNotifsResult.status === 'granted')
+          stores.authStore.saveDeviceToken()
+      })
   }, [])
 
   /*useEffect(() => {

@@ -20,7 +20,7 @@ const DEFAULT_TIMEOUT = 30000
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: 'http://rentachefdevelop-env.eba-rzrqkwm8.us-east-1.elasticbeanstalk.com/api/v1/',
-  //url: 'http://192.168.0.201:3000/api/v1/',
+  //url: 'http://192.168.1.4:3000/api/v1/',
   timeout: DEFAULT_TIMEOUT,
 }
 

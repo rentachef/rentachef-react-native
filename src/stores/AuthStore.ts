@@ -16,12 +16,14 @@ export interface AuthProps {
   stripeClientToken: any;
   ephemeralKey: string;
   role: 'Consumer' | 'Cook' | '';
+  deviceToken: string;
 }
 
 interface UserApiData {
   role: '',
   userId: '',
-  password: ''
+  password: '',
+  deviceTolen: ''
 }
 
 class AuthStore {
@@ -160,6 +162,7 @@ class AuthStore {
       this.setApiData({
         role: apiUser.data.userType,
         userId: apiUser.data._id,
+        deviceToken: apiUser.data.deviceToken,
         password: ''
       })
       console.log('authInfo after change', this.authInfo)
@@ -192,6 +195,23 @@ class AuthStore {
   @action logout = async () => {
     this.rootStore.chefApi.logout()
     await AsyncStorage.removeItem('@userId')
+  }
+
+  @action setDeviceToken = async (token: string) => {
+    console.log('setting device token', token)
+    let storageToken = await AsyncStorage.getItem('@deviceToken')
+    console.log('storageDeviceToken', storageToken)
+    if(storageToken !== token)
+      await AsyncStorage.setItem('@deviceToken', token)
+  }
+
+  saveDeviceToken = async () => {
+    let deviceToken = await AsyncStorage.getItem('@deviceToken')
+    console.log('authInfo deviceToken', this.authInfo.deviceToken)
+    if(!this.authInfo.deviceToken) {
+      console.log('permission granted, saving deviceToken', deviceToken)
+      await this.rootStore.chefApi.saveDeviceToken(deviceToken)
+    }
   }
 
   deleteAccount = async () => this.rootStore.chefApi.deleteAccount()
