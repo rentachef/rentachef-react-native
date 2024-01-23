@@ -151,24 +151,29 @@ class AuthStore {
   }
 
   @action login = async (email: string, password: string) => {
-    console.log('loggin in')
-    const apiUser = await this.rootStore.chefApi.loginToApi(email, password)
-    console.log('apiUser', apiUser)
-    if(!!apiUser) {
-      this.rootStore.chefApi.setToken(apiUser.tokenSession)
-      await AsyncStorage.setItem('@apiToken', apiUser.tokenSession)
-      await AsyncStorage.setItem('@userId', apiUser.data._id)
-      await AsyncStorage.setItem('@userRole', apiUser.data.userType)
-      this.setApiData({
-        role: apiUser.data.userType,
-        userId: apiUser.data._id,
-        deviceToken: apiUser.data.deviceToken,
-        password: ''
-      })
-      console.log('authInfo after change', this.authInfo)
-      return 'SUCCESS'
-    } else
+    try {
+      console.log('loggin in')
+      const apiUser = await this.rootStore.chefApi.loginToApi(email, password)
+      console.log('apiUser', apiUser)
+      if(!!apiUser) {
+        this.rootStore.chefApi.setToken(apiUser.tokenSession)
+        await AsyncStorage.setItem('@apiToken', apiUser.tokenSession)
+        await AsyncStorage.setItem('@userId', apiUser.data._id)
+        await AsyncStorage.setItem('@userRole', apiUser.data.userType)
+        this.setApiData({
+          role: apiUser.data.userType,
+          userId: apiUser.data._id,
+          deviceToken: apiUser.data.deviceToken,
+          password: ''
+        })
+        console.log('authInfo after change', this.authInfo)
+        return 'SUCCESS'
+      } else
+        return 'FAILED'
+    } catch(err) {
+      console.log('Error loggin in', err)
       return 'FAILED'
+    }
   }
 
   @action register = async () => {
@@ -203,6 +208,11 @@ class AuthStore {
     console.log('storageDeviceToken', storageToken)
     if(storageToken !== token)
       await AsyncStorage.setItem('@deviceToken', token)
+
+    //ios workaround
+    let isLogged = !!(await AsyncStorage.getItem('@userId'))
+    if(!this.authInfo['deviceToken'] && isLogged)
+      this.saveDeviceToken()
   }
 
   saveDeviceToken = async () => {
