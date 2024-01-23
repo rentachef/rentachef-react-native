@@ -20,7 +20,6 @@ import userChefConfig from './src/config/user-chef-config'
 import { Authenticator, AmplifyTheme } from 'aws-amplify-react-native'
 import {inject, observer} from 'mobx-react'
 import SplashScreen from 'react-native-splash-screen'
-import PushNotificationIOS from 'react-native';
 var PushNotification = require('react-native-push-notification');
 
 const MySectionHeader = Object.assign({}, AmplifyTheme.button, { backgroundColor: 'pink' })

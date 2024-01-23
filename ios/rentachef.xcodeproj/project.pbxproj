@@ -3,16 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A767D1571049509874DEB05 /* libPods-rentachef.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C420F82F535FF7A0B07B900 /* libPods-rentachef.a */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		27B318F02A6CE61C00CC56BB /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		B21124EDFAAF64F22465F2BA /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		C1E47EFEB7571F82E3162A90 /* libPods-rentachef.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C04B09DF97BB9E33564621 /* libPods-rentachef.a */; };
 		EF43A9FB26D70BB60070E130 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */; };
 		EFAA6B5B298F03D9008E1D7F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = EFAA6B5A298F03D9008E1D7F /* assets */; };
 		EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
@@ -45,11 +45,10 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rentachef/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rentachef/main.m; sourceTree = "<group>"; };
 		1B5D4A2A63A341A0973BEF3B /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		1C420F82F535FF7A0B07B900 /* libPods-rentachef.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		228DE1BEFDF24893AD047F92 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		29C04B09DF97BB9E33564621 /* libPods-rentachef.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rentachef.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		32EB21EAEECA39D834668808 /* Pods-rentachef.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.debug.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.debug.xcconfig"; sourceTree = "<group>"; };
-		3C9E622E9B5BE419CB18D295 /* Pods-rentachef.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.release.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.release.xcconfig"; sourceTree = "<group>"; };
 		3ED0D9C627F64F42810046F8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		3FDAF0843D13A20535918E73 /* Pods-rentachef.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.debug.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.debug.xcconfig"; sourceTree = "<group>"; };
 		4C0601934CCB4091A22B55D8 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		5052F4EA194645CFB167CDD4 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		713DC339D86B47CE840A54C7 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
@@ -79,6 +78,7 @@
 		EFE4D31026CB2D6C008924CA /* Karla-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Light.ttf"; path = "../src/theme/fonts/Karla-Light.ttf"; sourceTree = "<group>"; };
 		EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Karla-Bold.ttf"; path = "../src/theme/fonts/Karla-Bold.ttf"; sourceTree = "<group>"; };
 		F2F791FC8ADE4D55A5EEB6AE /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		F31577C2532875A97657B922 /* Pods-rentachef.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentachef.release.xcconfig"; path = "Target Support Files/Pods-rentachef/Pods-rentachef.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B21124EDFAAF64F22465F2BA /* (null) in Frameworks */,
-				C1E47EFEB7571F82E3162A90 /* libPods-rentachef.a in Frameworks */,
+				0A767D1571049509874DEB05 /* libPods-rentachef.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,7 +154,7 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				29C04B09DF97BB9E33564621 /* libPods-rentachef.a */,
+				1C420F82F535FF7A0B07B900 /* libPods-rentachef.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -208,8 +208,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				32EB21EAEECA39D834668808 /* Pods-rentachef.debug.xcconfig */,
-				3C9E622E9B5BE419CB18D295 /* Pods-rentachef.release.xcconfig */,
+				3FDAF0843D13A20535918E73 /* Pods-rentachef.debug.xcconfig */,
+				F31577C2532875A97657B922 /* Pods-rentachef.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -221,14 +221,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "rentachef" */;
 			buildPhases = (
-				A5B87B3CFB8983F5380B5D1F /* [CP] Check Pods Manifest.lock */,
+				3A3BA720B36B77EEB0C038EA /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				5D89DCE7BBCC10747C8F2351 /* [CP] Embed Pods Frameworks */,
-				2CD9C91B2E2B9C951E50045F /* [CP] Copy Pods Resources */,
+				D101EB029AB9C0FE2B8330DD /* [CP] Embed Pods Frameworks */,
+				24C8825FF4D2B3E0CE6966C6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -314,7 +314,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		2CD9C91B2E2B9C951E50045F /* [CP] Copy Pods Resources */ = {
+		24C8825FF4D2B3E0CE6966C6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -382,29 +382,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5D89DCE7BBCC10747C8F2351 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A5B87B3CFB8983F5380B5D1F /* [CP] Check Pods Manifest.lock */ = {
+		3A3BA720B36B77EEB0C038EA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -424,6 +402,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D101EB029AB9C0FE2B8330DD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-Glog/glog.framework/glog",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rentachef/Pods-rentachef-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -474,7 +474,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32EB21EAEECA39D834668808 /* Pods-rentachef.debug.xcconfig */;
+			baseConfigurationReference = 3FDAF0843D13A20535918E73 /* Pods-rentachef.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -591,7 +591,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C9E622E9B5BE419CB18D295 /* Pods-rentachef.release.xcconfig */;
+			baseConfigurationReference = F31577C2532875A97657B922 /* Pods-rentachef.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

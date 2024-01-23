@@ -39,6 +39,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Rentachef needs access to camera so the chefs can upload pictures of their meals and for the clients to upload documentation</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Rentachef needs Location access to find the nearest chefs to cook their meals</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -47,6 +49,8 @@
 	<string>Rentachef needs Location access to connect nearest chefs to clients</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Rentachef needs Location access to connect nearest chefs to clients</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Rentachef needs access to gallery so the chefs can upload pictures of their meals and for the clientes to upload documentation</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
@@ -72,6 +76,10 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -86,9 +94,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>Rentachef needs access to camera so the chefs can upload pictures of their meals and for the clients to upload documentation</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Rentachef needs access to gallery so the chefs can upload pictures of their meals and for the clientes to upload documentation</string>
 </dict>
 </plist>
