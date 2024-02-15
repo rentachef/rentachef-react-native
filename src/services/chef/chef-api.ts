@@ -108,7 +108,7 @@ export default class ChefApi {
 
   async saveDeviceToken(token: string) {
     const url = '/users/deviceToken'
-    await this._post(url, { token })
+    await this._post(url, { token, os: Platform.OS })
   }
 
   setBasic(token: string) {
