@@ -20,6 +20,7 @@ const Chat = inject('stores')(({ stores, route }) => {
     presenceTimeout: 122
   }))
   let { userId, channel, consumer, chef } = route.params
+  console.log('DATA FOR PN', userId, channel, consumer, chef)
   const flatlistRef = useRef<FlatList<ChatMessage>>(null);
 
   const showMessage = (msg: any) => {
@@ -75,20 +76,32 @@ const Chat = inject('stores')(({ stores, route }) => {
 
   // publish message
   const publishMessage = async (message: string) => {
-    // With the right payload, you can publish a message, add a reaction to a message,
-    // send a push notification, or send a small payload called a signal.
-    const publishPayload = {
-      channel: channel,
-      message: {
-        description: message,
-        publisher: userId
-      },
-      uuid: userId
-    };
-    console.log('SENDING MESSAGE', publishPayload)
-    const res = await pubnubClient.publish(publishPayload);
-    //messageList.push(publishPayload)
-    //setMessages(messageList)
+    try {
+      // With the right payload, you can publish a message, add a reaction to a message,
+      // send a push notification, or send a small payload called a signal.
+      const publishPayload = {
+        channel: channel,
+        message: {
+          description: message,
+          publisher: userId
+        },
+        uuid: userId
+      };
+      console.log('SENDING MESSAGE', publishPayload)
+      const res = await pubnubClient.publish(publishPayload);
+  
+      //messageList.push(publishPayload)
+      //setMessages(messageList)
+    } catch(err) {
+      console.log('ERROR SENDING CHAT MESSAGE', err)
+    } finally {
+      //send push notification
+      stores.searchStore.sendPushNotification({
+        channelId: channel, 
+        userId,
+        message
+      })
+    }
   }
 
   useEffect(() => {

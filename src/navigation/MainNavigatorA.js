@@ -6,7 +6,7 @@
  */
 
 // import dependencies
-import React from 'react';
+import React, { useEffect } from 'react';
 import {ActivityIndicator, Platform} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -104,14 +104,27 @@ const stackStyles = {
   }
 }
 
+let navigationRef = null;
+
 // MainNavigatorA
 const MainNavigatorA = inject('stores')((props) => {
   console.log('props', props.stores.authStore.authInfo)
+  console.log('goTo prop', props.goTo)
   const { userId } = props.stores.authStore.authInfo
+  const { goTo } = props
+
+  useEffect(() => {
+    console.log('GOTO from props', goTo, !!goTo)
+    if(!!goTo) {
+      navigationRef.navigate(goTo);
+      console.log('redirected from notification, cleaning...')
+      props.cleanGoTo();
+    }
+  }, [goTo])
 
   return (
     //<Authenticator>
-      <NavigationContainer>
+      <NavigationContainer ref={ref => navigationRef = ref}>
         {/*{props.authState === 'initializing' ? <ActivityIndicator size={'medium'}/> : null}*/}
         {(userId === '' || userId === undefined) ? <AuthStack.Navigator screenOptions={{headerShown: true}}>
           <Stack.Screen
@@ -194,7 +207,6 @@ const MainNavigatorA = inject('stores')((props) => {
 
           <Stack.Screen
             name="Home"
-            //component={ChefNavigator}
             component={props.stores.authStore.authInfo.role === 'Consumer' ? CustomerNavigator : ChefNavigator}
             options={{headerShown: false, ...stackStyles}}
             screenOptions={{headerShown: false}}

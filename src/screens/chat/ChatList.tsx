@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {ActivityIndicator, SectionList, StyleSheet, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, RefreshControl, ScrollView, SectionList, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Heading6, HeadlineBold, SmallText, Text, Title} from "../../components/text/CustomText";
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import globalStyles from "../../theme/global-styles";
@@ -38,11 +38,16 @@ const ChatList = (inject('stores')((props) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [channels, setChannels] = useState([])
   const [notifications, setNotifications] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
   const [loading, setLoading] = useState(false)
   const { role } = props.stores.authStore.authInfo
 
   useEffect(() => {
     setLoading(true)
+    getPubNubChats()
+  }, [])
+
+  const getPubNubChats = () => {
     props.stores.searchStore.getChats()
       .then(chats => {
         pubnub.fetchMessages({
@@ -64,7 +69,7 @@ const ChatList = (inject('stores')((props) => {
           }
         })
       })
-  }, [])
+  }
 
   useEffect(() => {
     console.log(channels)
@@ -76,7 +81,12 @@ const ChatList = (inject('stores')((props) => {
   }
 
   return (
-    <View style={globalStyles.screenContainer}>
+    <ScrollView 
+      style={globalStyles.screenContainer}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={() => getPubNubChats()} />
+      }
+    >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Title>Inbox</Title>
         <Icon name='pencil-outline' size={30} color={Colors.secondaryColor}/>
@@ -117,7 +127,7 @@ const ChatList = (inject('stores')((props) => {
           <HeadlineBold>You have no notifications...</HeadlineBold>
         </View>
       }
-    </View>
+    </ScrollView>
   )
 }))
 

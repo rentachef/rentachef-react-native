@@ -42,15 +42,25 @@ const dashboardStyles = StyleSheet.create({
   }
 })
 
-const requestPermissions = async () => {
-  console.log('asking for location permission', Platform.OS)
-  let locationResult = await request(Platform.OS === 'android' ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS)
-  console.log('location persmission result:', locationResult)
-  console.log('asking for notifications permission', Platform.OS)
-  let pushNotifsResult = await requestNotifications(['alert', 'sound'])
-  console.log('notifications permission result:', pushNotifsResult)
-
-  return { locationResult, pushNotifsResult }
+const requestPermissions = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log('asking for location permission', Platform.OS)
+      let locationResult = await request(Platform.OS === 'android' ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION : PERMISSIONS.IOS.LOCATION_ALWAYS)
+      console.log('location persmission result:', locationResult)
+      console.log('asking for notifications permission', Platform.OS)
+      let pushNotifsResult
+      if(Platform.OS == 'ios')
+        pushNotifsResult = { status: 'granted' }
+      else
+        pushNotifsResult = await requestNotifications(['alert', 'sound'])
+      console.log('notifications permission result:', pushNotifsResult)
+    
+      resolve({ locationResult, pushNotifsResult })
+    } catch(err) {
+      reject(err)
+    }
+  })
 }
 
 @inject('stores')

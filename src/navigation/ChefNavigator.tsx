@@ -81,7 +81,6 @@ function ChefDashboardStackScreen() {
 }
 // HomeNavigator
 const ChefNavigator = inject('stores')(observer((props: any) => {
-
   useEffect(() => {
     setTimeout(() => {
       props.stores.chefProfileStore.getChefProfile()

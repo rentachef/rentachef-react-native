@@ -23,6 +23,7 @@ import {inject, observer, PropTypes} from "mobx-react";
 import Chat from "../screens/chat/Chat";
 import ChatList from "../screens/chat/ChatList";
 import HeaderIconButton from "../components/navigation/HeaderIconButton";
+import { useNavigation } from "@react-navigation/native";
 
 const stackStyles = {
   headerStyle: {
@@ -67,14 +68,13 @@ type Props = {
 };
 
 // HomeNavigator
-const CustomerNavigator = inject('stores')(observer((props) => {
-
+const CustomerNavigator = inject('stores')(observer(({ route, stores }) => {
   useEffect(() => {
     setTimeout(() => {
-      props.stores.customerSettingsStore.getCustomerSettings()
-      props.stores.searchStore.getCuisines()
-      props.stores.searchStore.getChefs()
-      props.stores.bookingsStore.getBookings()
+      stores.customerSettingsStore.getCustomerSettings()
+      stores.searchStore.getCuisines()
+      stores.searchStore.getChefs()
+      stores.bookingsStore.getBookings()
     }, 1000)
   }, []);
 
@@ -111,7 +111,7 @@ const CustomerNavigator = inject('stores')(observer((props) => {
       <Tab.Screen name="CustomerDashboardStack" component={CustomerDashboardStackScreen} options={{headerShown: false}}/>
       <Tab.Screen name="CustomerSchedule" component={ChefBookingsStack}/>
       <Tab.Screen name="CustomerChatList">
-        {props2 => <ChatList {...props2} userId={props.stores.authStore.authInfo.userId} />}
+        {props2 => <ChatList {...props2} userId={stores.authStore.authInfo.userId} />}
       </Tab.Screen>
       <Tab.Screen name="Settings" component={ChefSettingsStack} />
     </Tab.Navigator>

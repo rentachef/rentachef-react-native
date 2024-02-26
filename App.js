@@ -8,11 +8,11 @@
 // import dependencies
 import 'react-native-gesture-handler'
 import React from 'react'
-import {LogBox, AppState, PermissionsAndroid, Platform} from 'react-native'
+import {LogBox, AppState, Alert} from 'react-native'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {enableScreens} from 'react-native-screens'
 import rootStore from './src/stores'
-import Amplify from 'aws-amplify'
+import Amplify, { nav } from 'aws-amplify'
 import config from './src/aws-exports'
 import {AsyncTrunk} from 'mobx-sync'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -20,7 +20,9 @@ import userChefConfig from './src/config/user-chef-config'
 import { Authenticator, AmplifyTheme } from 'aws-amplify-react-native'
 import {inject, observer} from 'mobx-react'
 import SplashScreen from 'react-native-splash-screen'
+import messaging from '@react-native-firebase/messaging';
 var PushNotification = require('react-native-push-notification');
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 const MySectionHeader = Object.assign({}, AmplifyTheme.button, { backgroundColor: 'pink' })
 const MyTheme = Object.assign({}, AmplifyTheme, {
@@ -182,6 +184,7 @@ import {action, computed, makeAutoObservable, makeObservable, observable} from "
 import {initStripe, StripeProvider} from '@stripe/stripe-react-native';
 import PubNub from 'pubnub'
 import { PERMISSIONS, request } from 'react-native-permissions'
+import toast from 'src/components/toast/toast'
 
 const MySignInComponent = inject("stores")(observer(props => props.children(props)))
 // APP
@@ -206,6 +209,10 @@ class App extends React.Component {
       _authState: observable,
      //_checkAuthState: computed
     })
+    this.state = {
+      appState: AppState.currentState,
+      goTo: undefined
+    };
     this._isUserLoggedIn = false
     this._authState = 'initialazing'
     this.deviceToken = ''
@@ -225,6 +232,8 @@ class App extends React.Component {
           device: token.token,
           pushGateway: token.os === 'ios' ? 'apns' : 'gcm'
         });
+        console.log('BEFORE SETTING DEVICE TOKEN')
+        rootStore.authStore.setDeviceToken(this.deviceToken)
       }.bind(this),
 
       onNotification: function(notification) {
@@ -244,6 +253,41 @@ class App extends React.Component {
     });
       // ANDROID: GCM or FCM Sender ID
       //senderID: "418334842572",
+
+    const { role } = rootStore.authStore.authInfo
+    //listen for incoming push notifications
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          //redirect to chat
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+        }
+      });
+  
+    messaging().onMessage(async remoteMessage => {
+      console.log('new push notification!', remoteMessage)
+      //show toast
+      toast.notifyWarn(remoteMessage.notification?.title)
+    });
+
+    // messaging().setBackgroundMessageHandler(async remoteMessage => {
+    //   console.log('Message handled in the background!', remoteMessage);
+    //   //show toast
+    //   toast.notifyWarn(remoteMessage.notification?.title)
+    // });
+
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      //redirect to chat
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      this.setState({ goTo: role === 'Cook' ? 'ChefChatList': 'CustomerChatList' })
+    });
   }
 
   handleMessage = (message) => {
@@ -255,18 +299,38 @@ class App extends React.Component {
     const storageKey = userChefConfig.SELECTED_APP_USER
     createRootStoreTrunk(storageKey)
     await rootStoreTrunk.init()
-    AppState.addEventListener('change', this._handleAppStateChange)
     //Orientation.lockToPortrait()
     await this._checkAuthState()
     SplashScreen.hide()
-    console.log('BEFORE SETTING DEVICE TOKEN')
-    rootStore.authStore.setDeviceToken(this.deviceToken)
+    AppState.addEventListener('change', this._handleAppStateChange.bind(this))
+
+    // Check for initial notification if the app was opened from background
+    PushNotificationIOS.getInitialNotification().then(notification => {
+      if (notification) {
+        this.handleNotification(notification);
+      }
+    });
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener("change", this._handleAppStateChange)
+    AppState.removeEventListener('change', this._handleAppStateChange)
     this.pubnub.unsubscribeAll();
   }
+
+  // Function to handle incoming ios notifications
+  handleNotification = (notification) => {
+    if (this.state.appState === 'active') {
+      // App is in the foreground and gets a notification
+      console.log('IOS PN received in foreground', notification)
+      //show toast
+      toast.notifyWarn(notification?.title)
+      // 
+    } else if (this.state.appState.match(/inactive|background/)) {
+      // App was closed or in background and a notification opens it up again
+      console.log('iOS PN received in background', notification)
+      this.setState({ goTo: role === 'Cook' ? 'ChefChatList': 'CustomerChatList' })
+    }
+  };
 
   async _checkAuthState() {
     try {
@@ -287,8 +351,9 @@ class App extends React.Component {
     this._authState = authState
   }
 
-  _handleAppStateChange() {
-    console.log('app state changed')
+  _handleAppStateChange(nextAppState) {
+    console.log('app state changed', nextAppState)
+    this.setState({ appState: nextAppState });
   }
 
   render() {
@@ -314,7 +379,7 @@ class App extends React.Component {
             chefSettingsStore={rootStore.chefSettingsStore}
             customerSettingsStore={rootStore.customerSettingsStore}
           >
-            <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey} userId={userId}/>
+            <MainNavigator updateAuthState={this.updateAuthState} authState={this._authState} userDataKey={userDataKey} userId={userId} goTo={this.state.goTo} cleanGoTo={() => this.setState({ goTo: undefined })}/>
           </Provider>
         </SafeAreaProvider>
       </StripeProvider>

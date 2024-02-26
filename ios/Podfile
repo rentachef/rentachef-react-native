@@ -1,242 +1,107 @@
-#require_relative '../node_modules/react-native/scripts/react_native_pods'
-#require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-#rn_maps_path = '../node_modules/react-native-maps'
-#
-#platform :ios, '13.0'
-#install! 'cocoapods', :deterministic_uuids => false
-#production = ENV["PRODUCTION"] == "1"
-#
-#target 'rentachef' do
-#  # Pods for rentachef
-#  pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
-#  pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
-#  pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"
-#  pod 'React', :path => '../node_modules/react-native/'
-#  pod 'React-Core', :path => '../node_modules/react-native/'
-#  pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
-#  pod 'React-Core/DevSupport', :path => '../node_modules/react-native/'
-#  pod 'React-RCTActionSheet', :path => '../node_modules/react-native/Libraries/ActionSheetIOS'
-#  pod 'React-RCTAnimation', :path => '../node_modules/react-native/Libraries/NativeAnimation'
-#  pod 'React-RCTBlob', :path => '../node_modules/react-native/Libraries/Blob'
-#  pod 'React-RCTImage', :path => '../node_modules/react-native/Libraries/Image'
-#  pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
-#  pod 'React-RCTNetwork', :path => '../node_modules/react-native/Libraries/Network'
-#  pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
-#  pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
-#  pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
-#  pod 'React-Core/RCTWebSocket', :path => '../node_modules/react-native/'
-#
-#  pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
-#  pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
-#  pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
-#  pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-#  pod 'React-callinvoker', :path => "../node_modules/react-native/ReactCommon/callinvoker"
-#  pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
-#  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
-#
-#  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-#  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
-#  pod 'RCT-Folly', :podspec => '../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec'
-#  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-#
-#  pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
-#  pod 'react-native-google-maps', :path => rn_maps_path
-#  pod 'GoogleMaps'
-#  pod 'Google-Maps-iOS-Utils'
-#
-#  config = use_native_modules!
-#  config = use_frameworks! :linkage => :static
-#  
-#  $RNFirebaseAsStaticFramework = true
-#  $RNFirebaseAnalyticsWithoutAdIdSupport = true
-#
-#  # Flags change depending on the env values.
-#  flags = get_default_flags()
-#  
-#  use_react_native!(
-#      :path => config[:reactNativePath],
-#      # to enable hermes on iOS, change `false` to `true` and then install pods
-#      :production => production,
-#      :hermes_enabled => flags[:hermes_enabled],
-#      :fabric_enabled => flags[:fabric_enabled],
-#      # :flipper_configuration => FlipperConfiguration.enabled,
-#      # An absolute path to your application root.
-#      :app_path => "#{Pod::Config.instance.installation_root}/.."
-#    )
-#
-#    # Enables Flipper.
-#    #
-#    # Note that if you have use_frameworks! enabled, Flipper will not work and
-#    # you should disable the next line.
-#    #use_flipper!()
-#    pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
-#
-#    permissions_path = '../node_modules/react-native-permissions/ios'
-#    pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
-#    pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
-#    def fix_config(config)
-#        # https://github.com/CocoaPods/CocoaPods/issues/8891
-#        if config.build_settings['DEVELOPMENT_TEAM'].nil?
-#          config.build_settings['DEVELOPMENT_TEAM'] = '89459Y543U'
-#        end
-#    end
-#
-#    $static_library = [
-#      'React',
-#      'Google-Maps-iOS-Utils',
-#      'GoogleMaps',
-#      'react-native-google-maps',
-#      'react-native-maps',
-#      'React-hermes'
-#    ]
-#
-#    pre_install do |installer|
-#        Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
-#        installer.pod_targets.each do |pod|
-#          bt = pod.send(:build_type)
-#          if $static_library.include?(pod.name)
-#            puts "Overriding the build_type to static_library from static_framework for #{pod.name}"
-#            def pod.build_type;
-#              Pod::BuildType.static_library
-#            end
-#          end
-#        end
-#        installer.pod_targets.each do |pod|
-#          bt = pod.send(:build_type)
-#          puts "#{pod.name} (#{bt})"
-#          puts "  linkage: #{bt.send(:linkage)} packaging: #{bt.send(:packaging)}"
-#        end
-#      end
-#      
-#    post_install do |installer|
-#      react_native_post_install(installer)
-#      __apply_Xcode_12_5_M1_post_install_workaround(installer)
-#      installer.pods_project.targets.each do |target|
-#            target.build_configurations.each do |config|
-#              config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
-#              config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
-#              config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = 'arm64'
-#              fix_config(config)
-#              #config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '-DDONT_AUTOINSTALL_REANIMATED'
-#            end
-#            case target.name
-#            when 'RCT-Folly'
-#              target.build_configurations.each do |config|
-#                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
-#                fix_config(config)
-#              end
-#            when 'react-native-google-maps'
-#              target.build_configurations.each do |config|
-#                config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
-#                # paths = Array["\"$(inherited)\"", "\"$(SRCROOT)/Google-Maps-iOS-Utils/src/Heatmap\""]
-#                # config.build_settings['HEADER_SEARCH_PATHS'] = paths.uniq
-#                # puts config.build_settings['HEADER_SEARCH_PATHS']
-#              end
-#            end
-#        end
-#    end
-#end
-
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-
-# Toggle this to true for the no-ad-tracking Analytics subspec. Useful at minimum for Kids category apps.
-# See: https://firebase.google.com/support/release-notes/ios#analytics - requires firebase-ios-sdk 7.11.0+
-$RNFirebaseAnalyticsWithoutAdIdSupport = true
+#rn_maps_path = '../node_modules/react-native-maps'
 
 platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
-
 production = ENV["PRODUCTION"] == "1"
 
-inhibit_all_warnings!
+use_modular_headers!
 
 target 'rentachef' do
-  $dynamic = []
-  config = use_native_modules!
-  config = use_frameworks! :linkage => :static
-  # $RNFirebaseAsStaticFramework = true
+  # Pods for rentachef
+  pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
+  pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
+  pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"
+  pod 'React', :path => '../node_modules/react-native/'
+  pod 'React-Core', :path => '../node_modules/react-native/'
+  pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
+  pod 'React-Core/DevSupport', :path => '../node_modules/react-native/'
+  pod 'React-RCTActionSheet', :path => '../node_modules/react-native/Libraries/ActionSheetIOS'
+  pod 'React-RCTAnimation', :path => '../node_modules/react-native/Libraries/NativeAnimation'
+  pod 'React-RCTBlob', :path => '../node_modules/react-native/Libraries/Blob'
+  pod 'React-RCTImage', :path => '../node_modules/react-native/Libraries/Image'
+  pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+  pod 'React-RCTNetwork', :path => '../node_modules/react-native/Libraries/Network'
+  pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
+  pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
+  pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
+  pod 'React-Core/RCTWebSocket', :path => '../node_modules/react-native/'
 
-  # React Native Maps dependencies
-  rn_maps_path = '../node_modules/react-native-maps'
-  pod 'react-native-google-maps', :path => rn_maps_path
-  
-  permissions_path = '../node_modules/react-native-permissions/ios'
-  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
-  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
-  def fix_config(config)
-      # https://github.com/CocoaPods/CocoaPods/issues/8891
-      if config.build_settings['DEVELOPMENT_TEAM'].nil?
-        config.build_settings['DEVELOPMENT_TEAM'] = '89459Y543U'
-      end
-  end
+  pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
+  pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
+  pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
+  pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
+  pod 'React-callinvoker', :path => "../node_modules/react-native/ReactCommon/callinvoker"
+  pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
+  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
+
+  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+  pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+  pod 'RCT-Folly', :podspec => '../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNAWSCognito', :path => '../node_modules/amazon-cognito-identity-js'
+  #pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
+  pod 'GoogleUtilities'
+
+  config = use_native_modules!
 
   # Flags change depending on the env values.
   flags = get_default_flags()
 
   use_react_native!(
-    :path => config[:reactNativePath],
-    # to enable hermes on iOS, change `false` to `true` and then install pods
-    :production => production,
-    :hermes_enabled => true,
-    :fabric_enabled => false,
-    :flipper_configuration => FlipperConfiguration.disabled,
-    # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
-  )
+      :path => config[:reactNativePath],
+      # to enable hermes on iOS, change `false` to `true` and then install pods
+      :production => production,
+      :hermes_enabled => flags[:hermes_enabled],
+      :fabric_enabled => flags[:fabric_enabled],
+      :flipper_configuration => FlipperConfiguration.enabled,
+      # An absolute path to your application root.
+      :app_path => "#{Pod::Config.instance.installation_root}/.."
+    )
 
-  $dynamic += [
-  ]
 
-  pre_install do |installer|
-      Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
-      installer.pod_targets.each do |pod|
-        bt = pod.send(:build_type)
-        if $dynamic.include?(pod.name)
-          puts "Overriding the build_type to dynamic_framework for #{pod.name}"
-          def pod.build_type;
-            Pod::BuildType.dynamic_framework
-          end
+
+
+    # Enables Flipper.
+    #
+    # Note that if you have use_frameworks! enabled, Flipper will not work and
+    # you should disable the next line.
+    #use_flipper!()
+    pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+
+    permissions_path = '../node_modules/react-native-permissions/ios'
+    pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
+    pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
+    def fix_config(config)
+        # https://github.com/CocoaPods/CocoaPods/issues/8891
+        if config.build_settings['DEVELOPMENT_TEAM'].nil?
+          config.build_settings['DEVELOPMENT_TEAM'] = '89459Y543U'
         end
-      end
-      installer.pod_targets.each do |pod|
-        bt = pod.send(:build_type)
-        puts "#{pod.name} (#{bt})"
-        puts "  dynamic_library #{bt.send(:dynamic_library?)}"
-        puts "  dynamic_framework #{bt.send(:dynamic_framework?)}"
-        puts "  static_library #{bt.send(:static_library?)}"
-        puts "  static_framework #{bt.send(:static_framework?)}"
-      end
-  end
-
-  IS_FLUTTER = ENV['ENABLE_FLUTTER']
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable the next line.
-#  if IS_FLUTTER
-#    use_flipper!()
-#  end
-
-  # react-native-google-maps needs ENABLE_BITCODE?
-  post_install do |installer|
-    installer.pods_project.targets.each do |target|
-      if target.name == 'react-native-google-maps'
-        target.build_configurations.each do |config|
-          config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
-          paths = Array["\"$(inherited)\"", "\"$(SRCROOT)/Google-Maps-iOS-Utils/src/Heatmap\""]
-          config.build_settings['HEADER_SEARCH_PATHS'] = paths.uniq
-          puts config.build_settings['HEADER_SEARCH_PATHS']
-        end
-      end
-      target.build_configurations.each do |config|
-        # config.build_settings['ENABLE_BITCODE'] = 'NO'
-        config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
-        config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
-        fix_config(config)
-      end
     end
-    react_native_post_install(installer)
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
-  end
+      
+    post_install do |installer|
+      react_native_post_install(installer)
+      __apply_Xcode_12_5_M1_post_install_workaround(installer)
+      installer.pods_project.targets.each do |target|
+            target.build_configurations.each do |config|
+              config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
+              config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+              config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = 'arm64'
+              fix_config(config)
+              #config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '-DDONT_AUTOINSTALL_REANIMATED'
+            end
+            case target.name
+            when 'RCT-Folly'
+              target.build_configurations.each do |config|
+                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+                fix_config(config)
+              end
+            end
+          end
+    end
+
 end

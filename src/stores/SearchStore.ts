@@ -61,6 +61,13 @@ class SearchStore {
     }
   }
 
+  sendPushNotification = async (pn: any) => {
+    const response = await this.rootStore.chefApi.sendPushNotification(pn)
+    if(response.ok) {
+      return response.data
+    }
+  }
+
   getChats = async () => {
     const response = await this.rootStore.chefApi.getUserChats()
     if(response.ok)

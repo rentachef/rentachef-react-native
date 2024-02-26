@@ -301,6 +301,11 @@ export default class ChefApi {
     return await this._put(url, { account: email, newPassword: newPass })
   }
 
+  async sendPushNotification(pn: any) {
+    const url = `chats/pn`
+    return await this._post(url, pn)
+  }
+
   async _get(url: string)  {
     const response = await this.apisauce.get(url)
 
