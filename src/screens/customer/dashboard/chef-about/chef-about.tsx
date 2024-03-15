@@ -19,6 +19,7 @@ import Button from "../../../../components/buttons/Button";
 import {RACBottomSheet} from "../../../components/bottom-sheet-modal";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import ChefSchedulePicker from "./chef-schedule-picker";
+import { mean } from 'lodash';
 
 const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
   const [chef, setChef] = useState({...route.params.chef})
@@ -65,7 +66,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
             <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
               <View style={{ flexDirection: 'row' }}>
                 <Icon style={{ marginRight: 5, alignSelf: 'center' }} name='star' color={Colors.primaryColor} size={18} />
-                <Subtitle1>{chef.scoring || 0}</Subtitle1>
+                <Subtitle1>{mean(chef.chefBookings.map(r => r.reviewId.stars)) || 0}</Subtitle1>
               </View>
               <Text style={{ marginLeft: 20 }}>
                 {chef.verified && (<View style={{ flexDirection: 'row', alignItems: 'center' }}>

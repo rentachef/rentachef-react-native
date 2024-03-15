@@ -1,4 +1,4 @@
-import {ApiConfig, CHEF_REVIEWS, DEFAULT_API_CONFIG} from "../api-config";
+import {ApiConfig, DEFAULT_API_CONFIG} from "../api-config";
 import {ApisauceInstance, create} from "apisauce";
 import Toast from '../../components/toast/toast'
 import {getGeneralApiProblem} from "../api.problem";

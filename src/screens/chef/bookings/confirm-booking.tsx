@@ -8,7 +8,7 @@ import Colors from "../../../theme/colors";
 import {Text} from '../../../components/text/CustomText';
 
 const ConfirmBooking = (props) => {
-  const [estimate, setEstimate] = useState()
+  const [estimate, setEstimate] = useState(1)
 
   return(
     <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
@@ -31,7 +31,10 @@ const ConfirmBooking = (props) => {
       <View style={styles.buttonContainer}>
         <Button
           title='Confirm Booking'
-          onPress={() =>props.onConfirm(estimate)}
+          onPress={() => {
+            console.log('confirming booking', estimate)
+            props.onConfirm(estimate)
+          }}
         />
       </View>
     </View>

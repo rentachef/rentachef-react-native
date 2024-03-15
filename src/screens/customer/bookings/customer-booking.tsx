@@ -70,8 +70,8 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
             <Icon name='map-marker-outline' size={30} color={Colors.secondaryText} style={{ flex: .5, flexBasis: '12%' }}/>
             <View style={{ flexBasis: '65%'}}>
-              <Text style={{ marginVertical: 5}}>{booking.location.address}</Text>
-              <Subtitle2 style={{ marginVertical: 5}}>{booking.location.city}</Subtitle2>
+              <Text style={{ marginVertical: 5}}>{booking.location?.address || 'Unknown address'}</Text>
+              <Subtitle2 style={{ marginVertical: 5}}>{booking.location?.city || 'Unknown city'}</Subtitle2>
             </View>
             <View style={{ alignItems: 'center', flexBasis: '25%' }}>
               <Avatar

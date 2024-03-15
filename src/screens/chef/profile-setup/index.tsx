@@ -18,13 +18,11 @@ export default class ChefProfileSetup extends React.Component<any, any> {
   render() {
     const { chefProfileStore } = this.props.stores;
 
-    console.log('chefProfileStore', chefProfileStore.availability)
-
     return (
       <ScrollView style={profileSetupStyles.setupParent} contentContainerStyle={profileSetupStyles.setupParent}>
         <View>
           <View style={profileSetupStyles.dashboardHeaderContainer}>
-            <SemiBoldHeading>{`Hi ${this.props.stores.chefProfileStore.backgroundCheck?.legalName?.split(' ')[0] || ''}!`}</SemiBoldHeading>
+            <SemiBoldHeading>{`Hi ${this.props.stores?.chefSettingsStore.profile?.fullName?.split(' ')[0] || ''}!`}</SemiBoldHeading>
             <Subtitle1 style={{ fontWeight: 'bold', paddingTop: 10 }}>Complete setting up your profile</Subtitle1>
           </View>
           <View style={profileSetupStyles.setupImageContainer}>

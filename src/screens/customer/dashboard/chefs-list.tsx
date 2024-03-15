@@ -6,6 +6,7 @@ import Avatar from "../../../components/avatar/Avatar";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../../../theme/colors";
 import RACLoader from "../../../components/skeleton/RACLoader";
+import { filter, isEmpty, mean } from 'lodash';
 
 const renderItem = (item, onSelect) =>
   <TouchableOpacity key={item.index} onPress={!!onSelect ? () => onSelect(item.item) : () => {}}>
@@ -22,7 +23,7 @@ const renderItem = (item, onSelect) =>
           <Text style={styles.cardTitle}>{item.item.settings.profile.fullName}</Text>
           {item.verified && <Icon style={{ marginHorizontal: 5, lineHeight: 25 }} name='check-decagram' color='#4684FF' size={20} />}
         </View>
-        <Text style={styles.cardText}><Icon name='star' color={Colors.primaryColor} size={17}/>{item.item.scoring || 0} ({item.item.reviews || 0} reviews)</Text>
+        <Text style={styles.cardText}><Icon name='star' color={Colors.primaryColor} size={17}/>{mean(item.item.chefBookings.map(r => r.reviewId.stars)) || 0} ({item.item.chefBookings.length || 0} reviews)</Text>
         <Paragraph numberOfLines={1} style={{ fontSize: 14 }}>{item.item.settings.bio.cuisines.map(c => c.label).join(' ● ')}</Paragraph>
       </View>
       <View style={styles.cardIcon}>
@@ -32,14 +33,17 @@ const renderItem = (item, onSelect) =>
   </TouchableOpacity>
 
 const ChefsList = ({data, title, onSelect}) => {
-  console.log(JSON.stringify(data.find(d => d.settings.profile.fullName === 'Momo G')))
   return (
     <SafeAreaView>
       {data.length > 0 ?
         <ScrollView style={{ marginTop: 35, flexGrow: 1, height: '100%', bottom: 25 }}>
           <SmallBoldHeading>{title}</SmallBoldHeading>
           <FlatList
-            data={data}
+            data={data.map(d => {
+              d.chefBookings = filter(d.chefBookings, b => !isEmpty(b))
+              console.log(JSON.stringify(d.chefBookings))
+              return d
+            })}
             renderItem={item => renderItem(item, onSelect)}
           />
         </ScrollView> : <RACLoader size='xl' />}

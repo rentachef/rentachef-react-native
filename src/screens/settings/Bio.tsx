@@ -405,7 +405,7 @@ const Bio = inject('stores')(observer((props) => {
           </View>
         </ScrollView>
       {modalIndex !== -1 &&
-      <SafeAreaView style={{ flex: 1, position: 'absolute', width: '100%', height: '100%' }}>
+      <SafeAreaView style={{ flex: 1, position: 'absolute', width: Platform.OS === 'android' ? '110%': '100%', height: Platform.OS === 'android' ? '110%' : '100%' }}>
         {
           <RACBottomSheet
             onSheetChanges={(index: any) => {

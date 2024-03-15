@@ -18,6 +18,8 @@ const Bookings = inject('stores')(observer((props) => {
   const [refreshing, setRefreshing] = useState(false)
   const bookings = props.stores.bookingsStore.retrieveBookings()
 
+  console.log('CHEF BOOKINGS', bookings)
+
   const { role } = props.stores.authStore.authInfo
 
   const navigateTo = (cb: ChefBooking) => {

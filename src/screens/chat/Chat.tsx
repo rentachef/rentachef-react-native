@@ -70,7 +70,7 @@ const Chat = inject('stores')(({ stores, route }) => {
 
     // cleanup listener
     return () => {
-      pubnubClient.removeListener(listener)
+      pubnubClient.remove(listener)
     }
   }, [pubnubClient]);
 

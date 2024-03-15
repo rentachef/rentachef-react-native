@@ -163,9 +163,7 @@ export default class VerificationA extends Component {
       const confirmRegistration = await this.props.stores.authStore.register()
       if(confirmSignup === 'SUCCESS' && confirmRegistration === 'SUCCESS') {
         this.closeModal();
-        this.props.stores.authStore.authInfo.role === 'Cook' ?
-          this.navigateTo('ChefNavigator') :
-          this.navigateTo('CustomerNavigator')
+        this.navigateTo('Home')
       } else {
         console.log("sing up failed")
         notifyError('Error signing up user')

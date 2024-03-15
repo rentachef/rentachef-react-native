@@ -1,5 +1,5 @@
 import React, {useState, useRef, useCallback, useEffect} from 'react'
-import {SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View, Image, TouchableWithoutFeedback, Keyboard} from "react-native";
+import {SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View, Image, TouchableWithoutFeedback, Keyboard, Platform} from "react-native";
 import Colors from "../../../theme/colors";
 import {Subtitle2} from "../../../components/text/CustomText";
 import CameraButton from "../../../components/buttons/CameraButton";
@@ -14,6 +14,7 @@ import _getBase64 from "../../../utils/imageConverter";
 import {Text} from '../../../components/text/CustomText';
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 import ImageResizer from '@bam.tech/react-native-image-resizer';
+import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions';
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -44,6 +45,8 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
       if(!bgCheck.approved)
         props.navigation.navigate('ChefBackgroundPendingApproval')
     }
+    request(Platform.OS === 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA)
+      .then(res => console.log('CAMERA PERMISSION RESULT', res))
   }, []);
 
   useEffect(() => {
@@ -52,47 +55,54 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
 
 
   const onButtonPressed = (choice: string) => {
-    let func = choice === 'camera' ? launchCamera : launchImageLibrary
-    func(choice === 'camera' ? cameraOptions : { selectionLimit: 0 })
-      .then((data: ImagePickerResponse) => {
-        console.log(data)
-        if(!data.didCancel) {
-          ImageResizer.createResizedImage(
-            data.assets[0].uri,
-            data.assets[0].width / 1.5,
-            data.assets[0].height / 1.5,
-            'JPEG',
-            80,
-            0,
-            null,
-            false,
-            {
-              mode: 'contain',
-              onlyScaleDown: true
-            }
-          )
-            .then((response) => {
-              console.log('resize done', response)
-              // response.uri is the URI of the new image that can now be displayed, uploaded...
-              // response.path is the path of the new image
-              // response.name is the name of the new image with the extension
-              // response.size is the size of the new image
-              setShowCamera(false)
-              //@ts-ignorer
-              setBackgroundCheck({...backgroundCheck, [buttonChoice]: response.uri})
+    check(Platform.OS === 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA)
+      .then(perm => {
+        if(perm === RESULTS.GRANTED) {
+          let func = choice === 'camera' ? launchCamera : launchImageLibrary
+          func(choice === 'camera' ? cameraOptions : { selectionLimit: 0 })
+            .then((data: ImagePickerResponse) => {
+              console.log(data)
+              if(!data.didCancel) {
+                ImageResizer.createResizedImage(
+                  data.assets[0].uri,
+                  data.assets[0].width / 1.5,
+                  data.assets[0].height / 1.5,
+                  'JPEG',
+                  80,
+                  0,
+                  null,
+                  false,
+                  {
+                    mode: 'contain',
+                    onlyScaleDown: true
+                  }
+                )
+                  .then((response) => {
+                    console.log('resize done', response)
+                    // response.uri is the URI of the new image that can now be displayed, uploaded...
+                    // response.path is the path of the new image
+                    // response.name is the name of the new image with the extension
+                    // response.size is the size of the new image
+                    setShowCamera(false)
+                    //@ts-ignorer
+                    setBackgroundCheck({...backgroundCheck, [buttonChoice]: response.uri})
+                  })
+                  .catch((err) => {
+                    // Oops, something went wrong. Check that the filename is correct and
+                    // inspect err to get more details.
+                    console.log('ERROR!', err)
+                    //setShowCamera(false)
+                    //throw err
+                  });
+              }
             })
-            .catch((err) => {
-              // Oops, something went wrong. Check that the filename is correct and
-              // inspect err to get more details.
-              console.log('ERROR!', err)
-              //setShowCamera(false)
-              //throw err
-            });
+            .catch(err => {
+              console.log('error', err)
+              notifyError(err.message)
+            })
+        } else {
+          notifyError('CAMERA permission was denied')
         }
-      })
-      .catch(err => {
-        console.log('error', err)
-        notifyError(err.message)
       })
   }
 

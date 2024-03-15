@@ -18,8 +18,9 @@ import Colors from '../../../theme/colors';
 import {inject, observer} from 'mobx-react'
 import ChefEarning from "../../../models/chef/ChefDashboard";
 import moment from "moment";
-import {sumBy} from "lodash";
+import {sumBy, isEmpty, some, every} from "lodash";
 import { PERMISSIONS, request, requestNotifications } from 'react-native-permissions';
+import InfoModal from 'src/components/modals/InfoModal';
 
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
@@ -71,10 +72,24 @@ export default class ChefDashboard extends React.Component<any, any> {
 
     this.state = {
       reviews: [],
-      earnings: []
+      earnings: [],
+      modalVisible: false,
+      beginnerSetup: {
+        profile: {
+          availability: false,
+          backgroundCheck: false,
+          bankAccount: false,
+          workZone: false
+        },
+        settings: {
+          bio: false,
+          profile: false
+        }
+      }
     }
 
-    console.log(props.stores?.chefSettingsStore.profile)
+    console.log('Chef profile', props.stores?.chefSettingsStore.profile)
+    console.log('Chef profile setup', props.stores?.chefProfileStore)
   }
 
   componentDidMount() {
@@ -86,13 +101,34 @@ export default class ChefDashboard extends React.Component<any, any> {
           this.props.stores.authStore.saveDeviceToken()
       })
 
+    setTimeout(() => {
+      this.setState({ beginnerSetup: {
+        profile: {
+          availability: !isEmpty(this.props.stores.chefProfileStore.availability),
+          backgroundCheck: !isEmpty(this.props.stores.chefProfileStore.backgroundCheck),
+          bankAccount: !isEmpty(this.props.stores.chefProfileStore.bankAccount),
+          workZone: !isEmpty(this.props.stores.chefProfileStore.workZone)
+        },
+        settings: {
+          bio: !isEmpty(this.props.stores.chefSettingsStore.bio),
+          profile: !isEmpty(this.props.stores.chefSettingsStore.profile)
+        }
+      } }, () => { 
+        console.log('Checking cook profile...')
+        console.log('beginnerSetup.profile', this.state.beginnerSetup.profile)
+        console.log('beginnerSetup.settings', this.state.beginnerSetup.settings)
+        if(some(this.state.beginnerSetup.profile, p => !p) || some(this.state.beginnerSetup.settings, s => !s))
+          this.setState({ modalVisible: true })
+      })
+    }, 3000)
+
     this.props.stores.chefDashboardStore.getChefReviews()
       .then(reviews => {
-        this.setState({ reviews })
+        this.setState({ reviews: reviews || [] })
       })
     this.props.stores.chefDashboardStore.getChefEarnings()
       .then(earnings => {
-        this.setState({ earnings })
+        this.setState({ earnings: earnings || [] })
       })
   }
 
@@ -106,7 +142,7 @@ export default class ChefDashboard extends React.Component<any, any> {
   };
 
   render() {
-    const { earnings, reviews } = this.state
+    const { earnings, reviews, modalVisible, beginnerSetup } = this.state
 
     const data = {
       labels: earnings.map(e => `${e._id.month}/${e._id.year}`),
@@ -141,6 +177,20 @@ export default class ChefDashboard extends React.Component<any, any> {
       }
       return (
         <View style={{flex: 1, backgroundColor: Colors.background}}>
+          <InfoModal
+            visible={modalVisible}
+            message={'Please complete your profile and settings in order to be visible to the consumers'}
+            iconName='information-circle-sharp'
+            iconColor='indianred'
+            buttonTitle='Finish profile setup'
+            onButtonPress={() => {
+              this.setState({ modalVisible: false })
+              if(every(Object.values(beginnerSetup.profile), p => p))
+                this.props.navigation.navigate('Settings')
+              else
+                this.props.navigation.navigate('ChefProfileSetupStack')
+            }}
+          />
           <View style={dashboardStyles.dashboardHeaderContainer}>
             <SemiBoldHeading>{`Hi ${this.props.stores?.chefSettingsStore.profile?.fullName?.split(' ')[0] || ''}!`}</SemiBoldHeading>
             {/*<Text>Here is what's going on today</Text>*/}

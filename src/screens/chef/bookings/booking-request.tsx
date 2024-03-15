@@ -119,8 +119,8 @@ const BookingRequest = inject('stores')(observer((props)  => {
         <View style={{ flexDirection: 'row', marginVertical: 20, width: '60%' }}>
           <Icon name='map-marker-outline' size={30} color={Colors.secondaryText} style={{ flex: .5, flexBasis: '20%' }}/>
           <View style={{ flexBasis: '80%'}}>
-            <Text style={{ marginVertical: 5}}>{booking.location.address}</Text>
-            <Subtitle2 style={{ marginVertical: 5}}>{booking.location.city}</Subtitle2>
+            <Text style={{ marginVertical: 5}}>{booking.location?.address || 'Unknown address'}</Text>
+            <Subtitle2 style={{ marginVertical: 5}}>{booking.location?.city || 'Unknown city'}</Subtitle2>
             <Icon name='navigation' size={20} style={{ transform: [{rotate: '45deg'}], position: 'absolute', bottom: 5, color: Colors.primaryColor }} />
             <Subtitle2 style={{ marginVertical: 5, color: Colors.primaryColor, marginLeft: 20 }}>About 0.4 mi away</Subtitle2>
           </View>
@@ -237,6 +237,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
             <View style={{ flex: .5, marginVertical: 10 }}>
               <Button
                 onPress={() => {
+                  console.log(booking.dateTime)
                   if(moment() < moment(booking.dateTime))
                     notifyWarn('You cannot complete a Booking until is done')
                   else

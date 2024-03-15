@@ -28,10 +28,11 @@ const getMarkedDates = (dateOverrides: DayAndTime[]) => {
   return markedDates;
 }
 
-const timeFormat = {
+const timeFormat: Intl.DateTimeFormatOptions = {
   // en-US can be set to 'default' to use user's browser settings
   hour: '2-digit',
-  minute: '2-digit'
+  minute: '2-digit',
+  second: undefined
 }
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -66,7 +67,7 @@ export default class ChefAvailability extends React.Component<any, any> {
       return 'Not Set'
   }
 
-  getTime = (timing: Timing) => `${timing.from.toLocaleTimeString([], timeFormat)} - ${timing.to.toLocaleTimeString('en-US', timeFormat)}`;
+  getTime = (timing: Timing) => `${timing.from.toLocaleTimeString('en-US', timeFormat)} - ${timing.to.toLocaleTimeString('en-US', timeFormat)}`;
 
   getDayAvailability = (day: string) => {
     if(this.state.weeklyHours.length > 0)

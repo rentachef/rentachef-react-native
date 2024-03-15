@@ -120,7 +120,8 @@ class AuthStore {
     userDataKey: '',
     stripeClientToken: {},
     ephemeralKey: '',
-    role: ''
+    role: '',
+    deviceToken: ''
   };
 
   @action checkIfLogged = async () => {

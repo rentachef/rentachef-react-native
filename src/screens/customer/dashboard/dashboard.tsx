@@ -12,9 +12,10 @@ import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
 import {inject, observer} from "mobx-react";
 import {CustomerLocation} from "../../../models/user/CustomerSettings";
-import {forEach, isEmpty} from "lodash";
+import {every, forEach, isEmpty, some} from "lodash";
 import {check, request, PERMISSIONS, requestNotifications} from 'react-native-permissions'
 import SetupModal from '../../welcome/Setup';
+import InfoModal from 'src/components/modals/InfoModal';
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -96,43 +97,42 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   const { role } = stores.authStore.authInfo
   const [modalIndex, setModalIndex] = useState(-1)
   const [location, setLocation] = useState<CustomerLocation>(stores.customerSettingsStore.defaultLocation || {})
+  const [beginnerSetup, setBeginnerSetup] = useState({
+    profile: true,
+    preferences: true,
+    paymentMethods: true
+  })
+  const [modalVisible, setModalVisible] = useState(false)
   //const [validators, setValidators] = useState([...validations[role]])
   
   useEffect(() => {
     console.log('mounting dashboard...')
+    setTimeout(() => {
+      console.log('profile', !isEmpty(stores.customerSettingsStore.profile))
+      console.log('preferences', !isEmpty(stores.customerSettingsStore.preferences))
+      console.log('paymentMethods', !isEmpty(stores.customerSettingsStore.paymentMethods))
+
+      setBeginnerSetup({
+        profile: !isEmpty(stores.customerSettingsStore.profile),
+        preferences: !isEmpty(stores.customerSettingsStore.preferences),
+        paymentMethods: !isEmpty(stores.customerSettingsStore.paymentMethods)
+      })
+    }, 3000)
     console.log('asking for permissions')
     requestPermissions()
       .then(result => {
         console.log('permissions result', result)
         if(result.pushNotifsResult.status === 'granted')
           stores.authStore.saveDeviceToken()
+        if(result.locationResult === 'granted')
+          getCurrentLocation()
       })
-  }, [])
-
-  /*useEffect(() => {
-    setTimeout(() => {
-      console.log('VALIDATORS: ', validators)
-      let validationResults = validators.map(v => {
-          console.log('validating...', v)
-          if(role === 'Cook') {
-            if(!isEmpty(stores.chefProfileStore[v.key]))
-              return { ...v, valid: true }
-            else return v
-          }
-          if(role === 'Consumer') {
-            if(!isEmpty(stores.customerSettingsStore[v.key]))
-              return { ...v, valid: true }
-            else return v
-          }
-      })
-      console.log('After validation', validationResults)
-      setValidators(validationResults)
-    }, 1000);
   }, [])
 
   useEffect(() => {
-    console.log('validators', validators.some(v => !v.valid))
-  }, [validators])*/
+    if(some(Object.values(beginnerSetup), s => !s))
+        setModalVisible(true)
+  }, [beginnerSetup])
 
   const navigate = ({stack, page}) => navigation.navigate(stack, { screen: page })
 
@@ -156,6 +156,17 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   return (
     <ScrollView style={styles.screenContainer}>
       {/*validators.some(v => !v.valid) ? <SetupModal navigateTo={navigate} missing={validators.filter(v => !v.valid)} /> :*/}
+      <InfoModal
+            visible={modalVisible}
+            message={'Please complete your profile and settings in order to book a cook'}
+            iconName='information-circle-sharp'
+            iconColor='indianred'
+            buttonTitle='Finish profile setup'
+            onButtonPress={() => {
+              setModalVisible(false)
+              navigation.navigate('Settings')
+            }}
+          />
         <View style={{ opacity: modalIndex !== -1 ? 0.3: 1 }}>
           <TouchableOpacity style={styles.dashboardContainer} onPress={() => setModalIndex(0)}>
             <Text>{location.address} - </Text><LightText>Today</LightText>

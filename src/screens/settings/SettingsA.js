@@ -32,6 +32,7 @@ import {inject, observer} from 'mobx-react'
 import ContainedButton from "../../components/buttons/ContainedButton";
 import SwitchComponent from "../components/switch-component";
 import { notifyError, notifyWarn } from 'src/components/toast/toast';
+import { isEmpty } from 'lodash';
 
 // SettingsA Config
 const isRTL = I18nManager.isRTL;
@@ -239,17 +240,20 @@ export default class SettingsA extends Component {
       return this.props.stores.chefSettingsStore.profile?.email
     if(this.role === 'Consumer' && !!this.props.stores.customerSettingsStore.profile?.email)
       return this.props.stores.customerSettingsStore.profile?.email
+    else
+      return ''
   }
 
   getName = () => {
-    console.log(this.role, !!this.props.stores.customerSettingsStore.profile?.fullName)
     if(this.role === 'Cook' && !!this.props.stores.chefSettingsStore.profile?.fullName)
       return this.props.stores.chefSettingsStore.profile?.fullName
     if(this.role === 'Consumer' && !!this.props.stores.customerSettingsStore.profile?.fullName)
       return this.props.stores.customerSettingsStore.profile?.fullName
     else
-      return 'Your Name'
+      return ''
   }
+
+  hasBio = () => this.role === 'Cook' && isEmpty(this.props.stores.chefSettingsStore.bio)
 
   deleteAccount = async () => {
     let { deleteAccountCounter } = this.state
@@ -268,6 +272,18 @@ export default class SettingsA extends Component {
       notifyWarn(`Tap ${3 - deleteAccountCounter} more times to delete account`)
       this.setState({ deleteAccountCounter })
     }
+  }
+
+  hasMissingSettings = (item) => {
+    if(this.role === 'Cook' && item === 'Bio' && !this.hasBio())
+        return true
+    if(this.role === 'Consumer') {
+      if(item === 'Preferences')
+        return isEmpty(this.props.stores.customerSettingsStore.preferences)
+      if(item === 'Wallet')
+        return isEmpty(this.props.stores.customerSettingsStore.paymentMethods)
+    } else
+      return false
   }
 
   render() {
@@ -296,10 +312,8 @@ export default class SettingsA extends Component {
                   />
                   <View style={styles.profileInfo}>
                     <View styles={styles.info}>
-                      <Subtitle1 style={styles.name}>{this.getName()}</Subtitle1>
-                      <Subtitle2 style={styles.email}>
-                        {this.getEmail()}
-                      </Subtitle2>
+                      <Subtitle1 style={{...styles.name, color: isEmpty(this.getName()) ? 'indianred' : ''}}>{this.getName() || 'Your Name'}</Subtitle1>
+                      <Subtitle2 style={{...styles.email, color: isEmpty(this.getEmail()) ? 'indianred' : ''}}>{this.getEmail() || 'Your Email'}</Subtitle2>
                     </View>
                     <Icon name='chevron-right' size={30} style={styles.iconRight} />
                   </View>
@@ -339,7 +353,7 @@ export default class SettingsA extends Component {
                     </View>
                     ) : (
                     <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
-                      <Text style={styles.title}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                      <Text style={{...styles.title, color: this.hasMissingSettings(item) ? 'indianred' : undefined}}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
                     </TouchableOpacity>
                     )
                 )}

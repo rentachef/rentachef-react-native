@@ -93,7 +93,7 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
             placeholder='Write a review...'
             placeholderTextColor={Colors.placeholderTextColor}
             multiline={true}
-            numberOfLines={7}
+            numberOfLines={6}
             borderColor={Colors.backgroundLight}
             style={styles.textArea}
             value={review?.review || ''}
@@ -103,7 +103,7 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
         </View>
         {role === 'Consumer' &&
         <View>
-          <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
+          <Divider type='full-bleed' dividerStyle={{ marginVertical: 5 }} />
           <HeadlineBold>Add a Tip</HeadlineBold>
           <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 10 }}>
             <Chip
