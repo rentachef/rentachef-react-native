@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from '../../../theme/colors';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   textInputEnabled: {
@@ -23,8 +24,8 @@ const styles = StyleSheet.create({
 const DateSelection = ({ date, onDelete, time }) => {
   return (
     <View style={{flex: 1, flexWrap: 'nowrap', justifyContent: 'space-between' }}>
-      <View style={{flexDirection: 'row', height: 70, width: '90%', justifyContent: 'center', alignItems: 'baseline', alignSelf: 'center', borderBottomColor: '#e3e3e3', borderBottomWidth: 1 }}>
-        <Text style={{ flex: 1, lineHeight: 40, color: Colors.primaryText }}>{date.toDateString()}</Text>
+      <View style={{flex: 1, flexDirection: 'row', height: 70, width: '95%', justifyContent: 'center', alignItems: 'baseline', alignSelf: 'center', borderBottomColor: '#e3e3e3', borderBottomWidth: 1 }}>
+        <Text style={{ flex: 1, alignSelf: 'center', color: Colors.primaryText }}>{moment(date).format('ddd d MMM')}</Text>
           <TextInput
             autoCapitalize="none"
             editable={false}
@@ -32,7 +33,7 @@ const DateSelection = ({ date, onDelete, time }) => {
             keyboardType={"default"}
             style={styles.textInputEnabled}
           />
-          <Icon name='delete' size={30} style={{ padding: 5 }} onPress={onDelete} color={Colors.secondaryText}/>
+          <Icon name='delete' size={30} style={{  alignSelf: 'center', padding: 5 }} onPress={onDelete} color={Colors.secondaryText}/>
       </View>
     </View>
   )

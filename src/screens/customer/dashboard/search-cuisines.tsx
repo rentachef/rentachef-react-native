@@ -19,6 +19,7 @@ import TouchableItem from "../../../components/TouchableItem";
 import UnderlineTextInput from "../../../components/textinputs/UnderlineTextInput";
 import {Timestamp} from "react-native-reanimated/lib/types/lib/reanimated2";
 import moment from "moment";
+import { inject } from 'mobx-react';
 let imgHolder = require('@assets/img/imgholder.png');
 
 const recentSearchesMock = ['BBQ', 'Italian', 'Butter chicken']
@@ -28,76 +29,24 @@ interface RecentSearch {
   text: string
 }
 
-const categories = [
-    {
-      key: 1,
-      imageUri: require('@assets/img/pizza_3.jpg'),
-      name: 'Pizza',
-    },
-    {
-      key: 2,
-      imageUri: require('@assets/img/meat_1.jpg'),
-      name: 'Grill',
-    },
-    {
-      key: 3,
-      imageUri: require('@assets/img/spaghetti_2.jpg'),
-      name: 'Pasta',
-    },
-    {
-      key: 4,
-      imageUri: require('@assets/img/soup_1.jpg'),
-      name: 'Soups',
-    },
-    {
-      key: 5,
-      imageUri: require('@assets/img/salad_1.jpg'),
-      name: 'Salads',
-    },
-    {
-      key: 6,
-      imageUri: require('@assets/img/cake_2.jpg'),
-      name: 'Dessert',
-    },
-  {
-    key: 7,
-    imageUri: require('@assets/img/barbecue_1.jpg'),
-    name: 'BBQ',
-  },
-  {
-    key: 8,
-    imageUri: require('@assets/img/cake_2.jpg'),
-    name: 'Dessert',
-  },
-  {
-    key: 9,
-    imageUri: require('@assets/img/cake_2.jpg'),
-    name: 'Dessert',
-  },
-  {
-    key: 10,
-    imageUri: require('@assets/img/cake_2.jpg'),
-    name: 'Dessert',
-  }
-]
-
 const Item = ({ item, onPress, onDelete }) => (
   <TouchableOpacity style={styles.item} onPress={() => onPress(item)}>
     <Text style={styles.title}>{item.text}</Text>{<Icon name='close' onPress={() => onDelete(item)} size={20} />}
   </TouchableOpacity>
 );
 
-const SearchCuisines = ({ navigation }) => {
+const SearchCuisines = inject('stores')(({ stores, navigation }) => {
+  console.log(stores.searchStore.cuisines)
   const [focus, setFocus] = useState(false)
   const [searchText, setSearchText] = useState('')
-  const [filteredCategories, setFilteredCategories] = useState(categories || [])
+  const [filteredCategories, setFilteredCategories] = useState(stores.searchStore.cuisines || [])
   const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([])
 
   useEffect(() => {
     if(searchText.length > 0)
       filterCategories()
     else
-      setFilteredCategories(categories)
+      setFilteredCategories(stores.searchStore.cuisines)
   }, [searchText])
 
   useEffect(() => {
@@ -113,17 +62,17 @@ const SearchCuisines = ({ navigation }) => {
       style={styles.card}>
       <View style={styles.cardOverlay}>
         <TouchableItem
-          onPress={() => navigation.navigate('ChefResults', { searchedValue: item.name })}
+          onPress={() => navigation.navigate('ChefResults', { searchedValue: item._id })}
           style={styles.cardContainer}
           // borderless
         >
-          <Text style={styles.cardTitle}>{item.name}</Text>
+          <Text style={styles.cardTitle}>{item.label}</Text>
         </TouchableItem>
       </View>
     </ImageBackground>
   );
 
-  const filterCategories = () => setFilteredCategories(categories.filter(c => c.name.toLowerCase().includes(searchText.toLowerCase())))
+  const filterCategories = () => setFilteredCategories(stores.searchStore.cuisines.filter(c => c.label.toLowerCase().includes(searchText.toLowerCase())))
 
   return (
     <ScrollView contentContainerStyle={styles.screenContainer}>
@@ -131,7 +80,7 @@ const SearchCuisines = ({ navigation }) => {
         placeholder="Search cuisines or dishes"
         returnKeyType="search"
         maxLength={50}
-        inputContainerStyle={focus ? { borderWidth: 2, borderColor: Colors.primaryColor } : {}}
+        inputContainerStyle={{ marginVertical: 20, borderWidth: 2, borderColor: focus ? Colors.primaryColor : Colors.secondaryText }}
         onFocus={() => setFocus(true)}
         value={searchText}
         onSubmitEditing={() => setRecentSearches([...recentSearches, { text: searchText, timestamp: moment().valueOf() }])}
@@ -139,7 +88,7 @@ const SearchCuisines = ({ navigation }) => {
           setSearchText(text)
         }}
       />
-      <SafeAreaView style={{ marginVertical: 20 }}>
+      {/*<SafeAreaView style={{ marginVertical: 20 }}>
         {recentSearches.length > 0 &&
           <>
             <SmallBoldHeading>Recent Searches</SmallBoldHeading>
@@ -154,7 +103,7 @@ const SearchCuisines = ({ navigation }) => {
                 />}
             />
           </>}
-      </SafeAreaView>
+        </SafeAreaView>*/}
       <View>
         <SmallBoldHeading>Cuisines</SmallBoldHeading>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -163,7 +112,7 @@ const SearchCuisines = ({ navigation }) => {
       </View>
     </ScrollView>
   )
-}
+})
 
 export default SearchCuisines
 
@@ -228,7 +177,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 16,
     letterSpacing: .5,
-    color: Colors.white,
+    color: Colors.primaryText,
     textShadowColor: 'rgba(0, 0, 0, 0.88)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,

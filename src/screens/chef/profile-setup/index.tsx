@@ -168,7 +168,7 @@ const profileSetupStyles = StyleSheet.create({
     marginRight: 20
   },
   stepDoneIcon: {
-    color: Colors.secondaryColor,
+    color: Colors.primaryGradientColor,
     marginLeft: 10,
     marginRight: 10
   }

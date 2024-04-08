@@ -20,8 +20,8 @@ const SwitchComponent: React.FunctionComponent<SwitchComponentProps> = ({checked
   return (
     <View style={[styles.view, style]}>
       <Switch
-        trackColor={{true: Colors.primaryColor, false: '#F3F6FB'}}
-        thumbColor={flag ? Colors.thumbColorOn : Colors.thumbColorOff}
+        trackColor={{true: Colors.primaryColor, false: Colors.disabled }}
+        thumbColor={Colors.thumbColorOff}
         style={{alignSelf: 'center'}}
         value={flag}
         onValueChange={(value) => toggleSwitch(value)}

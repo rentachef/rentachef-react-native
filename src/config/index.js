@@ -6,7 +6,7 @@ console.log('COLOR SCHEME', colorScheme)
 
 const config = {
   /*
-    theme: 'jade' | 'redOrange' | 'blueberry' | 'rentAChef' | 'rentAChefDark'
+    theme: 'rentAChef' | 'rentAChefDark'
    */
   theme: colorScheme === 'light' ? 'rentAChef' : 'rentAChefDark'
 };

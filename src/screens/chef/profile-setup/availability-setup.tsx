@@ -31,8 +31,7 @@ const getMarkedDates = (dateOverrides: DayAndTime[]) => {
 const timeFormat: Intl.DateTimeFormatOptions = {
   // en-US can be set to 'default' to use user's browser settings
   hour: '2-digit',
-  minute: '2-digit',
-  second: undefined
+  minute: '2-digit'
 }
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -81,6 +80,7 @@ export default class ChefAvailability extends React.Component<any, any> {
   }
 
   showTimeModal = (modalView: string, day: string = '', enabled: boolean = false) => {
+    console.log('show time modal!', modalView, day, enabled)
     if(enabled) {
       let selectedDate = this.state.weeklyHours.find((wh: WeekDayAndTime) => wh.day === day);
       this.setState({modalIndex: 1, modalView, timeForDay: day, selectedDate })
@@ -197,7 +197,7 @@ export default class ChefAvailability extends React.Component<any, any> {
                 />
                 {dateOverrides.length > 0 &&
                   <ScrollView style={{flex: 2 }}>
-                    <Text style={{ width: '100%', marginLeft: 20, marginTop: 10 }}>Availability for specific dates</Text>
+                    <Text style={{ width: '100%', marginLeft: 5, marginTop: 10 }}>Availability for specific dates</Text>
                     {dateOverrides.map((dov: DayAndTime, i: number) => (
                       <DateSelection key={i} date={dov.day} onDelete={() => this.deleteDateOverride(dov.day)} time={this.getTime(dov.timing)}/>)
                     )}

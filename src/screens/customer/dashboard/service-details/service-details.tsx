@@ -7,7 +7,7 @@ import Button from "../../../../components/buttons/Button";
 
 const ServiceDetails = ({ navigation, onClose }) => {
   return (
-    <View style={{ flex: .25, alignItems: 'center', justifyContent: 'space-between' }}>
+    <View style={{ flex: .2, alignItems: 'center', justifyContent: 'space-between' }}>
       <Heading6>Service Details</Heading6>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
         <Icon name='map-marker-outline' size={30} style={{ alignSelf: 'center' }} />

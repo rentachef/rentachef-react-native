@@ -99,7 +99,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
         </ScrollView>
         <View style={{ height: 60, marginVertical: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View style={{ flex: .25 }}>
-            {<Icon name='message-text-outline' size={25} style={{
+            {<Icon name='message-text-outline' size={20} style={{
               padding: 8,
               marginVertical: 5,
               marginRight: 10,

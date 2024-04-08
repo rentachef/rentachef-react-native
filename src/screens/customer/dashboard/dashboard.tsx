@@ -16,6 +16,7 @@ import {every, forEach, isEmpty, some} from "lodash";
 import {check, request, PERMISSIONS, requestNotifications} from 'react-native-permissions'
 import SetupModal from '../../welcome/Setup';
 import InfoModal from 'src/components/modals/InfoModal';
+import toast from 'src/components/toast/toast';
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -168,7 +169,10 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
             }}
           />
         <View style={{ opacity: modalIndex !== -1 ? 0.3: 1 }}>
-          <TouchableOpacity style={styles.dashboardContainer} onPress={() => setModalIndex(0)}>
+          <TouchableOpacity style={styles.dashboardContainer} onPress={() => {
+            toast.notifyWarn('Feature not available, please let the cook know your address in the chat', 3000)
+            //setModalIndex(0)
+          }}>
             <Text>{location.address} - </Text><LightText>Today</LightText>
           </TouchableOpacity>
           <View>

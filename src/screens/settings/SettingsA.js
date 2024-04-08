@@ -253,7 +253,7 @@ export default class SettingsA extends Component {
       return ''
   }
 
-  hasBio = () => this.role === 'Cook' && isEmpty(this.props.stores.chefSettingsStore.bio)
+  hasBio = () => this.role === 'Cook' && !isEmpty(this.props.stores.chefSettingsStore.bio)
 
   deleteAccount = async () => {
     let { deleteAccountCounter } = this.state
@@ -275,7 +275,7 @@ export default class SettingsA extends Component {
   }
 
   hasMissingSettings = (item) => {
-    if(this.role === 'Cook' && item === 'Bio' && !this.hasBio())
+    if(item === 'Bio' && !this.hasBio())
         return true
     if(this.role === 'Consumer') {
       if(item === 'Preferences')
@@ -312,8 +312,8 @@ export default class SettingsA extends Component {
                   />
                   <View style={styles.profileInfo}>
                     <View styles={styles.info}>
-                      <Subtitle1 style={{...styles.name, color: isEmpty(this.getName()) ? 'indianred' : ''}}>{this.getName() || 'Your Name'}</Subtitle1>
-                      <Subtitle2 style={{...styles.email, color: isEmpty(this.getEmail()) ? 'indianred' : ''}}>{this.getEmail() || 'Your Email'}</Subtitle2>
+                      <Subtitle1 style={{...styles.name, color: isEmpty(this.getName()) ? 'indianred' : Colors.primaryText}}>{this.getName() || 'Your Name'}</Subtitle1>
+                      <Subtitle2 style={{...styles.email, color: isEmpty(this.getEmail()) ? 'indianred' : Colors.primaryText}}>{this.getEmail() || 'Your Email'}</Subtitle2>
                     </View>
                     <Icon name='chevron-right' size={30} style={styles.iconRight} />
                   </View>
@@ -321,9 +321,9 @@ export default class SettingsA extends Component {
               </View>
             </TouchableItem>
 
-            <ContainedButton
+            {/*<ContainedButton
               onPress={() => alert('yay')}
-              title={this.role === 'Cook' ? 'Invite other chefs' : 'Invite your firends, Get $15'}
+              title={this.role === 'Cook' ? 'Invite other chefs' : 'Invite your friends, Get $15'}
               titleColor={Colors.black}
               titleStyle={{
                 fontWeight: 'bold',
@@ -338,7 +338,7 @@ export default class SettingsA extends Component {
               socialIconName='gift'
               color={Colors.background}
               rounded
-            />
+            />*/}
 
             <SafeAreaView style={styles.container}>
               <SectionList
@@ -353,7 +353,7 @@ export default class SettingsA extends Component {
                     </View>
                     ) : (
                     <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
-                      <Text style={{...styles.title, color: this.hasMissingSettings(item) ? 'indianred' : undefined}}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
+                      <Text style={{...styles.title, color: this.hasMissingSettings(item) ? 'indianred' : Colors.primaryText}}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
                     </TouchableOpacity>
                     )
                 )}

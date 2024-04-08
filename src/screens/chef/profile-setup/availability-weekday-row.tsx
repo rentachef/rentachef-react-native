@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, ScrollView, TextInput, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, ScrollView, TextInput, StyleSheet, Pressable} from 'react-native';
 import {Text} from '../../../components/text/CustomText';
 import SwitchComponent from '../../components/switch-component';
 import Colors from '../../../theme/colors';
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F6FB',
     textAlign: 'center',
     padding: 12,
-    width: 157,
+    width: '100%',
     height: 40,
     borderWidth: 1,
     borderColor: '#F3F6FB',
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     textAlign: 'center',
     padding: 12,
-    width: 157,
+    minWidth: '100%',
     height: 40,
     borderWidth: 1,
     borderColor: '#e8edf5',
@@ -45,11 +45,7 @@ export function WeekDayRow({day, time, availability, showTimeModal}: any) {
 
   const getTimeRanges= (timeValue: any, availability: boolean) => {
     return (
-      <TouchableOpacity
-        disabled={!availability}
-        onPress={() => {
-          showTimeModal(true)
-        }}>
+      <View pointerEvents='none'>
         <TextInput
           autoCapitalize="none"
           editable={false}
@@ -57,7 +53,7 @@ export function WeekDayRow({day, time, availability, showTimeModal}: any) {
           keyboardType={"default"}
           style={availability ? styles.textInputEnabled : styles.textInputDisabled}
         />
-      </TouchableOpacity>
+      </View>
     );
   }
 
@@ -68,8 +64,17 @@ export function WeekDayRow({day, time, availability, showTimeModal}: any) {
           <SwitchComponent style={{flex: .35}} checked={availability} onSwitch={showTimeModal}/>
           <View style={{flex: .5, justifyContent: 'flex-end', alignSelf: 'flex-end'}}><Text style={{flex: .5, alignSelf: 'flex-end'}}>{day}</Text></View>
         </View>
-        <View style={{flexDirection: 'row', flex: .5}}>
-            <View style={{flexDirection: 'column'}}>{getTimeRanges(currentTimeSelected, availability)}</View>
+        <View
+          style={{flexDirection: 'row', flex: .5 }}
+        >
+          <TouchableOpacity
+            style={{flexDirection: 'column'}}
+            disabled={!availability}
+            onPress={() => {
+              console.log('PRESSED!!!!')
+              showTimeModal(true)
+            }}
+          >{getTimeRanges(currentTimeSelected, availability)}</TouchableOpacity>
         </View>
         {/*<TouchableOpacity onPress={() => {
           addNewTimeRange()
