@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
 const PhoneTextInput = ({ phone, country, onChange }) => {
   const [phoneNumber, setPhoneNumber] = useState(phone || '')
-  const [phoneCountry, setPhoneCountry] = useState(country || '')
+  const [phoneCountry, setPhoneCountry] = useState(country || 'US')
   const phoneInput = useRef<PhoneInput>(null)
 
   return (

@@ -15,7 +15,7 @@ import rootStore from "../../../stores";
 import {AvailabilitySetup, DayAndTime, WeekDayAndTime, Timing} from "../../../models/chef/ChefProfileSetup";
 import upsert from "../../../utils/upsert";
 import Button from "../../../components/buttons/Button";
-import { remove } from 'lodash';
+import { filter, remove } from 'lodash';
 import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
 import {Text} from '../../../components/text/CustomText';
 import moment from 'moment';
@@ -100,13 +100,14 @@ export default class ChefAvailability extends React.Component<any, any> {
   }
 
   selectTimeForDay = (timeFrom: Date, timeTo: Date) => {
+    console.log('timeFrom', timeFrom, 'timeTo', timeTo)
     const { timeForDay, selectedIndex, weeklyHours, dateOverrides } = this.state;
     if(selectedIndex === 0) { //weeklyHours
       let weekDayAndTime: WeekDayAndTime = {
         day: timeForDay,
         timing: {
-          from: moment(timeFrom).set('minutes', 0).toDate(),
-          to: moment(timeTo).set('minutes', 0).toDate()
+          from: moment(timeFrom).local().toDate(),
+          to: moment(timeTo).local().toDate()
         }
       }
       var wh = [...weeklyHours];
@@ -116,8 +117,8 @@ export default class ChefAvailability extends React.Component<any, any> {
       let dayAndTime: DayAndTime = {
         day: timeFrom,
         timing: {
-          from: moment(timeFrom).set('minutes', 0).toDate(),
-          to: moment(timeTo).set('minutes', 0).toDate()
+          from: moment(timeFrom).local().toDate(),
+          to: moment(timeTo).local().toDate()
         }
       }
       var dov = [...dateOverrides];
@@ -126,7 +127,8 @@ export default class ChefAvailability extends React.Component<any, any> {
     }
   }
 
-  deleteDateOverride = (date: Date) => this.setState({ dateOverrides: remove(this.state.dateOverrides, (dov: DayAndTime) => dov.day === date)})
+  deleteDateOverride = (date: Date) => 
+    this.setState({ dateOverrides: filter(this.state.dateOverrides, (dov: DayAndTime) => dov.day !== date)})
 
   saveData = () => {
     const { weeklyHours, dateOverrides, timeZone } = this.state;

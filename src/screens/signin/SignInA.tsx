@@ -29,7 +29,7 @@ import Layout from '../../theme/layout';
 import {makeObservable, observable} from "mobx";
 import {inject, observer} from "mobx-react";
 import Logo from "../components/logo";
-import {notifyError, notifySuccess} from "../../components/toast/toast";
+import {notifyError, notifySuccess, notifyWarn} from "../../components/toast/toast";
 import { Text } from 'src/components/text/CustomText';
 import { isEmpty } from 'lodash';
 
@@ -327,6 +327,8 @@ export default class SignInA extends Component {
                   onPress={() => {
                     if(!isEmpty(this.state.email) && !this.state.emailError)
                       this.setState({ inputModalVisible: true })
+                    else
+                      notifyWarn('Enter email in order to recover your password')
                   }}
                   style={styles.forgotPasswordText}>
                   Forgot password?

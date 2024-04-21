@@ -198,7 +198,7 @@ const Bio = inject('stores')(observer((props) => {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.imageGalleryHeader}>
-          <Text style={{ color: Colors.background }}>Swipe down to close</Text>
+          <Text style={{ color: Colors.background }}>Swipe down on the  image to close</Text>
         </View>
       </SafeAreaView>
     );
@@ -386,6 +386,7 @@ const Bio = inject('stores')(observer((props) => {
               </View>
               <Text>Test Date</Text>
               <DatePicker
+                fadeToColor={Colors.backgroundLight}
                 maximumDate={new Date()}
                 minimumDate={new Date(2020, 1, 1)}
                 style={{ alignSelf: 'center'}}

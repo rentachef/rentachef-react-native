@@ -366,7 +366,7 @@ export default class SettingsA extends Component {
             <SafeAreaView style={{...styles.container, marginTop: 20 }}>
               <SectionList
                 nestedScrollEnabled
-                sections={[{ title: 'Support', data:['Help', 'Log out', 'Delete Account']}]}
+                sections={[{ title: 'Support', data:[/*'Help',*/ 'Log out', 'Delete Account']}]}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => item === 'Delete Account' ? (
                   <TouchableOpacity style={styles.item} onPress={() => this.deleteAccount()}>

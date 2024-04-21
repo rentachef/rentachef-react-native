@@ -179,7 +179,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
             <SearchA navigation={navigation} />
             <View style={{ paddingTop: 15 }}>
               <SmallBoldHeading>Popular Cuisines</SmallBoldHeading>
-              <CuisinesCarousel onSelect={(item: any) => navigation.navigate('ChefResults', { searchedValue: item })} />
+              <CuisinesCarousel onSelect={(item: any) => navigation.navigate('ChefResults', { searchedValue: item._id })} />
             </View>
             <Divider type='full-bleed' />
             <ChefsList data={stores.searchStore.topChefs} title='Top rated chefs near you' onSelect={(chef) => {

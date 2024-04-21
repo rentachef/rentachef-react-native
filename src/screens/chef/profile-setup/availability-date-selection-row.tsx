@@ -25,7 +25,7 @@ const DateSelection = ({ date, onDelete, time }) => {
   return (
     <View style={{flex: 1, flexWrap: 'nowrap', justifyContent: 'space-between' }}>
       <View style={{flex: 1, flexDirection: 'row', height: 70, width: '95%', justifyContent: 'center', alignItems: 'baseline', alignSelf: 'center', borderBottomColor: '#e3e3e3', borderBottomWidth: 1 }}>
-        <Text style={{ flex: 1, alignSelf: 'center', color: Colors.primaryText }}>{moment(date).format('ddd d MMM')}</Text>
+        <Text style={{ flex: 1, alignSelf: 'center', color: Colors.primaryText }}>{moment(date).format('ddd DD MMM')}</Text>
           <TextInput
             autoCapitalize="none"
             editable={false}

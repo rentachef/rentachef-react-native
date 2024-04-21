@@ -27,7 +27,7 @@ import {ChefMapView} from "./map-view";
 import Geocoder from 'react-native-geocoding';
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
-import {notifyError, notifySuccess} from "../../../components/toast/toast";
+import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import TimeRangePicker from "../../../components/pickers/TimeRangePicker";
@@ -35,6 +35,8 @@ import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import {isEmpty} from "lodash";
 import moment from "moment";
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -46,7 +48,6 @@ const defaultProps = {
   geolocationOptions: GEOLOCATION_OPTIONS,
 };
 
-
 const radiusMap = {
   0: 300,
   10: 350,
@@ -55,7 +56,6 @@ const radiusMap = {
   40: 500,
   50: 550
 }
-
 
 @inject('stores')
 export default class ChefWorkZoneSetup extends React.Component<any, any> {
@@ -80,6 +80,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         longitude: workZone?.longitude || 0,
         speed: 0
       },
+      diffLocationBanner: undefined,
       pickup: !isEmpty(pickupDetails),
       pickupDetails: pickupDetails || {},
       modalIndex: -1,
@@ -139,7 +140,8 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         const myLastPosition = this.state.myPosition;
         const myPosition = position.coords;
         if (!isEqual(myPosition, myLastPosition)) {
-          this.setState({ myPosition });
+          this.setState({ diffLocationBanner: 'Looks like you are on a different location than the one you setted as workzone. Please change if necessary' })
+          //this.setState({ myPosition });
         }
       },
       (error) => {
@@ -214,12 +216,12 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
     !!this.state.pickupDetails?.address?.street && !!this.state.pickupDetails?.address?.city
 
   render() {
-    const { radius, radiusState, focus, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch, loading } = this.state;
+    const { radius, radiusState, focus, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch, loading, diffLocationBanner } = this.state;
     const { latitude, longitude } = this.state.myPosition
     return (
-      <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: Colors.background}}>
+      <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: Colors.background}} keyboardShouldPersistTaps='always'>
         <View style={{ margin: 10 }}>
-          <UnderlineTextInput
+          {/*<UnderlineTextInput
             autoCapitalize="none"
             placeholder="enter your city or postal code"
             keyboardType={"default"}
@@ -235,10 +237,41 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
               })
               this.geoCodeAddress(e.nativeEvent.text)
             }}
-          />
+          />*/}
+          {
+            <KeyboardAwareScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={{ flexGrow: 1 }}>
+              <GooglePlacesAutocomplete
+                placeholder="Enter your city or postal code"
+                onPress={(data, details = null) => {
+                  console.log('selected location', data.description)
+                  this._location = data.description
+                  this.setState({
+                    zipCitySearch: data.description
+                  })
+                  this.geoCodeAddress(data.description)
+                }}
+                minLength={3}
+                onFail={(error) => console.log('Autocomplete error', error)}
+                query={{
+                  key: 'AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0',
+                  language: 'en',
+                }}
+                listViewDisplayed={false}
+                styles={{
+                  textInput: workZoneSetupStyles.inputGroupItem,
+                  container: { backgroundColor: Colors.backgroundDark },
+                  row: { backgroundColor: Colors.backgroundDark }
+                }}
+              />
+            </KeyboardAwareScrollView>
+          }
         </View>
         <View style={workZoneSetupStyles.mapContainer}>
             {/*key setted so when lat or lng change, child updates*/}
+            {!!diffLocationBanner && 
+              <View style={{ backgroundColor: Colors.warn}}>
+                <Text style={{ color: Colors.primaryText, textAlign: 'center' }}>{diffLocationBanner}</Text>
+              </View>}
             <ChefMapView key={myPosition.latitude} latitude={latitude} longitude={longitude} radius={radiusState} />
         </View>
         <View style={workZoneSetupStyles.distanceSlider}>
@@ -430,12 +463,13 @@ const workZoneSetupStyles = StyleSheet.create({
   inputGroupItem: {
     flex: 1,
     width: '100%',
+    backgroundColor: Colors.backgroundDark,
     paddingHorizontal: 20,
-    borderColor: Colors.backgroundDark,
+    borderColor: Colors.backgroundLight,
     borderWidth: 2,
     borderRadius: 12,
     margin: 5,
-    color: 'black',
+    color: Colors.primaryText,
   },
   inputGroupItemFocused: {
     borderColor: Colors.primaryColor,

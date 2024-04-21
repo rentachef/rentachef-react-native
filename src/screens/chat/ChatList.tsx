@@ -89,7 +89,7 @@ const ChatList = (inject('stores')((props) => {
     >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Title>Inbox</Title>
-        <Icon name='pencil-outline' size={30} color={Colors.secondaryColor}/>
+        {/*<Icon name='pencil-outline' size={30} color={Colors.secondaryColor}/>*/}
       </View>
       <ButtonGroup
         onPress={setSelectedIndex}
