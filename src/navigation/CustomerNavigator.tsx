@@ -73,7 +73,6 @@ const CustomerNavigator = inject('stores')(observer(({ route, stores }) => {
     setTimeout(() => {
       stores.customerSettingsStore.getCustomerSettings()
       stores.searchStore.getCuisines()
-      stores.searchStore.getChefs()
       stores.bookingsStore.getBookings()
     }, 1000)
   }, []);

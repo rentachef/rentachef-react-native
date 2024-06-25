@@ -37,8 +37,8 @@ export interface DayAndTime {
 // BANK ACCOUNT
 export interface BankAccount {
   bankName?: string
-  accountNumber?: number //max 12 numbers
-  routingNumber?: number //max of 9 digits
+  accountNumber?: string //max 12 numbers
+  routingNumber?: string //max of 9 digits
   currency?: string
 }
 

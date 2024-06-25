@@ -33,6 +33,7 @@ import globalStyles from "../../theme/global-styles";
 import DishDialog from "./DishDialog";
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 import ImageResizer from '@bam.tech/react-native-image-resizer';
+import ImageView from "react-native-image-viewing";
 
 const cameraOptions: CameraOptions = {
   mediaType: 'photo',
@@ -117,7 +118,7 @@ const Bio = inject('stores')(observer((props) => {
   const [selectedChips, setSelectedChips] = useState([])
   const [specialtiesPhotos, setSpecialtiesPhotos] = useState<specialtiesPhotoGallery[]>([])
   const [specialties, setSpecialties] = useState(!isEmpty(props.stores.chefSettingsStore.bio?.specialties) ? [...props.stores.chefSettingsStore.bio?.specialties] : [])
-  const [openGallery, setOpenGallery] = useState(false)
+  const [openGallery, setOpenGallery] = useState({ show: false, idx: 0 })
   const [modalIndex, setModalIndex] = useState(-1)
   const [bio, setBio] = useState(!isEmpty(props.stores.chefSettingsStore.bio) ? {...props.stores.chefSettingsStore.bio} : {
     about: '',
@@ -346,7 +347,7 @@ const Bio = inject('stores')(observer((props) => {
           </View>
           <View style={styles.imageGrid}>
             {specialtiesPhotos?.map((item, i: number) => (
-              <TouchableOpacity key={i} onPress={() => setOpenGallery(true)}>
+              <TouchableOpacity key={i} onPress={() => setOpenGallery({ show: true, idx: i })}>
                 <Image
                   key={item.key}
                   style={styles.imageGridItem}
@@ -370,12 +371,12 @@ const Bio = inject('stores')(observer((props) => {
             rounded
           />
           {openGallery &&
-          <ImageGallery
-            close={() => setOpenGallery(false)}
-            renderHeaderComponent={headerComponent}
-            isOpen={openGallery}
-            images={specialtiesPhotos}
-          />}
+            <ImageView
+              images={specialtiesPhotos.map(img => { return { uri: img.url }})}
+              imageIndex={openGallery.idx}
+              visible={openGallery.show}
+              onRequestClose={() => setOpenGallery({ show: false, idx: 0})}
+            />}
           <Divider type='full-bleed' />
           {covid &&
             <View style={styles.item}>

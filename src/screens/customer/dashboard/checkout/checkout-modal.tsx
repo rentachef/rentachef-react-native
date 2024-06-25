@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {ActivityIndicator, Modal, View} from "react-native";
-import {SmallBoldHeading, SmallBoldText} from "../../../../components/text/CustomText";
+import {ActivityIndicator, Appearance, Modal, View} from "react-native";
+import {SmallBoldHeading, SmallBoldText, Text} from "../../../../components/text/CustomText";
 import Colors from "../../../../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import globalStyles from "../../../../theme/global-styles";
@@ -9,6 +9,8 @@ import Button from "../../../../components/buttons/Button";
 const CheckoutModal = ({ navigation, action, onClose }) => {
   const [loading, setLoading] = useState(true)
   const [bookingId, setBookingId] = useState()
+
+  const colorScheme = Appearance.getColorScheme();
 
   useEffect(() => {
     setTimeout(() => {
@@ -22,7 +24,7 @@ const CheckoutModal = ({ navigation, action, onClose }) => {
 
   return (
     <Modal>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.primaryText }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colorScheme === 'dark' ? Colors.backgroundDark : Colors.primaryText }}>
         {loading ? <>
           <ActivityIndicator size={80} color={Colors.onPrimaryColor} />
           <SmallBoldHeading style={{ color: Colors.onPrimaryColor }}>Processing...</SmallBoldHeading>
@@ -34,6 +36,7 @@ const CheckoutModal = ({ navigation, action, onClose }) => {
             <View style={{ width: '80%', height: '15%', justifyContent: 'space-around' }}>
                 <Button
                   title='View Booking'
+                  titleColor={Colors.onPrimaryColor}
                   onPress={() => {
                     console.log('navigating to booking', bookingId)
                     console.log(navigation)

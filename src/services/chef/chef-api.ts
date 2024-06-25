@@ -38,7 +38,7 @@ export default class ChefApi {
 
   // eslint-disable-next-line @typescript-eslint/member-naming
   private badResponseHandler(response: any) {
-    if (response.status != 200 && response.status != 401) {
+    if (response.status != 200 && response.status != 401 && response.status != 204) {
       if  (response && response.data && response.data.sprocErrorCode) {
         const translatedMsg = ''
         if (translatedMsg == response.data.sprocErrorCode )
@@ -91,6 +91,9 @@ export default class ChefApi {
     this.apisauce = create(config)
     this.apisauce.addMonitor(this.badResponseHandler)
     delete this.apisauce.headers['Authorization'] //for development proposes only
+
+    //get app settings
+
   }
 
   static createDataResponse (data: any, header: string = ''): any {
@@ -121,6 +124,11 @@ export default class ChefApi {
     delete this.apisauce.headers['Authorization']
   }
 
+  async getAppSettings() {
+    const url = '/appconfig/'
+    return await this._get(url)
+  }
+
   async getChefReviews(chefId: string) {
     const url = `/bookings/reviews/${chefId}` //TODO url to const
     return await this._get(url)
@@ -141,8 +149,9 @@ export default class ChefApi {
     return await this._get(url)
   }
 
-  async getChefsByCuisine(cuisineId: string) {
-    const url = `/cook/cuisine/${cuisineId}`
+  async getChefsByCuisine(cuisineId: string, location: CustomerLocation) {
+    console.log('getting chefs by cuisine', cuisineId, location)
+    const url = `/cook/cuisine/${cuisineId}/${location.latitude}/${location.longitude}`
     return await this._get(url)
   }
 
@@ -214,8 +223,9 @@ export default class ChefApi {
     return await this._get(url)
   }
 
-  async getChefs() {
-    const url = `cook/top/`
+  async getChefs(location: CustomerLocation) {
+    console.log('getting top chefs', location)
+    const url = `cook/top/${location.latitude}/${location.longitude}`
     return await this._get(url)
   }
 
@@ -358,7 +368,7 @@ export default class ChefApi {
   }
 
   async _put(url: string, data = null)  {
-    const response = await this.apisauce.put(url, data)
+    const response = await this.apisauce.put(url, data || {})
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

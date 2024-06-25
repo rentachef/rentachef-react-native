@@ -68,7 +68,7 @@ const requestPermissions = () => {
 @observer
 export default class ChefDashboard extends React.Component<any, any> {
   constructor(props: any) {
-     super(props)
+    super(props)
 
     this.state = {
       reviews: [],
@@ -90,6 +90,7 @@ export default class ChefDashboard extends React.Component<any, any> {
 
     console.log('Chef profile', props.stores?.chefSettingsStore.profile)
     console.log('Chef profile setup', props.stores?.chefProfileStore)
+    console.log('App settings', props.stores?.searchStore.appsettings)
   }
 
   componentDidMount() {

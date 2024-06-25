@@ -5,6 +5,7 @@ import ChefSettings, {
 } from "../../models/chef/ChefSettings";
 import {CustomerLocation, PaymentMethod} from "../../models/user/CustomerSettings";
 import {isEmpty, sortBy} from "lodash";
+import { encryptData } from 'src/utils/encryptor';
 
 class CustomerSettingsStore {
   rootStore: any;
@@ -22,7 +23,6 @@ class CustomerSettingsStore {
         console.log('setting preferences', r?.data.preferences)
         this.setCustomerPreferences(r?.data.preferences || {})
         this.setCustomerLocation(r?.data.location || {})
-        this.setCustomerPaymentMethods
       }
     })
 
@@ -68,7 +68,18 @@ class CustomerSettingsStore {
       return response.error?.message
   }
 
-  addCard = (data: any) => this.rootStore.chefApi.addConsumerPaymentMethod(data)
+  addCard = async (data: any) => {
+    data = {
+      ...data,
+      stripeData: {
+        number: encryptData(data.stripeData.number),
+        exp_month: encryptData(data.stripeData.exp_month.toString()),
+        exp_year: encryptData(data.stripeData.exp_year.toString()),
+        cvc: encryptData(data.stripeData.cvc)
+      }
+    }
+    return await this.rootStore.chefApi.addConsumerPaymentMethod(data)
+  }
 
   getPaymentMethods = () => {
     this.rootStore.chefApi.getUserPaymentMethods().then((r: any) => {
@@ -80,6 +91,7 @@ class CustomerSettingsStore {
   }
 
   setDefaultPaymentMethod = async (id: string) => {
+    console.log('setting default pm', id)
     const response = await this.rootStore.chefApi.setDefaultPaymentMethod(id)
     if(response.ok)
       this.setCustomerPaymentMethods(this.paymentMethods.map(pm => {

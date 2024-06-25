@@ -20,6 +20,7 @@ import {inject, observer} from "mobx-react";
 import BookingRequest from "../../../../models/BookingRequest";
 import {isEmpty} from "lodash";
 import FAIcon from "react-native-vector-icons/FontAwesome";
+import InfoModal from 'src/components/modals/InfoModal';
 
 const formatName = (name: string) => name.split(' ').length > 1 ? `${name.split(' ')[0]} ${name.split(' ')[1][0]}.` : name
 
@@ -44,6 +45,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
   })
   const [modalIndex, setModalIndex] = useState(-1)
   const [showModal, setShowModal] = useState(false)
+  const [showDisclaimer, setShowDisclaimer] = useState(false)
 
   useEffect(() => {
     console.log(booking)
@@ -171,15 +173,24 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
           {!!booking.dateTime &&
             <Button
               title='Confirm Booking'
-              onPress={() => {
-                setBooking({...booking, total: calculateTotal()})
-                console.log('Booking Request:', JSON.stringify(booking))
-                setShowModal(true)
-              }}
+              onPress={() => setShowDisclaimer(true)}
             />}
         </View>
       </View>
       {showModal && <CheckoutModal navigation={navigation} action={book} onClose={() => setShowModal(false)}/>}
+      <InfoModal
+        visible={showDisclaimer}
+        message={'Please ensure you provide accurate ingredient information when placing your order. We rely on your input to accommodate dietary needs and allergies. Failure to disclose relevant information may result in unintended exposure to allergens.'}
+        iconName='fast-food-outline'
+        iconColor={Colors.primaryColor}
+        buttonTitle='Agree'
+        onButtonPress={() => {
+          setShowDisclaimer(false)
+          setBooking({...booking, total: calculateTotal()})
+          console.log('Booking Request:', JSON.stringify(booking))
+          setShowModal(true)
+        }}
+      />
       {modalIndex !== -1 &&
       <SafeAreaView style={{ flex: 2, position: 'absolute', width: '100%', height: '100%'}}>
         <RACBottomSheet

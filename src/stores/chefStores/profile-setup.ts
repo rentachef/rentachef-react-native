@@ -6,6 +6,7 @@ import ChefProfileSetup, {
   WorkZoneSetup, BankAccount, BackgroundCheck, PickupDetails
 } from "../../models/chef/ChefProfileSetup";
 import {isEmpty} from "lodash";
+import { decryptData, encryptData } from "src/utils/encryptor";
 
 class ChefProfileStore {
   rootStore: any;
@@ -101,9 +102,21 @@ class ChefProfileStore {
   }
 
   @action saveChefBankAccount = async (data: BankAccount) => {
-    const response = await this.rootStore.chefApi.setChefBankAccount(data)
+    //encrypt
+    const encryptedAccountNumber = encryptData(data.accountNumber);
+    const encryptedRoutingNumber = encryptData(data.routingNumber);
+
+    console.log('Encrypted Data', JSON.stringify({ encryptedRoutingNumber, encryptedAccountNumber }))
+
+    let bankData: BankAccount = {
+      ...data,
+      routingNumber: encryptedRoutingNumber,
+      accountNumber: encryptedAccountNumber,
+    }
+
+    const response = await this.rootStore.chefApi.setChefBankAccount(bankData)
     if(response.ok) {
-      this.setChefBankAccount(data)
+      this.setChefBankAccount(bankData)
       return 'SUCCESS'
     } else
       return response.error
@@ -136,7 +149,20 @@ class ChefProfileStore {
   }
 
   @action setChefBankAccount = (data: BankAccount) => {
-    this.bankAccount = Object.assign({}, data)
+    console.log('setting bank account', data)
+    let bankData: BankAccount = data
+    //decrypt
+    if(!isEmpty(data)) {
+      bankData = { 
+        ...data,
+        routingNumber: decryptData(data.routingNumber),
+        accountNumber: decryptData(data.accountNumber)
+      }
+    }
+
+    console.log('DecryptedData: ', JSON.stringify(bankData))
+
+    this.bankAccount = Object.assign({}, bankData)
   }
 
   @action setChefBackgroundCheck = (data: BackgroundCheck) => {

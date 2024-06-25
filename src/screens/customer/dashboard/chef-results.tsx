@@ -7,6 +7,7 @@ import ChefsList from "./chefs-list";
 import { inject } from 'mobx-react';
 
 const ChefResults = inject('stores')(({ stores, navigation, route }) => {
+  const [loading, setLoading] = useState(false)
   const [chefs, setChefs] = useState([])
 
   useEffect(() => {
@@ -14,8 +15,12 @@ const ChefResults = inject('stores')(({ stores, navigation, route }) => {
   }, [])
 
   const onSearch = (cuisineId) => {
-    stores.searchStore.getChefsByCuisine(cuisineId)
-      .then(res => setChefs(res))
+    setLoading(true)
+    stores.searchStore.getChefsByCuisine(cuisineId, stores.customerSettingsStore.defaultLocation)
+      .then(res => {
+        setChefs(res)
+        setLoading(false)
+      })
   }
 
   return (
@@ -23,10 +28,7 @@ const ChefResults = inject('stores')(({ stores, navigation, route }) => {
       <View>
         <SearchA navigation={navigation} searchText={route.params?.searchedValue.key} />
       </View>
-      <ChefsList data={chefs} title='Available Chefs' onSelect={(chef) => {
-        console.log('selected chef', chef)
-        navigation.navigate('ChefAbout', { chef })
-      }} />
+      <ChefsList loading={loading} data={chefs} title='Available Chefs' onSelect={(chef) => navigation.navigate('ChefAbout', { chef }) } />
     </ScrollView>
   )
 })

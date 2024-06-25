@@ -139,19 +139,20 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
 
   const getCurrentLocation = () => {
     console.log('DASHBOARD default location', stores.customerSettingsStore.defaultLocation)
-    if(isEmpty(stores.customerSettingsStore.defaultLocation)) {
-      console.log('obtaining current location...')
-      Geolocation.getCurrentPosition(position => {
-        console.log('current position', position)
-        Geocoder.from(position.coords.latitude, position.coords.longitude)
-          .then(json => {
-            let formattedLocation = getFormattedAddress(json.results[0].address_components)
-            console.log('formattedLocation', formattedLocation)
-            setLocation(formattedLocation)
-            stores.customerSettingsStore.setCustomerLocation(formattedLocation)
-          })
-      })
-    }
+    console.log('obtaining current location...')
+    Geolocation.getCurrentPosition(position => {
+      console.log('current position', position)
+      const { latitude, longitude } = position.coords
+      Geocoder.from(latitude, longitude)
+        .then(json => {
+          let formattedLocation = getFormattedAddress(json.results[0].address_components)
+          formattedLocation = { ...formattedLocation, latitude, longitude }
+          console.log('formattedLocation', formattedLocation)
+          setLocation(formattedLocation)
+          stores.customerSettingsStore.setCustomerLocation(formattedLocation)
+          stores.searchStore.getChefs(stores.customerSettingsStore.defaultLocation)
+        })
+    })
   }
 
   return (

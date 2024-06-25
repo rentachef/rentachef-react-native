@@ -20,7 +20,7 @@ const Logo = () => {
         fontWeight: '400',
         textAlign: 'center',
         justifyContent: 'center'
-      }}>RENT A CHEF</Text>
+      }}>CHEF UP NOW</Text>
     </View>
   )
 }

@@ -29,4 +29,6 @@ export interface CustomerLocation {
   address: string
   city: string
   postalCode: string
+  latitude: number
+  longitude: number
 }

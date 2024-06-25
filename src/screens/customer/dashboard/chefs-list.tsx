@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {LightText, Paragraph, SmallBoldHeading, Text} from "../../../components/text/CustomText";
 import {Card} from "react-native-elements";
 import {FlatList, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import Avatar from "../../../components/avatar/Avatar";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../../../theme/colors";
-import RACLoader from "../../../components/skeleton/RACLoader";
+import RACLoader from "../../../components/skeleton/RACEmptyResults";
 import { filter, isEmpty, mean } from 'lodash';
+import RACEmptyResults from '../../../components/skeleton/RACEmptyResults';
 
 const renderItem = (item, onSelect) =>
   <TouchableOpacity key={item.index} onPress={!!onSelect ? () => onSelect(item.item) : () => {}}>
@@ -32,7 +33,7 @@ const renderItem = (item, onSelect) =>
     </Card>
   </TouchableOpacity>
 
-const ChefsList = ({data, title, onSelect}) => {
+const ChefsList = ({data, title, onSelect, loading }) => {
   return (
     <SafeAreaView>
       {data.length > 0 ?
@@ -46,7 +47,7 @@ const ChefsList = ({data, title, onSelect}) => {
             })}
             renderItem={item => renderItem(item, onSelect)}
           />
-        </ScrollView> : <RACLoader size='xl' />}
+        </ScrollView> : <RACEmptyResults icon={'search-outline'} message={loading ? 'Searching for nearby chefs...' : 'No chefs where found nearby'} />}
     </SafeAreaView>
   )
 }

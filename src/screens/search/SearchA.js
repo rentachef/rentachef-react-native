@@ -307,7 +307,7 @@ export default class SearchA extends Component {
                 onKeyPress={this.getCooksList}
               />
             </TouchableOpacity>
-            <Icon name='filter-outline' size={23} style={styles.searchFilter} onPress={() => this.props.navigation.navigate('ChefFilters', { onSelect: this.applyFilters })} />
+            {/*<Icon name='filter-outline' size={23} style={styles.searchFilter} onPress={() => this.props.navigation.navigate('ChefFilters', { onSelect: this.applyFilters })} />*/}
           </View>
         </View>
         <Divider type='full-bleed' style={{ paddingVertical: 20 }} />
