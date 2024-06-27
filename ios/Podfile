@@ -76,6 +76,7 @@ target 'rentachef' do
     permissions_path = '../node_modules/react-native-permissions/ios'
     pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
     pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
+    pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary/Permission-PhotoLibrary.podspec"
     def fix_config(config)
         # https://github.com/CocoaPods/CocoaPods/issues/8891
         if config.build_settings['DEVELOPMENT_TEAM'].nil?

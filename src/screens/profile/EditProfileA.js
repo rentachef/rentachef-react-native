@@ -12,6 +12,7 @@ import {
   SafeAreaView, ScrollView,
   StatusBar,
   StyleSheet, TextInput,
+  Touchable,
   View,
 } from 'react-native';
 import Color from 'color';
@@ -30,6 +31,11 @@ import Button from "../../components/buttons/Button";
 import {inject} from "mobx-react";
 import {isEmpty} from "lodash";
 import {notifyError, notifySuccess} from "../../components/toast/toast";
+import { launchImageLibrary, ImagePickerResponse } from 'react-native-image-picker';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions';
+import _getBase64 from 'src/utils/imageConverter';
 
 // EditProfileA Config
 const AVATAR_SIZE = 100;
@@ -37,7 +43,7 @@ const IOS = Platform.OS === 'ios';
 const CAMERA_ICON = IOS ? 'ios-camera' : 'md-camera';
 const INPUT_FOCUSED_BORDER_COLOR = Colors.primaryColor;
 
-let profile_1 = require('@assets/img/profile_1.jpeg');
+let profile_1 = require('@assets/img/profile_1.jpg');
 
 // EditProfileA Styles
 const styles = StyleSheet.create({
@@ -128,8 +134,59 @@ export default class EditProfileA extends Component {
     this.state = {
       profile: this.role === 'Cook' ? {...props.stores.chefSettingsStore.profile} : {...props.stores.customerSettingsStore.profile},
       focus: false,
-      loading: false
+      loading: false,
+      profilePicUri: this.role === 'Cook' ? props.stores.chefSettingsStore.profile?.profilePicUri : props.stores.customerSettingsStore.profile?.profilePicUri
     };
+  }
+
+  onButtonPressed = () => {
+    check(Platform.OS === 'ios' ? PERMISSIONS.IOS.PHOTO_LIBRARY : PERMISSIONS.ANDROID.PHOTO_LIBRARY)
+      .then(perm => {
+        if(perm === RESULTS.GRANTED) {
+          launchImageLibrary({ selectionLimit: 1 })
+            .then((data: ImagePickerResponse) => {
+              console.log(data)
+              if(!data.didCancel) {
+                ImageResizer.createResizedImage(
+                  data.assets[0].uri,
+                  data.assets[0].width / 1.5,
+                  data.assets[0].height / 1.5,
+                  'JPEG',
+                  80,
+                  0,
+                  null,
+                  false,
+                  {
+                    mode: 'contain',
+                    onlyScaleDown: true
+                  }
+                )
+                  .then((response) => {
+                    console.log('resize done', response)
+                    this.setState({ profilePicUri: response.uri })
+                    // response.uri is the URI of the new image that can now be displayed, uploaded...
+                    // response.path is the path of the new image
+                    // response.name is the name of the new image with the extension
+                    // response.size is the size of the new image
+                    //@ts-ignorer
+                  })
+                  .catch((err) => {
+                    // Oops, something went wrong. Check that the filename is correct and
+                    // inspect err to get more details.
+                    console.log('ERROR!', err)
+                    //setShowCamera(false)
+                    //throw err
+                  });
+              }
+            })
+            .catch(err => {
+              console.log('error', err)
+              notifyError(err.message)
+            })
+        } else {
+          notifyError('Photo Library permission was denied')
+        }
+      })
   }
 
   goBack = () => {
@@ -143,7 +200,8 @@ export default class EditProfileA extends Component {
   }
 
   saveChanges = async () => {
-    const { profile } = this.state
+    const { profile, profilePicUri } = this.state
+    console.log('profile', profile)
 
     this.setState({ loading: true }, async () => {
       if(isEmpty(profile.fullName) && this.role === 'Cook')
@@ -151,6 +209,9 @@ export default class EditProfileA extends Component {
 
       if(isEmpty(profile.email))
         profile.email = this.props.stores.authStore.authInfo.attributes?.email
+
+      if(!isEmpty(profilePicUri))
+        profile.profilePicUri = await _getBase64(profilePicUri)
 
       let result = this.role === 'Cook' ?
         await this.props.stores.chefSettingsStore.saveChefProfile(profile) :
@@ -169,7 +230,7 @@ export default class EditProfileA extends Component {
   isValid = () => Object.values(this.state.profile).every((v: any) => !isEmpty(v))
 
   render() {
-    const { focus, profile } = this.state;
+    const { focus, profile, profilePicUri } = this.state;
 
     return (
       <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
@@ -181,14 +242,14 @@ export default class EditProfileA extends Component {
         <KeyboardAwareScrollView enableOnAndroid>
           <View style={styles.avatarSection}>
             <Avatar
-              imageUri={profile_1}
+              imageUri={profilePicUri || profile_1}
               rounded
               size={AVATAR_SIZE}
             />
 
             <View style={styles.whiteCircle}>
               <View style={styles.cameraButtonContainer}>
-                <TouchableItem>
+                <TouchableOpacity onPress={this.onButtonPressed}>
                   <View style={styles.cameraButton}>
                     <Icon
                       name={CAMERA_ICON}
@@ -196,7 +257,7 @@ export default class EditProfileA extends Component {
                       color={Colors.onPrimaryColor}
                     />
                   </View>
-                </TouchableItem>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

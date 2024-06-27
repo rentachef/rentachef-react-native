@@ -29,6 +29,8 @@ import {inject} from "mobx-react";
 import BookingNotes from 'src/screens/chef/bookings/booking-notes';
 import { KeyboardAvoidingView } from 'react-native';
 
+let profile_1 = require('@assets/img/profile_1.jpg');
+
 const formatName = (name: string) => name.split(' ').length > 1 ? `${name.split(' ')[0]} ${name.split(' ')[1][0]}.` : name
 
 const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
@@ -75,7 +77,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             </View>
             <View style={{ alignItems: 'center', flexBasis: '25%' }}>
               <Avatar
-                imageUri={booking.photo}
+                imageUri={booking.chefPicUri || profile_1}
                 rounded
                 size={40}
               />

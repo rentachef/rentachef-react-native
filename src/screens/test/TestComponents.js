@@ -189,7 +189,7 @@ export default class TestComponents extends Component {
             {'<Avatar imageUri="http://..." borderRadius={8} />'}
           </Caption>
           <Avatar
-            imageUri={require('@assets/img/profile_1.jpeg')}
+            imageUri={require('@assets/img/profile_1.jpg')}
             borderRadius={8}
             size="large"
           />

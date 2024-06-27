@@ -11,9 +11,9 @@ const ConfirmBooking = (props) => {
   const [estimate, setEstimate] = useState(1)
 
   return(
-    <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
+    <View style={{ flex: .8, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
       <Heading6>Confirm Booking</Heading6>
-      <Subtitle2>Select the number of hours you will need to complete the service. We’ll use this estimate to avoid schedule conflicts. </Subtitle2>
+      <Subtitle2>Select the number of hours you will need to complete the service. We'll use this estimate to avoid schedule conflicts. </Subtitle2>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', top: 10 }}>
         <View style={{ flexDirection: 'row' }}>
           <Icon name='clock-outline' size={26} color={Colors.secondaryText}/>

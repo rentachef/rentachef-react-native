@@ -56,8 +56,11 @@ const requestPermissions = () => {
       else
         pushNotifsResult = await requestNotifications(['alert', 'sound'])
       console.log('notifications permission result:', pushNotifsResult)
+      let galleryResult = null
+      if(Platform.OS === 'ios')
+        galleryResult = await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
     
-      resolve({ locationResult, pushNotifsResult })
+      resolve({ locationResult, pushNotifsResult, galleryResult })
     } catch(err) {
       reject(err)
     }
@@ -210,7 +213,7 @@ export default class ChefDashboard extends React.Component<any, any> {
                   </View>
                   <View style={{flex: .15, justifyContent: 'center'}}>
                     <Avatar
-                      imageUri={require('@assets/img/profile_1.jpeg')}
+                      imageUri={require('@assets/img/profile_1.jpg')}
                       rounded
                       size={50}
                     />

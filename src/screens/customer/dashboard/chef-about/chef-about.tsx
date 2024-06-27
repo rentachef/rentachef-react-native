@@ -45,7 +45,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
       <View style={{...globalStyles.screenContainer, flex: 1, paddingTop: 0, paddingBottom: 0, opacity: modalIndex !== -1 ? 0.5 : 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Avatar
-            imageUri={chef.photo}
+            imageUri={chef.settings.profile?.profilePicUri}
             borderRadius={16}
             size='xl'
           />
@@ -130,7 +130,7 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
                     userId: chef.userId,
                     name: chef.settings.profile.fullName,
                     availability: chef.availability,
-                    photo: chef.photo,
+                    photo: chef.settings.profile?.profilePicUri,
                     hourlyRate: chef.hourlyRate,
                     cuisines: chef.settings.bio.cuisines,
                     specialties: chef.settings.bio.specialties

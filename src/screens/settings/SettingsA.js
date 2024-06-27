@@ -52,7 +52,7 @@ const ABOUT_ICON = IOS
   : 'md-information-circle-outline';
 const LOGOUT_ICON = IOS ? 'ios-log-out' : 'md-log-out';
 
-let profile_1 = require('@assets/img/profile_1.jpeg');
+let profile_1 = require('@assets/img/profile_1.jpg');
 // SettingsA Styles
 const styles = StyleSheet.create({
   container: {
@@ -253,6 +253,15 @@ export default class SettingsA extends Component {
       return ''
   }
 
+  getProfilePic = () => {
+    if(this.role === 'Cook' && !!this.props.stores.chefSettingsStore.profile?.profilePicUri)
+      return this.props.stores.chefSettingsStore.profile?.profilePicUri
+    if(this.role === 'Consumer' && !!this.props.stores.customerSettingsStore.profile?.profilePicUri)
+      return this.props.stores.customerSettingsStore.profile?.profilePicUri
+    else
+      return ''
+  }
+
   hasBio = () => this.role === 'Cook' && !isEmpty(this.props.stores.chefSettingsStore.bio)
 
   deleteAccount = async () => {
@@ -306,7 +315,7 @@ export default class SettingsA extends Component {
               <View style={[styles.row, styles.profileContainer]}>
                 <View style={styles.leftSide}>
                   <Avatar
-                    imageUri={profile_1}
+                    imageUri={this.getProfilePic() || profile_1}
                     rounded
                     size={60}
                   />

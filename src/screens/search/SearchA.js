@@ -253,7 +253,7 @@ export default class SearchA extends Component {
         <View style={{padding: 5, flex: 1, flexDirection: 'row'}}>
           <View style={{flex: .15, justifyContent: 'center'}}>
             <Avatar
-              imageUri={require('@assets/img/profile_1.jpeg')}
+              imageUri={require('@assets/img/profile_1.jpg')}
               rounded
               size={50}
             />

@@ -9,6 +9,7 @@ export default interface ChefSettings {
 
 // PROFILE
 export interface Profile {
+  profilePicUri: string
   fullName: string
   email: string
   phoneNumber: string

@@ -108,13 +108,10 @@ let navigationRef = null;
 
 // MainNavigatorA
 const MainNavigatorA = inject('stores')((props) => {
-  console.log('props', props.stores.authStore.authInfo)
-  console.log('goTo prop', props.goTo)
   const { userId } = props.stores.authStore.authInfo
   const { goTo } = props
 
   useEffect(() => {
-    console.log('GOTO from props', goTo, !!goTo)
     if(!!goTo) {
       navigationRef.navigate(goTo);
       console.log('redirected from notification, cleaning...')

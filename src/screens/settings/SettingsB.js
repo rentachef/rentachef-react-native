@@ -49,7 +49,7 @@ const TERMS_ICON = IOS ? 'ios-paper' : 'md-paper';
 const ADD_ICON = IOS ? 'ios-add-circle-outline' : 'md-add-circle-outline';
 const LOGOUT_ICON = IOS ? 'ios-exit' : 'md-exit';
 
-let profile_1 = require('@assets/img/profile_1.jpeg');
+let profile_1 = require('@assets/img/profile_1.jpg');
 
 // SettingsB Styles
 const styles = StyleSheet.create({

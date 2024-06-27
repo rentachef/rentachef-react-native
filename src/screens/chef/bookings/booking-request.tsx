@@ -24,7 +24,7 @@ import moment from "moment";
 import { ConsoleLogger } from "@aws-amplify/core";
 import { confirmSetupIntent } from "@stripe/stripe-react-native";
 
-let profile_1 = require('@assets/img/profile_1.jpeg');
+let profile_1 = require('@assets/img/profile_1.jpg');
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -110,7 +110,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Avatar
-            imageUri={profile_1}
+            imageUri={booking.consumerPicUri || profile_1}
             rounded
             size={40}
           />

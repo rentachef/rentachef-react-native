@@ -67,7 +67,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
         <View style={{...globalStyles.screenContainer, opacity: modalIndex !== -1 ? 0.5 : 1}}>
           <View style={{ flexDirection: 'row' }}>
             <Icon name='credit-card-outline' size={25} color={Colors.secondaryText} style={{ marginHorizontal: 10, margin: 5 }} />
-            <LightText>Don’t worry, you won’t be billed until your service is complete</LightText>
+            <LightText>Don't worry, you won't be billed until your service is complete</LightText>
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
             <Icon name='map-marker-outline' size={30} color={Colors.secondaryText} style={{ flex: .5, flexBasis: '12%' }}/>

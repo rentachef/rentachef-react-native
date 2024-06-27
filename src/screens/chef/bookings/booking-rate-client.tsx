@@ -16,7 +16,7 @@ import { notifyWarn } from 'src/components/toast/toast';
 
 const colorScheme = Appearance.getColorScheme();
 
-let profile_1 = require('@assets/img/profile_1.jpeg');
+let profile_1 = require('@assets/img/profile_1.jpg');
 
 const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
   const [loading, setLoading] = useState(false)

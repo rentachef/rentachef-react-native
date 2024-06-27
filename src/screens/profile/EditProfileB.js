@@ -167,7 +167,7 @@ export default class EditProfileA extends Component {
               <View style={styles.avatarBg} />
               <View style={styles.whiteCircle}>
                 <Avatar
-                  imageUri={require('@assets/img/profile_1.jpeg')}
+                  imageUri={require('@assets/img/profile_1.jpg')}
                   rounded
                   size={AVATAR_SIZE}
                 />

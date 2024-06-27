@@ -217,6 +217,8 @@ PODS:
     - RNPermissions
   - Permission-LocationWhenInUse (3.8.4):
     - RNPermissions
+  - Permission-PhotoLibrary (3.8.4):
+    - RNPermissions
   - PromisesObjC (2.3.1)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
@@ -652,6 +654,7 @@ DEPENDENCIES:
   - OpenSSL-Universal (= 1.1.1100)
   - Permission-LocationAlways (from `../node_modules/react-native-permissions/ios/LocationAlways/Permission-LocationAlways.podspec`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse/Permission-LocationWhenInUse.podspec`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary/Permission-PhotoLibrary.podspec`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -766,6 +769,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/LocationAlways/Permission-LocationAlways.podspec"
   Permission-LocationWhenInUse:
     :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
+  Permission-PhotoLibrary:
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary/Permission-PhotoLibrary.podspec"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -910,6 +915,7 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   Permission-LocationAlways: 74a18ea4340ba4d239dd6604c3e1f6ddfd2cb10c
   Permission-LocationWhenInUse: c7a5678fb2b57def4a241a60fc81749a38392bd0
+  Permission-PhotoLibrary: 2079e259d23381fb3384b7bd799dea4ceec4d332
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: b9d9fe1fc70114b751c076104e52f3b1b5e5a95a
   RCTRequired: b9e53f0512019150020156fa0dacd6583ab838be
@@ -976,6 +982,6 @@ SPEC CHECKSUMS:
   Yoga: 8a90b50af67eaa9fe94fd03e550bfeab06096873
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: a58c9c99841cb4dafb8bce991707d804f9d28fd6
+PODFILE CHECKSUM: 4af7450186bb6a0194ed8cb254fda6282cdfc7a8
 
 COCOAPODS: 1.14.3

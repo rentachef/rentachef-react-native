@@ -24,5 +24,7 @@ export default interface ChefBooking {
     total: number
   }
   chefId: string,
-  chefName: string
+  chefName: string,
+  chefPicUri: string,
+  consumerPicUri: string
 }

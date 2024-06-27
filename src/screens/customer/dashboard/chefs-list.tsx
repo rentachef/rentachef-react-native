@@ -14,7 +14,7 @@ const renderItem = (item, onSelect) =>
     <Card key={item.index} wrapperStyle={styles.cardWrapper} containerStyle={styles.cardContainer}>
       <View style={styles.cardPhoto}>
         <Avatar
-          imageUri={item.item.photo}
+          imageUri={item.item.settings.profile?.profilePicUri}
           rounded
           size={50}
         />
@@ -42,7 +42,6 @@ const ChefsList = ({data, title, onSelect, loading }) => {
           <FlatList
             data={data.map(d => {
               d.chefBookings = filter(d.chefBookings, b => !isEmpty(b))
-              console.log(JSON.stringify(d.chefBookings))
               return d
             })}
             renderItem={item => renderItem(item, onSelect)}
