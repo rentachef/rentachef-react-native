@@ -4,7 +4,7 @@ import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
 import {ButtonGroup, Card, ListItem} from "react-native-elements";
 import {useState} from "react";
-import {inject, observer} from "mobx-react";
+import {PropTypes, inject, observer} from "mobx-react";
 import Avatar from '../../../components/avatar/Avatar';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ChefBooking, {BookingStatus} from "../../../models/chef/ChefBooking";
@@ -19,10 +19,11 @@ import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import ConfirmBooking from "./confirm-booking";
 import {Text} from '../../../components/text/CustomText';
 import BookingNotes from "./booking-notes";
-import {notifyError, notifyWarn} from "../../../components/toast/toast";
+import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
 import moment from "moment";
 import { ConsoleLogger } from "@aws-amplify/core";
 import { confirmSetupIntent } from "@stripe/stripe-react-native";
+import { map } from "lodash";
 
 let profile_1 = require('@assets/img/profile_1.jpg');
 
@@ -67,7 +68,11 @@ const BookingRequest = inject('stores')(observer((props)  => {
   const [currentPosition, setCurrentPosition] = useState<Coordinates>({})
   const [modalIndex, setModalIndex] = useState(-1)
   const [booking, setBooking] = useState(props.route.params.booking)
+  const [ingredients, setIngredients] = useState(booking.ingredients?.join(', '))
   const [showNotes, setShowNotes] = useState(false)
+  const [showIngredients, setShowIngredients] = useState(false)
+  const [editIngredients, setEditIngredients] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { hourlyRate } = props.stores.chefProfileStore
 
   console.log('booking', booking)
@@ -78,17 +83,43 @@ const BookingRequest = inject('stores')(observer((props)  => {
   }, [])
 
   const confirmBooking = (estimate: number) => {
-    console.log('confirmando booking', estimate)
-    props.stores.bookingsStore.updateBooking(booking._id, { status: 'Confirmed', estimate })
-      .then( _ => {
-        booking.status = 'Confirmed';
-        booking.estimate = estimate;
+    console.log('confirming booking', estimate)
+    props.stores.bookingsStore.updateBooking(booking._id, { 
+      status: 'Confirmed',
+      estimate,
+      dish: booking.dish.label,
+      chefName: booking.chefName,
+      consumerId: booking.consumerId
+    }).then(res => {
+        console.log('confirm booking response', res)
+        booking.status = 'Confirmed'
+        booking.estimate = estimate
+        if(Array.isArray(res)) { //return an array when booking confirmend and ingredients fetched
+          console.log('response is an array of ingredients')
+          booking.ingredients = res
+        }
         setBooking(booking)
         setModalIndex(-1)
       })
       .catch(err => {
         console.log('Error updating booking', err.message)
-        notifyError(err.message)
+      })
+  }
+
+  const updateIngredients = () => {
+    console.log('updating ingredientes')
+    setLoading(true)
+    props.stores.bookingsStore.updateBooking(booking._id, {
+      ingredients: map(ingredients.split(','), i => i.trim())
+    })
+      .then(_ => {
+        notifySuccess('Ingredients saved successfuly!')
+        setLoading(false)
+        setEditIngredients(false)
+      })
+      .catch(err => {
+        console.log('Error saving ingredients', err)
+        notifyError('Error saving ingredients, make sure the text is correct with all ingredients separated by comma', 3000)
       })
   }
 
@@ -152,24 +183,62 @@ const BookingRequest = inject('stores')(observer((props)  => {
             <Text style={{ margin: 5 }}>{booking.dish.label}</Text>
           </View>
         </View>
-        <View>
+        {!!booking.ingredients?.length &&
+          <View>
             <ListItem.Accordion
               containerStyle={{ paddingHorizontal: 0, paddingBottom: 5, backgroundColor: Colors.background }}
-              isExpanded={showNotes}
-              onPress={() => setShowNotes(!showNotes)}
+              isExpanded={showIngredients}
+              onPress={() => setShowIngredients(!showIngredients)}
               content={
                 <ListItem.Content>
-                  <Text>Notes</Text>
+                  <Text>Ingredients</Text>
                 </ListItem.Content>
               }
             >
               <ListItem containerStyle={{ borderColor: Colors.backgroundLight, borderWidth: 1, backgroundColor: Colors.background}}>
                 <ListItem.Content style={{ backgroundColor: Colors.background }}>
-                  <Text>{booking.notes}</Text>
+                  <TextInput
+                    style={{ color: editIngredients ? Colors.primaryText : Colors.secondaryText }}
+                    multiline
+                    editable={editIngredients}
+                    value={ingredients}
+                    onChangeText={value => setIngredients(value)}
+                  />
                 </ListItem.Content>
               </ListItem>
+              <Button
+                buttonStyle={{ width: '20%', alignSelf: 'center', marginTop: 5 }}
+                title={editIngredients ? 'Save' : 'Edit'}
+                onPress={() => {
+                  if(!editIngredients)
+                    setEditIngredients(true)
+                  else
+                    updateIngredients()
+                }}
+                loading={loading && editIngredients}
+                outlined
+              />
             </ListItem.Accordion>
-          </View>
+          </View>}
+        <Divider dividerStyle={{ marginTop: 10 }} type='inset'/>
+        <View>
+          <ListItem.Accordion
+            containerStyle={{ paddingHorizontal: 0, paddingBottom: 5, backgroundColor: Colors.background }}
+            isExpanded={showNotes}
+            onPress={() => setShowNotes(!showNotes)}
+            content={
+              <ListItem.Content>
+                <Text>Notes</Text>
+              </ListItem.Content>
+            }
+          >
+            <ListItem containerStyle={{ borderColor: Colors.backgroundLight, borderWidth: 1, backgroundColor: Colors.background}}>
+              <ListItem.Content style={{ backgroundColor: Colors.background }}>
+                <Text>{booking.notes}</Text>
+              </ListItem.Content>
+            </ListItem>
+          </ListItem.Accordion>
+        </View>
         {/*<TouchableOpacity onPress={() => setModalIndex(1)}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
             <Text>Notes</Text>

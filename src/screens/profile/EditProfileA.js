@@ -140,7 +140,7 @@ export default class EditProfileA extends Component {
   }
 
   onButtonPressed = () => {
-    check(Platform.OS === 'ios' ? PERMISSIONS.IOS.PHOTO_LIBRARY : PERMISSIONS.ANDROID.PHOTO_LIBRARY)
+    check(Platform.OS === 'ios' ? PERMISSIONS.IOS.PHOTO_LIBRARY : PERMISSIONS.ANDROID.READ_MEDIA_IMAGES)
       .then(perm => {
         if(perm === RESULTS.GRANTED) {
           launchImageLibrary({ selectionLimit: 1 })

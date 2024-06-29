@@ -56,10 +56,8 @@ const requestPermissions = () => {
       else
         pushNotifsResult = await requestNotifications(['alert', 'sound'])
       console.log('notifications permission result:', pushNotifsResult)
-      let galleryResult = null
-      if(Platform.OS === 'ios')
-        galleryResult = await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
-    
+      let galleryResult = await request(Platform.OS === 'android' ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES : PERMISSIONS.IOS.PHOTO_LIBRARY)
+      console.log('gallery permission result: ', galleryResult)
       resolve({ locationResult, pushNotifsResult, galleryResult })
     } catch(err) {
       reject(err)
@@ -97,10 +95,10 @@ export default class ChefDashboard extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    console.log('asking for notifications permission')
+    console.log('asking for permissions')
     requestPermissions()
       .then(result => {
-        console.log(result)
+        console.log('permissions result', result)
         if(result.pushNotifsResult.status === 'granted')
           this.props.stores.authStore.saveDeviceToken()
       })

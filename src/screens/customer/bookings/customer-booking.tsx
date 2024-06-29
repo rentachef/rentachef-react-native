@@ -39,6 +39,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
   const [modalIndex, setModalIndex] = useState(-1)
   const [cancellationFee, setCancellationFee] = useState(false)
   const [hourlyRate, setHourlyRate] = useState(0)
+  const [showIngredients, setShowIngredients] = useState(false)
   const { role } = stores.authStore.authInfo
 
   console.log('ChargeDetails:', booking)
@@ -56,7 +57,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
 
   const getTotal = () => {
     if(booking.status === 'Confirmed')
-      return hourlyRate.toFixed(2)
+      return (hourlyRate * booking.estimate).toFixed(2)
     if(booking.status === 'Completed')
       return ((booking.paymentDetails?.transaction?.stripeAmount + (booking.paymentDetails?.tip?.transaction?.stripeAmount || 0)) / 100).toFixed(2)
   }
@@ -104,10 +105,30 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
               <HeadlineBold>{booking.cuisine.label}</HeadlineBold>
             </View>
           </View>
+          {!!booking.ingredients?.length &&
+            <View>
+              <ListItem.Accordion
+                containerStyle={{ paddingHorizontal: 0, paddingBottom: 5, backgroundColor: Colors.background }}
+                isExpanded={showIngredients}
+                onPress={() => setShowIngredients(!showIngredients)}
+                content={
+                  <ListItem.Content>
+                    <Text>Ingredients</Text>
+                  </ListItem.Content>
+                }
+              >
+                <ListItem containerStyle={{ borderColor: Colors.backgroundLight, borderWidth: 1, backgroundColor: Colors.background}}>
+                  <ListItem.Content style={{ backgroundColor: Colors.background }}>
+                    <Text>{booking.ingredients.join(', ')}</Text>
+                  </ListItem.Content>
+                </ListItem>
+              </ListItem.Accordion>
+            </View>}
+          <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <TouchableOpacity onPress={() => setModalIndex(1)}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
               <Text>Notes</Text>
-              <Icon name='chevron-right' size={30} style={{ paddingHorizontal: 0 }} color={Colors.secondaryText}/>
+              <Icon name='chevron-down' size={25} style={{ paddingHorizontal: 0 }} color={Colors.secondaryText}/>
             </View>
           </TouchableOpacity>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />

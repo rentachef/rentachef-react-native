@@ -263,8 +263,10 @@ class App extends React.Component {
           //redirect to chat
           console.log(
             'Notification caused app to open from quit state:',
-            remoteMessage.notification,
+            remoteMessage,
           );
+          if(!!remoteMessage.data?.screen)
+            this.setState({ goTo: remoteMessage.data?.screen })
         }
       });
   
@@ -284,9 +286,12 @@ class App extends React.Component {
       //redirect to chat
       console.log(
         'Notification caused app to open from background state:',
-        remoteMessage.notification,
+        remoteMessage,
       );
-      this.setState({ goTo: role === 'Cook' ? 'ChefChatList': 'CustomerChatList' })
+      if(!!remoteMessage.data)
+        this.setState({ goTo: 'Bookings' })
+      else
+        this.setState({ goTo: role === 'Cook' ? 'ChefChatList': 'CustomerChatList' })
     });
   }
 

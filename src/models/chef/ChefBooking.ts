@@ -16,6 +16,7 @@ export default interface ChefBooking {
   paymentMethod?: PaymentMethods
   amount?: number
   notes?: string
+  ingredients: [string],
   chargeDetails?: {
     hoursWorked: number
     gst_hst: number

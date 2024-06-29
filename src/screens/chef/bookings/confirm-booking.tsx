@@ -9,6 +9,7 @@ import {Text} from '../../../components/text/CustomText';
 
 const ConfirmBooking = (props) => {
   const [estimate, setEstimate] = useState(1)
+  const [loading, setLoading] = useState(false)
 
   return(
     <View style={{ flex: .8, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
@@ -31,8 +32,9 @@ const ConfirmBooking = (props) => {
       <View style={styles.buttonContainer}>
         <Button
           title='Confirm Booking'
+          loading={loading}
           onPress={() => {
-            console.log('confirming booking', estimate)
+            setLoading(true)
             props.onConfirm(estimate)
           }}
         />

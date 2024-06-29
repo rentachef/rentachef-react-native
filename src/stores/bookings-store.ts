@@ -45,8 +45,10 @@ class BookingsStore {
       let index = this.bookings.findIndex(b => b._id === id)
       let booking = this.bookings.find(b => b._id === id)
       this.bookings[index] = { ...booking, ...update }
-      console.log('updated store bookings: ', this.bookings)
-    }
+      console.log('updated booking response:', result.data)
+      return result.data
+    } else
+      throw new Error('Error updating booking')
   }
 
   @action setBookings = (data: any) => {
