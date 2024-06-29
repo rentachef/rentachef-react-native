@@ -77,6 +77,7 @@ target 'rentachef' do
     pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
     pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
     pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary/Permission-PhotoLibrary.podspec"
+    pod 'Permission-Camera', :path => "#{permissions_path}/Camera/Permission-Camera.podspec"
     def fix_config(config)
         # https://github.com/CocoaPods/CocoaPods/issues/8891
         if config.build_settings['DEVELOPMENT_TEAM'].nil?
