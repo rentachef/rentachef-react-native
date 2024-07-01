@@ -103,7 +103,7 @@ const themes = {
 
     // text color
     primaryText: 'white',
-    secondaryText: '#A0A6B2',
+    secondaryText: '#6B727F',
     disabledText: 'rgba(255, 255, 255, 0.38)',
     
     placeholderColor: '#6B727F',

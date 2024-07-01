@@ -122,6 +122,33 @@ const styles = StyleSheet.create({
   },
 });
 
+const dynamicResizeImage = (imageUri, width, height) => {
+  let divisor = 2.5;
+  if (width > 4000 || height > 4000) {
+    divisor = 4; // Adjust the divisor based on image size
+  } else if (width > 2000 || height > 2000) {
+    divisor = 3;
+  }
+
+  const newWidth = width / divisor;
+  const newHeight = height / divisor;
+
+  return ImageResizer.createResizedImage(
+    imageUri,
+    newWidth,
+    newHeight,
+    'JPEG',
+    80, // Adjust the quality as needed
+    0,
+    null,
+    false,
+    {
+      mode: 'contain',
+      onlyScaleDown: true
+    }
+  );
+};
+
 // EditProfileA
 @inject('stores')
 export default class EditProfileA extends Component {
@@ -147,21 +174,11 @@ export default class EditProfileA extends Component {
             .then((data: ImagePickerResponse) => {
               console.log(data)
               if(!data.didCancel) {
-                ImageResizer.createResizedImage(
+                dynamicResizeImage(
                   data.assets[0].uri,
-                  data.assets[0].width / 1.5,
-                  data.assets[0].height / 1.5,
-                  'JPEG',
-                  80,
-                  0,
-                  null,
-                  false,
-                  {
-                    mode: 'contain',
-                    onlyScaleDown: true
-                  }
-                )
-                  .then((response) => {
+                  data.assets[0].width,
+                  data.assets[0].height
+                ).then((response) => {
                     console.log('resize done', response)
                     this.setState({ profilePicUri: response.uri })
                     // response.uri is the URI of the new image that can now be displayed, uploaded...

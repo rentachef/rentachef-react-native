@@ -49,12 +49,12 @@ const defaultProps = {
 };
 
 const radiusMap = {
-  0: 300,
-  10: 350,
-  20: 400,
-  30: 450,
-  40: 500,
-  50: 550
+  0: 500,
+  10: 16093,
+  20: 32186,
+  30: 48280,
+  40: 64373,
+  50: 80467
 }
 
 @inject('stores')
@@ -260,8 +260,9 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
                 listViewDisplayed={false}
                 styles={{
                   textInput: workZoneSetupStyles.inputGroupItem,
-                  row: { backgroundColor: Colors.backgroundLight },
-                  listView: { borderRadius: 10 }
+                  row: { backgroundColor: Colors.backgroundLight, color: Colors.success },
+                  listView: { borderRadius: 10, color: Colors.success },
+                  description: { color: Colors.primaryText }
                 }}
               />
             </KeyboardAwareScrollView>
@@ -465,13 +466,12 @@ const workZoneSetupStyles = StyleSheet.create({
   inputGroupItem: {
     flex: 1,
     width: '100%',
-    backgroundColor: Colors.backgroundLight,
+    backgroundColor: Colors.background,
     paddingHorizontal: 20,
-    borderColor: Colors.backgroundDark,
+    borderColor: Colors.backgroundLight,
     borderWidth: 2,
     borderRadius: 12,
-    margin: 5,
-    color: Colors.secondaryText,
+    margin: 5
   },
   inputGroupItemFocused: {
     borderColor: Colors.primaryColor,
