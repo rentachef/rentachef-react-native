@@ -471,7 +471,8 @@ const workZoneSetupStyles = StyleSheet.create({
     borderColor: Colors.backgroundLight,
     borderWidth: 2,
     borderRadius: 12,
-    margin: 5
+    margin: 5,
+    color: Colors.primaryText
   },
   inputGroupItemFocused: {
     borderColor: Colors.primaryColor,
