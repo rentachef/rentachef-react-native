@@ -311,6 +311,7 @@ class App extends React.Component {
 
     // Check for initial notification if the app was opened from background
     PushNotificationIOS.getInitialNotification().then(notification => {
+      PushNotificationIOS.setApplicationIconBadgeNumber(0)
       if (notification) {
         this.handleNotification(notification);
       }

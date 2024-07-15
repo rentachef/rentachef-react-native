@@ -17,6 +17,9 @@ import {check, request, PERMISSIONS, requestNotifications} from 'react-native-pe
 import SetupModal from '../../welcome/Setup';
 import InfoModal from 'src/components/modals/InfoModal';
 import toast from 'src/components/toast/toast';
+import { autorun } from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'src/components/icon/Icon';
 
 Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
 
@@ -97,7 +100,7 @@ const getFormattedAddress = (address_components: any) => {
 const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => {
   const { role } = stores.authStore.authInfo
   const [modalIndex, setModalIndex] = useState(-1)
-  const [location, setLocation] = useState<CustomerLocation>(stores.customerSettingsStore.defaultLocation || {})
+  const [location, setLocation] = useState<CustomerLocation | {}>({})
   const [beginnerSetup, setBeginnerSetup] = useState({
     profile: true,
     preferences: true,
@@ -109,25 +112,26 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   useEffect(() => {
     console.log('mounting dashboard...')
     setTimeout(() => {
-      console.log('profile', !isEmpty(stores.customerSettingsStore.profile))
-      console.log('preferences', !isEmpty(stores.customerSettingsStore.preferences))
-      console.log('paymentMethods', !isEmpty(stores.customerSettingsStore.paymentMethods))
-
+      console.log('asking for permissions')
+        requestPermissions()
+          .then(result => {
+            console.log('permissions result', result)
+            if(result.pushNotifsResult.status === 'granted')
+              stores.authStore.saveDeviceToken()
+            console.log('store location in dashboard', stores.customerSettingsStore.defaultLocation)
+            if(result.locationResult === 'granted' && isEmpty(location)) {
+              console.log('LOCATION IS', location)
+              getCurrentLocation()
+            }
+          })
+    }, 2000)
+    setTimeout(() => {
       setBeginnerSetup({
         profile: !isEmpty(stores.customerSettingsStore.profile),
         preferences: !isEmpty(stores.customerSettingsStore.preferences),
         paymentMethods: !isEmpty(stores.customerSettingsStore.paymentMethods)
       })
     }, 3000)
-    console.log('asking for permissions')
-    requestPermissions()
-      .then(result => {
-        console.log('permissions result', result)
-        if(result.pushNotifsResult.status === 'granted')
-          stores.authStore.saveDeviceToken()
-        if(result.locationResult === 'granted')
-          getCurrentLocation()
-      })
   }, [])
 
   useEffect(() => {
@@ -137,72 +141,87 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
 
   const navigate = ({stack, page}) => navigation.navigate(stack, { screen: page })
 
-  const getCurrentLocation = () => {
-    console.log('DASHBOARD default location', stores.customerSettingsStore.defaultLocation)
-    console.log('obtaining current location...')
-    Geolocation.getCurrentPosition(position => {
-      console.log('current position', position)
-      const { latitude, longitude } = position.coords
-      Geocoder.from(latitude, longitude)
-        .then(json => {
-          let formattedLocation = getFormattedAddress(json.results[0].address_components)
-          formattedLocation = { ...formattedLocation, latitude, longitude }
-          console.log('formattedLocation', formattedLocation)
-          setLocation(formattedLocation)
-          stores.customerSettingsStore.setCustomerLocation(formattedLocation)
-          stores.searchStore.getChefs(stores.customerSettingsStore.defaultLocation)
-        })
-    })
+  const getCurrentLocation = async () => {
+    let storedLocation = await AsyncStorage.getItem('@location')
+    if(!!storedLocation) {
+      let loc = JSON.parse(storedLocation)
+      setLocation(loc)
+      stores.searchStore.getChefs(loc)
+    } else {
+      console.log('DASHBOARD default location', stores.customerSettingsStore.defaultLocation)
+      console.log('obtaining current location...')
+      Geolocation.getCurrentPosition(position => {
+        console.log('current position', position)
+        const { latitude, longitude } = position.coords
+        Geocoder.from(latitude, longitude)
+          .then(json => {
+            let formattedLocation = getFormattedAddress(json.results[0].address_components)
+            formattedLocation = { ...formattedLocation, latitude, longitude }
+            console.log('formattedLocation', formattedLocation)
+            setLocation(formattedLocation)
+            stores.customerSettingsStore.setCustomerLocation(formattedLocation)
+            stores.searchStore.getChefs(stores.customerSettingsStore.defaultLocation)
+          })
+      })
+    }
+  }
+
+  const onLocationChange = (newLocation) => {
+    console.log('location changed', newLocation)
+    stores.customerSettingsStore.setCustomerLocation(newLocation)
+    let storeLocation = stores.customerSettingsStore.defaultLocation
+    setLocation(storeLocation)
+    stores.searchStore.getChefs(storeLocation)
   }
 
   return (
     <ScrollView style={styles.screenContainer}>
       {/*validators.some(v => !v.valid) ? <SetupModal navigateTo={navigate} missing={validators.filter(v => !v.valid)} /> :*/}
       <InfoModal
-            visible={modalVisible}
-            message={'Please complete your profile and settings in order to book a cook'}
-            iconName='information-circle-sharp'
-            iconColor='indianred'
-            buttonTitle='Finish profile setup'
-            onButtonPress={() => {
-              setModalVisible(false)
-              navigation.navigate('Settings')
-            }}
-          />
-        <View style={{ opacity: modalIndex !== -1 ? 0.3: 1 }}>
-          <TouchableOpacity style={styles.dashboardContainer} onPress={() => {
-            toast.notifyWarn('Feature not available, please let the cook know your address in the chat', 3000)
-            //setModalIndex(0)
-          }}>
-            <Text>{location.address} - </Text><LightText>Today</LightText>
-          </TouchableOpacity>
-          <View>
-            <SearchA navigation={navigation} />
-            <View style={{ paddingTop: 15 }}>
-              <SmallBoldHeading>Popular Cuisines</SmallBoldHeading>
-              <CuisinesCarousel onSelect={(item: any) => navigation.navigate('ChefResults', { searchedValue: item._id })} />
-            </View>
-            <Divider type='full-bleed' />
-            <ChefsList data={stores.searchStore.topChefs} title='Top rated chefs near you' onSelect={(chef) => {
-              console.log('selected chef', JSON.stringify(chef))
-              navigation.navigate('ChefAbout', { chef })
-            }} />
+        visible={modalVisible}
+        message={'Please complete your profile and settings in order to book a cook'}
+        iconName='information-circle-sharp'
+        iconColor='indianred'
+        buttonTitle='Finish profile setup'
+        onButtonPress={() => {
+          setModalVisible(false)
+          navigation.navigate('Settings')
+        }}
+      />
+      <View style={{ opacity: modalIndex !== -1 ? 0.3: 1 }}>
+        <TouchableOpacity style={styles.dashboardContainer} onPress={() => {
+          //toast.notifyWarn('Feature not available, please let the cook know your address in the chat', 3000)
+          setModalIndex(0)
+        }}>
+          <Text style={{ marginRight: 5 }}>{location.address}</Text>{location.address && <Icon name='location' size={20} color="#777" />}{/*<LightText>Today</LightText>*/}
+        </TouchableOpacity>
+        <View>
+          <SearchA navigation={navigation} />
+          <View style={{ paddingTop: 15 }}>
+            <SmallBoldHeading>Popular Cuisines</SmallBoldHeading>
+            <CuisinesCarousel onSelect={(item: any) => navigation.navigate('ChefResults', { searchedValue: item._id })} />
           </View>
+          <Divider type='full-bleed' />
+          <ChefsList data={stores.searchStore.topChefs} title='Top rated chefs near you' onSelect={(chef) => {
+            console.log('selected chef', JSON.stringify(chef))
+            navigation.navigate('ChefAbout', { chef })
+          }} />
         </View>
-        {modalIndex !== -1 &&
-        <SafeAreaView style={{ position: 'absolute', width: '100%', height: '100%' }}>
-          <RACBottomSheet
-            onSheetChanges={(index: any) => {
-              console.log('value', index)
-            }}
-            index={modalIndex}
-            size={'80%'}
-            onClose={() => setModalIndex(-1)}
-            enableSwipeClose
-          >
-            <ServiceDetails navigation={navigation} onClose={() => setModalIndex(-1)} />
-          </RACBottomSheet>
-        </SafeAreaView>}
+      </View>
+      {modalIndex !== -1 &&
+      <SafeAreaView style={{ position: 'absolute', width: '100%', height: '100%' }}>
+        <RACBottomSheet
+          onSheetChanges={(index: any) => {
+            console.log('value', index)
+          }}
+          index={modalIndex}
+          size={'80%'}
+          onClose={() => setModalIndex(-1)}
+          enableSwipeClose
+        >
+          <ServiceDetails onLocationChange={onLocationChange} data={location} navigation={navigation} onClose={() => setModalIndex(-1)} />
+        </RACBottomSheet>
+      </SafeAreaView>}
     </ScrollView>
   )
 }))

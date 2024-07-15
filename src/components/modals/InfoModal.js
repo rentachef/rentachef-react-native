@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     width: '100%',
   },
+  btn: {
+    marginVertical: 5,
+  }
 });
 
 // InfoModal Props
@@ -80,7 +83,7 @@ const InfoModal = ({
   visible = false,
 }: Props) => (
   <Modal
-    animationType="none"
+    animationType="slide"
     transparent
     visible={visible}
     onRequestClose={onRequestClose}>
@@ -95,7 +98,8 @@ const InfoModal = ({
         )}
 
         <View style={styles.buttonContainer}>
-          <Button onPress={onButtonPress} title={buttonTitle} />
+          <Button buttonStyle={styles.btn} onPress={onButtonPress} title={buttonTitle} />
+          <Button buttonStyle={styles.btn} outlined titleColor='indianred' borderColor='indianred' onPress={onRequestClose} title='Cancel' />
         </View>
       </View>
     </View>

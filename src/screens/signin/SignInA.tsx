@@ -13,6 +13,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  Linking
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { Auth } from 'aws-amplify';
@@ -32,6 +33,7 @@ import Logo from "../components/logo";
 import {notifyError, notifySuccess, notifyWarn} from "../../components/toast/toast";
 import { Text } from 'src/components/text/CustomText';
 import { isEmpty } from 'lodash';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // SignInA Config
 const PLACEHOLDER_TEXT_COLOR = Colors.placeholderTextColor;
@@ -161,7 +163,7 @@ export default class SignInA extends Component {
 
   passwordFocus = () => {
     this.setState({
-      passwordFocused: false,
+      passwordFocused: true,
       emailFocused: false,
     })
   }
@@ -259,6 +261,8 @@ export default class SignInA extends Component {
       inputModalNewPasswordVisible
     } = this.state;
 
+    console.log('passwordFocused', passwordFocused)
+
     return (
       <SafeAreaView style={styles.screenContainer}>
         <StatusBar
@@ -304,7 +308,7 @@ export default class SignInA extends Component {
                 placeholderTextColor={PLACEHOLDER_TEXT_COLOR}
                 inputTextColor={INPUT_TEXT_COLOR}
                 secureTextEntry={secureTextEntry}
-                borderColor={INPUT_BORDER_COLOR}
+                borderColor={passwordFocused ? INPUT_FOCUSED_BORDER_COLOR : INPUT_BORDER_COLOR}
                 focusedBorderColor={INPUT_FOCUSED_BORDER_COLOR}
                 toggleVisible={password.length > 0}
                 toggleText={secureTextEntry ? 'Show' : 'Hide'}
@@ -367,13 +371,17 @@ export default class SignInA extends Component {
                   By signing in, you accept our
                 </Text>
                 <View style={styles.termsContainer}>
-                  <Text style={[styles.footerText, styles.footerLink]}>
-                    Terms & Conditions
-                  </Text>
+                  <TouchableOpacity onPress={() => Linking.openURL('https://chefupnow.com')}>
+                    <Text style={[styles.footerText, styles.footerLink]}>
+                      Terms & Conditions
+                    </Text>
+                  </TouchableOpacity>
                   <Text style={styles.footerText}> and </Text>
-                  <Text style={[styles.footerText, styles.footerLink]}>
-                    Privacy Policy
-                  </Text>
+                  <TouchableOpacity onPress={() => Linking.openURL('https://chefupnow.com')}>
+                    <Text style={[styles.footerText, styles.footerLink]}>
+                      Privacy Policy
+                    </Text>
+                  </TouchableOpacity>
                   <Text style={styles.footerText}>.</Text>
                 </View>
               </View>

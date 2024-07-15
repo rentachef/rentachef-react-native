@@ -8,6 +8,7 @@
 // import dependencies
 import React, {Component} from 'react';
 import {
+  BackHandler,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -128,7 +129,7 @@ export default class TermsConditionsA extends Component {
 
         <View style={styles.buttonsContainer}>
           <Button
-            onPress={this.goBack}
+            onPress={() => BackHandler.exitApp()}
             buttonStyle={styles.button}
             title="Decline"
             outlined

@@ -138,38 +138,6 @@ export default class SearchA extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: [
-        {
-          key: 1,
-          imageUri: require('@assets/img/pizza_3.jpg'),
-          name: 'Pizza',
-        },
-        {
-          key: 2,
-          imageUri: require('@assets/img/meat_1.jpg'),
-          name: 'Grill',
-        },
-        {
-          key: 3,
-          imageUri: require('@assets/img/spaghetti_2.jpg'),
-          name: 'Pasta',
-        },
-        {
-          key: 4,
-          imageUri: require('@assets/img/soup_1.jpg'),
-          name: 'Soups',
-        },
-        {
-          key: 5,
-          imageUri: require('@assets/img/salad_1.jpg'),
-          name: 'Salads',
-        },
-        {
-          key: 6,
-          imageUri: require('@assets/img/cake_2.jpg'),
-          name: 'Dessert',
-        },
-      ],
       cooks: [],
       searchText: props.searchText || ''
     };
@@ -276,8 +244,6 @@ export default class SearchA extends Component {
   }
 
   render() {
-    const {categories} = this.state;
-
     return (
       <SafeAreaView style={styles.screenContainer}>
         <StatusBar
@@ -286,7 +252,7 @@ export default class SearchA extends Component {
         />
         <View style={{ paddingVertical: 20 }}>
           <View style={styles.searchButtonContainer}>
-            <TouchableOpacity style={styles.searchButton} onPress={() => console.log('SearchCuisines')}>
+            <TouchableOpacity style={styles.searchButton} onPress={() => this.props.navigation.navigate('SearchCuisines')}>
               <Icon
                 name='magnify'
                 style={{ padding: 10 }}
@@ -297,7 +263,7 @@ export default class SearchA extends Component {
                 placeholder="Search cuisines or dishes"
                 returnKeyType="search"
                 maxLength={50}
-                onTouchStart={() => this.props.navigation.navigate('SearchCuisines')}
+                editable={false}
                 pointerEvents='none'
                 onChangeText={(value) => {
                   console.log("value", value)

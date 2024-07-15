@@ -7,9 +7,9 @@ import Colors from "../../theme/colors"
 import {BigBoldHeading, SemiBoldHeading, SmallBoldHeading, SmallText} from "../../components/text/CustomText";
 import Button from "../../components/buttons/Button";
 
-let PreSignUpImage1 = require("@assets/pre-sign-up/pre-sign-up-image-1.png");
-let PreSignUpImage2 = require("@assets/pre-sign-up/pre-sign-up-image-2.png");
-let PreSignUpImage3 = require("@assets/pre-sign-up/pre-sign-up-image-3.png");
+let PreSignUpImage1 = require("@assets/pre-sign-up/pre-sign-up-image-1.jpeg");
+let PreSignUpImage2 = require("@assets/pre-sign-up/pre-sign-up-image-2.jpeg");
+let PreSignUpImage3 = require("@assets/pre-sign-up/pre-sign-up-image-3.jpeg");
 
 @inject('stores')
 @observer
@@ -63,9 +63,8 @@ export default class PreSignUp extends Component {
           marginRight: 25,
           width: 200*/
       }}>
-        <Image source={item.image} width={100}/>
+        <Image source={item.image} style={{ width: '100%', height: '100%' }}/>
       </View>
-
     )
   }
 

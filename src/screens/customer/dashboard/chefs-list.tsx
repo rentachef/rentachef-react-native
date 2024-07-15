@@ -37,7 +37,7 @@ const ChefsList = ({data, title, onSelect, loading }) => {
   return (
     <SafeAreaView>
       {data.length > 0 ?
-        <ScrollView style={{ marginTop: 35, flexGrow: 1, height: '100%', bottom: 25 }}>
+        <ScrollView style={{ marginTop: 80, flexGrow: 1, height: '100%', bottom: 70 }}>
           <SmallBoldHeading>{title}</SmallBoldHeading>
           <FlatList
             data={data.map(d => {

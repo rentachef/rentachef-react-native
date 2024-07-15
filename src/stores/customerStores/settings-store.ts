@@ -6,6 +6,7 @@ import ChefSettings, {
 import {CustomerLocation, PaymentMethod} from "../../models/user/CustomerSettings";
 import {isEmpty, sortBy} from "lodash";
 import { encryptData } from 'src/utils/encryptor';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class CustomerSettingsStore {
   rootStore: any;
@@ -16,13 +17,17 @@ class CustomerSettingsStore {
   }
 
   getCustomerSettings = () => {
-    this.rootStore.chefApi.getUserSettings().then((r: any) => {
+    this.rootStore.chefApi.getUserSettings().then(async (r: any) => {
       console.log("r", r)
       if(!!r) {
         this.setCustomerProfile(r?.data.profile || {})
         console.log('setting preferences', r?.data.preferences)
         this.setCustomerPreferences(r?.data.preferences || {})
-        this.setCustomerLocation(r?.data.location || {})
+        let storedLocation = await AsyncStorage.getItem('@location')
+        if(!!storedLocation)
+          this.setCustomerLocation(JSON.parse(storedLocation))
+        else
+          this.setCustomerLocation({})
       }
     })
 
@@ -35,7 +40,7 @@ class CustomerSettingsStore {
 
   @observable paymentMethods: PaymentMethod[] = []
 
-  @observable defaultLocation?: CustomerLocation
+  @observable defaultLocation?: CustomerLocation | {} = {}
 
   @action setCustomerProfile = (data: Profile) => this.profile = Object.assign({}, data)
 
@@ -43,9 +48,11 @@ class CustomerSettingsStore {
 
   @action setCustomerPaymentMethods = (data: PaymentMethod[]) => this.paymentMethods = Object.assign([], sortBy(data, pm => pm.default))
 
-  @action setCustomerLocation = (data: CustomerLocation) => {
-    if(!isEmpty(data))
+  @action setCustomerLocation = async (data: CustomerLocation | {}) => {
+    if(!isEmpty(data)) {
       this.defaultLocation = Object.assign({}, data)
+      await AsyncStorage.setItem('@location', JSON.stringify(data))
+    }
   }
 
   @action saveCustomerProfile = async (data: Profile) => {

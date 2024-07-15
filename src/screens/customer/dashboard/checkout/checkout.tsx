@@ -46,18 +46,35 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
   const [modalIndex, setModalIndex] = useState(-1)
   const [showModal, setShowModal] = useState(false)
   const [showDisclaimer, setShowDisclaimer] = useState(false)
+  const [chefAvailability, setChefAvailability] = useState({})
+  const [estimate, setEstimate] = useState<number|string>('')
 
   useEffect(() => {
     console.log(booking)
-    console.log('DEFAULT LOCATION', stores.customerSettingsStore.defaultLocation)
   }, [booking])
+
+  useEffect(() => {
+    if(!!chefAvailability.from)
+      setEstimate(calculateTotal(chefAvailability))
+  }, [chefAvailability])
 
   const checkAvailability = () => {
     //TODO API call
     setModalIndex(2)
   }
 
-  const calculateTotal = () => booking.diners * chef.hourlyRate
+  const calculateBookingTime = () => !!chefAvailability.from ? 
+    moment.duration(chefAvailability.to.diff(chefAvailability.from)).asHours() :
+    ''
+
+  const calculateTotal = (dates) => {
+    if(!dates) 
+      return ''
+    
+    console.log('calculating booking estimate',calculateBookingTime(dates))
+    return calculateBookingTime(dates) * chef.hourlyRate
+    //return booking.diners * chef.hourlyRate
+  }
 
   const book = async () => stores.bookingsStore.book(booking)
 
@@ -88,7 +105,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             <Icon name='calendar-outline' size={30} color={Colors.secondaryText}/>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start'}}>
               <Text style={{ marginVertical: 5, marginHorizontal: 15 }}>
-                {!!booking.dateTime ? moment(booking.dateTime).format('ddd, MMM D, HH:mm A') : `Depends on Chef's availability` }
+                {!!booking.dateTime ? `${moment(booking.dateTime).format('ddd, MMM D, HH:mm A')} (${!!estimate && calculateBookingTime()}h)` : `Depends on Chef's availability` }
               </Text>
             </View>
           </View>
@@ -151,7 +168,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
             <Text style={{ alignSelf: 'center' }}>Estimated Total </Text>
-            <Text>${calculateTotal()} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
+            <Text>${estimate} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
           </View>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <View style={{ height: 150, justifyContent: 'space-between', marginBottom: 10 }}>
@@ -180,13 +197,14 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
       {showModal && <CheckoutModal navigation={navigation} action={book} onClose={() => setShowModal(false)}/>}
       <InfoModal
         visible={showDisclaimer}
+        onRequestClose={() => setShowDisclaimer(false)}
         message={'Please ensure you provide accurate ingredient information when placing your order. We rely on your input to accommodate dietary needs and allergies. Failure to disclose relevant information may result in unintended exposure to allergens.'}
         iconName='fast-food-outline'
         iconColor={Colors.primaryColor}
         buttonTitle='Agree'
         onButtonPress={() => {
           setShowDisclaimer(false)
-          setBooking({...booking, total: calculateTotal()})
+          setBooking({...booking, total: calculateTotal(chefAvailability)})
           console.log('Booking Request:', JSON.stringify(booking))
           setShowModal(true)
         }}
@@ -241,6 +259,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             {modalIndex === 2 &&
               <ChefSchedulePicker chefAvailability={chef.availability} onConfirm={(result) => {
                 setBooking({...booking, dateTime: result.from})
+                setChefAvailability(result)
                 setModalIndex(-1)
               }} />}
         </RACBottomSheet>

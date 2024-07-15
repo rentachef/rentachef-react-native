@@ -89,7 +89,7 @@ const UnderlinePasswordInput = ({
   onSubmitEditing,
   returnKeyType,
   placeholder,
-  placeholderTextColor,
+  placeholderTextColor = '#A7AFBF',
   inputTextColor,
   secureTextEntry = true,
   borderColor,
@@ -104,8 +104,8 @@ const UnderlinePasswordInput = ({
   <View
     style={[
       styles.container,
-      borderColor && {borderColor},
       inputFocused && {borderColor: focusedBorderColor},
+      borderColor && {borderColor},
     ]}>
     <TextInput
       ref={r => onRef(r)}

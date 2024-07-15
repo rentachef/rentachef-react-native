@@ -47,7 +47,7 @@ const Bookings = inject('stores')(observer((props) => {
         selectedTextStyle={{color: Colors.primaryText}}
         textStyle={styles.btnGroupText}
       />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, paddingBottom: 25 }}>
         {bookings
           .filter((b: ChefBooking) => index === 0 ? ['Pending', 'Confirmed'].includes(b.status) : ['Completed', 'Cancelled'].includes(b.status))
           .map((cb: ChefBooking, i: number) => (

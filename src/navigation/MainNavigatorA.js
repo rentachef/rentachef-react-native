@@ -136,6 +136,14 @@ const MainNavigatorA = inject('stores')((props) => {
             }}
           />
           <Stack.Screen
+            name="TermsConditions"
+            component={TermsConditions}
+            options={{
+              title: 'Terms and Conditions',
+              ...stackStyles
+            }}
+          />
+          <Stack.Screen
             name="SignUp"
             override={'SignUp'} //Overriding AWS default components with custom components
             component={SignUp}
@@ -209,14 +217,6 @@ const MainNavigatorA = inject('stores')((props) => {
             screenOptions={{headerShown: false}}
           />
 
-          <Stack.Screen
-            name="TermsConditions"
-            component={TermsConditions}
-            options={{
-              title: 'Terms and Conditions',
-              ...stackStyles
-            }}
-          />
           <Stack.Screen
             name="Categories"
             component={Categories}

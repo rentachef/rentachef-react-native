@@ -24,7 +24,7 @@ const ChefResults = inject('stores')(({ stores, navigation, route }) => {
   }
 
   return (
-    <ScrollView style={globalStyles.screenContainer}>
+    <ScrollView style={{...globalStyles.screenContainer, paddingTop: 0}}>
       <View>
         <SearchA navigation={navigation} searchText={route.params?.searchedValue.key} />
       </View>
