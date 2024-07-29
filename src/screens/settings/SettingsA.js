@@ -202,6 +202,14 @@ export default class SettingsA extends Component {
     this.menuItems = this.role === 'Cook' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.route.params !== prevProps.route.params) {
+      console.log('Params changed', this.props.route.params)
+      if(this.props.route?.params?.addedCard || this.props.route?.params?.addedPrefs)
+        this.forceUpdate()
+    }
+  }
+
   navigateTo = screen => () => {
     const {navigation} = this.props;
     navigation.navigate(screen);
@@ -284,13 +292,29 @@ export default class SettingsA extends Component {
   }
 
   hasMissingSettings = (item) => {
+    console.log('has missing settings', item)
+    if(this.props.route?.params?.addedCard && item === 'Wallet') {
+      setTimeout(() => this.props.navigation.setParams({ addedCard: undefined }), 1000)
+      return false
+    }
+
+    if(this.props.route?.params?.addedPrefs && item === 'Preferences') {
+      setTimeout(() => this.props.navigation.setParams({ addedPrefs: undefined }), 1000)
+      return false
+    }
+
     if(item === 'Bio' && !this.hasBio())
         return true
+
     if(this.role === 'Consumer') {
-      if(item === 'Preferences')
+      if(item === 'Preferences') {
+        console.log('preferences', this.props.stores.customerSettingsStore.preferences)
         return isEmpty(this.props.stores.customerSettingsStore.preferences)
-      if(item === 'Wallet')
+      }
+      if(item === 'Wallet') {
+        console.log('pms', this.props.stores.customerSettingsStore.paymentMethods)
         return isEmpty(this.props.stores.customerSettingsStore.paymentMethods)
+      }
     } else
       return false
   }
@@ -361,7 +385,7 @@ export default class SettingsA extends Component {
                       <SwitchComponent style={{ alignSelf: 'center' }} checked={notificationsOn} onSwitch={v => this.setState({ notificationsOn: v })}/>
                     </View>
                     ) : (
-                    <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
+                    <TouchableOpacity key={this.props.stores.customerSettingsStore.paymentMethods?.length} style={styles.item} onPress={() => this.props.navigation.navigate(item)}>
                       <Text style={{...styles.title, color: this.hasMissingSettings(item) ? 'indianred' : Colors.primaryText}}>{item}</Text><Icon color={Colors.primaryColor} name='chevron-right' size={30} />
                     </TouchableOpacity>
                     )

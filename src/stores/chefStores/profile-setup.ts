@@ -7,6 +7,7 @@ import ChefProfileSetup, {
 } from "../../models/chef/ChefProfileSetup";
 import {isEmpty} from "lodash";
 import { decryptData, encryptData } from "src/utils/encryptor";
+import moment from "moment";
 
 class ChefProfileStore {
   rootStore: any;
@@ -96,6 +97,12 @@ class ChefProfileStore {
   }
 
   @action saveChefAvailability = async (data: AvailabilitySetup) => {
+    data.weeklyHours = data.weeklyHours?.map(wh => (
+      { ...wh, timing: { from: moment(wh.timing.from).utc().toISOString(), to: moment(wh.timing.to).utc().toISOString() } }
+    ))
+    data.dateOverrides = data.dateOverrides?.map(dov => (
+      { ...dov, timing: { from: moment(dov.timing.from).utc().toISOString(), to: moment(dov.timing.to).utc().toISOString() } }
+    ))
     const response = await this.rootStore.chefApi.setChefAvailability(data)
     if(response.ok)
       this.setChefAvailability(data)
@@ -141,6 +148,12 @@ class ChefProfileStore {
   }
 
   @action setChefAvailability = (data: AvailabilitySetup) => {
+    data.weeklyHours = data.weeklyHours?.map(wh => (
+      { ...wh, timing: { from: moment(wh.timing.from).local(), to: moment(wh.timing.to).local() } }
+    ))
+    data.dateOverrides = data.dateOverrides?.map(dov => (
+      { ...dov, timing: { from: moment(dov.timing.from).local(), to: moment(dov.timing.to).local() } }
+    ))
     this.availability = Object.assign({}, data)
   }
 

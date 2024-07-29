@@ -34,6 +34,7 @@ const themes = {
 
     // text color
     primaryText: '#1C2331',
+    terciaryText: 'black',
     secondaryText: '#8891A3',
     disabledText: 'rgba(0, 0, 0, 0.38)',
     
@@ -103,6 +104,7 @@ const themes = {
 
     // text color
     primaryText: 'white',
+    terciaryText: '#fafafa',
     secondaryText: '#6B727F',
     disabledText: 'rgba(255, 255, 255, 0.38)',
     

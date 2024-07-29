@@ -6,11 +6,25 @@ import TimePicker from "./TimePicker";
 import Button from "../buttons/Button";
 import LinkButton from "../buttons/LinkButton";
 import moment from "moment";
+import { notifyWarn } from '../toast/toast';
+
+const _roundMinutes = (date) => { //with minuteInterval of 30
+  if(!!date) {
+    const m = moment(date)
+    const minutes = m.minutes()
+    const roundedMinutes = Math.round(minutes / 30) * 30
+    m.minutes(roundedMinutes)
+    m.seconds(0) // reset seconds to 0 for a clean interval
+    m.millisecond(0)
+    return m.toDate()
+  } else
+    return undefined
+}
 
 const TimeRangePicker = ({ selected, onCancel, onSelect, isValid }) => {
   const [index, setIndex] = useState(0);
-  const [timeFrom, setTimeFrom] = useState(selected?.timing.from || new Date());
-  const [timeTo, setTimeTo] = useState(selected?.timing.to || new Date());
+  const [timeFrom, setTimeFrom] = useState(_roundMinutes(selected?.timing.from) || new Date());
+  const [timeTo, setTimeTo] = useState(_roundMinutes(selected?.timing.to) || new Date());
   const buttons = ['Start Time', 'End Time'];
 
   return (
@@ -32,11 +46,19 @@ const TimeRangePicker = ({ selected, onCancel, onSelect, isValid }) => {
         <Button
           disabled={isValid !== undefined ? !isValid() : false}
           onPress={() => {
+            let roundedTimeFrom = _roundMinutes(timeFrom)
+            let roundedTimeTo = _roundMinutes(timeTo)
+            if(moment(roundedTimeTo) <= moment(roundedTimeFrom)) {
+              notifyWarn('End Time must be grater than Start Time')
+              return
+            }
+            setTimeFrom(roundedTimeFrom)
+            setTimeTo(roundedTimeTo)
             if(isValid !== undefined) {
               if(isValid())
-                onSelect(timeFrom, timeTo)
+                onSelect(roundedTimeFrom, roundedTimeTo)
             } else
-              onSelect(timeFrom, timeTo)
+              onSelect(roundedTimeFrom, roundedTimeTo)
           }}
           title='Use these times'
         />

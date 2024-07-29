@@ -8,6 +8,7 @@
 // import dependencies
 import React, {Component} from 'react';
 import {
+  Linking,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -34,6 +35,7 @@ import {notifyMessage} from '../../utils/getImgSource';
 import Logo from "../components/logo";
 import { notifyError } from '../../components/toast/toast';
 import { includes } from 'lodash';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // SignUpA Config
 const PLACEHOLDER_TEXT_COLOR = Colors.secondaryText;
@@ -386,13 +388,17 @@ export default class SignUpA extends Component {
                   By registering, you accept our
                 </Text>
                 <View style={styles.termsContainer}>
-                  <Text style={[styles.footerText, styles.footerLink]}>
-                    Terms & Conditions
-                  </Text>
+                  <TouchableOpacity onPress={() => Linking.openURL('https://www.chefupnow.com/terms-conds-privacy')}>
+                    <Text style={[styles.footerText, styles.footerLink]}>
+                      Terms & Conditions
+                    </Text>
+                  </TouchableOpacity>
                   <Text style={styles.footerText}> and </Text>
-                  <Text style={[styles.footerText, styles.footerLink]}>
-                    Privacy Policy
-                  </Text>
+                  <TouchableOpacity onPress={() => Linking.openURL('https://www.chefupnow.com/terms-conds-privacy')}>
+                    <Text style={[styles.footerText, styles.footerLink]}>
+                      Privacy Policy
+                    </Text>
+                  </TouchableOpacity>
                   <Text style={styles.footerText}>.</Text>
                 </View>
               </View>

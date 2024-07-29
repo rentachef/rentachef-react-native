@@ -48,10 +48,13 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
     stores.customerSettingsStore.addCard(payload)
       .then(res => {
         setLoading(false)
+        console.log('res!', res.ok, res.data, typeof(res.ok))
         if(res.ok) {
           notifySuccess('Card added!')
           stores.customerSettingsStore.getPaymentMethods()
-          navigation.goBack()
+          navigation.setParams({ addedCard: true })
+          //navigation.goBack()
+          navigation.navigate('SettingsA')
         } else
           notifyError(`Error while adding a card: ${res.error?.message}`)
       })
@@ -107,8 +110,16 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
               })
             }
           }}
+          
           invalidColor={Colors.error}
           validColor={Colors.primaryColor}
+          labelStyle={{
+            color: Colors.primaryText
+          }}
+          placeholderColor={Colors.placeholder}
+          inputStyle={{
+            color: Colors.terciaryText
+          }}
         />
       </View>
       <View>

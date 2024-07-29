@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
   message: {
     marginBottom: 16,
     padding: 8,
-    fontWeight: '400',
-    color: Colors.secondaryText,
+    fontSize: 16,
+    color: Colors.primaryText,
     textAlign: 'center',
   },
   buttonContainer: {

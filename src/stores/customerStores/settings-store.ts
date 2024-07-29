@@ -88,7 +88,7 @@ class CustomerSettingsStore {
     return await this.rootStore.chefApi.addConsumerPaymentMethod(data)
   }
 
-  getPaymentMethods = () => {
+  getPaymentMethods = async () => {
     this.rootStore.chefApi.getUserPaymentMethods().then((r: any) => {
       if (!!r) {
         console.log('received paymentMethods for update', r.data)

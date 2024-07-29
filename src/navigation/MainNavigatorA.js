@@ -101,7 +101,8 @@ const stackStyles = {
   }, 
   headerTitleStyle: {
     color: Colors.primaryText
-  }
+  },
+  headerTintColor: Colors.primaryColor
 }
 
 let navigationRef = null;

@@ -65,10 +65,10 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
               if(!data.didCancel) {
                 ImageResizer.createResizedImage(
                   data.assets[0].uri,
-                  data.assets[0].width / 1.5,
-                  data.assets[0].height / 1.5,
+                  data.assets[0].width / 2,
+                  data.assets[0].height / 2,
                   'JPEG',
-                  80,
+                  40,
                   0,
                   null,
                   false,

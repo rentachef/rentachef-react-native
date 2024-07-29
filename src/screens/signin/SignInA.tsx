@@ -203,6 +203,7 @@ export default class SignInA extends Component {
       );
       try {
         const user = await Auth.signIn(email.trim(), password.trim())
+        console.log('cognito login', user)
         this.props?.stores?.authStore?.setUserAuthInfo(user)
         let result = await this.props?.stores.authStore.login(email, password)
         console.log('logueando', result)
@@ -287,7 +288,7 @@ export default class SignInA extends Component {
                 returnKeyType="next"
                 blurOnSubmit={false}
                 keyboardType="email-address"
-                placeholder="E-mail or phone number"
+                placeholder="E-mail"
                 placeholderTextColor={PLACEHOLDER_TEXT_COLOR}
                 inputTextColor={INPUT_TEXT_COLOR}
                 borderColor={this.state.emailError ? INPUT_ERROR_COLOR : INPUT_BORDER_COLOR}
@@ -365,19 +366,19 @@ export default class SignInA extends Component {
             </View>
 
             <TouchableWithoutFeedback
-              onPress={() => this.navigateTo('TermsConditions')}>
+              onPress={this.navigateTo('TermsConditions')}>
               <View style={styles.footer}>
                 <Text style={styles.footerText}>
                   By signing in, you accept our
                 </Text>
                 <View style={styles.termsContainer}>
-                  <TouchableOpacity onPress={() => Linking.openURL('https://chefupnow.com')}>
+                  <TouchableOpacity onPress={() => Linking.openURL('https://www.chefupnow.com/terms-conds-privacy')}>
                     <Text style={[styles.footerText, styles.footerLink]}>
                       Terms & Conditions
                     </Text>
                   </TouchableOpacity>
                   <Text style={styles.footerText}> and </Text>
-                  <TouchableOpacity onPress={() => Linking.openURL('https://chefupnow.com')}>
+                  <TouchableOpacity onPress={() => Linking.openURL('https://www.chefupnow.com/terms-conds-privacy')}>
                     <Text style={[styles.footerText, styles.footerLink]}>
                       Privacy Policy
                     </Text>

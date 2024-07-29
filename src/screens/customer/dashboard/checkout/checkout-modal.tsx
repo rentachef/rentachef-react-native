@@ -40,6 +40,7 @@ const CheckoutModal = ({ navigation, action, onClose }) => {
                   onPress={() => {
                     console.log('navigating to booking', bookingId)
                     console.log(navigation)
+                    navigation.navigate('CustomerDashboard')
                     navigation.navigate('CustomerSchedule', { bookingId })
                     onClose()
                   }}

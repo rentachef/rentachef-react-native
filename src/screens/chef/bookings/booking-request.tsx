@@ -153,7 +153,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
             <Text style={{ marginVertical: 5}}>{booking.location?.address || 'Unknown address'}</Text>
             <Subtitle2 style={{ marginVertical: 5}}>{booking.location?.city || 'Unknown city'}</Subtitle2>
             <Icon name='navigation' size={20} style={{ transform: [{rotate: '45deg'}], position: 'absolute', bottom: 5, color: Colors.primaryColor }} />
-            <Subtitle2 style={{ marginVertical: 5, color: Colors.primaryColor, marginLeft: 20 }}>About 0.4 mi away</Subtitle2>
+            {/*<Subtitle2 style={{ marginVertical: 5, color: Colors.primaryColor, marginLeft: 20 }}>About 0.4 mi away</Subtitle2>*/}
           </View>
         </View>
         <View style={{ flex: 1, flexDirection: 'row', height: 50 }}>

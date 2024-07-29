@@ -22,8 +22,8 @@ import {ImageGallery, ImageObject} from "@georstat/react-native-image-gallery";
 import {inject, observer} from "mobx-react";
 import Button from "../../components/buttons/Button";
 import {Cuisine} from "../../models/chef/ChefSettings";
-import {notifyError, notifySuccess} from "../../components/toast/toast";
-import {isEmpty} from "lodash";
+import {notifyError, notifySuccess, notifyWarn} from "../../components/toast/toast";
+import {isEmpty, map} from "lodash";
 import _getBase64 from "../../utils/imageConverter";
 import {RACBottomSheet} from "../components/bottom-sheet-modal";
 import TimeRangePicker from "../../components/pickers/TimeRangePicker";
@@ -398,7 +398,13 @@ const Bio = inject('stores')(observer((props) => {
             </View>}
           <View style={styles.buttonContainer}>
             <Button
-              onPress={() => saveChanges()}
+              onPress={() => {
+                if(selectedChips.length !== specialties.length) {
+                  notifyWarn('Please add specialties for all selected cuisine')
+                  return
+                }
+                saveChanges()
+              }}
               title='Save'
               disabled={!isValid() || loading}
               loading={loading}
@@ -416,6 +422,7 @@ const Bio = inject('stores')(observer((props) => {
             index={modalIndex}
             enableSwipeClose={true}
             onClose={() => setModalIndex(-1)}
+            size={'75%'}
           >
             <DishDialog
               cuisines={cuisines.filter((c: Cuisine) => selectedChips.includes(c._id))}
@@ -423,6 +430,7 @@ const Bio = inject('stores')(observer((props) => {
                 setSpecialties([...specialties, { ...dish, cuisineId: cuisine._id }])
                 setModalIndex(-1)
               }}
+              onResize={size => setBsSize(size)}
             />
           </RACBottomSheet>}
       </SafeAreaView>}

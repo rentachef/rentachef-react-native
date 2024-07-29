@@ -84,7 +84,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                     <View style={{height: 40, width: '90%', alignSelf: 'center'}}>
                       {!hourFrom &&
                         <ModalSelector
-                          data={hoursRange.filter((d, i) => i !== hoursRange.length - 1).map((d: Date, i: number) => { return { key: i, label: moment(d).utc().format('HH:mm'), value: d } })}
+                          data={hoursRange.filter((d, i) => i !== hoursRange.length -1 ).map((d: Date, i: number) => { return { key: i, label: moment(d).utc().format('HH:mm'), value: d } })}
                           initValue="Select"
                           style={{backgroundColor: Colors.primaryColor, borderRadius: 10, top: 15}}
                           selectStyle={{ borderWidth: 0 }}
@@ -123,7 +123,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                         {!hourTo &&
                           <ModalSelector
                             data={hoursRange.filter((d, i) => 
-                              i !== hoursRange.length - 1 && 
+                              i !== hoursRange.length && 
                               moment(d) > moment(hourFrom)
                             ).map((d: Date, i: number) => { return { key: i, label: moment(d).utc().format('HH:mm'), value: d } })}
                             initValue="Select"

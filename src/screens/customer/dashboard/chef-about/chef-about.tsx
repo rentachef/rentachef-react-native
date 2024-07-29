@@ -19,7 +19,8 @@ import Button from "../../../../components/buttons/Button";
 import {RACBottomSheet} from "../../../components/bottom-sheet-modal";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import ChefSchedulePicker from "./chef-schedule-picker";
-import { mean } from 'lodash';
+import { isEmpty, mean } from 'lodash';
+import { notifyWarn } from 'src/components/toast/toast';
 
 const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
   const [chef, setChef] = useState({...route.params.chef})
@@ -126,6 +127,14 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
               onPress={
                 () => {
                   console.log('choosed chef', chef.settings.profile)
+                  if(isEmpty(stores.customerSettingsStore.defaultLocation)) {
+                    notifyWarn('Please set up a location before booking')
+                    return
+                  }
+                  if(isEmpty(stores.customerSettingsStore.paymentMethods)) {
+                    notifyWarn('Please set up a payment method before booking')
+                    return
+                  }
                   navigation.navigate('Checkout', { chef: {
                     userId: chef.userId,
                     name: chef.settings.profile.fullName,

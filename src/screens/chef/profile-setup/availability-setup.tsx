@@ -177,7 +177,7 @@ export default class ChefAvailability extends React.Component<any, any> {
           {this.state.selectedIndex === 0 ? (
               <View key={timeForDay} style={{flex: 3 }}>
                 {weekDays.map(wd => (
-                  <View key={wd} style={{flex: .1, marginBottom: 10, marginTop: 20 }}><WeekDayRow key={wd} day={wd} time={() => this.getDayTimes(wd)} availability={() => this.getDayAvailability(wd)} showTimeModal={(value: boolean) => this.showTimeModal('time', wd, value)}/></View>
+                  <View key={wd} style={{flex: .1, marginBottom: 10, marginTop: 20 }}><WeekDayRow key={wd} day={wd} time={this.getDayTimes(wd)} availability={() => this.getDayAvailability(wd)} showTimeModal={(value: boolean) => this.showTimeModal('time', wd, value)}/></View>
                 ))}
               </View>
             ) : (
@@ -186,7 +186,7 @@ export default class ChefAvailability extends React.Component<any, any> {
                   onDayPress={day => {
                     this.selectDate(day);
                   }}
-                  minDate={new Date().toLocaleDateString()}
+                  minDate={moment().toDate()}
                   markedDates={calendarDates}
                   theme={{
                     todayTextColor: Colors.primaryColor,

@@ -41,11 +41,11 @@ export function _getNextDatesFromWeeklyHours(wh: WeekDayAndTime, quantity: numbe
     else
       date = moment().add(1, 'weeks').isoWeekday(dayINeed).format('YYYY-MM-DD')
 
-    for(let i = 0; i < quantity; i++)
-    result.push({
-      from: moment(`${date} ${timeFrom}`).add(i, 'weeks').toDate(),
-      to: moment(`${date} ${timeTo}`).add(i, 'weeks').toDate()
-    })
+    for(let i = 0; i <= quantity; i++)
+      result.push({
+        from: moment(`${date} ${timeFrom}`).add(i, 'weeks').toDate(),
+        to: moment(`${date} ${timeTo}`).add(i, 'weeks').toDate()
+      })
 
     return result
   } else

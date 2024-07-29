@@ -82,9 +82,9 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
     <>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{...globalStyles.screenContainer, opacity: modalIndex !== -1 ? 0.5 : 1}}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', maxWidth: '90%' }}>
             <Icon name='credit-card-outline' size={25} color={Colors.secondaryText} style={{ marginHorizontal: 10, margin: 5 }} />
-            <LightText>Don't worry, you won't be billed until your service is complete</LightText>
+            <LightText style={{ color: Colors.onSurface, fontWeight: 'bold', fontSize: 16 }}>Don't worry, you won't be billed until your service is complete</LightText>
           </View>
           <View style={{ flexDirection: 'row', marginVertical: 20 }}>
             <Icon name='map-marker-outline' size={30} color={Colors.secondaryText} style={{ flex: .5, flexBasis: '12%' }}/>
@@ -171,10 +171,10 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             <Text>${estimate} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
           </View>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
-          <View style={{ height: 150, justifyContent: 'space-between', marginBottom: 10 }}>
-            <LightText>You may see a temporary hold on your payment method in the amount of the chef’s hourly rate of $50.</LightText>
-            <LightText>Bookings cancelled 24 hours after booking time may be billed a <LightText style={{ color: Colors.primaryColor}}>cancellation fee.</LightText></LightText>
-            <LightText>The grocery and ingredients cost will be mutually handled by you and the chef. Chat with the chef for more questions.</LightText>
+          <View style={{ height: 150, justifyContent: 'space-between', marginBottom: 10, marginTop: 10 }}>
+            <LightText style={{ color: Colors.onSurface, fontWeight: 'bold', fontSize: 16 }}>You may see a temporary hold on your payment method in the amount of the chef’s hourly rate of $50.</LightText>
+            <LightText style={{ color: Colors.onSurface, fontWeight: 'bold', fontSize: 16 }}>Bookings cancelled 24 hours after booking time may be billed a <LightText style={{ color: Colors.primaryColor}}>cancellation fee.</LightText></LightText>
+            <LightText style={{ color: Colors.onSurface, fontWeight: 'bold', fontSize: 16 }}>The grocery and ingredients cost will be mutually handled by you and the chef. Chat with the chef for more questions.</LightText>
           </View>
         </View>
       </ScrollView>
