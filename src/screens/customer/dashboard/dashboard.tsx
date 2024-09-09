@@ -135,7 +135,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
   }, [])
 
   useEffect(() => {
-    if(some(Object.values(beginnerSetup), s => !s))
+    if(some(Object.values(beginnerSetup), s => !s) && stores.authStore.authInfo.userId !== 'visitor')
         setModalVisible(true)
   }, [beginnerSetup])
 
@@ -143,6 +143,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
 
   const getCurrentLocation = async () => {
     let storedLocation = await AsyncStorage.getItem('@location')
+    console.log('store location', storedLocation)
     if(!!storedLocation) {
       let loc = JSON.parse(storedLocation)
       setLocation(loc)
@@ -187,6 +188,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
           setModalVisible(false)
           navigation.navigate('Settings')
         }}
+        onClose={() => setModalVisible(false)}
       />
       <View style={{ opacity: modalIndex !== -1 ? 0.3: 1 }}>
         <TouchableOpacity style={styles.dashboardContainer} onPress={() => {

@@ -192,6 +192,10 @@ export default class ChefDashboard extends React.Component<any, any> {
               else
                 this.props.navigation.navigate('ChefProfileSetupStack')
             }}
+            onClose={() => {
+              console.log('closing...')
+              this.setState({ modalVisible: false })
+            }}
           />
           <View style={dashboardStyles.dashboardHeaderContainer}>
             <SemiBoldHeading>{`Hi ${this.props.stores?.chefSettingsStore.profile?.fullName?.split(' ')[0] || ''}!`}</SemiBoldHeading>

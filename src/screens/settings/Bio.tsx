@@ -113,9 +113,10 @@ interface specialtiesPhotoGallery {
 const covid = true
 
 const Bio = inject('stores')(observer((props) => {
+  console.log('bio mounted', props.stores.chefSettingsStore.bio?.cuisines)
   const [loading, setLoading] = useState(false)
   const [focus, setFocus] = useState(undefined)
-  const [selectedChips, setSelectedChips] = useState([])
+  const [selectedChips, setSelectedChips] = useState(props.stores.chefSettingsStore.bio?.cuisines?.map(c => c._id) || [])
   const [specialtiesPhotos, setSpecialtiesPhotos] = useState<specialtiesPhotoGallery[]>([])
   const [specialties, setSpecialties] = useState(!isEmpty(props.stores.chefSettingsStore.bio?.specialties) ? [...props.stores.chefSettingsStore.bio?.specialties] : [])
   const [openGallery, setOpenGallery] = useState({ show: false, idx: 0 })
@@ -129,8 +130,6 @@ const Bio = inject('stores')(observer((props) => {
   const { cuisines } = props.stores.searchStore
 
   useEffect(() => { //add get cuisines from API
-    if(!!bio.cuisines)
-      setSelectedChips(props.stores.chefSettingsStore.bio?.cuisines?.map((c: Cuisine) => c._id))
     if(!!bio.photosUris)
       setSpecialtiesPhotos(bio.photosUris.map((url: string, id: number) => {
         return { id, url }
@@ -399,6 +398,7 @@ const Bio = inject('stores')(observer((props) => {
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
+                console.log(selectedChips.length, specialties.length)
                 if(selectedChips.length !== specialties.length) {
                   notifyWarn('Please add specialties for all selected cuisine')
                   return

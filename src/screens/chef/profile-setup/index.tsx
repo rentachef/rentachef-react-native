@@ -6,7 +6,7 @@ import TouchableItem from "../../../components/TouchableItem";
 import Colors from '../../../theme/colors';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {inject, observer} from "mobx-react";
-import {isEmpty} from "lodash";
+import {compact, isEmpty} from "lodash";
 
 @inject('stores')
 @observer
@@ -17,6 +17,7 @@ export default class ChefProfileSetup extends React.Component<any, any> {
 
   render() {
     const { chefProfileStore } = this.props.stores;
+    console.log('chefProfileStore.availability', chefProfileStore.availability)
 
     return (
       <ScrollView style={profileSetupStyles.setupParent} contentContainerStyle={profileSetupStyles.setupParent}>
@@ -48,8 +49,10 @@ export default class ChefProfileSetup extends React.Component<any, any> {
               this.props.navigation.navigate('ChefAvailabilitySetup')
             }}>
               <View style={profileSetupStyles.setupListItem}>
-                {isEmpty(chefProfileStore.availability) && <View style={profileSetupStyles.setupListNumbers}><Text style={profileSetupStyles.stepNumber}>2</Text></View>}
-                {!isEmpty(chefProfileStore.availability) && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
+                {(isEmpty(compact(Object.values(chefProfileStore.availability)))) 
+                  && <View style={profileSetupStyles.setupListNumbers}><Text style={profileSetupStyles.stepNumber}>2</Text></View>}
+                {(!isEmpty(chefProfileStore.availability?.weeklyHours) || !isEmpty(chefProfileStore.availability?.dateOverrides))
+                  && <Icon style={profileSetupStyles.stepDoneIcon} name='checkbox-marked-circle' size={25} />}
                 <Text style={profileSetupStyles.setupListText}>Set up availability</Text>
                 <Icon style={profileSetupStyles.icon} name='chevron-right' size={25} />
               </View>

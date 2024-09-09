@@ -48,6 +48,7 @@ const ChatList = (inject('stores')((props) => {
   }, [])
 
   const getPubNubChats = () => {
+    console.log('getting pubnub chats...')
     props.stores.searchStore.getChats()
       .then(chats => {
         pubnub.fetchMessages({

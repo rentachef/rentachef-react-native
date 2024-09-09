@@ -12,23 +12,25 @@ class BookingsStore {
   }
 
   getBookings = async () => {
-    console.log('getting bookings...')
-    if(this.rootStore.authStore.authInfo.role === 'Cook')
-      this.rootStore.chefApi.getChefBookings().then((r: any) => {
-        console.log("recieved chef bookings", r.data)
-        this.setBookings(r?.data)
-        return r?.data.sort(function(a: any, b: any) {
-          return b.dateTime - a.dateTime;
+    if(this.rootStore.authStore.authInfo.userId !== 'visitor') {
+      console.log('getting bookings...')
+      if(this.rootStore.authStore.authInfo.role === 'Cook')
+        this.rootStore.chefApi.getChefBookings().then((r: any) => {
+          console.log("recieved chef bookings", r.data.length)
+          this.setBookings(r?.data)
+          return r?.data.sort(function(a: any, b: any) {
+            return b.dateTime - a.dateTime;
+          })
         })
-      })
-    else
-      this.rootStore.chefApi.getConsumerBookings().then((r: any) => {
-        console.log("received consumer bookings", JSON.stringify(r.data))
-        this.setBookings(r?.data)
-        return r?.data.sort(function(a: any, b: any) {
-          return b.dateTime - a.dateTime;
+      else
+        this.rootStore.chefApi.getConsumerBookings().then((r: any) => {
+          console.log("received consumer bookings", JSON.stringify(r.data))
+          this.setBookings(r?.data)
+          return r?.data.sort(function(a: any, b: any) {
+            return b.dateTime - a.dateTime;
+          })
         })
-      })
+    }
   }
 
   retrieveBookings = () => {

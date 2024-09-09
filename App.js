@@ -8,7 +8,7 @@
 // import dependencies
 import 'react-native-gesture-handler'
 import React from 'react'
-import {LogBox, AppState, Alert} from 'react-native'
+import {LogBox, AppState, Alert, Platform} from 'react-native'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {enableScreens} from 'react-native-screens'
 import rootStore from './src/stores'
@@ -310,12 +310,14 @@ class App extends React.Component {
     AppState.addEventListener('change', this._handleAppStateChange.bind(this))
 
     // Check for initial notification if the app was opened from background
-    PushNotificationIOS.getInitialNotification().then(notification => {
-      PushNotificationIOS.setApplicationIconBadgeNumber(0)
-      if (notification) {
-        this.handleNotification(notification);
-      }
-    });
+    if(Platform.OS === 'ios') {
+      PushNotificationIOS.getInitialNotification().then(notification => {
+        PushNotificationIOS.setApplicationIconBadgeNumber(0)
+        if (notification) {
+          this.handleNotification(notification);
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -344,8 +346,10 @@ class App extends React.Component {
       console.log(' User is signed in in APP');
       console.log('The user is', user);
       this._authState = 'loggedIn'
-      this.pubnub.setUUID(rootStore.authStore.authInfo)
+      if(!!rootStore.authStore.authInfo)
+        this.pubnub.setUUID(rootStore.authStore.authInfo?.userId)
     } catch (err) {
+      console.log('error in checkAuthState', err)
       console.log(' User is not signed in');
 
       this._authState = 'loggedOut'
@@ -359,6 +363,9 @@ class App extends React.Component {
 
   _handleAppStateChange(nextAppState) {
     console.log('app state changed', nextAppState)
+    console.log('authState', this._authState)
+    if(nextAppState === 'active' && this._authState === 'loggedIn')
+      rootStore.bookingsStore.getBookings()
     this.setState({ appState: nextAppState });
   }
 

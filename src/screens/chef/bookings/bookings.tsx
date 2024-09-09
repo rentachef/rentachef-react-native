@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import {Button, RefreshControl, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import Colors from "../../../theme/colors";
 import {ButtonGroup, Card} from "react-native-elements";
@@ -18,7 +18,7 @@ const Bookings = inject('stores')(observer((props) => {
   const [refreshing, setRefreshing] = useState(false)
   const bookings = props.stores.bookingsStore.retrieveBookings()
 
-  console.log('CHEF BOOKINGS', bookings)
+  console.log('CHEF BOOKINGS', bookings.length)
 
   const { role } = props.stores.authStore.authInfo
 
@@ -27,6 +27,11 @@ const Bookings = inject('stores')(observer((props) => {
       props.navigation.navigate('BookingRequest', { booking: {...cb} }) :
       props.navigation.navigate('CustomerBooking', { booking: {...cb} })
   }
+
+  useEffect(() => {
+    console.log('mounted bookings')
+    props.stores.bookingsStore.getBookings()
+  }, [])
 
   return (
     <ScrollView

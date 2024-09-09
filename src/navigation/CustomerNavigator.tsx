@@ -24,6 +24,9 @@ import Chat from "../screens/chat/Chat";
 import ChatList from "../screens/chat/ChatList";
 import HeaderIconButton from "../components/navigation/HeaderIconButton";
 import { useNavigation } from "@react-navigation/native";
+import SignUpA from "src/screens/signup/SignUpA";
+import PreSignUp from "src/screens/signup/pre-sign-up";
+import VerificationA from "src/screens/verification/VerificationA";
 
 const stackStyles = {
   headerStyle: {
@@ -57,6 +60,7 @@ function CustomerDashboardStackScreen() {
         headerTitleAlign: 'center',
         ...stackStyles
       }} />
+      <CustomerDashboardStack.Screen name="Verification" component={VerificationA} options={{headerShown: false}} />
     </CustomerDashboardStack.Navigator>
   );
 }
@@ -69,6 +73,8 @@ type Props = {
 
 // HomeNavigator
 const CustomerNavigator = inject('stores')(observer(({ route, stores }) => {
+  const visitor = stores.authStore.authInfo.userId === 'visitor'
+  
   useEffect(() => {
     setTimeout(() => {
       stores.customerSettingsStore.getCustomerSettings()
@@ -109,10 +115,10 @@ const CustomerNavigator = inject('stores')(observer(({ route, stores }) => {
       })}>
       <Tab.Screen name="CustomerDashboardStack" component={CustomerDashboardStackScreen} options={{headerShown: false}}/>
       <Tab.Screen name="CustomerSchedule" component={ChefBookingsStack}/>
-      <Tab.Screen name="CustomerChatList">
+      {!visitor && <Tab.Screen name="CustomerChatList">
         {props2 => <ChatList {...props2} userId={stores.authStore.authInfo.userId} />}
-      </Tab.Screen>
-      <Tab.Screen name="Settings" component={ChefSettingsStack} />
+      </Tab.Screen>}
+      {!visitor ? <Tab.Screen name="Settings" component={ChefSettingsStack} /> : <Tab.Screen name ='Settings' component={PreSignUp} initialParams={{ visitor: true }} />}
     </Tab.Navigator>
   );
 }))

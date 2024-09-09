@@ -67,6 +67,7 @@ type Props = {
   title: string,
   buttonTitle: string,
   onButtonPress: () => {},
+  onClose: () => void,
   visible: boolean,
 };
 
@@ -80,13 +81,16 @@ const InfoModal = ({
   title,
   buttonTitle,
   onButtonPress,
+  onClose,
   visible = false,
-}: Props) => (
+}: Props) => {
+  console.log(onClose)
+  return (
   <Modal
     animationType="slide"
     transparent
     visible={visible}
-    onRequestClose={onRequestClose}>
+  >
     <StatusBar backgroundColor={statusBarColor} />
     <View style={styles.modalWrapper}>
       <View style={styles.modalContainer}>
@@ -99,11 +103,11 @@ const InfoModal = ({
 
         <View style={styles.buttonContainer}>
           <Button buttonStyle={styles.btn} onPress={onButtonPress} title={buttonTitle} />
-          <Button buttonStyle={styles.btn} outlined titleColor='indianred' borderColor='indianred' onPress={onRequestClose} title='Cancel' />
+          <Button buttonStyle={styles.btn} outlined titleColor='indianred' borderColor='indianred' onPress={onClose} title='Cancel' />
         </View>
       </View>
     </View>
   </Modal>
-);
+)}
 
 export default InfoModal;

@@ -219,7 +219,7 @@ class AuthStore {
   saveDeviceToken = async () => {
     let deviceToken = await AsyncStorage.getItem('@deviceToken')
     console.log('authInfo deviceToken', this.authInfo.deviceToken)
-    if(!this.authInfo.deviceToken) {
+    if(!this.authInfo.deviceToken && this.authInfo.userId !== 'visitor') {
       console.log('permission granted, saving deviceToken', deviceToken)
       await this.rootStore.chefApi.saveDeviceToken(deviceToken)
     }

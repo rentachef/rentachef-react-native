@@ -17,21 +17,23 @@ class CustomerSettingsStore {
   }
 
   getCustomerSettings = () => {
-    this.rootStore.chefApi.getUserSettings().then(async (r: any) => {
-      console.log("r", r)
-      if(!!r) {
-        this.setCustomerProfile(r?.data.profile || {})
-        console.log('setting preferences', r?.data.preferences)
-        this.setCustomerPreferences(r?.data.preferences || {})
-        let storedLocation = await AsyncStorage.getItem('@location')
-        if(!!storedLocation)
-          this.setCustomerLocation(JSON.parse(storedLocation))
-        else
-          this.setCustomerLocation({})
-      }
-    })
-
-    this.getPaymentMethods()
+    if(this.rootStore.authStore.authInfo.userId !== 'visitor') {
+      this.rootStore.chefApi.getUserSettings().then(async (r: any) => {
+        console.log("r", r)
+        if(!!r) {
+          this.setCustomerProfile(r?.data.profile || {})
+          console.log('setting preferences', r?.data.preferences)
+          this.setCustomerPreferences(r?.data.preferences || {})
+          let storedLocation = await AsyncStorage.getItem('@location')
+          if(!!storedLocation)
+            this.setCustomerLocation(JSON.parse(storedLocation))
+          else
+            this.setCustomerLocation({})
+        }
+      })
+  
+      this.getPaymentMethods()
+    }
   }
 
   @observable profile?: Profile

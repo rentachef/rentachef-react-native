@@ -121,6 +121,8 @@ export default class SignUpA extends Component {
       secureTextEntry: true,
       loading: false
     };
+
+    console.log('role for registration', props?.route?.params.role)
   }
 
   emailChange = text => {

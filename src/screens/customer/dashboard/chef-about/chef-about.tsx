@@ -27,9 +27,11 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
   const [index, setIndex] = useState(0)
   const [modalIndex, setModalIndex] = useState(-1)
   const [reviews, setChefReviews] = useState([])
+  const visitor = stores.authStore.authInfo.userId === 'visitor'
 
   useEffect(() => {
-    getChefReviews()
+    if(stores.authStore.authInfo.userId !== 'visitor')
+      getChefReviews()
   }, [])
 
   useEffect(() => {
@@ -112,13 +114,19 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
               backgroundColor: Colors.backgroundLight,
               borderColor: Colors.backgroundLight,
               borderRadius: 8
-            }} onPress={() => navigation.navigate('CustomerChat', {
-              channel: `inbox.${chef.userId}.${stores.authStore.authInfo.userId}`,
-              userId: stores.authStore.authInfo.userId, 
-              pubnub: undefined,
-              consumer: { id: stores.authStore.authInfo.userId, name: stores.customerSettingsStore.profile.fullName},
-              chef: { id: chef.userId, name: chef.settings.profile.fullName }
-            }) }/>}
+            }} onPress={() => {
+              if(visitor) {
+                notifyWarn('Please register in order to chat with a chef!')
+                return
+              }
+              navigation.navigate('CustomerChat', {
+                channel: `inbox.${chef.userId}.${stores.authStore.authInfo.userId}`,
+                userId: stores.authStore.authInfo.userId, 
+                pubnub: undefined,
+                consumer: { id: stores.authStore.authInfo.userId, name: stores.customerSettingsStore.profile.fullName},
+                chef: { id: chef.userId, name: chef.settings.profile.fullName }
+              }) 
+            }}/>}
           </View>
           <View style={{ flex: 1.5 }}>
             <Button
@@ -126,24 +134,30 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
               buttonStyle={{ padding: 10, backgroundColor: Colors.primaryColor, alignSelf: 'stretch' }}
               onPress={
                 () => {
-                  console.log('choosed chef', chef.settings.profile)
-                  if(isEmpty(stores.customerSettingsStore.defaultLocation)) {
-                    notifyWarn('Please set up a location before booking')
+                  if(visitor) {
+                    notifyWarn('Please register in order to continue with your book!')
                     return
+                  } else {
+                    console.log('choosed chef', chef.settings.profile)
+                    if(isEmpty(stores.customerSettingsStore.defaultLocation)) {
+                      notifyWarn('Please set up a location before booking')
+                      return
+                    }
+                    if(isEmpty(stores.customerSettingsStore.paymentMethods)) {
+                      notifyWarn('Please set up a payment method before booking')
+                      return
+                    }
+                    navigation.navigate('Checkout', { chef: {
+                      userId: chef.userId,
+                      name: chef.settings.profile.fullName,
+                      availability: chef.availability,
+                      photo: chef.settings.profile?.profilePicUri,
+                      hourlyRate: chef.hourlyRate,
+                      cuisines: chef.settings.bio.cuisines,
+                      specialties: chef.settings.bio.specialties
+                    }})
                   }
-                  if(isEmpty(stores.customerSettingsStore.paymentMethods)) {
-                    notifyWarn('Please set up a payment method before booking')
-                    return
-                  }
-                  navigation.navigate('Checkout', { chef: {
-                    userId: chef.userId,
-                    name: chef.settings.profile.fullName,
-                    availability: chef.availability,
-                    photo: chef.settings.profile?.profilePicUri,
-                    hourlyRate: chef.hourlyRate,
-                    cuisines: chef.settings.bio.cuisines,
-                    specialties: chef.settings.bio.specialties
-                  }})}}
+                }}
             />
           </View>
         </View>

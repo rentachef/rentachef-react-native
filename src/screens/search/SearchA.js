@@ -142,8 +142,8 @@ export default class SearchA extends Component {
       searchText: props.searchText || ''
     };
 
-    this.getCuisinesList = this.getCuisinesList.bind(this)
-    this.getCooksList = this.getCooksList.bind(this)
+    //this.getCuisinesList = this.getCuisinesList.bind(this)
+    //this.getCooksList = this.getCooksList.bind(this)
   }
 
   async componentDidMount() {
@@ -151,7 +151,7 @@ export default class SearchA extends Component {
   }
 
   async getCooksList() {
-    console.log('get cooks list')
+    /*console.log('get cooks list')
     //http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&cuisines=INDO_PAK&cuisines=VIETNAMESE&startIndex=1&endIndex=5
     let url = this.state.searchText ? `http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&startIndex=1&endIndex=5&search=${this.state.searchText}` : 'http://rentachefuser-dev-env.us-east-1.elasticbeanstalk.com/findCooks?latitude=1&longitude=1&searchradius=5&cuisines=INDO_PAK&cuisines=VIETNAMESE&startIndex=1&endIndex=5'
     let data = await fetch(url).then((res) => {
@@ -163,7 +163,7 @@ export default class SearchA extends Component {
     console.log("data", data)
     this.setState({
       cooks: data
-    })
+    })*/
   }
 
   componentWillUnmount() {

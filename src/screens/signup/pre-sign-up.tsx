@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {View, Text, Image, TouchableOpacity, SafeAreaView} from "react-native";
+import {View, Text, Image, TouchableOpacity, SafeAreaView, DevSettings} from "react-native";
 import {inject, observer} from "mobx-react";
 import Carousel, {Pagination} from "react-native-snap-carousel";
 
 import Colors from "../../theme/colors"
 import {BigBoldHeading, SemiBoldHeading, SmallBoldHeading, SmallText} from "../../components/text/CustomText";
 import Button from "../../components/buttons/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let PreSignUpImage1 = require("@assets/pre-sign-up/pre-sign-up-image-1.jpeg");
 let PreSignUpImage2 = require("@assets/pre-sign-up/pre-sign-up-image-2.jpeg");
@@ -40,11 +41,23 @@ export default class PreSignUp extends Component {
         }
       ]
     }
+
+    //AsyncStorage.removeItem('@visitor')
+
+    console.log('presignup is visitor', props?.route?.params?.visitor)
+    if(props?.route?.params?.visitor) {
+      console.log('reloading...')
+      DevSettings.reload()
+    }
   }
 
-  navigateTo = (screen: any, role: string) => () => {
+  navigateTo = (screen: any, role: string | undefined = undefined) => async () => {
     const {navigation} = this.props;
-    navigation.navigate(screen, { role });
+    console.log('navigating to...', screen)
+    if(!!role)
+      navigation.navigate(screen, { role });
+    else
+      navigation.navigate(screen)
   };
 
   _renderItem({item,index}){
@@ -94,6 +107,19 @@ export default class PreSignUp extends Component {
     }
   }
 
+  handleConsumerRegistration = async () => {
+    const visitor = await AsyncStorage.getItem('@visitor')
+    console.log('handleConsumerRegistration, is visitor', visitor === '1')
+    if(visitor === '1') {
+      await AsyncStorage.removeItem('@visitor')
+      this.props.navigation.navigate('SignUp', { role: 'Consumer' })
+    } else {
+      await AsyncStorage.setItem('@visitor', '1')
+      this.props.stores.authStore.setUserAuthInfo({ userId: 'visitor', role: 'Consumer' })
+      this.props.navigation.navigate('CustomerDashboardStack', { screen: 'Home' })
+    }
+  }
+
   render () {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: Colors.background}}>
@@ -136,7 +162,7 @@ export default class PreSignUp extends Component {
           <View style={{flex: .33}}>{this.returnContentForSlide()}</View>
           <View style={{flex: .33, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <Button onPress={this.navigateTo('SignUp', 'Cook')} buttonStyle={{flex: .4, backgroundColor: Colors.secondaryColor, marginRight: 20}} title={'Join as a chef'} titleColor={'white'}/>
-            <Button onPress={this.navigateTo('SignUp', 'Consumer')} buttonStyle={{flex: .4}}  title={'Plan a meal'}/>
+            <Button onPress={this.handleConsumerRegistration} buttonStyle={{flex: .4}}  title={'Plan a meal'}/>
           </View>
           <View style={{flex: .34, justifyContent: 'center', alignItems: 'center'}}>
             <SmallText>Already have an account?</SmallText>
