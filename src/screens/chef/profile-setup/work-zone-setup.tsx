@@ -131,7 +131,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       Geolocation.requestAuthorization("whenInUse");
     } else
       this.watchLocation();
-    Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ"); //TODO get API key from safer place
+    Geocoder.init("AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0"); //TODO get API key from safer place
   }
   watchLocation() {
     console.log('watchLocation')

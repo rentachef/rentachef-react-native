@@ -27,7 +27,7 @@ import { map } from "lodash";
 
 let profile_1 = require('@assets/img/profile_1.jpg');
 
-Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
+Geocoder.init("AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0");
 
 const _getColorByStatus = (status: BookingStatus) => {
   switch(status) {

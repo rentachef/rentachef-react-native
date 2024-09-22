@@ -21,7 +21,7 @@ import { autorun } from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'src/components/icon/Icon';
 
-Geocoder.init("AIzaSyAgxJwY4g7eTALipAvNwjlGTQgv1pcRPVQ");
+Geocoder.init("AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0");
 
 const validations = {
   Cook: [
