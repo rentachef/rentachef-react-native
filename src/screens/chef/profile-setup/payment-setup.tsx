@@ -95,8 +95,11 @@ export default class ChefPaymentSetup extends React.Component<any, any> {
           routingNumber: Number(routingNumber),
           currency
         }).then(res => {
-          if(res === 'SUCCESS')
+          if(res === 'SUCCESS') {
             notifySuccess('Bank Account linked!');
+            const { currentStep, goNextStep } = this.props.route.params
+            goNextStep(currentStep)
+          }
           else
             notifyError(`Error saving changes: ${res}`)
 

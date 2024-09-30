@@ -20,7 +20,7 @@ import ConfirmBooking from "./confirm-booking";
 import {Text} from '../../../components/text/CustomText';
 import BookingNotes from "./booking-notes";
 import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
-import moment from "moment";
+import moment from "moment-timezone";
 import { ConsoleLogger } from "@aws-amplify/core";
 import { confirmSetupIntent } from "@stripe/stripe-react-native";
 import { map } from "lodash";

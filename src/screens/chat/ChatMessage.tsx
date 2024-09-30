@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Heading6, LightText, Subtitle1, Subtitle2, Text} from "../../components/text/CustomText";
 import Colors from "../../theme/colors";
 import {View} from "react-native";
-import moment from 'moment';
+import moment from "moment-timezone";
 
 const ChatMessage = ({ id, text, sender, time }) => {
   return (

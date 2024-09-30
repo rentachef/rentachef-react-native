@@ -7,7 +7,7 @@ import {
   _getDatesByHourRange,
   _getNextDatesFromWeeklyHours
 } from "../../../../utils/datesMapping";
-import moment from "moment";
+import moment from "moment-timezone";
 import Button from "../../../../components/buttons/Button";
 import Colors from "../../../../theme/colors";
 import {isDate, isEmpty} from "lodash";

@@ -9,7 +9,7 @@ import Button from "../../../components/buttons/Button";
 import Divider from "../../../components/divider/Divider";
 import {BookingStatus} from "../../../models/chef/ChefBooking";
 import {Text} from '../../../components/text/CustomText';
-import moment from 'moment';
+import moment from "moment-timezone";
 import { isEmpty, some } from 'lodash';
 import { notifyError, notifySuccess } from '../../../components/toast/toast';
 

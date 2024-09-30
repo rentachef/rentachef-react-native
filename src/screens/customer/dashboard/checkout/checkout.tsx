@@ -6,7 +6,7 @@ import Counter from 'react-native-counters';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../../../../theme/colors";
 import Avatar from "../../../../components/avatar/Avatar";
-import moment from "moment";
+import moment from "moment-timezone";
 import {RACBottomSheet} from "../../../components/bottom-sheet-modal";
 import ChefSchedulePicker from "../chef-about/chef-schedule-picker";
 import {Picker} from "@react-native-picker/picker";

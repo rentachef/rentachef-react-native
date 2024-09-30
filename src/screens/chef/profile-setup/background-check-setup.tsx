@@ -26,6 +26,11 @@ const cameraOptions: CameraOptions = {
   maxWidth: 800
 }
 
+const _formatSSN = (value: string) => 
+  (value.length === 11 && value.includes('-')) ?
+    value
+    : value.replace(/^(\d{3})(\d{2})(\d{4})$/, '$1-$2-$3')
+
 const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   const [focus, setFocus] = useState(undefined)
   const [showCamera, setShowCamera] = useState(false)
@@ -40,8 +45,9 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
 
   useEffect(() => {
     let bgCheck = props.stores.chefProfileStore.retrieveChefBackgroundCheck();
+    console.log('bgCheck SSN', bgCheck)
     if(!isEmpty(bgCheck)) {
-      setBackgroundCheck(bgCheck)
+      setBackgroundCheck({...bgCheck, socialNumber: _formatSSN(bgCheck.socialNumber || '') })
       if(!bgCheck.approved)
         props.navigation.navigate('ChefBackgroundPendingApproval')
     }
@@ -50,7 +56,7 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   }, []);
 
   useEffect(() => {
-    console.log(backgroundCheck)
+    //console.log(backgroundCheck)
   }, [backgroundCheck])
 
 
@@ -116,13 +122,16 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
       try {
         await props.stores.chefProfileStore.saveChefBackgroundCheck({
           legalName,
-          socialNumber: Number(socialNumber),
+          socialNumber: socialNumber,
           idFrontUri: await _getBase64(idFrontUri),
           idBackUri: await _getBase64(idBackUri),
           approved: false
         }).then(res => {
-          if(res === 'SUCCESS')
+          if(res === 'SUCCESS') {
             notifySuccess('Background Check saved!')
+            const { currentStep, goNextStep } = props.route.params
+            goNextStep(currentStep)
+          }
           else
             notifyError(`Error: ${res}`)
   
@@ -139,7 +148,7 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   }
 
   const isValid = () => {
-    let valid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 9
+    let valid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 11
     console.log('isValid', valid, backgroundCheck)
     return valid
   }
@@ -173,8 +182,11 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
             keyboardType={"number-pad"}
             value={backgroundCheck.socialNumber}
             borderColor={Colors.backgroundLight}
-            onChangeText={(value: string) => setBackgroundCheck({...backgroundCheck, socialNumber: value})}
-            maxLength={9}
+            onChangeText={(value: string) => {
+              const formattedSsn = _formatSSN(value);
+              setBackgroundCheck({...backgroundCheck, socialNumber: formattedSsn})
+            }}
+            maxLength={11}
             onFocus={() => setFocus(1) }
             onBlur={() => setFocus(undefined)}
             style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}

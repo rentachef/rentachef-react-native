@@ -1,6 +1,6 @@
 import {action, makeAutoObservable, observable} from 'mobx';
 import ChefEarning from "../../models/chef/ChefDashboard";
-import moment from "moment";
+import moment from "moment-timezone";
 
 class ChefDashboardStore {
   rootStore: any;

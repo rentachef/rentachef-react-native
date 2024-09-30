@@ -9,7 +9,7 @@ import Divider from "../../../../components/divider/Divider";
 import Colors from "../../../../theme/colors";
 import {Chip} from "react-native-elements";
 import {WeekDayAndTime} from "../../../../models/chef/ChefProfileSetup";
-import moment from "moment";
+import moment from "moment-timezone";
 import {Cuisine} from "../../../../models/chef/ChefSettings";
 
 const getTimeString = (wh: WeekDayAndTime) => <Text><Subtitle2>●</Subtitle2> {wh.day}, {moment(wh.timing.from).format('HH:mm A')} to {moment(wh.timing.to).format('HH:mm A')}</Text>

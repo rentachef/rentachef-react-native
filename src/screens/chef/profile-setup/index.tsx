@@ -14,6 +14,34 @@ export default class ChefProfileSetup extends React.Component<any, any> {
   constructor(props: any) {
     super(props)
   }
+  
+  nextStep = (current: string) => {
+    const { chefProfileStore } = this.props.stores;
+    console.log('going to next step from', current)
+    switch(current) {
+      case '1':
+        if(isEmpty(chefProfileStore.availability?.weeklyHours))
+          this.props.navigation.navigate('ChefAvailabilitySetup')
+        else
+          this.props.navigation.goBack()
+        break;
+      case '2':
+        if(isEmpty(chefProfileStore.bankAccount))
+          this.props.navigation.navigate('ChefPaymentSetup')
+        else
+          this.props.navigation.goBack()
+        break;
+      case '3':
+        if(isEmpty(chefProfileStore.backgroundCheck))
+          this.props.navigation.navigate('ChefBackgroundCheckSetup')
+        else
+          this.props.navigation.goBack()
+        break;
+      case '4':
+        this.props.navigation.goBack()
+        break;
+    }
+  }
 
   render() {
     const { chefProfileStore } = this.props.stores;
@@ -35,7 +63,7 @@ export default class ChefProfileSetup extends React.Component<any, any> {
           <View style={{flex: 1, paddingTop: 10}}>
             <TouchableItem style={profileSetupStyles.setupListContainer} onPress={() => {
               console.log("clicked on setup work zone")
-              this.props.navigation.navigate('ChefWorkZoneSetup')
+              this.props.navigation.navigate('ChefWorkZoneSetup', { currentStep: '1', goNextStep: this.nextStep })
             }}>
               <View style={profileSetupStyles.setupListItem}>
                 {isEmpty(chefProfileStore.workZone) && <View style={profileSetupStyles.setupListNumbers}><Text style={profileSetupStyles.stepNumber}>1</Text></View>}
@@ -46,7 +74,7 @@ export default class ChefProfileSetup extends React.Component<any, any> {
             </TouchableItem>
             <TouchableItem style={profileSetupStyles.setupListContainer} onPress={() => {
               console.log("clicked on setup Availability Setup")
-              this.props.navigation.navigate('ChefAvailabilitySetup')
+              this.props.navigation.navigate('ChefAvailabilitySetup', { currentStep: '2', goNextStep: this.nextStep })
             }}>
               <View style={profileSetupStyles.setupListItem}>
                 {(isEmpty(compact(Object.values(chefProfileStore.availability)))) 
@@ -59,7 +87,7 @@ export default class ChefProfileSetup extends React.Component<any, any> {
             </TouchableItem>
             <TouchableItem style={profileSetupStyles.setupListContainer} onPress={() => {
               console.log("clicked on setup payment")
-              this.props.navigation.navigate('ChefPaymentSetup')
+              this.props.navigation.navigate('ChefPaymentSetup', { currentStep: '3', goNextStep: this.nextStep })
             }}>
               <View style={profileSetupStyles.setupListItem}>
                 {isEmpty(chefProfileStore.bankAccount) && <View style={profileSetupStyles.setupListNumbers}><Text style={profileSetupStyles.stepNumber}>3</Text></View>}
@@ -70,7 +98,7 @@ export default class ChefProfileSetup extends React.Component<any, any> {
             </TouchableItem>
             <TouchableItem style={profileSetupStyles.setupListContainer} onPress={() => {
               console.log("clicked on setup payment")
-              this.props.navigation.navigate('ChefBackgroundCheckSetup')
+              this.props.navigation.navigate('ChefBackgroundCheckSetup', { currentStep: '4', goNextStep: this.nextStep })
             }}>
               <View style={profileSetupStyles.setupListItem}>
                 {isEmpty(chefProfileStore.backgroundCheck) && <View style={profileSetupStyles.setupListNumbers}><Text style={profileSetupStyles.stepNumber}>4</Text></View>}

@@ -1,5 +1,5 @@
 import {Timing, WeekDayAndTime} from "../models/chef/ChefProfileSetup";
-import moment from "moment";
+import moment from "moment-timezone";
 import ChefResults from "../screens/customer/dashboard/chef-results";
 
 export function _getWeekDayByShortDayString(shortDay: string): number | undefined {

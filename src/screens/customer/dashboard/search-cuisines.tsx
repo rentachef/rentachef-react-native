@@ -18,7 +18,7 @@ import getImgSource from "../../../utils/getImgSource";
 import TouchableItem from "../../../components/TouchableItem";
 import UnderlineTextInput from "../../../components/textinputs/UnderlineTextInput";
 import {Timestamp} from "react-native-reanimated/lib/types/lib/reanimated2";
-import moment from "moment";
+import moment from "moment-timezone";
 import { inject } from 'mobx-react';
 let imgHolder = require('@assets/img/imgholder.png');
 

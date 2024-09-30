@@ -5,7 +5,7 @@ import {ButtonGroup} from "react-native-elements";
 import TimePicker from "./TimePicker";
 import Button from "../buttons/Button";
 import LinkButton from "../buttons/LinkButton";
-import moment from "moment";
+import moment from "moment-timezone";
 import { notifyWarn } from '../toast/toast';
 
 const _roundMinutes = (date) => { //with minuteInterval of 30

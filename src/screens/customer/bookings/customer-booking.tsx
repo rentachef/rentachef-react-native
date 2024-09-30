@@ -13,7 +13,7 @@ import {
   Text, Title
 } from "../../../components/text/CustomText";
 import Avatar from "../../../components/avatar/Avatar";
-import moment from "moment";
+import moment from "moment-timezone";
 import Divider from "../../../components/divider/Divider";
 import Button from "../../../components/buttons/Button";
 import CheckoutModal from "../dashboard/checkout/checkout-modal";

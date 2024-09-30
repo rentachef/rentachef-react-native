@@ -20,7 +20,7 @@ export interface AvailabilitySetup {
 } // at least one of them required
 
 export interface WeekDayAndTime {
-  day: 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat'
+  day: 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'All'
   timing: Timing
 }
 
@@ -45,7 +45,7 @@ export interface BankAccount {
 // BACKGROUND CHECK
 export interface BackgroundCheck {
   legalName?: string
-  socialNumber?: number
+  socialNumber?: string
   idFrontUri?: string
   idBackUri?: string
   approved: boolean

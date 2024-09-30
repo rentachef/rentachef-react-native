@@ -33,7 +33,7 @@ import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import TimeRangePicker from "../../../components/pickers/TimeRangePicker";
 import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 import {find, isEmpty} from "lodash";
-import moment from "moment";
+import moment from "moment-timezone";
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -203,10 +203,13 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         if(res[0] === 'SUCCESS' && res[1] === 'SUCCESS') {
           console.log('Both succeded!')
           notifySuccess('Workzone saved!')
-          this.setState({ loading: false })
+          this.setState({ loading: false }, () => {
+            const { currentStep, goNextStep } = this.props.route.params
+            goNextStep(currentStep)
+          })
         }
         else {
-          notifyError(`ERROR: ${res[0] - res[1]}` )
+          notifyError(`ERROR: ${res[0]} - ${res[1]}`)
           this.setState({ loading: false })
         }
       })

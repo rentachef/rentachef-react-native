@@ -17,7 +17,7 @@ import Icon from "../../../components/icon/Icon"
 import Colors from '../../../theme/colors';
 import {inject, observer} from 'mobx-react'
 import ChefEarning from "../../../models/chef/ChefDashboard";
-import moment from "moment";
+import moment from "moment-timezone";
 import {sumBy, isEmpty, some, every} from "lodash";
 import { PERMISSIONS, request, requestNotifications } from 'react-native-permissions';
 import InfoModal from 'src/components/modals/InfoModal';

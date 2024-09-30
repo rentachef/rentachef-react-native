@@ -18,7 +18,9 @@ import Button from "../../../components/buttons/Button";
 import { filter, remove } from 'lodash';
 import {notifyError, notifySuccess, notifyWarn} from "../../../components/toast/toast";
 import {Text} from '../../../components/text/CustomText';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Geolocation from 'react-native-geolocation-service';
 
 const getMarkedDates = (dateOverrides: DayAndTime[]) => {
   let markedDates = {};
@@ -34,6 +36,28 @@ const timeFormat: Intl.DateTimeFormatOptions = {
   minute: '2-digit'
 }
 
+const checkTimeZone = () => {
+  const timeZone = moment.tz.guess(); // Guess device timezone
+  const usTimeZones = ['America/Chicago', 'America/New_York', 'America/Denver', 'America/Los_Angeles'];
+
+  if (usTimeZones.includes(timeZone)) {
+    switch (timeZone) {
+      case 'America/Chicago':
+        return 'CST';
+      case 'America/New_York':
+        return 'EST';
+      case 'America/Denver':
+        return 'MST';
+      case 'America/Los_Angeles':
+        return 'PST';
+      default:
+        return 'Unknown';
+    }
+  } else
+    return 'CST';
+};
+
+const usaTimeZones = ['Eastern Standard Time (EST)', 'Central Standard Time (CST)', 'Mountain Standard Time (MST)', 'Pacific Standard Time (PST)']
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export default class ChefAvailability extends React.Component<any, any> {
@@ -51,10 +75,18 @@ export default class ChefAvailability extends React.Component<any, any> {
       dateOverrides: availability?.dateOverrides ? [...availability.dateOverrides] : [],
       calendarDates: availability?.dateOverrides ? getMarkedDates([...availability.dateOverrides]) : {},
       weeklyHours: availability?.weeklyHours ? [...availability.weeklyHours] : [],
-      timeZone: availability?.timeZone ? availability.timeZone : 'Eastern Standard Time (EST)',
+      timeZone: undefined, //availability?.timeZone ? availability.timeZone : undefined,
       timeForDay: '',
       selectedDate: undefined,
       loading: false
+    }
+  }
+
+  componentDidMount(): void {
+    console.log('checking timezone...', checkTimeZone())
+    if(!this.state.timeZone) {
+      let tz = checkTimeZone()
+      this.setState({ timeZone: usaTimeZones.find(t => t.includes(tz))})
     }
   }
 
@@ -82,7 +114,8 @@ export default class ChefAvailability extends React.Component<any, any> {
   showTimeModal = (modalView: string, day: string = '', enabled: boolean = false) => {
     console.log('show time modal!', modalView, day, enabled)
     if(enabled) {
-      let selectedDate = this.state.weeklyHours.find((wh: WeekDayAndTime) => wh.day === day);
+      let selectedDate = day === 'all' ? { day: 'All', timing: { from: new Date(), to: new Date() } }
+        : this.state.weeklyHours.find((wh: WeekDayAndTime) => wh.day === day);
       this.setState({modalIndex: 1, modalView, timeForDay: day, selectedDate })
     } else {
       var wh = [...this.state.weeklyHours];
@@ -103,16 +136,29 @@ export default class ChefAvailability extends React.Component<any, any> {
     console.log('timeFrom', timeFrom, 'timeTo', timeTo)
     const { timeForDay, selectedIndex, weeklyHours, dateOverrides } = this.state;
     if(selectedIndex === 0) { //weeklyHours
-      let weekDayAndTime: WeekDayAndTime = {
-        day: timeForDay,
-        timing: {
-          from: moment(timeFrom).local().toDate(),
-          to: moment(timeTo).local().toDate()
+      if(timeForDay === 'all') {
+        //TODO
+        console.log('change datetime for all')
+        let wh = weekDays.map(wd => ({
+          day: wd,
+          timing: {
+            from: moment(timeFrom).local().toDate(),
+            to: moment(timeTo).local().toDate()
+          }
+        }))
+        this.setState({ modalIndex: -1, weeklyHours: wh, timeForDay: '' }, () => this.forceUpdate())
+      } else {
+        let weekDayAndTime: WeekDayAndTime = {
+          day: timeForDay,
+          timing: {
+            from: moment(timeFrom).local().toDate(),
+            to: moment(timeTo).local().toDate()
+          }
         }
+        var wh = [...weeklyHours];
+        upsert(wh, weekDayAndTime, 'day')
+        this.setState({ modalIndex: -1, weeklyHours: wh, timeForDay: '' }, () => this.forceUpdate())
       }
-      var wh = [...weeklyHours];
-      upsert(wh, weekDayAndTime, 'day')
-      this.setState({ modalIndex: -1, weeklyHours: wh, timeForDay: '' }, () => this.forceUpdate())
     } else { //dateOverrides
       let dayAndTime: DayAndTime = {
         day: timeFrom,
@@ -143,7 +189,10 @@ export default class ChefAvailability extends React.Component<any, any> {
       rootStore.chefProfileStore.saveChefAvailability(availabilitySetup)
         .then(_ => {
           notifySuccess('Availability saved!')
-          this.setState({ loading: false })
+          this.setState({ loading: false }, () => {
+            const { currentStep, goNextStep } = this.props.route.params
+            goNextStep(currentStep)
+          })
         })
         .catch(err => {
           notifyError(`An error ocurred: ${err.message}`)
@@ -176,8 +225,14 @@ export default class ChefAvailability extends React.Component<any, any> {
           />
           {this.state.selectedIndex === 0 ? (
               <View key={timeForDay} style={{flex: 3 }}>
+                <TouchableOpacity 
+                  style={styles.textButton}
+                  onPress={() => this.showTimeModal('time', 'all', true)}
+                >
+                    <Text>Select for all</Text>
+                </TouchableOpacity>
                 {weekDays.map(wd => (
-                  <View key={wd} style={{flex: .1, marginBottom: 10, marginTop: 20 }}><WeekDayRow key={wd} day={wd} time={this.getDayTimes(wd)} availability={() => this.getDayAvailability(wd)} showTimeModal={(value: boolean) => this.showTimeModal('time', wd, value)}/></View>
+                  <View key={wd} style={{flex: .1, marginBottom: 10, marginTop: 10 }}><WeekDayRow key={wd} day={wd} time={this.getDayTimes(wd)} availability={() => this.getDayAvailability(wd)} showTimeModal={(value: boolean) => this.showTimeModal('time', wd, value)}/></View>
                 ))}
               </View>
             ) : (
@@ -257,5 +312,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: Colors.background,
     alignSelf: 'flex-end'
+  },
+  textButton: { 
+    width: '30%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    height: 20,
+    marginTop: 10,
+    borderColor: Colors.backgroundLight,
+    borderRadius: 20,
+    backgroundColor: Colors.backgroundLight,
+    borderWidth: 1
   }
 })

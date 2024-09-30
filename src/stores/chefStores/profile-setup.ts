@@ -7,7 +7,7 @@ import ChefProfileSetup, {
 } from "../../models/chef/ChefProfileSetup";
 import {isEmpty} from "lodash";
 import { decryptData, encryptData } from "src/utils/encryptor";
-import moment from "moment";
+import moment from "moment-timezone";
 
 class ChefProfileStore {
   rootStore: any;

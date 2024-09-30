@@ -23,6 +23,9 @@ import SplashScreen from 'react-native-splash-screen'
 import messaging from '@react-native-firebase/messaging';
 var PushNotification = require('react-native-push-notification');
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import moment from 'moment-timezone';
+
+moment.tz.setDefault(moment.tz.guess())
 
 const MySectionHeader = Object.assign({}, AmplifyTheme.button, { backgroundColor: 'pink' })
 const MyTheme = Object.assign({}, AmplifyTheme, {

@@ -38,7 +38,7 @@ import Colors from "../../../theme/colors";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import {useEffect, useState} from "react";
 import ChefEarning from "../../../models/chef/ChefDashboard";
-import moment from "moment";
+import moment from "moment-timezone";
 import {inject} from "mobx-react";
 
 function Day(props) {

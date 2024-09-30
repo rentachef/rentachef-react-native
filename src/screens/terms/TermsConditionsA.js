@@ -24,7 +24,7 @@ import {Caption} from '../../components/text/CustomText';
 
 // import colors
 import Colors from '../../theme/colors';
-import moment from 'moment';
+import moment from "moment-timezone";
 
 // TermsConditionsA Config
 const APP_NAME = 'ChefUpNow';

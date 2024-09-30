@@ -30,7 +30,7 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import Colors from "../../../theme/colors";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import {useEffect, useState} from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 import {ButtonGroup} from "react-native-elements";
 import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
 
