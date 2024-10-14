@@ -28,7 +28,7 @@ export type GeneralApiProblem =
   /**
    * Bad request. This is a 400.
    */
-  | { kind: 'bad-request' }
+  | { kind: 'bad-request', error: string }
   /**
    * All other 4xx series errors.
    */
@@ -62,7 +62,7 @@ export function getGeneralApiProblem (response: ApiResponse<any>): GeneralApiPro
     case 'CLIENT_ERROR':
       switch (response.status) {
         case 400:
-          return { kind: 'bad-request' }
+          return { kind: 'bad-request', error: response.data }
         case 401:
           return { kind: 'unauthorized' }
         case 403:

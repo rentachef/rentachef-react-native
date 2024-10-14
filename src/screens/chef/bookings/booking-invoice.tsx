@@ -71,7 +71,7 @@ const BookingInvoice = inject('stores')(({ navigation, route, stores }) => {
       }
       else {
         console.log('complete failed!', res)
-        notifyError(res)
+        notifyError(res, 5000)
       }
     } else {
       notifyError('Something went wrong, some values are empty')

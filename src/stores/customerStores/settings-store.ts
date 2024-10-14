@@ -22,7 +22,6 @@ class CustomerSettingsStore {
         console.log("r", r)
         if(!!r) {
           this.setCustomerProfile(r?.data.profile || {})
-          console.log('setting preferences', r?.data.preferences)
           this.setCustomerPreferences(r?.data.preferences || {})
           let storedLocation = await AsyncStorage.getItem('@location')
           if(!!storedLocation)
@@ -77,15 +76,13 @@ class CustomerSettingsStore {
       return response.error?.message
   }
 
+  getStripeClientSecret = async () => await this.rootStore.chefApi.getStripeClientSecret()
+
   addCard = async (data: any) => {
     data = {
-      ...data,
-      stripeData: {
-        number: encryptData(data.stripeData.number),
-        exp_month: encryptData(data.stripeData.exp_month.toString()),
-        exp_year: encryptData(data.stripeData.exp_year.toString()),
-        cvc: encryptData(data.stripeData.cvc)
-      }
+      stripeId: encryptData(data.stripeId),
+      cardBrand: encryptData(data.cardBrand),
+      cardNumber: encryptData(data.cardNumber)
     }
     return await this.rootStore.chefApi.addConsumerPaymentMethod(data)
   }

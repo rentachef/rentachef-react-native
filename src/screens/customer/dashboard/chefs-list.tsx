@@ -9,8 +9,9 @@ import RACLoader from "../../../components/skeleton/RACEmptyResults";
 import { filter, isEmpty, mean } from 'lodash';
 import RACEmptyResults from '../../../components/skeleton/RACEmptyResults';
 
-const renderItem = (item, onSelect) =>
-  <TouchableOpacity key={item.index} onPress={!!onSelect ? () => onSelect(item.item) : () => {}}>
+const renderItem = (item, onSelect) => {
+  console.log(item.item.settings.profile.profilePicUri)
+  return <TouchableOpacity key={item.index} onPress={!!onSelect ? () => onSelect(item.item) : () => {}}>
     <Card key={item.index} wrapperStyle={styles.cardWrapper} containerStyle={styles.cardContainer}>
       <View style={styles.cardPhoto}>
         <Avatar
@@ -32,6 +33,7 @@ const renderItem = (item, onSelect) =>
       </View>
     </Card>
   </TouchableOpacity>
+}
 
 const ChefsList = ({data, title, onSelect, loading }) => {
   return (

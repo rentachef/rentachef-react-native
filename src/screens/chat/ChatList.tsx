@@ -69,6 +69,10 @@ const ChatList = (inject('stores')((props) => {
             setChannels(compact(channels))
           }
         })
+        .catch(e => {
+          setLoading(false)
+          console.log('Pubnub error: ', e.status)
+        })
       })
   }
 

@@ -188,6 +188,7 @@ import {initStripe, StripeProvider} from '@stripe/stripe-react-native';
 import PubNub from 'pubnub'
 import { PERMISSIONS, request } from 'react-native-permissions'
 import toast from 'src/components/toast/toast'
+import { STRIPE_PUBLISHABLE_KEY_DEV, STRIPE_PUBLISHABLE_KEY_PROD } from 'src/services/stripe-config'
 
 const MySignInComponent = inject("stores")(observer(props => props.children(props)))
 // APP
@@ -381,7 +382,7 @@ class App extends React.Component {
     const { userDataKey, userId } = rootStore.authStore.authInfo
     return (
       <StripeProvider
-        publishableKey="pk_test_51Jjp7mGMAuLelpA3aMsrxw0Rcmrg9SeijC14l6WkM0b5XNB8XxTPjKGyOCz4yCU5QHYbOWO286mDwjKWhFdEnu5300ar0uvxT5"
+        publishableKey={STRIPE_PUBLISHABLE_KEY_PROD}
         urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
         merchantIdentifier="merchant.com.rentachef" // required for Apple Pay
       >

@@ -59,7 +59,7 @@ class BookingsStore {
 
   @action completeBooking = async (chargeObject: any) => {
     const result = await this.rootStore.chefApi.chargeClient(chargeObject)
-    console.log('chargeClient result', result.data)
+    console.log('chargeClient result', result.data || result)
     if(result.ok) {
       let index = this.bookings.findIndex(b => b._id === chargeObject.bookingId)
       this.bookings[index] = result.data

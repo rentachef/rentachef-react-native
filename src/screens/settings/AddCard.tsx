@@ -9,23 +9,28 @@ import {isEmpty} from "lodash";
 import {inject} from "mobx-react";
 import {notifyError, notifySuccess} from "../../components/toast/toast";
 import { CreditCardInput } from "react-native-credit-card-input-plus";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const getFormattedBrand = (brand: string) => {
   switch(brand) {
-    case 'american-express':
+    case 'americanexpress':
       return 'cc-amex'
-    case 'master-card':
+    case 'mastercard':
       return 'cc-mastercard'
     default:
       return `cc-${brand}`
   }
-
 }
+
+const _isValid = (cardDet) => cardDet.validCVC === 'Valid'
+  && cardDet.validNumber === 'Valid'
+  && cardDet.validExpiryDate === 'Valid'
 
 const AddCard = inject('stores')(({ navigation, stores }) => {
   const [validCard, setValidCard] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [stripeData, setStripeData] = useState({})
+  const [cardDetails, setCardDetails] = useState({})
+  const { confirmSetupIntent, createPaymentMethod } = useStripe();
   const [newCard, setNewCard] = useState<PaymentMethod>({
     type: 'Credit Card',
     cardNumber: undefined,
@@ -34,45 +39,78 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
   })
 
   useEffect(() => {
-    console.log(newCard)
-  }, [newCard])
+    console.log(cardDetails)
+  }, [cardDetails])
 
-  const onSave = () => {
-    //TODO implement https://www.npmjs.com/package/hybrid-crypto-js
+  const onSave = async () => {
     setLoading(true)
-    let payload = {
-      newCard: { ...newCard },
-      stripeData: { ...stripeData }
-    }
-    console.log('saving card...')
-    stores.customerSettingsStore.addCard(payload)
-      .then(res => {
-        setLoading(false)
-        console.log('res!', res.ok, res.data, typeof(res.ok))
+
+    //create setupIntent
+    let { data } = await stores.customerSettingsStore.getStripeClientSecret()
+    console.log('clientSecret', data)
+    
+    // Confirm the SetupIntent with the card details
+    const { setupIntent, error } = await confirmSetupIntent(data.clientSecret, {
+      paymentMethodType: 'Card',
+      paymentMethodData: {
+        billingDetails: {
+          email: stores.customerSettingsStore.profile?.email
+        }
+      }
+    });
+
+    console.log('setupIntent', setupIntent)
+
+    if (error) {
+      setLoading(false)
+      console.log('Error:', error.message);
+      notifyError(error.message)
+    } else if (setupIntent && setupIntent.status === 'Succeeded') {
+      console.log('Card saved successfully:', setupIntent);
+      // You can now attach the saved card to your customer for future payments
+      console.log('saving card...')
+
+      let newCard = {
+        stripeId: setupIntent.paymentMethodId,
+        cardBrand: getFormattedBrand(cardDetails.brand.toLowerCase()),
+        cardNumber: cardDetails.last4
+      }
+
+      try {
+        let res = await stores.customerSettingsStore.addCard(newCard)
         if(res.ok) {
           notifySuccess('Card added!')
           stores.customerSettingsStore.getPaymentMethods()
           navigation.setParams({ addedCard: true })
-          //navigation.goBack()
           navigation.navigate('SettingsA')
-        } else
+        } else {
+          console.log(res.error?.message)
           notifyError(`Error while adding a card: ${res.error?.message}`)
-      })
+        }
+      } catch(e) {
+        notifyError(`Error while adding a card: ${res.error?.message}`)
+      }
+    }
   }
 
   return (
     <View style={{...globalStyles.screenContainerJustBetween, flex: 1}}>
-      <View>
-        {/*<CardField
-          postalCodeEnabled={true}
+      <KeyboardAwareScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={{ flexGrow: 1 }}>
+        <CardField
+          postalCodeEnabled={false}
+          placeholders={{ number: '4242 4242 4242 4242', cvc: '123', expiration: 'MM/YY' }}
           cardStyle={{
-            backgroundColor: '#FFFFFF',
-            textColor: '#000000',
+            backgroundColor: Colors.backgroundLight,
+            textErrorColor: Colors.danger,
+            borderRadius: 10,
+            cursorColor: Colors.primaryColor,
+            textColor: Colors.primaryColor,
+            placeholderColor: Colors.placeholderColor
           }}
           style={{
             width: '100%',
             height: 50,
-            marginVertical: 30,
+            marginVertical: 30
           }}
           onCardChange={(cardDetails) => {
             console.log('cardDetails', cardDetails);
@@ -80,54 +118,19 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
               && cardDetails.validNumber === 'Valid'
               && cardDetails.validExpiryDate === 'Valid'
             )
-              setNewCard({ ...newCard,
-                cardBrand: getFormattedBrand(cardDetails.brand),
-                cardNumber: Number(cardDetails.last4)
-              })
+             setCardDetails(cardDetails)
           }}
           onFocus={(focusedField) => {
             console.log('focusField', focusedField);
           }}
-        />*/}
-        <CreditCardInput
-          onChange={cardDetails => {
-            setValidCard(cardDetails.valid)
-            console.log('cardDetails', cardDetails)
-            if(cardDetails.valid) {
-              console.log('cardDetails valid')
-              Keyboard.dismiss()
-              setNewCard({
-                type: 'Credit Card',
-                cardNumber: cardDetails.values.number?.slice(-4),
-                cardBrand: getFormattedBrand(cardDetails.values.type),
-                default: true
-              })
-              setStripeData({
-                number: cardDetails.values.number,
-                exp_month: Number(cardDetails.values.expiry?.split('/')[0]),
-                exp_year: Number(cardDetails.values.expiry?.split('/')[1]),
-                cvc: cardDetails.values.cvc,
-              })
-            }
-          }}
-          
-          invalidColor={Colors.error}
-          validColor={Colors.primaryColor}
-          labelStyle={{
-            color: Colors.primaryText
-          }}
-          placeholderColor={Colors.placeholder}
-          inputStyle={{
-            color: Colors.terciaryText
-          }}
         />
-      </View>
+      </KeyboardAwareScrollView>
       <View>
         <View style={{...globalStyles.buttonContainer, marginHorizontal: 20, alignSelf: 'center' }}>
           <Button
             title='Save Card'
             onPress={onSave}
-            disabled={Object.values(newCard).some(v => isEmpty(v?.toString())) || !validCard || loading}
+            disabled={!cardDetails?.complete || loading}
             loading={loading}
             loadingColor={Colors.background}
           />

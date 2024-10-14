@@ -112,6 +112,33 @@ interface specialtiesPhotoGallery {
 
 const covid = true
 
+const dynamicResizeImage = (imageUri, width, height) => {
+  let divisor = 2.5;
+  if (width > 4000 || height > 4000) {
+    divisor = 4; // Adjust the divisor based on image size
+  } else if (width > 2000 || height > 2000) {
+    divisor = 3;
+  }
+
+  const newWidth = width / divisor;
+  const newHeight = height / divisor;
+
+  return ImageResizer.createResizedImage(
+    imageUri,
+    newWidth,
+    newHeight,
+    'JPEG',
+    40, // Adjust the quality as needed
+    0,
+    null,
+    false,
+    {
+      mode: 'contain',
+      onlyScaleDown: true
+    }
+  );
+};
+
 const Bio = inject('stores')(observer((props) => {
   console.log('bio mounted', props.stores.chefSettingsStore.bio?.cuisines)
   const [loading, setLoading] = useState(false)
@@ -157,39 +184,29 @@ const Bio = inject('stores')(observer((props) => {
     let photos = [...specialtiesPhotos]
     if(!data.didCancel) {
       if(data?.assets) {
-        ImageResizer.createResizedImage(
+        dynamicResizeImage(
           data.assets[0].uri,
-          data.assets[0].width / 2,
-          data.assets[0].height / 2,
-          'JPEG',
-          40,
-          0,
-          null,
-          false,
-          {
-            mode: 'contain',
-            onlyScaleDown: true
-          }
-        )
-          .then((response) => {
-            console.log('resize done', response)
-            // response.uri is the URI of the new image that can now be displayed, uploaded...
-            // response.path is the path of the new image
-            // response.name is the name of the new image with the extension
-            // response.size is the size of the new image
-            photos.push({
-              id: photos.length + 1,
-              url: response.uri
+          data.assets[0].width,
+          data.assets[0].height)
+            .then((response) => {
+              console.log('resize done', response)
+              // response.uri is the URI of the new image that can now be displayed, uploaded...
+              // response.path is the path of the new image
+              // response.name is the name of the new image with the extension
+              // response.size is the size of the new image
+              photos.push({
+                id: photos.length + 1,
+                url: response.uri
+              });
+              setSpecialtiesPhotos([...photos])
+            })
+            .catch((err) => {
+              // Oops, something went wrong. Check that the filename is correct and
+              // inspect err to get more details.
+              console.log('ERROR!', err)
+              //setShowCamera(false)
+              //throw err
             });
-            setSpecialtiesPhotos([...photos])
-          })
-          .catch((err) => {
-            // Oops, something went wrong. Check that the filename is correct and
-            // inspect err to get more details.
-            console.log('ERROR!', err)
-            //setShowCamera(false)
-            //throw err
-          });
       }
     }
   }

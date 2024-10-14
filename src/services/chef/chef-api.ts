@@ -213,6 +213,11 @@ export default class ChefApi {
     return await this._put(url)
   }
 
+  async getStripeClientSecret() {
+    const url = 'stripe/clientSecret'
+    return await this._get(url)
+  }
+
   async chargeClient(chargeObject: any) {
     const url = 'stripe/charge'
     return await this._post(url, chargeObject)

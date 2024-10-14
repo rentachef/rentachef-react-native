@@ -18,34 +18,35 @@ export default class ChefProfileSetup extends React.Component<any, any> {
   nextStep = (current: string) => {
     const { chefProfileStore } = this.props.stores;
     console.log('going to next step from', current)
+    this.props.navigation.popToTop()
     switch(current) {
       case '1':
         if(isEmpty(chefProfileStore.availability?.weeklyHours))
-          this.props.navigation.navigate('ChefAvailabilitySetup')
-        else
-          this.props.navigation.goBack()
+          this.props.navigation.navigate('ChefAvailabilitySetup', { currentStep: '2', goNextStep: this.nextStep })
+        else 
+          this.props.navigation.navigate('ChefProfileSetupStack')
         break;
       case '2':
         if(isEmpty(chefProfileStore.bankAccount))
-          this.props.navigation.navigate('ChefPaymentSetup')
+          this.props.navigation.navigate('ChefPaymentSetup', { currentStep: '3', goNextStep: this.nextStep })
         else
-          this.props.navigation.goBack()
+          this.props.navigation.navigate('ChefProfileSetupStack')
         break;
       case '3':
         if(isEmpty(chefProfileStore.backgroundCheck))
-          this.props.navigation.navigate('ChefBackgroundCheckSetup')
+          this.props.navigation.navigate('ChefBackgroundCheckSetup', { currentStep: '4', goNextStep: this.nextStep })
         else
-          this.props.navigation.goBack()
+          this.props.navigation.navigate('ChefProfileSetupStack')
         break;
       case '4':
-        this.props.navigation.goBack()
+        this.props.navigation.navigate('ChefProfileSetupStack')
         break;
     }
   }
 
   render() {
     const { chefProfileStore } = this.props.stores;
-    console.log('chefProfileStore.availability', chefProfileStore.availability)
+    console.log('chefProfileStore.availability', chefProfileStore)
 
     return (
       <ScrollView style={profileSetupStyles.setupParent} contentContainerStyle={profileSetupStyles.setupParent}>

@@ -198,6 +198,7 @@ export default class SettingsA extends Component {
       deleteAccountCounter: 0
     };
 
+    console.log('PROFILE:', props.stores.customerSettingsStore.profile)
     this.role = props.stores.authStore.authInfo.role;
     this.menuItems = this.role === 'Cook' ? ['Bio', 'Wallet', 'Notifications'] : ['Wallet', 'Preferences', 'Notifications'];
   }
