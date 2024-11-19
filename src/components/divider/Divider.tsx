@@ -8,12 +8,13 @@
 // import dependencies
 import React from 'react';
 import {StyleSheet, View, ViewStyle} from 'react-native';
+import Colors from "../../theme/colors";
 
 // Divider Styles
 const styles = StyleSheet.create({
   container: {
     height: 1,
-    backgroundColor: '#eeeeee',
+    backgroundColor: Colors.placeholderColor,
   },
   mh16: {
     marginHorizontal: 16

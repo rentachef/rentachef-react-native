@@ -2,7 +2,7 @@
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "rentac167e8e2c",
-    "userPoolName": "rentachef",
+    "userPoolName": "chefupnow",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -32,7 +32,7 @@
     "userpoolClientLambdaRole": "rentac167e8e2c_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
     "sharedId": "167e8e2c",
-    "resourceName": "rentachef",
+    "resourceName": "chefupnow",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [

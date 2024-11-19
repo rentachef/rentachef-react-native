@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Platform, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
+import {Linking, Platform, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
 import globalStyles from "../../../theme/global-styles";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../../../theme/colors";
@@ -98,13 +98,28 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
               <HeadlineBold>{booking.diners}</HeadlineBold>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', height: 35 }}>
+          <View style={{ flexDirection: 'row', height: 50 }}>
             <Icon name='silverware-fork-knife' color={Colors.secondaryText} size={30} />
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
               <Text style={{ marginLeft: 20, marginVertical: 5 }}>Cuisine</Text>
               <HeadlineBold>{booking.cuisine.label}</HeadlineBold>
             </View>
           </View>
+          {booking.dishes?.length > 0 && (
+            <View style={{ flexDirection: 'row', minHeight: 50 }}>
+              <Icon name='food' color={Colors.secondaryText} size={30} />
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
+                <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dishes</Text>
+                <HeadlineBold 
+                  style={{ flex: 1, textAlign: 'right', marginLeft: 10 }}
+                  numberOfLines={2} 
+                  ellipsizeMode="tail"
+                >
+                  {booking.dishes.map(dish => dish.label).join(', ')}
+                </HeadlineBold>
+              </View>
+            </View>
+          )}
           {!!booking.ingredients?.length &&
             <View>
               <ListItem.Accordion
@@ -222,7 +237,14 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                     color={Colors.backgroundMedium}
                   />
                 </View>}
-                <TouchableOpacity style={{ flex: 1, alignSelf: 'center', marginTop: 10 }}>
+                <TouchableOpacity 
+                  style={{ flex: 1, alignSelf: 'center', margin: 10 }}
+                  onPress={() => {
+                    const email = 'support@chefupnow.com';
+                    const subject = `I need help with my booking (ID ${booking._id})`;
+                    Linking.openURL(`mailto:${email}?subject=${encodeURIComponent(subject)}`);
+                  }}
+                >
                   <Text style={{ color: Colors.secondaryColor }}>Get Help</Text>
                 </TouchableOpacity>
               </View>

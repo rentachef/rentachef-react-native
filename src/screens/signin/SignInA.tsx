@@ -135,17 +135,13 @@ export default class SignInA extends Component {
   };
 
   validate = (text) => {
-    console.log(text);
     let reg = /^[\w+]+([\.-]?[\w+]+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(text) === false) {
-      console.log("Email is Not Correct");
       this.setState({ email: text.trim(), emailError: true })
       return false;
     }
-    else {
+    else
       this.setState({ email: text.trim(), emailError: false })
-      console.log("Email is Correct");
-    }
   }
 
   emailFocus = () => {
@@ -261,8 +257,6 @@ export default class SignInA extends Component {
       inputModalVisible,
       inputModalNewPasswordVisible
     } = this.state;
-
-    console.log('passwordFocused', passwordFocused)
 
     return (
       <SafeAreaView style={styles.screenContainer}>

@@ -147,6 +147,12 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
                       notifyWarn('Please set up a payment method before booking')
                       return
                     }
+                    if(isEmpty(stores.customerSettingsStore.profile.fullName) || 
+                      isEmpty(stores.customerSettingsStore.profile.phoneNumber) ||
+                      isEmpty(stores.customerSettingsStore.profile.email)) {
+                      notifyWarn('Please set up your profile information before booking')
+                      return
+                    }
                     navigation.navigate('Checkout', { chef: {
                       userId: chef.userId,
                       name: chef.settings.profile.fullName,

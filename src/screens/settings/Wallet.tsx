@@ -76,6 +76,7 @@ const Wallet = inject('stores')(observer((props) => {
           <CustomerCards
             defaultCard={paymentMethods.find(c => c.default)}
             cards={paymentMethods}
+            onDelete={(id) => props.stores.customerSettingsStore.removePaymentMethod(id)}
             onSelect={(cc) => {
               setSelectedCard(cc)
               props.stores.customerSettingsStore.setDefaultPaymentMethod(cc._id)

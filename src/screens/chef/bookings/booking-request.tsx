@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import {SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View, Linking} from "react-native";
 import Colors from "../../../theme/colors";
 import Button from "../../../components/buttons/Button";
 import {ButtonGroup, Card, ListItem} from "react-native-elements";
@@ -87,7 +87,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
     props.stores.bookingsStore.updateBooking(booking._id, { 
       status: 'Confirmed',
       estimate,
-      dish: booking.dish.label,
+      dishes: booking.dishes.map(d => d.label),
       chefName: booking.chefName,
       consumerId: booking.consumerId
     }).then(res => {
@@ -169,18 +169,17 @@ const BookingRequest = inject('stores')(observer((props)  => {
             <Text style={{ margin: 5 }}>{booking.diners}</Text>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', height: 50 }}>
-          <Icon name='silverware-fork-knife' size={30} color={Colors.secondaryText}/>
-          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
-            <Text style={{ marginLeft: 20, marginVertical: 5 }}>Cuisine</Text>
-            <Text style={{ margin: 5 }}>{booking.cuisine.label}</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', height: 50 }}>
+        <View style={{ flexDirection: 'row', minHeight: 50 }}>
           <Icon name='food' size={30} color={Colors.secondaryText}/>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%'}}>
-            <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dish</Text>
-            <Text style={{ margin: 5 }}>{booking.dish.label}</Text>
+            <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dishes</Text>
+            <Text 
+              style={{ margin: 5, flex: 1, textAlign: 'right' }}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {booking.dishes.map(dish => dish.label).join(', ')}
+            </Text>
           </View>
         </View>
         {!!booking.ingredients?.length &&
@@ -286,7 +285,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
             </View>
           </View>) : (
         <View style={{ paddingHorizontal: 30 }}>
-          <Subtitle2 style={{ bottom: 10 }}>This booking will be automatically marked complete 3 days after the due date. </Subtitle2>
+          <Subtitle2 style={{ bottom: 10, fontSize: 16, textAlign: 'center' }}>This booking will be automatically marked complete 3 days after the due date. </Subtitle2>
           <View style={{ flex: .5, marginVertical: 10 }}>
             <Button
               onPress={() => {
@@ -329,7 +328,14 @@ const BookingRequest = inject('stores')(observer((props)  => {
                 titleColor={Colors.error}
               />
             </View>}
-          <TouchableOpacity style={{ flex: 1, alignSelf: 'center', margin: 10 }}>
+          <TouchableOpacity 
+            style={{ flex: 1, alignSelf: 'center', margin: 10 }}
+            onPress={() => {
+              const email = 'support@chefupnow.com';
+              const subject = `I need help with my booking (ID ${booking._id})`;
+              Linking.openURL(`mailto:${email}?subject=${encodeURIComponent(subject)}`);
+            }}
+          >
             <Text style={{ color: Colors.secondaryColor }}>Get Help</Text>
           </TouchableOpacity>
         </View>
@@ -357,7 +363,6 @@ const styles = StyleSheet.create({
   screenContainer: {
     flexGrow: 1,
     backgroundColor: Colors.background,
-    height: '100%'
   },
   buttonContainer: {
     width: '100%',

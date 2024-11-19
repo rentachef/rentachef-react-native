@@ -1,11 +1,22 @@
 import React from 'react'
-import {StyleSheet, View} from "react-native";
+import {Linking, StyleSheet, View} from "react-native";
 import {SmallBoldHeading, Subtitle1, Subtitle2} from "../../../components/text/CustomText";
 import Colors from "../../../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Button from "../../../components/buttons/Button";
 
 const ChefBackgroundPendingApproval = () => {
+  const handleGetHelp = async () => {
+    const email = 'support@chefupnow.com';
+    const subject = 'Background Check Support Request';
+    
+    try {
+      await Linking.openURL(`mailto:${email}?subject=${encodeURIComponent(subject)}`);
+    } catch (error) {
+      console.error('Error opening email app:', error);
+    }
+  };
+
   return (
     <View style={styles.screenContainer}>
       <View style={styles.wrapper}>
@@ -13,9 +24,9 @@ const ChefBackgroundPendingApproval = () => {
       </View>
       <View style={styles.content}>
         <Icon name='file-eye' size={130} color={Colors.primaryColor}/>
-        <SmallBoldHeading style={styles.smallBoldHeading}>We’re evaluating your profile</SmallBoldHeading>
+        <SmallBoldHeading style={styles.smallBoldHeading}>We're evaluating your profile</SmallBoldHeading>
         <Subtitle2 style={styles.subtitle}>You will be notified via email after the decision has been made.</Subtitle2>
-        <Button buttonStyle={styles.buttonStyle} small titleColor={Colors.primaryText} title={'Get Help'} borderColor={Colors.backgroundLight} outlined />
+        <Button buttonStyle={styles.buttonStyle} small titleColor={Colors.primaryText} title={'Get Help'} borderColor={Colors.backgroundLight} outlined onPress={handleGetHelp} />
       </View>
     </View>
   )

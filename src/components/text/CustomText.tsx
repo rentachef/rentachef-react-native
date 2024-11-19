@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '400',
     ...fonts.regular,
+    fontSize: 16,
     color: Colors.primaryText
   },
   lightText: {

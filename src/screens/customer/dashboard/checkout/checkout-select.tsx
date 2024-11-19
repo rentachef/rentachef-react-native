@@ -32,16 +32,25 @@ const renderItem = (itemsType, index, item, withIcon, onSelect) => {
           {withIcon && <Icon style={styles.icon} name='check-circle-outline' size={20} />}
         </TouchableOpacity>
       )
+    case 'dish':
+      return (
+        <TouchableOpacity key={index} style={styles.item} onPress={() => onSelect(item)}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text>{item.label}</Text>
+          </View>
+        </TouchableOpacity>
+      )
     default:
       return <></>
   }
 };
 
-const CheckoutSelect = inject('stores')(({ data, title, selected, onSelect, itemsType, stores }) => {
+const CheckoutSelect = inject('stores')(({ data, title, selected, onSelect, itemsType, stores, navigation }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(selected || stores.customerSettingsStore.paymentMethods?.find(pm => pm.default))
 
   useEffect(() => {
     console.log('selectedPaymentMethod', selectedPaymentMethod)
+    console.log('checkoutSelect navigation', navigation)
   }, [])
 
   return (
@@ -56,7 +65,9 @@ const CheckoutSelect = inject('stores')(({ data, title, selected, onSelect, item
             itemsType === 'paymentMethod' ?
                 <TouchableOpacity style={{ ...styles.item, flexDirection: 'row', justifyContent: 'flex-start', borderBottomWidth: 0 }} onPress={() => console.log('add payment method')}>
                   <Icon name='plus' size={25} color={Colors.primaryColor} />
+                  <TouchableOpacity onPress={() => navigation.navigate('Settings', { screen: 'Wallet' })}>
                   <Text style={{ alignSelf: 'center', marginLeft: 10 }}>Add Payment Method</Text>
+                  </TouchableOpacity>
                 </TouchableOpacity> : <></>}
         />
       </SafeAreaView>
@@ -78,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#e3e3e3',
+    borderBottomColor: Colors.placeholderColor,
     padding: 15,
     width: '100%'
   },

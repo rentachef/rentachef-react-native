@@ -25,6 +25,7 @@ import InfoModal from 'src/components/modals/InfoModal';
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
     paddingTop: Platform.OS === 'ios' ? '10%' : 0,
+    marginTop: Platform.OS === 'android' ? 10 : 0,
     paddingBottom: 10,
     flex: .1,
     justifyContent: 'flex-start',
@@ -39,6 +40,7 @@ const dashboardStyles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+    marginTop: 20,
     justifyContent: 'center'
   }
 })
@@ -154,8 +156,6 @@ export default class ChefDashboard extends React.Component<any, any> {
         }
       ]
     };
-
-    console.log('DATA:', JSON.stringify(data))
 
     const chartConfig = {
         backgroundColor: Colors.backgroundLight,
@@ -278,7 +278,7 @@ export default class ChefDashboard extends React.Component<any, any> {
             <Divider type={'full-bleed'}/>
 
             <TouchableOpacity
-              style={{marginVertical: 5, marginTop: 10, flex: .25 }}
+              style={{marginVertical: 5, marginTop: 10, flex: .3 }}
               onPress={() => this.navigateTo('ChefReviews')}
             >
               <CardContainer
@@ -286,11 +286,11 @@ export default class ChefDashboard extends React.Component<any, any> {
                 style={dashboardStyles.cardContainer}
               >
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background}}>
-                  <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: Colors.background}}>
-                    <Icon color={'#FBB12B'} name={'star'} size={25}/>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+                    <Icon color={Colors.primaryColor} name={'star'} size={25} style={{ marginRight: 4 }}/>
                     <SmallBoldHeading>{this.calculateAverageStars()}</SmallBoldHeading>
                   </View>
-                  <View style={{flex: 2, justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.background}}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <LightText>{reviews.length || 0} Reviews</LightText>
                   </View>
                 </View>

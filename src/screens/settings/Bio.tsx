@@ -265,6 +265,18 @@ const Bio = inject('stores')(observer((props) => {
 
   const isValid = () => selectedChips.length > 0
 
+  const validateSpecialties = () => {
+    // Create a map of cuisineId -> number of specialties
+    const specialtiesByCuisine = specialties.reduce((acc, specialty) => {
+      acc[specialty.cuisineId] = (acc[specialty.cuisineId] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Check if each selected cuisine has at least one specialty
+    const missingSpecialties = selectedChips.some(cuisineId => !specialtiesByCuisine[cuisineId]);
+    return !missingSpecialties;
+  };
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -415,12 +427,11 @@ const Bio = inject('stores')(observer((props) => {
           <View style={styles.buttonContainer}>
             <Button
               onPress={() => {
-                console.log(selectedChips.length, specialties.length)
-                if(selectedChips.length !== specialties.length) {
-                  notifyWarn('Please add specialties for all selected cuisine')
-                  return
+                if (!validateSpecialties()) {
+                  notifyWarn('Please add at least one specialty for each selected cuisine');
+                  return;
                 }
-                saveChanges()
+                saveChanges();
               }}
               title='Save'
               disabled={!isValid() || loading}
@@ -439,15 +450,14 @@ const Bio = inject('stores')(observer((props) => {
             index={modalIndex}
             enableSwipeClose={true}
             onClose={() => setModalIndex(-1)}
-            size={'75%'}
+            size={'100%'}
           >
             <DishDialog
               cuisines={cuisines.filter((c: Cuisine) => selectedChips.includes(c._id))}
               onSubmit={({cuisine, dish}) => {
-                setSpecialties([...specialties, { ...dish, cuisineId: cuisine._id }])
+                setSpecialties([...specialties, { ...dish, cuisineId: cuisines.find((c: Cuisine) => c.label === cuisine)._id }])
                 setModalIndex(-1)
               }}
-              onResize={size => setBsSize(size)}
             />
           </RACBottomSheet>}
       </SafeAreaView>}

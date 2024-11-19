@@ -61,6 +61,11 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                       style={{backgroundColor: Colors.primaryColor, borderRadius: 10}}
                       selectStyle={{ borderWidth: 0 }}
                       initValueTextStyle={{color: Colors.primaryText}}
+                      optionContainerStyle={{backgroundColor: Colors.background, maxHeight: 300}}
+                      optionStyle={{borderBottomColor: Colors.borderColor}}
+                      optionTextStyle={{color: Colors.primaryText}}
+                      cancelContainerStyle={{backgroundColor: Colors.background}}
+                      cancelTextStyle={{color: Colors.primaryText}}
                       onChange={(option)=> {
                         setHourFrom(undefined)
                         setHourTo(undefined)
@@ -84,17 +89,27 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                     <View style={{height: 40, width: '90%', alignSelf: 'center'}}>
                       {!hourFrom &&
                         <ModalSelector
-                          data={hoursRange.filter((d, i) => i !== hoursRange.length -1 ).map((d: Date, i: number) => { return { key: i, label: moment(d).utc().format('HH:mm'), value: d } })}
+                          data={hoursRange
+                            .filter(d => moment(d).isBefore(moment(selectedTiming.to)))
+                            .map((d: Date, i: number) => ({
+                              key: i,
+                              label: moment(d).format('HH:mm'),
+                              value: d
+                            }))}
                           initValue="Select"
                           style={{backgroundColor: Colors.primaryColor, borderRadius: 10, top: 15}}
                           selectStyle={{ borderWidth: 0 }}
                           initValueTextStyle={{color: Colors.primaryText}}
+                          optionContainerStyle={{backgroundColor: Colors.background, maxHeight: 300}}
+                          optionStyle={{borderBottomColor: Colors.borderColor}}
+                          optionTextStyle={{color: Colors.primaryText}}
+                          cancelContainerStyle={{backgroundColor: Colors.background}}
+                          cancelTextStyle={{color: Colors.primaryText}}
                           onChange={(option) => {
-                              console.log('SETTING HOUR FROM', option.value)
-                              setHourFrom(option.value)
-                              setHourTo(undefined)
-                            }
-                          }
+                            console.log('SETTING HOUR FROM', option.value)
+                            setHourFrom(option.value)
+                            setHourTo(undefined)
+                          }}
                         />}
                       {!!hourFrom &&
                       <TouchableOpacity onPress={() => setHourFrom(undefined)}>
@@ -130,6 +145,11 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                             style={{backgroundColor: Colors.primaryColor, borderRadius: 10, top: 15}}
                             selectStyle={{ borderWidth: 0 }}
                             initValueTextStyle={{color: Colors.primaryText}}
+                            optionContainerStyle={{backgroundColor: Colors.background, maxHeight: 300}}
+                            optionStyle={{borderBottomColor: Colors.borderColor}}
+                            optionTextStyle={{color: Colors.primaryText}}
+                            cancelContainerStyle={{backgroundColor: Colors.background}}
+                            cancelTextStyle={{color: Colors.primaryText}}
                             onChange={(option) => {
                                 console.log('SETTING HOUR TO', option.value)
                                 setHourTo(option.value)

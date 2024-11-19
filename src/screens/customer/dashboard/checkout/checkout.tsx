@@ -41,7 +41,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
     paymentMethod: stores.customerSettingsStore.paymentMethods?.find(pm => pm.default),
     hourlyRate: chef.hourlyRate,
     total: 0,
-    dish: undefined
+    dishes: []
   })
   const [modalIndex, setModalIndex] = useState(-1)
   const [showModal, setShowModal] = useState(false)
@@ -51,6 +51,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
 
   useEffect(() => {
     console.log(booking)
+    console.log(chef.specialties)
   }, [booking])
 
   useEffect(() => {
@@ -133,16 +134,38 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
             </View>
           </View>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
-          <View style={{ flexDirection: 'row', height: 35 }}>
+          <View style={{ flexDirection: 'row', minHeight: 35 }}>
             <Icon name='food' size={30} color={Colors.secondaryText}/>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', flexBasis: '80%', alignItems: 'center'}}>
-              <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dish</Text>
-              <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => setModalIndex(3)} disabled={isEmpty(booking.cuisine)}>
-                {booking.dish ? <Text style={{ color: Colors.primaryText, margin: 5 }}>{booking?.dish.label}</Text> : <Text style={{ margin: 5, color: Colors.primaryColor }}>Choose</Text>}
+              <Text style={{ marginLeft: 20, marginVertical: 5 }}>Dishes ({booking.dishes.length}/3)</Text>
+              <TouchableOpacity 
+                style={{ flexDirection: 'row' }} 
+                onPress={() => setModalIndex(3)} 
+                disabled={isEmpty(booking.cuisine) || booking.dishes.length >= 3}>
+                <Text style={{ margin: 5, color: Colors.primaryColor }}>
+                  {booking.dishes.length >= 3 ? 'Max selected' : 'Choose'}
+                </Text>
                 <Icon name='chevron-right' size={30} style={{ color: Colors.primaryColor }}/>
               </TouchableOpacity>
             </View>
           </View>
+          {booking.dishes.length > 0 && (
+            <View style={{ marginLeft: 50 }}>
+              {booking.dishes.map((dish, index) => (
+                <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 }}>
+                  <Text>{dish.label}</Text>
+                  <TouchableOpacity onPress={() => {
+                    setBooking({
+                      ...booking, 
+                      dishes: booking.dishes.filter((_, i) => i !== index)
+                    })
+                  }}>
+                    <Icon name='close' size={20} color={Colors.secondaryText} />
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+          )}
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <View style={{ flexDirection: 'row', height: 30 }}>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -168,7 +191,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
             <Text style={{ alignSelf: 'center' }}>Estimated Total </Text>
-            <Text>${estimate} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
+            <Text>${estimate || 50} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
           </View>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
           <View style={{ height: 150, justifyContent: 'space-between', marginBottom: 10, marginTop: 10 }}>
@@ -185,7 +208,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
               title='Check Availability'
               onPress={checkAvailability}
               titleColor={Colors.background}
-              disabled={isEmpty(booking.cuisine) || isEmpty(booking.dish) || isEmpty(booking.paymentMethod)}
+              disabled={isEmpty(booking.cuisine) || isEmpty(booking.dishes) || isEmpty(booking.paymentMethod)}
             />}
           {!!booking.dateTime &&
             <Button
@@ -235,12 +258,15 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
           {modalIndex === 3 &&
               <CheckoutSelect
                 title='Choose Dish'
-                itemsType='cuisine'
-                data={chef.specialties.filter(s => s.cuisineId === booking.cuisine?._id)}
-                selected={booking.cuisine}
+                itemsType='dish'
+                data={chef.specialties.filter(s => s.cuisineId === booking.cuisine?._id)?.filter(d => !booking.dishes.includes(d))}
+                selected={booking.dishes}
                 onSelect={(dish) => {
                   console.log('selected dish', dish)
-                  setBooking({...booking, dish})
+                  setBooking({
+                    ...booking, 
+                    dishes: [...booking.dishes, dish]
+                  })
                   setModalIndex(-1)
                 }}
               />}
@@ -250,6 +276,7 @@ const Checkout = inject('stores')(observer(({ stores, navigation, route }) => {
               itemsType='paymentMethod'
               data={stores.customerSettingsStore.paymentMethods}
               selected={booking.paymentMethod}
+              navigation={navigation}
               onSelect={(paymentMethod) => {
                 console.log('selected payment', paymentMethod)
                 setBooking({...booking, paymentMethod})

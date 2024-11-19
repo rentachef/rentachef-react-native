@@ -8,8 +8,8 @@ production = ENV["PRODUCTION"] == "1"
 
 use_modular_headers!
 
-target 'rentachef' do
-  # Pods for rentachef
+target 'chefupnow' do
+  # Pods for chefupnow
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
   pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"

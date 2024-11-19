@@ -109,6 +109,13 @@ class CustomerSettingsStore {
         return pm
       }))
   }
+
+  removePaymentMethod = async (id: string) => {
+    console.log('removing pm', id)
+    const response = await this.rootStore.chefApi.removePaymentMethod(id)
+    if(response.ok)
+      this.getPaymentMethods()
+  }
 }
 
 export default CustomerSettingsStore

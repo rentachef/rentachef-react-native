@@ -12,5 +12,5 @@ export default interface BookingRequest { //TODO BookingRequest
   paymentMethod: any
   hourlyRate: number
   total: number
-  dish: any
+  dishes: any[]
 }

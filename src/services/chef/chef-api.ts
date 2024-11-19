@@ -213,6 +213,11 @@ export default class ChefApi {
     return await this._put(url)
   }
 
+  async removePaymentMethod(pmId: string) {
+    const url = `users/paymentMethods/delete/${pmId}`
+    return await this._delete(url)
+  }
+
   async getStripeClientSecret() {
     const url = 'stripe/clientSecret'
     return await this._get(url)
