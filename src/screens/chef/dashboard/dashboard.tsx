@@ -21,6 +21,10 @@ import moment from "moment-timezone";
 import {sumBy, isEmpty, some, every} from "lodash";
 import { PERMISSIONS, request, requestNotifications } from 'react-native-permissions';
 import InfoModal from 'src/components/modals/InfoModal';
+import Geolocation from 'react-native-geolocation-service'
+import { checkIfIsOperatingInLocation, initGeocoder } from 'src/utils/geocoder';
+import Geocoder from 'react-native-geocoding';
+import { CustomerLocation } from 'src/models/user/CustomerSettings';
 
 const dashboardStyles = StyleSheet.create({
   dashboardHeaderContainer: {
@@ -77,6 +81,9 @@ export default class ChefDashboard extends React.Component<any, any> {
       reviews: [],
       earnings: [],
       modalVisible: false,
+      modalMessage: '',
+      modalType: '',
+      locationData: null,
       beginnerSetup: {
         profile: {
           availability: false,
@@ -101,8 +108,10 @@ export default class ChefDashboard extends React.Component<any, any> {
     requestPermissions()
       .then(result => {
         console.log('permissions result', result)
-        if(result.pushNotifsResult.status === 'granted')
+        if(result?.pushNotifsResult?.status === 'granted')
           this.props.stores.authStore.saveDeviceToken()
+        if(result?.locationResult === 'granted')
+          initGeocoder()
       })
 
     setTimeout(() => {
@@ -121,10 +130,26 @@ export default class ChefDashboard extends React.Component<any, any> {
         console.log('Checking cook profile...')
         console.log('beginnerSetup.profile', this.state.beginnerSetup.profile)
         console.log('beginnerSetup.settings', this.state.beginnerSetup.settings)
+        Geolocation.getCurrentPosition(position => {
+          console.log('Chef Dashboard: position', position)
+          let coords = !!this.props.stores.chefProfileStore.workZone ? 
+            { latitude: this.props.stores.chefProfileStore.workZone.latitude, longitude: this.props.stores.chefProfileStore.workZone.longitude } 
+            : position.coords
+          checkIfIsOperatingInLocation({ latitude: coords.latitude, longitude: coords.longitude, address: '', city: '', postalCode: '' })
+            .then(({ isOperating, locationData }) => {
+              if(!isOperating)
+                this.setState({ 
+                  modalVisible: true,
+                  modalMessage: `We are not operating in ${locationData.city}, ${locationData.state}, sign up to be the first one to know when we do!`,
+                  modalType: 'not-operating',
+                  locationData
+                })
+            })
+        })
         if(some(this.state.beginnerSetup.profile, p => !p) || some(this.state.beginnerSetup.settings, s => !s))
-          this.setState({ modalVisible: true })
+          this.setState({ modalVisible: true, modalMessage: 'Please complete your profile and settings in order to be visible to the consumers', modalType: 'missing-info' })
       })
-    }, 3000)
+    }, 5000)
 
     this.props.stores.chefDashboardStore.getChefReviews()
       .then(reviews => {
@@ -146,7 +171,7 @@ export default class ChefDashboard extends React.Component<any, any> {
   };
 
   render() {
-    const { earnings, reviews, modalVisible, beginnerSetup } = this.state
+    const { earnings, reviews, modalVisible, modalType, modalMessage, beginnerSetup, locationData } = this.state
 
     const data = {
       labels: earnings.map(e => `${e._id.month}/${e._id.year}`),
@@ -181,18 +206,23 @@ export default class ChefDashboard extends React.Component<any, any> {
         <View style={{flex: 1, backgroundColor: Colors.background}}>
           <InfoModal
             visible={modalVisible}
-            message={'Please complete your profile and settings in order to be visible to the consumers'}
-            iconName='information-circle-sharp'
+            message={modalMessage}
+            locationData={locationData}
+            iconName={modalType === 'not-operating' ? 'map-outline' : 'information-circle-sharp'}
             iconColor='indianred'
-            buttonTitle='Finish profile setup'
+            buttonTitle={modalType === 'not-operating' ? 'Be the first to know!' : 'Finish profile setup'}
+            modalType={modalType}
             onButtonPress={() => {
-              this.setState({ modalVisible: false })
-              if(every(Object.values(beginnerSetup.profile), p => p))
-                this.props.navigation.navigate('Settings')
-              else
-                this.props.navigation.navigate('ChefProfileSetupStack')
+              if (modalType !== 'not-operating') {
+                this.setState({ modalVisible: false })
+                if(every(Object.values(beginnerSetup.profile), p => p))
+                  this.props.navigation.navigate('Settings')
+                else
+                  this.props.navigation.navigate('ChefProfileSetupStack')
+              }
+              return {}
             }}
-            onClose={() => {
+            onRequestClose={() => {
               console.log('closing...')
               this.setState({ modalVisible: false })
             }}

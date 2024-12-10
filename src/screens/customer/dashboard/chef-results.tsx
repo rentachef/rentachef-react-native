@@ -14,10 +14,10 @@ const ChefResults = inject('stores')(({ stores, navigation, route }) => {
     onSearch(route.params?.searchedValue)
   }, [])
 
-  const onSearch = (cuisineId) => {
+  const onSearch = (cuisineId: string) => {
     setLoading(true)
     stores.searchStore.getChefsByCuisine(cuisineId, stores.customerSettingsStore.defaultLocation)
-      .then(res => {
+      .then((res: any) => {
         setChefs(res)
         setLoading(false)
       })

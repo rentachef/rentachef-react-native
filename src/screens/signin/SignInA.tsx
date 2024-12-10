@@ -198,6 +198,7 @@ export default class SignInA extends Component {
         }
       );
       try {
+        console.log('signing in to cognito', email.trim(), password.trim())
         const user = await Auth.signIn(email.trim(), password.trim())
         console.log('cognito login', user)
         this.props?.stores?.authStore?.setUserAuthInfo(user)
@@ -206,6 +207,7 @@ export default class SignInA extends Component {
         this.props?.navigation?.navigate('Home', {screen: 'Home'})
       } catch (error) {
         console.log('error signing in', error)
+        console.log('error details', JSON.stringify(error, null, 2)); // Log detailed error
         let errorMessage = error?.message ? error.message : 'Error while signing in'
         notifyError(errorMessage)
       } finally {

@@ -19,7 +19,7 @@ export default interface ChefBooking {
   ingredients: [string],
   chargeDetails?: {
     hoursWorked: number
-    gst_hst: number
+    taxes: number
     serviceFee: number
     tip: number | string
     total: number

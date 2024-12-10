@@ -200,6 +200,7 @@ class AuthStore {
 
   @action logout = async () => {
     this.rootStore.chefApi.logout()
+    this.rootStore.searchStore.clearChefs()
     await AsyncStorage.removeItem('@userId')
   }
 

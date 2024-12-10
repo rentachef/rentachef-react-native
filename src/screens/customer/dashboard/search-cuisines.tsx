@@ -53,7 +53,7 @@ const SearchCuisines = inject('stores')(({ stores, navigation }) => {
     setRecentSearches([{ text: 'BBQ', timestamp: moment().valueOf()}])
   }, []);
 
-  const renderCategoryItem = ({item, index}) => (
+  const renderCategoryItem = ({item, index}: {item: any, index: number}) => (
     <ImageBackground
       key={index}
       defaultSource={imgHolder}

@@ -33,7 +33,7 @@ function ChefBookingsStack() {
       <BookingsStack.Screen name='CustomerBooking' component={CustomerBooking} options={{ headerBackTitle: ' ', title: 'Booking Request', ...stackStyles }} />
       <BookingsStack.Screen name='BookingInvoice' component={BookingInvoice} options={{ headerBackTitle: ' ', title: 'Create Invoice', ...stackStyles }} />
       <BookingsStack.Screen name='BookingInvoiceReceipt' component={BookingInvoice} options={{ headerBackTitle: ' ', title: 'Receipt', ...stackStyles }} />
-      <BookingsStack.Screen name='ChefClientRate' component={BookingRateClient} options={{ headerBackTitle: ' ', title: 'Rate the Client', ...stackStyles }} />
+      <BookingsStack.Screen name='ChefClientRate' component={BookingRateClient} options={{ headerBackTitle: ' ', title: 'Rate the Chef', ...stackStyles }} />
     </BookingsStack.Navigator>
   )
 }

@@ -51,7 +51,7 @@ const DishDialog = ({ cuisines, onSubmit }) => {
         <View style={globalStyles.buttonContainer}>
           <Button
             title='Save'
-            buttonStyle={{ backgroundColor: Colors.secondaryColor }}
+            buttonStyle={{ backgroundColor: Colors.primaryColor }}
             titleColor={Colors.background}
             onPress={() => onSubmit({cuisine, dish})}
             disabled={isEmpty(cuisine) || isEmpty(dish)}

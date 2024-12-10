@@ -37,6 +37,8 @@ import moment from "moment-timezone";
 import UnderlineTextInput from 'src/components/textinputs/UnderlineTextInput';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { checkIfIsOperatingInLocation } from 'src/utils/geocoder';
+import InfoModal from 'src/components/modals/InfoModal';
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -89,7 +91,11 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       zipCitySearch: "",
       focus: 0,
       loading: false,
-      pickupEnabled: props.stores.searchStore.appsettings.pickgupEnabled
+      pickupEnabled: props.stores.searchStore.appsettings.pickgupEnabled,
+      modalVisible: false,
+      modalMessage: '',
+      modalType: '',
+      locationData: null,
     }
 
     try {
@@ -121,42 +127,74 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       ).then(granted => {
+        console.log('Geolocation authorization result', granted, this.state.myPosition)
         if (granted && this._mounted && this.state.myPosition.latitude !== 0) {
           this.watchLocation();
         }
       });
     } else if(Platform.OS === "ios") {
-      console.log('asking for geolocation authorization ios')
-      // your code using Geolocation and asking for authorisation with
-      Geolocation.requestAuthorization("whenInUse");
+      console.log('asking for geolocation authorization ios');
+      Geolocation.requestAuthorization("whenInUse").then(status => {
+        if (status === 'granted') {
+          this.watchLocation(); // Start watching location if permission is granted
+        } else {
+          console.log('Location permission denied');
+        }
+      });
     } else
-      this.watchLocation();
-    Geocoder.init("AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0"); //TODO get API key from safer place
+      this.watchLocation(); //TODO get API key from safer place
   }
+
   watchLocation() {
     console.log('watchLocation')
-    this._watchID = Geolocation.watchPosition(
-      position => {
-        const myLastPosition = this.state.myPosition;
-        const myPosition = position.coords;
-        console.log(myPosition, myLastPosition)
-        if (!isEqual(myPosition, myLastPosition)) {
-          this.setState({ diffLocationBanner: 'Looks like you are on a different location than the one you setted as workzone. Please change if necessary' })
-          //this.setState({ myPosition });
-        }
-      },
-      (error) => {
-        // See error code charts below.
-        console.log(error.code, error.message);
-      },
-      this.props.geolocationOptions
-    );
+    try {
+      this._watchID = Geolocation.watchPosition(
+        position => {
+          let coords = !!this.props.stores.chefProfileStore.workZone ? 
+            { latitude: this.props.stores.chefProfileStore.workZone.latitude, longitude: this.props.stores.chefProfileStore.workZone.longitude } 
+            : position.coords
+          console.log('coords', coords)
+          if(!!coords)
+            this.checkOperatingZone(coords)
+        },
+        (error) => {
+          // See error code charts below.
+          console.log(error.code, error.message);
+        },
+        this.props.geolocationOptions
+      );
+    } catch(err) {
+      console.log('ERROR watchLocation', err)
+    }
   }
+
   componentWillUnmount() {
     this._mounted = false;
     if (this._watchID) {
       Geolocation.clearWatch(this._watchID);
     }
+  }
+
+  checkOperatingZone = (coords: any) => {
+    console.log('checkOperatingZone', coords)
+    checkIfIsOperatingInLocation(coords).then(({isOperating, locationData}) => {
+      if(!isOperating) {
+        console.log('not operating in location')
+        this.setState({ 
+          modalVisible: true,
+          modalMessage: `We are not operating in ${locationData.city}, ${locationData.state}, sign up to be the first one to know when we do!`,
+          modalType: 'not-operating',
+          locationData
+        })
+      } else {
+        console.log('is operating in location')
+        const myLastPosition = this.state.myPosition;
+        const myPosition = coords;
+        console.log(myPosition, myLastPosition)
+        if (!isEqual(myPosition, myLastPosition))
+          this.setState({ diffLocationBanner: 'Looks like you are on a different location than the one you setted as workzone. Please change if necessary' })
+      }
+    })
   }
 
   geoCodeAddress(search: string) {
@@ -172,6 +210,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
               latitude: location.lat
             }
           })
+          this.checkOperatingZone({ latitude: location.lat, longitude: location.lng })
         }
       })
       .catch(error => console.warn(error));
@@ -220,28 +259,24 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
     !!this.state.pickupDetails?.address?.street && !!this.state.pickupDetails?.address?.city
 
   render() {
-    const { radius, radiusState, focus, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch, loading, diffLocationBanner, pickupEnabled } = this.state;
+    const { radius, radiusState, locationData, myPosition, pickup, modalIndex, selectedDate, pickupDetails, zipCitySearch, loading, diffLocationBanner, pickupEnabled, modalVisible, modalMessage, modalType } = this.state;
     const { latitude, longitude } = this.state.myPosition
     return (
       <ScrollView contentContainerStyle={{flexGrow: 1}} style={{backgroundColor: Colors.background}} keyboardShouldPersistTaps='always'>
         <View style={{ margin: 10 }}>
-          {/*<UnderlineTextInput
-            autoCapitalize="none"
-            placeholder="enter your city or postal code"
-            keyboardType={"default"}
-            onFocus={() => this.setState({ focus: 1 })}
-            onBlur={() => this.setState({ focus: 0 })}
-            borderColor={Colors.backgroundLight}
-            style={[workZoneSetupStyles.inputGroupItem, focus === 1 && workZoneSetupStyles.inputGroupItemFocused]}
-            placeholderTextColor={Colors.placeholderColor}
-            onSubmitEditing={(e) => {
-              this._location = e.nativeEvent.text
-              this.setState({
-                zipCitySearch: e.nativeEvent.text
-              })
-              this.geoCodeAddress(e.nativeEvent.text)
+        <InfoModal
+            visible={modalVisible}
+            message={modalMessage}
+            locationData={locationData}
+            iconName={modalType === 'not-operating' ? 'map-outline' : 'information-circle-sharp'}
+            iconColor='indianred'
+            buttonTitle={modalType === 'not-operating' ? 'Be the first to know!' : 'Finish profile setup'}
+            modalType={modalType}
+            onRequestClose={() => {
+              console.log('closing...')
+              this.setState({ modalVisible: false })
             }}
-          />*/}
+          />
           {
             <KeyboardAwareScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={{ flexGrow: 1 }}>
               <GooglePlacesAutocomplete

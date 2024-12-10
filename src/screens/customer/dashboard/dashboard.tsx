@@ -20,8 +20,8 @@ import toast from 'src/components/toast/toast';
 import { autorun } from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'src/components/icon/Icon';
-
-Geocoder.init("AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0");
+import { checkIfIsOperatingInLocation, initGeocoder } from 'src/utils/geocoder';
+import { WaitingList } from 'src/models/user/WaitingList';
 
 const validations = {
   Cook: [
@@ -83,18 +83,18 @@ const requestPermissions = () => {
   })
 }
 
-const getFormattedAddress = (address_components: any) => {
+const getFormattedAddress = (address_components: any): CustomerLocation => {
   console.log('formatting', address_components)
-  let street_number = address_components.find(ac => ac.types.includes('street_number'))?.short_name
-  let route =  address_components.find(ac => ac.types.includes('route'))?.short_name
-  let locality = address_components.find(ac => ac.types.includes('locality'))?.short_name
-  let postal_code = address_components.find(ac => ac.types.includes('postal_code'))?.short_name
+  let street_number = address_components.find((ac: any) => ac.types.includes('street_number'))?.short_name
+  let route =  address_components.find((ac: any) => ac.types.includes('route'))?.short_name
+  let locality = address_components.find((ac: any) => ac.types.includes('locality'))?.short_name
+  let postal_code = address_components.find((ac: any) => ac.types.includes('postal_code'))?.short_name
 
   return {
     address: `${street_number} ${route}`,
     city: locality,
     postalCode: postal_code
-  }
+  } as CustomerLocation
 }
 
 const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => {
@@ -107,6 +107,10 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
     paymentMethods: true
   })
   const [modalVisible, setModalVisible] = useState(false)
+  const [modalMessage, setModalMessage] = useState('')
+  const [modalType, setModalType] = useState('')
+  const [outOfService, setOutOfService] = useState(false)
+  const [locationData, setLocationData] = useState<WaitingList | null>(null)
   //const [validators, setValidators] = useState([...validations[role]])
   
   useEffect(() => {
@@ -116,12 +120,15 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
         requestPermissions()
           .then(result => {
             console.log('permissions result', result)
-            if(result.pushNotifsResult.status === 'granted')
+            if(result?.pushNotifsResult.status === 'granted')
               stores.authStore.saveDeviceToken()
             console.log('store location in dashboard', stores.customerSettingsStore.defaultLocation)
-            if(result.locationResult === 'granted' && isEmpty(location)) {
-              console.log('LOCATION IS', location)
-              getCurrentLocation()
+            if(result?.locationResult === 'granted') {
+              initGeocoder()
+              if(isEmpty(location)) {
+                console.log('LOCATION IS', location)
+                getCurrentLocation()
+              }
             }
           })
     }, 2000)
@@ -147,32 +154,68 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
     if(!!storedLocation) {
       let loc = JSON.parse(storedLocation)
       setLocation(loc)
-      stores.searchStore.getChefs(loc)
+      checkIfIsOperatingInLocation(loc)
+        .then(({isOperating, locationData}) => {
+          setOutOfService(!isOperating)
+          if(!isOperating) {
+            setModalVisible(true)
+            setModalMessage(`We are not operating in ${locationData.city}, ${locationData.state}, sign up to be the first one to know when we do!`)
+            setModalType('not-operating');
+            setLocationData(locationData)
+          } else
+            stores.searchStore.getChefs(loc)
+        })
     } else {
       console.log('DASHBOARD default location', stores.customerSettingsStore.defaultLocation)
       console.log('obtaining current location...')
       Geolocation.getCurrentPosition(position => {
         console.log('current position', position)
         const { latitude, longitude } = position.coords
-        Geocoder.from(latitude, longitude)
-          .then(json => {
-            let formattedLocation = getFormattedAddress(json.results[0].address_components)
-            formattedLocation = { ...formattedLocation, latitude, longitude }
-            console.log('formattedLocation', formattedLocation)
-            setLocation(formattedLocation)
-            stores.customerSettingsStore.setCustomerLocation(formattedLocation)
-            stores.searchStore.getChefs(stores.customerSettingsStore.defaultLocation)
+        checkIfIsOperatingInLocation({ latitude, longitude, address: '', city: '', postalCode: '' })
+          .then(({isOperating, locationData}) => {
+            setOutOfService(!isOperating)
+            if(!isOperating) {
+              setModalVisible(true)
+              setModalMessage(`We are not operating in ${locationData.city}, ${locationData.state}, sign up to be the first one to know when we do!`)
+              setModalType('not-operating');
+              setLocationData(locationData)
+            } else {
+              Geocoder.from(latitude, longitude)
+                .then(json => {
+                let formattedLocation = getFormattedAddress(json.results[0].address_components)
+                formattedLocation = { ...formattedLocation, latitude, longitude }
+                console.log('formattedLocation', formattedLocation)
+                setLocation(formattedLocation)
+                stores.customerSettingsStore.setCustomerLocation(formattedLocation)
+                stores.searchStore.getChefs(stores.customerSettingsStore.defaultLocation)
+              })
+            }
           })
-      })
+        })
     }
   }
-
-  const onLocationChange = (newLocation) => {
+  
+  const onLocationChange = (newLocation: CustomerLocation) => {
     console.log('location changed', newLocation)
     stores.customerSettingsStore.setCustomerLocation(newLocation)
     let storeLocation = stores.customerSettingsStore.defaultLocation
     setLocation(storeLocation)
-    stores.searchStore.getChefs(storeLocation)
+    checkIfIsOperatingInLocation({ 
+      latitude: newLocation.latitude,
+      longitude: newLocation.longitude,
+      address: newLocation.address,
+      city: newLocation.city,
+      postalCode: newLocation.postalCode
+    }).then(({isOperating, locationData}) => {
+      setOutOfService(!isOperating)
+      if(!isOperating) {
+        setModalVisible(true)
+        setModalMessage(`We are not operating in ${locationData.city}, ${locationData.state}, sign up to be the first one to know when we do!`)
+        setModalType('not-operating')
+        setLocationData(locationData)
+      } else
+        stores.searchStore.getChefs(storeLocation)
+    })
   }
 
   return (
@@ -180,10 +223,13 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
       {/*validators.some(v => !v.valid) ? <SetupModal navigateTo={navigate} missing={validators.filter(v => !v.valid)} /> :*/}
       <InfoModal
         visible={modalVisible}
-        message={'Please complete your profile and settings in order to book a cook'}
-        iconName='information-circle-sharp'
+        message={modalMessage}
+        locationData={locationData}
+        iconName={modalType === 'not-operating' ? 'map-outline' : 'information-circle-sharp'}
         iconColor='indianred'
-        buttonTitle='Finish profile setup'
+        buttonTitle={modalType === 'not-operating' ? 'Be the first to know!' : 'Finish profile setup'}
+        modalType={modalType}
+        onRequestClose={() => setModalVisible(false)}
         onButtonPress={() => {
           setModalVisible(false)
           navigation.navigate('Settings')
@@ -198,13 +244,16 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
           <Text style={{ marginRight: 5 }}>{location.address}</Text>{location.address && <Icon name='location' size={20} color="#777" />}{/*<LightText>Today</LightText>*/}
         </TouchableOpacity>
         <View>
-          <SearchA navigation={navigation} />
+          <SearchA navigation={navigation} outOfService={outOfService} />
           <View style={{ paddingTop: 15 }}>
             <SmallBoldHeading>Popular Cuisines</SmallBoldHeading>
-            <CuisinesCarousel onSelect={(item: any) => navigation.navigate('ChefResults', { searchedValue: item._id })} />
+            <CuisinesCarousel onSelect={(item: any) => {
+              if(!outOfService)
+                navigation.navigate('ChefResults', { searchedValue: item._id })
+            }} />
           </View>
           <Divider type='full-bleed' />
-          <ChefsList data={stores.searchStore.topChefs} title='Top rated chefs near you' onSelect={(chef) => {
+          <ChefsList data={outOfService ? [] : stores.searchStore.topChefs} title='Top rated chefs near you' onSelect={(chef) => {
             console.log('selected chef', JSON.stringify(chef))
             navigation.navigate('ChefAbout', { chef })
           }} />

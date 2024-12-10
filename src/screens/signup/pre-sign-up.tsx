@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import {View, Text, Image, TouchableOpacity, SafeAreaView, DevSettings} from "react-native";
+import {View, Text, Image, TouchableOpacity, SafeAreaView, DevSettings, Platform} from "react-native";
+import RNRestart from 'react-native-restart';
 import {inject, observer} from "mobx-react";
 import Carousel, {Pagination} from "react-native-snap-carousel";
-
 import Colors from "../../theme/colors"
 import {BigBoldHeading, SemiBoldHeading, SmallBoldHeading, SmallText} from "../../components/text/CustomText";
 import Button from "../../components/buttons/Button";
@@ -47,7 +47,11 @@ export default class PreSignUp extends Component {
     console.log('presignup is visitor', props?.route?.params?.visitor)
     if(props?.route?.params?.visitor) {
       console.log('reloading...')
-      DevSettings.reload()
+      if(Platform.OS === 'android') {
+        DevSettings.reload()
+      } else {
+        RNRestart.Restart()
+      }
     }
   }
 

@@ -252,7 +252,10 @@ export default class SearchA extends Component {
         />
         <View style={{ paddingVertical: 20 }}>
           <View style={styles.searchButtonContainer}>
-            <TouchableOpacity style={styles.searchButton} onPress={() => this.props.navigation.navigate('SearchCuisines')}>
+            <TouchableOpacity style={styles.searchButton} onPress={() => {
+              if(!this.props.outOfService)
+                this.props.navigation.navigate('SearchCuisines')
+            }}>
               <Icon
                 name='magnify'
                 style={{ padding: 10 }}

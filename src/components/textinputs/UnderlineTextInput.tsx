@@ -18,6 +18,7 @@ import {
 // import colors
 import Colors from '../../theme/colors';
 import Icon from '../icon/Icon'
+import { Text } from '../text/CustomText';
 
 // UnderlineTextInput Config
 const isRTL = I18nManager.isRTL;
@@ -45,6 +46,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.primaryText,
     textAlign: isRTL ? 'right' : 'left',
+  },
+  errorMessage: {
+    color: 'indianred',
+    fontSize: 12,
   },
 });
 
@@ -75,6 +80,8 @@ type Props = {
   secureTextEntry: boolean;
   borderColor: string;
   focusedBorderColor: string;
+  error: boolean;
+  errorMessage: string;
   inputContainerStyle: ViewStyle;
   inputStyle: ViewStyle;
   icon: boolean;
@@ -106,6 +113,8 @@ const UnderlineTextInput = ({
   secureTextEntry,
   borderColor,
   focusedBorderColor,
+  error,
+  errorMessage,
   inputContainerStyle,
   inputStyle,
   icon,
@@ -138,6 +147,8 @@ const UnderlineTextInput = ({
       numberOfLines={numberOfLines}
       autoCapitalize={autoCapitalize}
       maxLength={maxLength}
+      error={error}
+      errorMessage={errorMessage}
       placeholder={placeholder}
       placeholderTextColor={placeholderTextColor}
       value={value}
@@ -150,6 +161,7 @@ const UnderlineTextInput = ({
       ]}
     />
     {icon ? <Icon color={iconColor} name={iconName} size={iconSize}/> : null}
+    {error && <Text style={styles.errorMessage}>{errorMessage}</Text>}
   </View>
 );
 

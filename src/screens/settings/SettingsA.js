@@ -33,6 +33,7 @@ import ContainedButton from "../../components/buttons/ContainedButton";
 import SwitchComponent from "../components/switch-component";
 import { notifyError, notifyWarn } from 'src/components/toast/toast';
 import { isEmpty } from 'lodash';
+import DeviceInfo from 'react-native-device-info';
 
 // SettingsA Config
 const isRTL = I18nManager.isRTL;
@@ -323,6 +324,9 @@ export default class SettingsA extends Component {
   render() {
     const {notificationsOn} = this.state;
 
+    // Get app version
+    const appVersion = DeviceInfo.getVersion();
+
     return (
       <ScrollView style={styles.container}>
         <SafeAreaView>
@@ -416,6 +420,13 @@ export default class SettingsA extends Component {
                 )}
               />
             </SafeAreaView>
+
+            {/* Add app version at the bottom */}
+            <View style={{ alignItems: 'center', marginVertical: 20 }}>
+              <Text style={{ color: Colors.secondaryText }}>
+                Version: {appVersion}
+              </Text>
+            </View>
           </SafeAreaView>
         </SafeAreaView>
       </ScrollView>

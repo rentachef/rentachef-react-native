@@ -447,6 +447,8 @@ PODS:
     - React-Core
   - react-native-pager-view (5.4.25):
     - React-Core
+  - react-native-restart (0.0.27):
+    - React-Core
   - react-native-safe-area-context (3.3.0):
     - React-Core
   - react-native-splash-screen (3.3.0):
@@ -530,6 +532,8 @@ PODS:
   - RNCPushNotificationIOS (1.11.0):
     - React-Core
   - RNDateTimePicker (6.7.5):
+    - React-Core
+  - RNDeviceInfo (14.0.1):
     - React-Core
   - RNFBAnalytics (18.8.0):
     - Firebase/Analytics (= 10.20.0)
@@ -682,6 +686,7 @@ DEPENDENCIES:
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
+  - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -703,6 +708,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
@@ -820,6 +826,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
+  react-native-restart:
+    :path: "../node_modules/react-native-restart"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -862,6 +870,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFBAnalytics:
     :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
@@ -945,6 +955,7 @@ SPEC CHECKSUMS:
   react-native-maps: df7b9fca1b1c8d356fadbf5b8a63a5f8cf32fc73
   react-native-netinfo: 877946c7b4eb85a639cf1ea31333dadc2be999a1
   react-native-pager-view: fc311e95f8ba2b710deae6cb0a21f2102fb49d99
+  react-native-restart: 325d6881a9996d88e3b35d0967d70842a3eaf713
   react-native-safe-area-context: 8465df05de8106c584b117f0e027e17174d6e02e
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   React-perflogger: 5ade0a1627352f1647d283e78331819bb46cceae
@@ -966,6 +977,7 @@ SPEC CHECKSUMS:
   RNCPicker: 0bc2f0a29abcca7b7ed44a2d036aac9ab6d25700
   RNCPushNotificationIOS: 4a7aac5430e7a1e997b21f4fa4db224127606e5a
   RNDateTimePicker: 74353cf8939677358c75d3473947002daff97934
+  RNDeviceInfo: c57ba8865019138d8cda5468478d9a0ed0a074fe
   RNFBAnalytics: 4d39fee0e5e27ef7a8e4399cde6763bf60d4bbdb
   RNFBApp: 5810d39f89d38272f29d9908cb19ef641922c081
   RNFBMessaging: a65862d8eba03cb6c838241bd328166504996894

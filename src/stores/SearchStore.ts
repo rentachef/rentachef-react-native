@@ -2,6 +2,7 @@ import {action, makeAutoObservable, observable} from "mobx";
 import ListModel from "../models/user/findCooks";
 import {AvailabilitySetup} from "../models/chef/ChefProfileSetup";
 import { CustomerLocation } from "src/models/user/CustomerSettings";
+import { WaitingList } from "src/models/user/WaitingList";
 
 class SearchStore {
   rootStore: any;
@@ -25,6 +26,10 @@ class SearchStore {
     const response = await this.rootStore.chefApi.getChefs(location)
     if(response.ok)
       this.setTopChefs(response.data || [])
+  }
+
+  @action clearChefs = () => {
+    this.setTopChefs([])
   }
 
   @action setTopChefs = chefs => this.topChefs = chefs
@@ -76,6 +81,12 @@ class SearchStore {
     const response = await this.rootStore.chefApi.getUserChats()
     if(response.ok)
       return response.data || []
+  }
+
+  addToWaitingList = async (data: WaitingList) => {
+    const response = await this.rootStore.chefApi.addToWaitingList(data)
+    if(response.ok)
+      return response.data
   }
 
   @action getAppSettings = async () => {

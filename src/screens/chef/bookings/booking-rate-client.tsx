@@ -68,7 +68,7 @@ const BookingRateClient = inject('stores')(({stores, navigation, route}) => {
       <View style={{...styles.screenContainer }}>
         <View style={{ height: '70%', alignItems: 'center', justifyContent: 'space-between' }}>
           <Avatar
-            imageUri={profile_1}
+            imageUri={chef?.picUri}
             rounded
             size={80}
           />

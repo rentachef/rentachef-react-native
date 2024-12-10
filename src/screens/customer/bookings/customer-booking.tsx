@@ -28,6 +28,7 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 import {inject} from "mobx-react";
 import BookingNotes from 'src/screens/chef/bookings/booking-notes';
 import { KeyboardAvoidingView } from 'react-native';
+import { _getTaxPercentageByState } from 'src/utils/taxesMapping';
 
 let profile_1 = require('@assets/img/profile_1.jpg');
 
@@ -147,15 +148,15 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             </View>
           </TouchableOpacity>
           <Divider type='full-bleed' dividerStyle={{ marginVertical: 10 }} />
-          {booking.status === 'Completed' &&
+          {booking.status === 'Completed' && 
           <>
             <View style={styles.paymentDetailsItem}>
               <LightText>{`Price (${booking.paymentDetails?.hoursWorked} x ${booking.paymentDetails?.chefHourlyRate}/hr)`}</LightText>
               <LightText>$ {(booking.paymentDetails?.hoursWorked * booking.paymentDetails?.chefHourlyRate).toFixed(2)}</LightText>
             </View>
             <View style={styles.paymentDetailsItem}>
-              <LightText>GST/HST</LightText>
-              <LightText>$ {booking.paymentDetails?.gst_hst?.toFixed(2)}</LightText>
+              <LightText>{`Taxes (${_getTaxPercentageByState('Texas')}%)`}</LightText>
+              <LightText>$ {booking.paymentDetails?.taxes?.toFixed(2)}</LightText>
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>Service Fee</LightText>
@@ -231,7 +232,8 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                   <Button
                     onPress={() => navigation.navigate('ChefClientRate', { total: (booking.paymentDetails?.chefHourlyRate * booking.paymentDetails?.hoursWorked).toFixed(2), chef: {
                         name: booking.chefName,
-                        id: booking.chefId
+                        id: booking.chefId,
+                        picUri: booking.chefPicUri
                       }, bookingId: booking._id })}
                     title='Rate your Order'
                     color={Colors.backgroundMedium}

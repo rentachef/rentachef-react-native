@@ -14,6 +14,7 @@ import {CustomerLocation, PaymentMethod, Preferences} from "../../models/user/Cu
 import BookingRequest from "../../models/BookingRequest";
 import { PERMISSIONS, check } from "react-native-permissions";
 import { Platform } from "react-native";
+import { WaitingList } from "src/models/user/WaitingList";
 
 export default class ChefApi {
   /**
@@ -324,6 +325,11 @@ export default class ChefApi {
   async sendPushNotification(pn: any) {
     const url = `chats/pn`
     return await this._post(url, pn)
+  }
+
+  async addToWaitingList(data: WaitingList) {
+    const url = `waitinglist/add`
+    return await this._post(url, data)
   }
 
   async _get(url: string)  {
