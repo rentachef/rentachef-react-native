@@ -214,12 +214,14 @@ export default class ChefAvailability extends React.Component<any, any> {
           <ButtonGroup
             onPress={this.updateIndex}
             buttonStyle={{
-              backgroundColor: Colors.disabled
+              backgroundColor: Colors.backgroundLight,  
+              borderRadius: 10
             }}
             selectedIndex={selectedIndex}
             buttons={buttons}
-            containerStyle={{height: 40, borderRadius: 10, backgroundColor: Colors.background}}
-            selectedButtonStyle={{backgroundColor: Colors.primaryColor, borderWidth: 2, borderRadius: 10, borderColor: Colors.disabled}}
+            innerBorderStyle={{ color: Colors.background}}
+            containerStyle={{height: 40, borderRadius: 10, borderWidth: 0, backgroundColor: Colors.background}}
+            selectedButtonStyle={{backgroundColor: Colors.primaryColor, borderRadius: 10, borderColor: Colors.disabled}}
             selectedTextStyle={{color: Colors.primaryText}}
             textStyle={{color: Colors.secondaryText, fontWeight: 'bold'}}
           />

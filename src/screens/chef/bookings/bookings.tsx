@@ -43,10 +43,12 @@ const Bookings = inject('stores')(observer((props) => {
       <ButtonGroup
         onPress={i => setIndex(i)}
         buttonStyle={{
-          backgroundColor: Colors.disabled
+          backgroundColor: Colors.backgroundLight,
+          borderRadius: 10
         }}
         selectedIndex={index}
         buttons={buttons}
+        innerBorderStyle={{ color: Colors.background}}
         containerStyle={styles.btnGroupContainer}
         selectedButtonStyle={styles.btnGroupSelectedBtn}
         selectedTextStyle={{color: Colors.primaryText}}
@@ -101,11 +103,11 @@ const styles = StyleSheet.create({
   btnGroupContainer: {
     height: 40,
     borderRadius: 10,
-    backgroundColor: Colors.background
+    backgroundColor: Colors.background,
+    borderWidth: 0
   },
   btnGroupSelectedBtn: {
     backgroundColor: Colors.primaryColor,
-    borderWidth: 2,
     borderRadius: 10,
     borderColor: Colors.disabled
   },

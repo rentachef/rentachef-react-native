@@ -2,7 +2,7 @@ import {Cuisine} from "../chef/ChefSettings";
 
 export interface Preferences {
   daysOfService: KeyValuePair[]
-  dayTimeOfService: KeyValuePair | undefined
+  dayTimesOfService: KeyValuePair[] | []
   cuisines: Cuisine[]
 }
 

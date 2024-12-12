@@ -84,9 +84,11 @@ const ChefAbout = inject('stores')(({ navigation, route, stores }) => {
           <ButtonGroup
             onPress={i => setIndex(i)}
             buttonStyle={{
-              backgroundColor: Colors.disabled
+              backgroundColor: Colors.backgroundLight,
+              borderRadius: 10
             }}
             selectedIndex={index}
+            innerBorderStyle={{ color: Colors.background }}
             buttons={['About', `Reviews (${reviews?.length})`]}
             containerStyle={globalStyles.btnGroupContainer}
             selectedButtonStyle={globalStyles.btnGroupSelectedBtn}

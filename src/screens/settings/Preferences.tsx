@@ -28,10 +28,10 @@ const dayTimes = [
 ]
 
 const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) => {
-  console.log('PREFERENCES', stores.customerSettingsStore.preferences)
+  console.log('PREFERENCES', JSON.stringify(stores.customerSettingsStore.preferences))
   const [selectedDays, setSelectedDays] = useState<KeyValuePair[]>(stores.customerSettingsStore.preferences?.daysOfService || [])
   const [selectedCuisines, setSelectedCuisine] = useState<Cuisine[]>(stores.customerSettingsStore.preferences?.cuisines || [])
-  const [dayTime, setDayTime] = useState<KeyValuePair | undefined>(stores.customerSettingsStore.preferences?.dayTimeOfService || [])
+  const [selectedDayTimes, setSelectedDayTimes] = useState<KeyValuePair[] | []>(stores.customerSettingsStore.preferences?.dayTimesOfService || [])
   const [loading, setLoading] = useState(false)
   const { cuisines } = stores.searchStore
 
@@ -40,8 +40,8 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
     if(!!preferences) {
       if(!!preferences.daysOfService)
         setSelectedDays(preferences.daysOfService)
-      if(!!preferences.dayTimeOfService)
-        setDayTime(preferences.dayTimeOfService)
+      if(!!preferences.dayTimesOfService)
+        setSelectedDayTimes(preferences.dayTimesOfService)
       if(!!preferences.cuisines)
         setSelectedCuisine(cuisines.filter(c => preferences.cuisines.includes(c._id)))
     }
@@ -64,7 +64,7 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
     setLoading(true)
     stores.customerSettingsStore.saveCustomerPreferences({
       daysOfService: selectedDays,
-      dayTimeOfService: dayTime,
+      dayTimesOfService: selectedDayTimes,
       cuisines: selectedCuisines.map(c => c._id)
     }).then(res => {
       setLoading(false)
@@ -104,11 +104,15 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
                 <Chip
                   key={dt.key}
                   title={dt.value}
-                  onPress={() => setDayTime(dt)}
+                  onPress={() => {
+                    let selection = [...selectedDayTimes]
+                    downsert(selection, dt, 'key')
+                    setSelectedDayTimes(selection)
+                  }}
                   type='outline'
-                  buttonStyle={[{borderColor: Colors.placeholderColor, width: 100}, dayTime?.key === dt.key ? {backgroundColor: Colors.primaryColor} : {}]}
+                  buttonStyle={[{borderColor: Colors.placeholderColor, width: 100}, selectedDayTimes.some(d => d?.key === dt.key) ? {backgroundColor: Colors.primaryColor} : {}]}
                   containerStyle={{margin: 2}}
-                  titleStyle={{ color: dayTime?.key === dt.key ? Colors.background : Colors.primaryText }}
+                  titleStyle={{ color: selectedDayTimes.some(d => d?.key === dt.key) ? Colors.background : Colors.primaryText }}
                 />))}
             </View>
           </View>

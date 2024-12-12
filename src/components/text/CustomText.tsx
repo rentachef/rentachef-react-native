@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   lightText: {
     // fontWeight: '400'
     ...fonts.light,
-    color: Colors.tertiaryText
+    color: Colors.primaryText
   },
   // body1
   paragraph: {

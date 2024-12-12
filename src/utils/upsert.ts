@@ -6,7 +6,7 @@ export default function upsert(array: any, element: any, searchKey: any) {
     array.push(element);
 }
 
-export function downsert(array: any, element: any, searchKey: any) {
+export function downsert(array: any, element: any, searchKey: any): any {
   const i = array.findIndex((_element: any) => _element[searchKey] === element[searchKey]);
   if (i > -1)
     array.splice(i, 1);

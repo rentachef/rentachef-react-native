@@ -91,21 +91,21 @@ export default class PreSignUp extends Component {
         return (
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <SmallBoldHeading>Fine Dining at Home</SmallBoldHeading>
-          <SmallText>Hire a chef for your next gathering and experience premium cooking at home.</SmallText>
+            <SmallText style={{textAlign: 'center'}}>Hire a chef for your next gathering and experience premium cooking at home.</SmallText>
           </View>
         )
       case (1):
         return (
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <SmallBoldHeading>Expand your palate</SmallBoldHeading>
-            <SmallText>Try cuisines around the world cooked healthily matching your preferences.</SmallText>
+            <SmallText style={{textAlign: 'center'}}>Try cuisines around the world cooked healthily matching your preferences.</SmallText>
           </View>
         )
       case (2):
         return (
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <SmallBoldHeading>It's all about you</SmallBoldHeading>
-            <SmallText>Take time to do things that you love without worrying about cooking.</SmallText>
+            <SmallText style={{textAlign: 'center'}}>Take time to do things that you love without worrying about cooking.</SmallText>
           </View>
         )
     }

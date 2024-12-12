@@ -27,14 +27,14 @@ const globalStyles = StyleSheet.create({
   btnGroupContainer: {
     height: 40,
     borderRadius: 10,
+    backgroundColor: Colors.background,
     marginHorizontal: 0,
-    backgroundColor: Colors.background
+    borderWidth: 0
   },
   btnGroupSelectedBtn: {
     backgroundColor: Colors.primaryColor,
-    borderWidth: 2,
     borderRadius: 10,
-    borderColor: Colors.disabled,
+    borderColor: Colors.disabled
   },
   btnGroupText: {
     color: Colors.secondaryText,

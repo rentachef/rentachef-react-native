@@ -13,8 +13,8 @@ const ServiceDetails = ({ navigation, onClose, data, onLocationChange }) => {
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
         <Icon name='map-marker-outline' size={30} style={{ alignSelf: 'center' }} color={Colors.secondaryText} />
         <View style={{ width: '50%' }}>
-          <Text>{data.address}</Text>
-          <LightText>{data.city}, {data.postalCode}</LightText>
+          <Text>{data.address || 'Unknown'}</Text>
+          <LightText>{data.city || 'Unknown'}, {data.postalCode || 'Unknown'}</LightText>
         </View>
         <View>
           <ButtonText onPress={() => navigation.navigate('AddressSelector', { data, onLocationChange })} style={styles.buttonText}>Change</ButtonText>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   buttonText: {
     borderRadius: 15,
     overflow: 'hidden',
-    backgroundColor: Colors.backgroundLight,
+    backgroundColor: Colors.onSurface,
     fontSize: 14,
     padding: 5,
     textAlign: 'center',

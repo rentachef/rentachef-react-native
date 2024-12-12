@@ -155,9 +155,9 @@ const UnderlineTextInput = ({
       secureTextEntry={secureTextEntry}
       textAlignVertical={textAlignVertical}
       style={[
-        {...styles.textInput, height: multiline ? undefined : styles.textInput.height},
+        {...styles.textInput, height: multiline && numberOfLines ? 44 * numberOfLines : styles.textInput.height},
         inputTextColor && {color: inputTextColor},
-        inputStyle,
+        inputStyle
       ]}
     />
     {icon ? <Icon color={iconColor} name={iconName} size={iconSize}/> : null}

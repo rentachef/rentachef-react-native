@@ -212,7 +212,14 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                     titleColor={Colors.error}
                   />
                 </View>
-                <TouchableOpacity style={{ flex: 1, alignSelf: 'center', marginTop: 10 }}>
+                <TouchableOpacity 
+                  style={{ flex: 1, alignSelf: 'center', margin: 10 }}
+                  onPress={() => {
+                    const email = 'support@chefupnow.com';
+                    const subject = `I need help with my booking (ID ${booking._id})`;
+                    Linking.openURL(`mailto:${email}?subject=${encodeURIComponent(subject)}`);
+                  }}
+                >
                   <Text style={{ color: Colors.secondaryColor }}>Get Help</Text>
                 </TouchableOpacity>
               </View>

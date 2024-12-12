@@ -287,8 +287,8 @@ const Bio = inject('stores')(observer((props) => {
             <UnderlineTextInput
               placeholder='Tell us about yourself'
               placeholderTextColor={Colors.placeholderTextColor}
-              multiline
-              numberOfLines={5}
+              multiline={true}
+              numberOfLines={3}
               textAlignVertical='top'
               borderColor={Colors.backgroundLight}
               value={bio.about}
@@ -305,8 +305,9 @@ const Bio = inject('stores')(observer((props) => {
               placeholder='Restaurant Name, City'
               placeholderTextColor={Colors.placeholderTextColor}
               value={bio.affiliations}
-              multiline
+              multiline={true}
               numberOfLines={2}
+              textAlignVertical='top'
               borderColor={Colors.backgroundLight}
               onChangeText={v => setBio({...bio, affiliations: v})}
               style={[styles.inputGroupItem, focus === 1 && styles.inputGroupItemFocused]}
