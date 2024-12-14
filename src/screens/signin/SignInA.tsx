@@ -128,20 +128,16 @@ export default class SignInA extends Component {
     };
   }
 
-  emailChange = text => {
-    this.setState({
-      email: text.trim(),
-    });
-  };
-
-  validate = (text) => {
+  validate = (text: string) => {
+    console.log(text, text.length, text.trim(), text.trim().length)
+    text = text.trim()
     let reg = /^[\w+]+([\.-]?[\w+]+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(text) === false) {
-      this.setState({ email: text.trim(), emailError: true })
+      this.setState({ email: text, emailError: true })
       return false;
     }
     else
-      this.setState({ email: text.trim(), emailError: false })
+      this.setState({ email: text, emailError: false })
   }
 
   emailFocus = () => {
@@ -283,6 +279,7 @@ export default class SignInA extends Component {
                 onSubmitEditing={this.focusOn(this.password)}
                 returnKeyType="next"
                 blurOnSubmit={false}
+                value={email}
                 keyboardType="email-address"
                 placeholder="E-mail"
                 placeholderTextColor={PLACEHOLDER_TEXT_COLOR}

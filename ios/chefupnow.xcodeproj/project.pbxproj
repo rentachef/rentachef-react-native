@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		270E49A72D0B0E14007C55DF /* LuanchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 270E49A62D0B0E14007C55DF /* LuanchScreen.storyboard */; };
 		277654952B7BCE330079DEC3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277654942B7BCE330079DEC3 /* GoogleService-Info.plist */; };
 		27B318F02A6CE61C00CC56BB /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		6DC0A10609D533064C60F778 /* libPods-chefupnow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A87700E8618B3D41CE5C1D98 /* libPods-chefupnow.a */; };
-		EF43A9FB26D70BB60070E130 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */; };
 		EFAA6B5B298F03D9008E1D7F /* assets in Resources */ = {isa = PBXBuildFile; fileRef = EFAA6B5A298F03D9008E1D7F /* assets */; };
 		EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		EFE1C415295CC60B000D5122 /* Karla-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */; };
@@ -40,12 +39,12 @@
 		13B07F961A680F5B00A75B9A /* chefupnow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chefupnow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = chefupnow/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = chefupnow/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = chefupnow/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = chefupnow/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = chefupnow/main.m; sourceTree = "<group>"; };
 		1B5D4A2A63A341A0973BEF3B /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		228DE1BEFDF24893AD047F92 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		270E49A62D0B0E14007C55DF /* LuanchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LuanchScreen.storyboard; sourceTree = "<group>"; };
 		277654942B7BCE330079DEC3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31CD77AE1BE6E8D0C323B92B /* Pods-chefupnow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chefupnow.release.xcconfig"; path = "Target Support Files/Pods-chefupnow/Pods-chefupnow.release.xcconfig"; sourceTree = "<group>"; };
 		3ED0D9C627F64F42810046F8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -63,7 +62,6 @@
 		CFA1E989270444C18AE40844 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF8349A6270E56C500A646C7 /* chefupnow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = chefupnow.entitlements; path = chefupnow/chefupnow.entitlements; sourceTree = "<group>"; };
 		EFAA6B5A298F03D9008E1D7F /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../src/assets; sourceTree = "<group>"; };
 		EFE4D30526CB2D6C008924CA /* Karla-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Karla-Italic.ttf"; path = "../src/theme/fonts/Karla-Italic.ttf"; sourceTree = "<group>"; };
@@ -144,8 +142,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				270E49A62D0B0E14007C55DF /* LuanchScreen.storyboard */,
 			);
 			name = chefupnow;
 			sourceTree = "<group>";
@@ -171,7 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				EFAA6B5A298F03D9008E1D7F /* assets */,
-				EF43A9FA26D70BB60070E130 /* LaunchScreen.storyboard */,
 				EFF3C9B226CC1EF60042FCD1 /* Karla-Bold.ttf */,
 				EFE4D30F26CB2D6C008924CA /* Karla-ExtraBold.ttf */,
 				EFE4D30B26CB2D6C008924CA /* Karla-ExtraBoldItalic.ttf */,
@@ -281,6 +278,7 @@
 				EFB6D34D295CE35A00F8296E /* main.jsbundle in Resources */,
 				EFE1C415295CC60B000D5122 /* Karla-Bold.ttf in Resources */,
 				EFE1C416295CC60B000D5122 /* Karla-ExtraBold.ttf in Resources */,
+				270E49A72D0B0E14007C55DF /* LuanchScreen.storyboard in Resources */,
 				EFAA6B5B298F03D9008E1D7F /* assets in Resources */,
 				EFE1C417295CC60B000D5122 /* Karla-ExtraBoldItalic.ttf in Resources */,
 				EFE1C418295CC60B000D5122 /* Karla-ExtraLight.ttf in Resources */,
@@ -294,9 +292,7 @@
 				EFE1C41F295CC60B000D5122 /* Karla-Regular.ttf in Resources */,
 				EFE1C420295CC60B000D5122 /* Karla-SemiBold.ttf in Resources */,
 				EFE1C421295CC60B000D5122 /* Karla-SemiBoldItalic.ttf in Resources */,
-				EF43A9FB26D70BB60070E130 /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,24 +474,13 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = chefupnow;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BDF20059C0D5DFEE5CBF6FC7 /* Pods-chefupnow.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = chefupnow/chefupnow.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -615,6 +600,7 @@
 			baseConfigurationReference = 31CD77AE1BE6E8D0C323B92B /* Pods-chefupnow.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = chefupnow/chefupnow.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";

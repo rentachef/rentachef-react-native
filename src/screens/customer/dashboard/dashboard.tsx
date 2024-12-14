@@ -241,7 +241,7 @@ const CustomerDashboard = inject('stores')(observer(({ stores, navigation }) => 
           //toast.notifyWarn('Feature not available, please let the cook know your address in the chat', 3000)
           setModalIndex(0)
         }}>
-          <Text style={{ marginRight: 5 }}>{location.address}</Text>{location.address && <Icon name='location' size={20} color="#777" />}{/*<LightText>Today</LightText>*/}
+          <Text style={{ marginRight: 5 }}>{location.address || 'Unknown'}</Text>{location.address && <Icon name='location' size={20} color="#777" />}{/*<LightText>Today</LightText>*/}
         </TouchableOpacity>
         <View>
           <SearchA navigation={navigation} outOfService={outOfService} />

@@ -70,8 +70,7 @@ const CustomerPreferences = inject('stores')(observer(({ navigation, stores }) =
       setLoading(false)
       if(res ==='SUCCESS') {
         notifySuccess('Preferences saved!')
-        navigation.setParams({ addedPrefs: true })
-        navigation.navigate('SettingsA')
+        navigation.navigate('SettingsA', { addedPrefs: true })
       } else
         notifyError(`Error while setting preferences: ${res.error?.message}`)
     })

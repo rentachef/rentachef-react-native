@@ -122,7 +122,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
   }
 
   const getTotal = () => {
-    let workEffort = booking.paymentDetails.hoursWorked * booking.paymentDetails.chefHourlyRate
+    let workEffort = (booking.paymentDetails?.hoursWorked || booking.estimate)* booking.paymentDetails.chefHourlyRate
     let tip = !!booking.paymentDetails.tip ? Number((booking.paymentDetails.tip.transaction.stripeAmount / 100).toFixed(2)) : 0
 
     return (workEffort + tip).toFixed(2)
@@ -247,7 +247,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
           {!(booking.status === 'Completed') && 
             <>
               <Text>Estimated Hours</Text>
-              <Text>{booking.estimate}</Text>
+              <Text>{booking.estimate || '-'}</Text>
             </>}
           {booking.status === 'Completed' && 
             <>
@@ -258,7 +258,7 @@ const BookingRequest = inject('stores')(observer((props)  => {
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 30, paddingTop: 5 }}>
           <Text>{booking.status === 'Completed' ? 'Booking Total' : 'Estimated Total'}</Text>
-          <Text>$ {booking.status === 'Completed' ? getTotal() : booking.estimate * hourlyRate} <Text style={{color: Colors.placeholderColor}}>+ tax</Text></Text>
+          <Text>$ {booking.status === 'Completed' ? getTotal() : (booking.estimate * hourlyRate || '-')} {booking.status !== 'Pending' && <Text style={{color: Colors.placeholderColor}}>+ tax</Text>}</Text>
         </View>
         <Divider dividerStyle={{ marginVertical: 10 }} type='inset'/>
       </View>

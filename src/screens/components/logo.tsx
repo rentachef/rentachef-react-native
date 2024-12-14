@@ -6,13 +6,13 @@ import {Appearance} from 'react-native';
 const colorScheme = Appearance.getColorScheme();
 
 // @ts-ignore
-let logoIcon = colorScheme === 'light' ? require('@assets/rent-a-chef-icon-512x512.png') : require('@assets/rent-a-chef-icon-512x512-dark.png');
+let logoIcon = colorScheme === 'light' ? require('@assets/chefupnow-icon.png') : require('@assets/chefupnow-icon.png');
 
 const Logo = () => {
   return (
     <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-      <Image source={logoIcon} style={{width: 40, height: 50, alignItems: 'center', justifyContent: 'center'}}/>
-      <Text style={{
+      <Image source={logoIcon} style={{width: 120, height: 120, alignItems: 'center', justifyContent: 'center'}}/>
+      {/*<Text style={{
         fontFamily: 'Karla',
         color: Colors.primaryText,
         fontSize: 16,
@@ -20,7 +20,7 @@ const Logo = () => {
         fontWeight: '400',
         textAlign: 'center',
         justifyContent: 'center'
-      }}>CHEF UP NOW</Text>
+      }}>CHEF UP NOW</Text>*/}
     </View>
   )
 }

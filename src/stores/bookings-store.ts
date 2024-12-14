@@ -61,8 +61,10 @@ class BookingsStore {
     const result = await this.rootStore.chefApi.chargeClient(chargeObject)
     console.log('chargeClient result', result.data || result)
     if(result.ok) {
-      let index = this.bookings.findIndex(b => b._id === chargeObject.bookingId)
-      this.bookings[index] = result.data
+      let storeBookings = [...this.bookings]
+      let index = storeBookings.findIndex(b => b._id === chargeObject.bookingId)
+      storeBookings[index] = result.data
+      this.setBookings(storeBookings)
       console.log('updated store bookings: ', this.bookings)
       return('OK')
     } else

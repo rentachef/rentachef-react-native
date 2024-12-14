@@ -72,7 +72,7 @@ class ChefProfileStore {
   }
 
   @action retrieveChefBackgroundCheck = () => {
-    return !isEmpty(this.backgroundCheck) ? {...this.backgroundCheck, socialNumber: this.backgroundCheck?.socialNumber?.toString() }
+    return !isEmpty(this.backgroundCheck) ? {...this.backgroundCheck, socialNumber: decryptData(this.backgroundCheck?.socialNumber) }
       : this.backgroundCheck;
   }
 
@@ -130,6 +130,7 @@ class ChefProfileStore {
   }
 
   @action saveChefBackgroundCheck = async (data: BackgroundCheck) => {
+    data = { ...data, socialNumber: encryptData(data.socialNumber) }
     const response = await this.rootStore.chefApi.setChefBackgroundCheck(data)
     if(response.ok) {
       this.setChefBackgroundCheck(data)

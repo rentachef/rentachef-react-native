@@ -72,7 +72,6 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
 
   useEffect(() => {
     let bgCheck = props.stores.chefProfileStore.retrieveChefBackgroundCheck();
-    console.log('bgCheck SSN', bgCheck)
     if(!isEmpty(bgCheck)) {
       setBackgroundCheck({...bgCheck, socialNumber: _formatSSN(bgCheck.socialNumber || '') })
       if(!bgCheck.approved)
@@ -129,7 +128,12 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
       })
   }
 
-  const onPhotoDelete = (choice: string) => setBackgroundCheck({...backgroundCheck, [choice]: '' })
+  const onPhotoDelete = (choice: string) => {
+    setBackgroundCheck(prevState => {
+      const updatedBackgroundCheck = { ...prevState, [choice]: '' };
+      return updatedBackgroundCheck;
+    });
+  }
 
   const saveChanges = async () => {
     const { legalName, socialNumber, idFrontUri, idBackUri } = backgroundCheck
@@ -165,7 +169,11 @@ const ChefBackgroundCheckSetup = inject('stores')(observer((props: any) => {
   }
 
   const isValid = () => {
-    let valid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && !isEmpty(backgroundCheck) && backgroundCheck.socialNumber.length === 11
+    let valid = Object.values(backgroundCheck).filter(v => typeof(v) !== 'boolean').every((v: any) => !isEmpty(v)) && 
+                !isEmpty(backgroundCheck) && 
+                backgroundCheck.socialNumber.length === 11 &&
+                backgroundCheck.idFrontUri.length > 0 && // Ensure idFrontUri is not empty
+                backgroundCheck.idBackUri.length > 0; // Ensure idBackUri is not empty
     console.log('isValid', valid, backgroundCheck)
     return valid
   }

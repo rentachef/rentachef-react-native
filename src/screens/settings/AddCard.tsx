@@ -63,8 +63,13 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
 
     if (error) {
       setLoading(false)
-      console.log('Error:', error.message);
-      notifyError(error.message)
+      let errorMessage = error.message
+
+      if(error.message.includes('declined'))
+        errorMessage = `${error.message}. Please try again with a different card.`
+    
+      console.log('Error:', errorMessage);
+      notifyError(errorMessage)
     } else if (setupIntent && setupIntent.status === 'Succeeded') {
       console.log('Card saved successfully:', setupIntent);
       // You can now attach the saved card to your customer for future payments
@@ -81,8 +86,7 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
         if(res.ok) {
           notifySuccess('Card added!')
           stores.customerSettingsStore.getPaymentMethods()
-          navigation.setParams({ addedCard: true })
-          navigation.navigate('SettingsA')
+          navigation.navigate('SettingsA', { addedCard: true })
         } else {
           console.log(res.error?.message)
           notifyError(`Error while adding a card: ${res.error?.message}`)
@@ -98,7 +102,7 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
       <KeyboardAwareScrollView keyboardShouldPersistTaps='handled' contentContainerStyle={{ flexGrow: 1 }}>
         <CardField
           postalCodeEnabled={false}
-          placeholders={{ number: '4242 4242 4242 4242', cvc: '123', expiration: 'MM/YY' }}
+          placeholders={{ number: '4242 4242 4242 4242', cvc: cardDetails?.brand === 'AmericanExpress' ? '1234' : '123', expiration: 'MM/YY' }}
           cardStyle={{
             backgroundColor: Colors.backgroundLight,
             textErrorColor: Colors.danger,
@@ -112,13 +116,9 @@ const AddCard = inject('stores')(({ navigation, stores }) => {
             height: 50,
             marginVertical: 30
           }}
-          onCardChange={(cardDetails) => {
-            console.log('cardDetails', cardDetails);
-            if(cardDetails.validCVC === 'Valid'
-              && cardDetails.validNumber === 'Valid'
-              && cardDetails.validExpiryDate === 'Valid'
-            )
-             setCardDetails(cardDetails)
+          onCardChange={(card) => {
+            console.log('cardDetails', card);
+            setCardDetails(card)
           }}
           onFocus={(focusedField) => {
             console.log('focusField', focusedField);

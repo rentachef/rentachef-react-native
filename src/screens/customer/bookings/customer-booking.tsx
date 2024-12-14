@@ -164,7 +164,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
             </View>
             <View style={styles.paymentDetailsItem}>
               <LightText>Tip</LightText>
-              <LightText>$ {(booking.paymentDetails?.tip?.transaction?.stripeAmount / 100)?.toFixed(2) || 0}</LightText>
+              <LightText>$ {(booking.paymentDetails?.tip?.transaction?.stripeAmount || 0 / 100)?.toFixed(2) || 0}</LightText>
             </View>
           </>}
           {booking.status !== 'Pending' && booking.status !== 'Cancelled' &&
@@ -176,7 +176,10 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
                   <FAIcon style={{ marginRight: 15 }} name={`${booking.paymentMethod?.cardBrand}`} size={35} color={Colors.primaryText} />
                   <HeadlineBold style={{ alignSelf: 'center' }}>●●●● {booking.paymentMethod?.cardNumber}</HeadlineBold>
                 </View>
-                <HeadlineBold style={{ alignSelf: 'center' }}>$ {getTotal()}</HeadlineBold>
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                  <HeadlineBold style={{ alignSelf: 'center' }}>$ {getTotal()}</HeadlineBold>
+                  <Text style={{ marginLeft: 5, alignSelf: 'center', color: Colors.placeholderColor}}>+ tax</Text>
+                </View>
               </View>
             </View>}
           {(booking.status === 'Confirmed' || booking.status === 'Pending') &&
@@ -269,7 +272,7 @@ const CustomerBooking = inject('stores')(({ navigation, route, stores }) => {
         >
           {modalIndex === 0 ? <View style={{ flex: 1, margin: 32, justifyContent: 'space-between' }}>
             <Heading6>Are you sure you want to cancel?</Heading6>
-            {cancellationFee && <LightText>You are cancelling 24 hours after booking. You will be charged a 10% cancellation fee.</LightText>}
+            {cancellationFee && <LightText>You are cancelling 24+ hours after booking. You will be charged a 10% cancellation fee.</LightText>}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Button
                 title='Keep Booking'

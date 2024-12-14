@@ -196,7 +196,9 @@ export default class SettingsA extends Component {
     super(props);
     this.state = {
       notificationsOn: true,
-      deleteAccountCounter: 0
+      deleteAccountCounter: 0,
+      walletHasCard: false,
+      preferencesUpdated: false
     };
 
     console.log('PROFILE:', props.stores.customerSettingsStore.profile)
@@ -205,10 +207,18 @@ export default class SettingsA extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.route.params !== prevProps.route.params) {
-      console.log('Params changed', this.props.route.params)
-      if(this.props.route?.params?.addedCard || this.props.route?.params?.addedPrefs)
-        this.forceUpdate()
+    console.log('componentDidUpdate', this.props.route.params, prevProps.route.params)
+    if (this.props.route.params !== prevProps.route.params) {
+      console.log('Params changed', this.props.route.params);
+      
+      // Check if addedCard or addedPrefs are true and update state accordingly
+      const { addedCard, addedPrefs } = this.props.route.params;
+      if (addedCard || addedPrefs) {
+        this.setState({
+          walletHasCard: addedCard,
+          preferencesUpdated: addedPrefs,
+        });
+      }
     }
   }
 
