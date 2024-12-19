@@ -20,36 +20,26 @@ export default class ChefEarnings extends React.Component<any, any> {
 
 
 import * as React from 'react';
-import {Button, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 
 import {
   Heading6,
   SmallText, SmallBoldText, HeadlineBold
 } from "../../../components/text/CustomText";
-import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+//import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import Colors from "../../../theme/colors";
 import {RACBottomSheet} from "../../components/bottom-sheet-modal";
 import {useEffect, useState} from "react";
 import moment from "moment-timezone";
 import {ButtonGroup} from "react-native-elements";
 import TimeZonePicker from "../../../components/pickers/TimeZonePicker";
+import { sortBy } from 'lodash';
+import Icon from 'src/components/icon/Icon';
 
-const filters = ['Most Relevant', 'Newest', 'Highest Rating', 'Lowest Rating']
+const filters = ['Newest', 'Highest Rating', 'Lowest Rating']//['Most Relevant', 'Newest', 'Highest Rating', 'Lowest Rating']
 
 const ReviewsList = (props: any) => {
-  console.log('DAY REVIEWS', props.reviews)
-  const [showSortModal, setSortModal] = useState(false);
-  const [reviews, setReviews] = useState(props.reviews);
-  const [sortBy, setSortBy] = useState();
-
-  useEffect(() => {
-    // Update the document title using the browser API
-    console.log("showSortModal", showSortModal)
-  });
-
-  function toggle() {
-    setSortModal(!showSortModal);
-  }
+  const { reviews } = props;
 
   return (
     <>
@@ -59,50 +49,32 @@ const ReviewsList = (props: any) => {
               <SmallText>{props.dayText}</SmallText>
               <TouchableOpacity
                 onPress={() => {
-                  toggle()
+                  props.toggleSortModal()
                 }}
                 style={{ alignSelf: 'flex-end', marginRight: 10, flexDirection: 'row', alignItems: 'center'}}
               >
-                <Icon name={'sort'} size={25} color={Colors.primaryColor}/>
+                <Icon name={'funnel-outline'} size={25} color={Colors.primaryColor}/>
                 <Heading6 style={{color: Colors.primaryColor}}>Sort By</Heading6>
               </TouchableOpacity>
             </View>
             {reviews.map((r, i) => (
-              <View key={i} style={{flex: .2, alignItems: 'flex-start',  flexDirection: 'column', borderBottomColor: 'gray', borderBottomWidth: .25, margin: 10 }}>
-                <View style={{flex: .35, justifyContent: 'flex-start', alignItems: 'stretch', alignSelf: 'flex-start', alignContent:'space-between',  flexDirection: 'row'}}>
-                  {Array.from(Array(r.stars).keys()).map((s, idx) => (<Icon key={idx} color={'#FBB12B'} name={'star'} size={12} style={{marginRight: 4}}/>))}
+              <View key={i} style={{ alignItems: 'flex-start', flexDirection: 'column', borderBottomColor: 'gray', borderBottomWidth: .25, marginHorizontal: 10 }}>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginVertical: 10 }}>
+                  {Array.from(Array(5).keys()).map((s, idx) => (
+                    <Icon key={idx} color={Colors.primaryColor} name={idx < r.stars ? 'star' : 'star-outline'} size={20} style={{marginRight: 4}}/>
+                  ))}
                 </View>
-                <View style={{flex: .35, alignItems: 'flex-start',  flexDirection: 'row' }}>
-                  <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-                    <SmallBoldText style={{color: Colors.secondaryText}}>"{r.review}"</SmallBoldText>
-                  </View>
+                <View style={{ alignItems: 'flex-start', flexDirection: 'row', marginVertical: 10 }}>
+                  <SmallBoldText style={{color: Colors.secondaryText, flex: 1}}>"{r.review}"</SmallBoldText>
                 </View>
-                <View style={{flex: .3, alignItems: 'flex-start',  flexDirection: 'row', marginTop: 3 }}>
-                  <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-                    <SmallText>{r.reviewerName}</SmallText>
-                  </View>
+                <View style={{ alignItems: 'flex-start', flexDirection: 'row', marginVertical: 10 }}>
+                  <SmallText>{r.reviewerName}</SmallText>
                 </View>
               </View>
             ))}
-          {showSortModal ?
-            <RACBottomSheet
-              index={1}
-              onSheetChanges={(ind)=> {
-                console.log("onSheetChange showSortModal index", showSortModal, ind)
-
-              }}>
-              <TimeZonePicker
-                data={filters}
-                selected={sortBy}
-                onChange={i => {
-                  setSortBy(i)
-                  setSortModal(false)
-                }}
-              />
-            </RACBottomSheet> : null }
       </View> :
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.background }}>
-        <Icon name='note-text' size={30} color={Colors.secondaryText}/>
+      <View style={{flex: 1, alignItems: 'center', height: 200, justifyContent: 'center', backgroundColor: Colors.background }}>
+        <Icon name='alert-circle-outline' size={30} color={Colors.secondaryText}/>
         <HeadlineBold>No reviews here...</HeadlineBold>
       </View>}
     </>
@@ -111,8 +83,40 @@ const ReviewsList = (props: any) => {
 
 export default function Reviews({ route }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const { reviews } = route.params
+  const [showSortModal, setSortModal] = useState(false);
+  const [sortFilter, setSortFilter] = useState('Newest');
+  const reviews = [...route.params.reviews]
+  const [reviewList, setReviewList] = useState(reviews.concat(reviews).concat(reviews).concat(reviews));
   const buttons = ['Day', 'Week', 'Month', 'Year']
+
+  useEffect(() => {
+    sortReviews()
+  }, [sortFilter])
+
+  function toggleSortModal() {
+    setSortModal(!showSortModal);
+  }
+
+  function sortReviews() {
+    console.log("sorting reviews by", sortFilter, reviews[0])
+    switch(sortFilter) {
+      case 'Newest':
+        setReviewList(sortBy(reviews, 'createdAt'))
+        break;
+      case 'Highest Rating':
+        setReviewList(sortBy(reviews, 'stars').reverse())
+        break;
+      case 'Lowest Rating':
+        setReviewList(sortBy(reviews, 'stars'))
+        break;
+      case 'Most Relevant':
+        setReviewList(sortBy(reviews, 'stars').reverse())
+        break;
+      default:
+        setReviewList(reviews)
+        break;
+    }
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.background}}>
@@ -130,10 +134,44 @@ export default function Reviews({ route }) {
         selectedTextStyle={{color: Colors.primaryText}}
         textStyle={{color: Colors.secondaryText, fontWeight: 'bold'}}
       />
-      {selectedIndex === 0 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).dayOfYear() === moment().dayOfYear())} dayText={moment().format('MMMM DD')}/>}
-      {selectedIndex === 1 &&  <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).week() === moment().week())} dayText={`Week ${moment().week()} ${moment().year()}`}/>}
-      {selectedIndex === 2 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).month() === moment().month())} dayText={moment().format('MMMM YYYY')}/>}
-      {selectedIndex === 3 && <ReviewsList reviews={reviews.filter(r => moment(r.createdAt).year() === moment().year())} dayText={moment().format('YYYY')}/>}
+      {selectedIndex === 0 && 
+        <ScrollView>
+          <ReviewsList reviews={reviewList.filter(r => moment(r.createdAt).dayOfYear() === moment().dayOfYear())} dayText={moment().format('MMMM DD')} toggleSortModal={toggleSortModal}/>
+        </ScrollView>
+      }
+      {selectedIndex === 1 &&  
+        <ScrollView>
+          <ReviewsList reviews={reviewList.filter(r => moment(r.createdAt).week() === moment().week())} dayText={`Week ${moment().week()} ${moment().year()}`} toggleSortModal={toggleSortModal}/>
+        </ScrollView>
+      }
+      {selectedIndex === 2 && 
+        <ScrollView>
+          <ReviewsList reviews={reviewList.filter(r => moment(r.createdAt).month() === moment().month())} dayText={moment().format('MMMM YYYY')} toggleSortModal={toggleSortModal}/>
+        </ScrollView>
+      }
+      {selectedIndex === 3 && 
+        <ScrollView>
+          <ReviewsList reviews={reviewList.filter(r => moment(r.createdAt).year() === moment().year())} dayText={moment().format('YYYY')} toggleSortModal={toggleSortModal}/>
+        </ScrollView>
+      }
+      {showSortModal ?
+        <RACBottomSheet
+          index={1}
+          onSheetChanges={(ind)=> {
+            console.log("onSheetChange showSortModal index", showSortModal, ind)
+
+          }}
+          size={'40%'}
+        >
+          <TimeZonePicker
+            data={filters}
+            selected={sortFilter}
+            onChange={i => {
+              setSortFilter(i)
+              setSortModal(false)
+            }}
+          />
+        </RACBottomSheet> : null }
     </View>
   );
 }

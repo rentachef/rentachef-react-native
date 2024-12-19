@@ -22,5 +22,5 @@ export const DEFAULT_API_CONFIG: ApiConfig = {
   //url: 'http://rentachefdevelop-env.eba-rzrqkwm8.us-east-1.elasticbeanstalk.com/api/v1/', //develop
   url: 'http://rentachef-production-env.eba-rzrqkwm8.us-east-1.elasticbeanstalk.com/api/v1/', //production
   //url: 'http://localhost:3000/api/v1/', //local
-  timeout: DEFAULT_TIMEOUT,
+  timeout: DEFAULT_TIMEOUT
 }

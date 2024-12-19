@@ -1,13 +1,14 @@
 import React, {useEffect} from "react";
 import MapView, {Circle, PROVIDER_GOOGLE} from "react-native-maps";
 import {Dimensions, StyleSheet, View} from "react-native";
+import Colors from "../../../theme/colors";
 
 export function ChefMapView({latitude, longitude, radius}: any) {
   useEffect(() => {
     console.log('props changed -> radius: ', radius);
     console.log('props changed -> lat: ', latitude);
     console.log('props changed -> lon: ', longitude);
-  }, []);
+  }, [latitude, longitude, radius]);
 
   return (
     <View>
@@ -23,11 +24,11 @@ export function ChefMapView({latitude, longitude, radius}: any) {
           region={{
             latitude: latitude,
             longitude: longitude,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
+            latitudeDelta: radius / 50000,
+            longitudeDelta: radius / 50000,
           }}
         >
-          <Circle center={{latitude:latitude, longitude:longitude}} radius={radius} strokeColor='#FFC534' fillColor='rgba(255, 197, 52, 0.5)' strokeWidth={1}/>
+          <Circle center={{latitude:latitude, longitude:longitude}} radius={radius} strokeColor={Colors.primaryColor} fillColor='rgba(255, 197, 52, 0.5)' strokeWidth={1}/>
         </MapView>
     </View>
   )

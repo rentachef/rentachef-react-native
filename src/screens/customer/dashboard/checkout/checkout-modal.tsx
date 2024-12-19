@@ -5,6 +5,7 @@ import Colors from "../../../../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import globalStyles from "../../../../theme/global-styles";
 import Button from "../../../../components/buttons/Button";
+import LottieView from "lottie-react-native";
 
 const CheckoutModal = ({ navigation, action, onClose }) => {
   const [loading, setLoading] = useState(true)
@@ -30,7 +31,13 @@ const CheckoutModal = ({ navigation, action, onClose }) => {
           <SmallBoldHeading style={{ color: Colors.onPrimaryColor }}>Processing...</SmallBoldHeading>
         </> :
           <>
-            <Icon name='check-circle-outline' size={80} color={Colors.onPrimaryColor} />
+            {/*<Icon name='check-circle-outline' size={80} color={Colors.onPrimaryColor} />*/}
+            <LottieView
+              source={require('@assets/animations/booking-made.json')}
+              autoPlay
+              loop={false}
+              style={{ width: 130, height: 130 }}
+            />
             <SmallBoldHeading style={{ color: Colors.onPrimaryColor }}>Booking Made</SmallBoldHeading>
             <SmallBoldText style={{ color: Colors.onPrimaryColor, marginVertical: 20 }}>Awaiting chef confirmation</SmallBoldText>
             <View style={{ width: '80%', height: '15%', justifyContent: 'space-around' }}>

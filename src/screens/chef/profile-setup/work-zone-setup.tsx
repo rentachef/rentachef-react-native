@@ -39,6 +39,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { checkIfIsOperatingInLocation } from 'src/utils/geocoder';
 import InfoModal from 'src/components/modals/InfoModal';
+import { GOOGLE_MAPS_API_KEY } from 'src/services/maps-config';
 
 const GEOLOCATION_OPTIONS = {
   enableHighAccuracy: true,
@@ -88,14 +89,14 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
       selectedDate: undefined,
       radiusState: workZone?.radius || 300,
       radius: workZone ? Object.keys(radiusMap).find(key => radiusMap[key] === workZone.radius) : 0,
-      zipCitySearch: "",
+      zipCitySearch: workZone?.description || '',
       focus: 0,
       loading: false,
       pickupEnabled: props.stores.searchStore.appsettings.pickgupEnabled,
       modalVisible: false,
       modalMessage: '',
       modalType: '',
-      locationData: null,
+      locationData: null
     }
 
     try {
@@ -234,7 +235,8 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
         this.props.stores.chefProfileStore.saveChefWorkZone({
           radius: this.state.radiusState,
           latitude: this.state.myPosition.latitude,
-          longitude: this.state.myPosition.longitude
+          longitude: this.state.myPosition.longitude,
+          description: this.state.zipCitySearch
         })
       ]
       Promise.all(promises).then(res => {
@@ -282,7 +284,7 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
               <GooglePlacesAutocomplete
                 placeholder="Enter your city or postal code"
                 onPress={(data, details = null) => {
-                  console.log('selected location', data.description)
+                  console.log('selected location', data, details)
                   this._location = data.description
                   this.setState({
                     zipCitySearch: data.description
@@ -290,9 +292,21 @@ export default class ChefWorkZoneSetup extends React.Component<any, any> {
                   this.geoCodeAddress(data.description)
                 }}
                 minLength={3}
+                ref={ref => {
+                  if (ref && this.state.zipCitySearch)
+                    ref.setAddressText(this.state.zipCitySearch)
+                }}
+                textInputProps={{
+                  onChangeText: (text) => {
+                    if (this.state.zipCitySearch !== '') {
+                      if (text.length < this.state.zipCitySearch.length && text.length > 0)
+                        this.setState({ zipCitySearch: '' })
+                    }
+                  }
+                }}
                 onFail={(error) => console.log('Autocomplete error', error)}
                 query={{
-                  key: 'AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0',
+                  key: GOOGLE_MAPS_API_KEY,
                   language: 'en',
                 }}
                 listViewDisplayed={false}

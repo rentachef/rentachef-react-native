@@ -22,9 +22,9 @@ const TimeZonePicker = ({ data, onChange, selected }) => {
         sections={!!data ? [{data}] : timezones}
         keyExtractor={(item, index) => item + index}
         renderItem={({ item }) => <Item title={item} withIcon={selected === item} onSelect={onChange} /> }
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.header}>{title}</Text>
-        )}
+        renderSectionHeader={({ section: { title } }) => title ? (
+          title && <Text style={styles.header}>{title}</Text>
+        ) : (<></>)}
       />
     </SafeAreaView>
   )

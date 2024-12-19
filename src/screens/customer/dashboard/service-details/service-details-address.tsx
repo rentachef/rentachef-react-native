@@ -10,6 +10,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Geocoder from 'react-native-geocoding';
 import { inject } from "mobx-react";
+import { GOOGLE_MAPS_API_KEY } from 'src/services/maps-config';
 
 const recentLocations = [
   { address: '1047 Mount Pleasant Rd', city: 'Toronto, Ontario M4P 2M5' },
@@ -55,7 +56,7 @@ const ServiceDetailsAddress = ({ route, navigation }) => {
           minLength={3}
           onFail={(error) => console.log('Autocomplete error', error)}
           query={{
-            key: 'AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0',
+            key: GOOGLE_MAPS_API_KEY,
             language: 'en',
           }}
           listViewDisplayed={false}

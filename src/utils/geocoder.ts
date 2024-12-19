@@ -1,9 +1,10 @@
 import Geocoder from 'react-native-geocoding';
 import { CustomerLocation } from 'src/models/user/CustomerSettings';
 import { WaitingList } from 'src/models/user/WaitingList';
+import { GOOGLE_MAPS_API_KEY } from 'src/services/maps-config';
 
 const initGeocoder = () => {
-  Geocoder.init("AIzaSyBCEGxIsptCeMElfXpnQvo0N0rDgz57zf0");
+  Geocoder.init(GOOGLE_MAPS_API_KEY);
 };
 
 const operatingStates = ['Texas'];

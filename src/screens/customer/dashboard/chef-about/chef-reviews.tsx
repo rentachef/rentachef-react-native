@@ -32,19 +32,20 @@ const reviewsMock = [
 const ChefReviews = ({ reviews }) => {
   useEffect(() => {
     //TODO get reviews from endpoint
+    console.log('reviews', reviews)
   }, [])
 
   return (
     <ScrollView contentContainerStyle={globalStyles.screenSubContainer}>
-      {reviews.map((r, i) => (
+      {reviews.map((r: any, i: any) => (
         <View key={i} style={{ marginTop: 10 }}>
-          <View style={{ flexDirection: 'row' }}>
-            {[...Array(r.stars)].map((_, index) => (
-              <Icon key={index} name='star' color={Colors.primaryColor} size={23} />
-              ))}
+          <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+          {Array.from(Array(5).keys()).map((s, idx) => (
+            <Icon key={idx} color={Colors.primaryColor} name={idx < r.stars ? 'star' : 'star-outline'} size={20} style={{marginRight: 4}}/>
+          ))}
           </View>
           <Text style={{ fontSize: 16 }}>{`“${r.review}”`}</Text>
-          <LightText>{r.reviewer}</LightText>
+          <LightText style={{ marginTop: 10, color: Colors.secondaryText }}>{r.reviewerName}</LightText>
           <Divider marginVertical type='full-bleed' />
         </View>))}
     </ScrollView>
