@@ -77,7 +77,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                     onPress={() => onSelectedDate(undefined)}
                     style={{ alignSelf: 'center' }}
                   >
-                    {moment(selectedTiming.from).format('dddd DD, MMM YYYY')}
+                    {moment(selectedTiming.from).local().format('dddd DD, MMM YYYY')}
                   </SmallBoldHeading>}
               </>
             </View>}
@@ -107,7 +107,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                           cancelTextStyle={{color: Colors.primaryText}}
                           onChange={(option) => {
                             console.log('SETTING HOUR FROM', option.value)
-                            setHourFrom(option.value)
+                            setHourFrom(moment(option.value).local().toDate())
                             setHourTo(undefined)
                           }}
                         />}
@@ -117,7 +117,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                           autoCapitalize="none"
                           placeholder="From"
                           editable={false}
-                          value={moment(hourFrom).utc().format('HH:mm') || ''}
+                          value={moment(hourFrom).local().format('HH:mm') || ''}
                           onChangeText={(value) => {
                             console.log('hourFrom', value)
                             setHourFrom(value)
@@ -139,8 +139,8 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                           <ModalSelector
                             data={hoursRange.filter((d, i) => 
                               i !== hoursRange.length && 
-                              moment(d) > moment(hourFrom)
-                            ).map((d: Date, i: number) => { return { key: i, label: moment(d).utc().format('HH:mm'), value: d } })}
+                              moment(d).local().isAfter(moment(hourFrom).local())
+                            ).map((d: Date, i: number) => { return { key: i, label: moment(d).local().format('HH:mm'), value: d } })}
                             initValue="Select"
                             style={{backgroundColor: Colors.primaryColor, borderRadius: 10, top: 15}}
                             selectStyle={{ borderWidth: 0 }}
@@ -152,7 +152,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                             cancelTextStyle={{color: Colors.primaryText}}
                             onChange={(option) => {
                                 console.log('SETTING HOUR TO', option.value)
-                                setHourTo(option.value)
+                                setHourTo(moment(option.value).local().toDate())
                               }
                             }
                           />}
@@ -163,7 +163,7 @@ const ChefSchedulePicker = ({ chefAvailability, onConfirm }) => {
                             placeholder="To"
                             editable={false}
                             onFocus={() => setHourTo(undefined)}
-                            value={moment(hourTo).utc().format('HH:mm') || ''}
+                            value={moment(hourTo).local().format('HH:mm') || ''}
                             onChangeText={(value) => {
                               console.log('hourTo', value)
                               setHourTo(value)
